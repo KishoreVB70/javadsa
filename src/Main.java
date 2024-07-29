@@ -4,9 +4,24 @@ public class Main {
     public static void main(String[] args) {
 //        greatestOfThree();
 //        upperOrLower();
-        nthFibonacciNum();
+//        nthFibonacciNum();
 
+        countingOccurance();
 
+    }
+
+    public static void countingOccurance() {
+        Scanner in = new Scanner(System.in);
+        long num = 125164L;
+        System.out.println("Enter the number of which you need to find the occurrence");
+        int n = in.nextInt();
+        int count = 0;
+        while (num > 0) {
+            long digit = num % 10;
+            num = num/10;
+            if (digit == n) {count++;}
+        }
+        System.out.printf("Count of %d is %d", n, count);
     }
 
     private static void nthFibonacciNum() {
