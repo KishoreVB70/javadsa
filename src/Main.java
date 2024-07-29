@@ -5,9 +5,22 @@ public class Main {
 //        greatestOfThree();
 //        upperOrLower();
 //        nthFibonacciNum();
+//        countingOccurance();
+        reverseTheNum();
 
-        countingOccurance();
+    }
 
+    public static void reverseTheNum() {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Enter the number of which you want to reverse");
+        int n = in.nextInt();
+        int reverse = 0;
+        while (n > 0) {
+            int lastDigit = n % 10;
+            n = n / 10;
+            reverse = (reverse * 10 ) + lastDigit;
+        }
+        System.out.println("Reversed string" + reverse);
     }
 
     public static void countingOccurance() {
