@@ -3,9 +3,33 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 //        greatestOfThree();
-        upperOrLower();
+//        upperOrLower();
+        nthFibonacciNum();
+
 
     }
+
+    private static void nthFibonacciNum() {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Enter the number of fibonacci you want to find");
+        int n = in.nextInt();
+        if (n < 2) {
+            System.out.printf("the %d th fibonacci number is %d", n, n);
+            return;
+        }
+
+        int previous = 0;
+        int result = 1;
+        int temp = 0;
+        for (int i = 2; i < n; i++) {
+            temp = result;
+            result = result + previous;
+            previous = temp;
+        }
+
+        System.out.printf("the %d th fibonacci number is %d", n, result);
+    }
+
 
     private static void upperOrLower() {
         Scanner in = new Scanner(System.in);
