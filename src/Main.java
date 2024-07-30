@@ -3,25 +3,33 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
+        switchFunc();
 
 
     }
 
     public static void switchFunc() {
-        String s = "mango";
-
-        switch (s) {
-            case "apple":
-                System.out.println("It is an apple");
-                break;
-            case "mango":
-                System.out.println("It is a mango");
-                break;
-            case "palapalam":
-                System.out.println("It is a palapalam");
-                break;
-            default:
-                System.out.println("please enter a fruit that I know");
+//        String s = "mango";
+//
+//        switch (s) {
+//            case "apple":
+//                System.out.println("It is an apple");
+//                break;
+//            case "mango":
+//                System.out.println("It is a mango");
+//                break;
+//            case "palapalam":
+//                System.out.println("It is a palapalam");
+//                break;
+//            default:
+//                System.out.println("please enter a fruit that I know");
+//        }
+        Scanner in = new Scanner(System.in);
+        int day = in.nextInt();
+        switch (day) {
+            case 1,2,3,4,5 -> System.out.println("Weekday");
+            case  6,7 -> System.out.println("Weekend");
+            default -> System.out.println("Enter a valid day");
         }
 
     }
@@ -102,6 +110,6 @@ public class Main {
         }
 
     }
+    public static class BasicLearnings{}
 }
-
 
