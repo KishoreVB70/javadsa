@@ -7,109 +7,10 @@ import static java.lang.Math.sqrt;
 
 public class Main {
     public static void main(String[] args) {
-        arrayListLearn();
-    }
-
-    public static void arrayList2d() {
-        Scanner in = new Scanner(System.in);
-        ArrayList<ArrayList<Integer>> arr = new ArrayList<>(2);
-
-        for (int i = 0; i < 3; i ++) {
-            ArrayList<Integer> temp = new ArrayList<>(3);
-            for (int j = 0; j < 2; j++) {
-                temp.add(in.nextInt());
-            }
-            arr.add(temp);
-        }
-
-        for(ArrayList<Integer> i: arr) {
-            for(int j: i ) {
-                System.out.print(j + " ");
-            }
-            System.out.println(" ");
-        }
-
-        for (int i = 0; i < arr.size(); i++) {
-            ArrayList<Integer> temp = new ArrayList<>(3);
-            temp = arr.get(i);
-            for(int j = 0; j < temp.size(); j++) {
-                System.out.print(temp.get(j) + " ");
-            }
-            System.out.println(" ");
-        }
-    }
-
-    public static void arrayListLearn() {
-        Scanner in = new Scanner(System.in);
-
-        ArrayList<Integer> arr = new ArrayList<Integer>(5);
-
-        for(int i = 0; i < 6; i++) {
-            arr.add(in.nextInt());
-        }
-
-        for(int i: arr) {
-            System.out.print(i+ " ");
-        }
 
     }
 
-    public static void arrayLearn() {
-        Scanner in = new Scanner(System.in);
-        int[] arr = new int[5];
-        for (int i = 0; i < arr.length; i++) {
-            arr[i] = in.nextInt();
-        }
-
-        System.out.println(Arrays.toString(arr));
-
-//        for (int i = 0; i < arr.length; i++) {
-//            System.out.print(arr[i] +  " ");
-//        }
-
-        for (int i: arr) {
-            System.out.print(i + " ");
-        }
-    }
-
-    public static void array2d() {
-        Scanner in = new Scanner(System.in);
-        int[][] arr = new int[5][3];
-        for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < arr[i].length; j++) {
-                arr[i][j] = in.nextInt();
-            }
-        }
-
-        System.out.println(Arrays.toString(arr));
-
-//        for (int i = 0; i < arr.length; i++) {
-//            for(int j = 0; j < arr[i].length; j++) {
-//                System.out.print(arr[i][j] +  " ");
-//            }
-//            System.out.println(" ");
-//        }
-
-        for (int[] i: arr) {
-            for(int j: i) {
-                System.out.print(j + " ");
-            }
-            System.out.println(" ");
-        }
-
-//        for(int i = 0; i < arr.length; i++) {
-//            System.out.println(Arrays.toString(arr[i]));
-//        }
-
-        for(int[] i: arr) {
-            System.out.println(Arrays.toString(i));
-        }
-
-
-    }
-
-
-    public static class BasicProblems {
+    static class BasicProblems {
         public static void reverseTheNum() {
             Scanner in = new Scanner(System.in);
             System.out.println("Enter the number of which you want to reverse");
@@ -223,7 +124,7 @@ public class Main {
 
 
     }
-    public static class BasicLearnings{
+    static class BasicLearnings{
         public static void switchFunc() {
             Scanner in = new Scanner(System.in);
             String s = in.next();
@@ -248,6 +149,107 @@ public class Main {
                 case  6,7 -> System.out.println("Weekend");
                 default -> System.out.println("Enter a valid day");
             }
+
+        }
+        static class ArrayLearnings {
+            public static void arrayLearn() {
+                Scanner in = new Scanner(System.in);
+                int[] arr = new int[5];
+                for (int i = 0; i < arr.length; i++) {
+                    arr[i] = in.nextInt();
+                }
+
+                System.out.println(Arrays.toString(arr));
+
+//        for (int i = 0; i < arr.length; i++) {
+//            System.out.print(arr[i] +  " ");
+//        }
+
+                for (int i: arr) {
+                    System.out.print(i + " ");
+                }
+            }
+
+            public static void array2d() {
+                Scanner in = new Scanner(System.in);
+                int[][] arr = new int[5][3];
+                for (int i = 0; i < arr.length; i++) {
+                    for (int j = 0; j < arr[i].length; j++) {
+                        arr[i][j] = in.nextInt();
+                    }
+                }
+
+                System.out.println(Arrays.toString(arr));
+
+//        for (int i = 0; i < arr.length; i++) {
+//            for(int j = 0; j < arr[i].length; j++) {
+//                System.out.print(arr[i][j] +  " ");
+//            }
+//            System.out.println(" ");
+//        }
+
+                for (int[] i: arr) {
+                    for(int j: i) {
+                        System.out.print(j + " ");
+                    }
+                    System.out.println(" ");
+                }
+
+//        for(int i = 0; i < arr.length; i++) {
+//            System.out.println(Arrays.toString(arr[i]));
+//        }
+
+                for(int[] i: arr) {
+                    System.out.println(Arrays.toString(i));
+                }
+
+
+            }
+
+            public static void arrayList2d() {
+                Scanner in = new Scanner(System.in);
+                ArrayList<ArrayList<Integer>> arr = new ArrayList<>(2);
+
+                for (int i = 0; i < 3; i ++) {
+                    ArrayList<Integer> temp = new ArrayList<>(3);
+                    for (int j = 0; j < 2; j++) {
+                        temp.add(in.nextInt());
+                    }
+                    arr.add(temp);
+                }
+
+                for(ArrayList<Integer> i: arr) {
+                    for(int j: i ) {
+                        System.out.print(j + " ");
+                    }
+                    System.out.println(" ");
+                }
+
+//            for (int i = 0; i < arr.size(); i++) {
+//                ArrayList<Integer> temp = new ArrayList<>(3);
+//                temp = arr.get(i);
+//                for(int j = 0; j < temp.size(); j++) {
+//                    System.out.print(temp.get(j) + " ");
+//                }
+//                System.out.println(" ");
+//            }
+            }
+
+            public static void arrayListLearn() {
+                Scanner in = new Scanner(System.in);
+
+                ArrayList<Integer> arr = new ArrayList<Integer>(5);
+
+                for(int i = 0; i < 6; i++) {
+                    arr.add(in.nextInt());
+                }
+
+                for(int i: arr) {
+                    System.out.print(i+ " ");
+                }
+
+            }
+
 
         }
     }
