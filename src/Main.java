@@ -2,11 +2,27 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-//        greatestOfThree();
-//        upperOrLower();
-//        nthFibonacciNum();
-//        countingOccurrence();
-//        BasicLoopProblems.reverseTheNum();
+
+
+
+    }
+
+    public static void switchFunc() {
+        String s = "mango";
+
+        switch (s) {
+            case "apple":
+                System.out.println("It is an apple");
+                break;
+            case "mango":
+                System.out.println("It is a mango");
+                break;
+            case "palapalam":
+                System.out.println("It is a palapalam");
+                break;
+            default:
+                System.out.println("please enter a fruit that I know");
+        }
 
     }
 
