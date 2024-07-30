@@ -1,17 +1,35 @@
 package searching;
 
+import java.util.Arrays;
+
 public class BinarySearch {
     public static void main(String[] args) {
-        char[] arr = {'e', 'e','g', 'g'};
+//        char[] arr = {'e', 'e','g', 'g'};
         int[] descArr = {17,12,11,10,9,8,7,6,5,4,3,2,1};
+        int[] arr = {1,2,3,4,5,6,7,2,5,6,4,1};
 
-        char target = 'g';
+        char target = 9;
 
 //        int result = simpleBinarySearch(arr, target);
-        char result = nextGreatestLetter(arr, target);
-        System.out.println(result);
+//        char result = nextGreatestLetter(arr, target);
+        int[] result = firstAndLastPositionLinearSearch(arr, target);
+        System.out.println(Arrays.toString(result));
 
 
+
+    }
+
+    static int[] firstAndLastPositionLinearSearch(int[] nums, int target) {
+        int[] position = {-1,-1};
+        for(int i = 0; i < nums.length;i++) {
+            if(nums[i] == target) {
+                if (position[0] == -1) {
+                    position[0] = i;
+                }
+                position[1] = i;
+            }
+        }
+        return position;
     }
 
     static char nextGreatestLetter(char[] letters, char target) {
