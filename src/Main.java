@@ -4,50 +4,9 @@ import static java.lang.Math.sqrt;
 
 public class Main {
     public static void main(String[] args) {
-        printAllThreeDigitArmstrong();
 
     }
 
-    static void isPrime() {
-        Scanner in = new Scanner(System.in);
-        int n = in.nextInt();
-
-        for(int i = 2; i <= sqrt(n); i++) {
-            if(n % i == 0) {
-                System.out.println("It is not logan paul prime");
-                return;
-            }
-        }
-        System.out.println("It is prime indeed brotha");
-    }
-
-    static void printAllThreeDigitArmstrong() {
-        int i = 100;
-        while (i < 1000) {
-            if (isArmStrong(i)) {
-                System.out.println(i);
-            }
-            i++;
-        }
-    }
-
-    static boolean isArmStrong(int n) {
-        int r = n;
-
-        int sum = 0;
-
-        while (r > 0) {
-            int l = r % 10;
-            sum += l * l * l;
-            r = r/10;
-        }
-
-        if (sum == n) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     public static class BasicProblems {
         public static void reverseTheNum() {
@@ -123,6 +82,44 @@ public class Main {
                 System.out.println("c is the largest");
             }
         }
+
+        static void isPrime() {
+            Scanner in = new Scanner(System.in);
+            int n = in.nextInt();
+
+            for(int i = 2; i <= sqrt(n); i++) {
+                if(n % i == 0) {
+                    System.out.println("It is not logan paul prime");
+                    return;
+                }
+            }
+            System.out.println("It is prime indeed brotha");
+        }
+
+        static void printAllThreeDigitArmstrong() {
+            int i = 100;
+            while (i < 1000) {
+                if (isArmStrong(i)) {
+                    System.out.println(i);
+                }
+                i++;
+            }
+        }
+
+        static boolean isArmStrong(int n) {
+            int r = n;
+
+            int sum = 0;
+
+            while (r > 0) {
+                int l = r % 10;
+                sum += l * l * l;
+                r = r/10;
+            }
+
+            return sum == n;
+        }
+
 
     }
     public static class BasicLearnings{
