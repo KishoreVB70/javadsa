@@ -1,8 +1,24 @@
 import java.util.Scanner;
 
+import static java.lang.Math.sqrt;
+
 public class Main {
     public static void main(String[] args) {
+        isPrime();
 
+    }
+
+    static void isPrime() {
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+
+        for(int i = 2; i <= sqrt(n); i++) {
+            if(n % i == 0) {
+                System.out.println("It is not logan paul prime");
+                return;
+            }
+        }
+        System.out.println("It is prime indeed brotha");
     }
 
     public static class BasicProblems {
