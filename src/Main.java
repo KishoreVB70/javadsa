@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -5,10 +6,25 @@ import static java.lang.Math.sqrt;
 
 public class Main {
     public static void main(String[] args) {
-        array2d();
-//        arrayLearn();
+        arrayListLearn();
     }
 
+    public static void arrayListLearn() {
+        Scanner in = new Scanner(System.in);
+
+        ArrayList<Integer> arr = new ArrayList<Integer>(5);
+
+        for(int i = 0; i < 6; i++) {
+            arr.add(in.nextInt());
+        }
+
+        for(int i: arr) {
+            System.out.print(i+ " ");
+        }
+
+
+
+    }
 
     public static void arrayLearn() {
         Scanner in = new Scanner(System.in);
@@ -19,12 +35,12 @@ public class Main {
 
         System.out.println(Arrays.toString(arr));
 
-        for (int i = 0; i < arr.length; i++) {
-            System.out.print(arr[i] +  " ");
-        }
+//        for (int i = 0; i < arr.length; i++) {
+//            System.out.print(arr[i] +  " ");
+//        }
 
         for (int i: arr) {
-            System.out.print(i);
+            System.out.print(i + " ");
         }
     }
 
