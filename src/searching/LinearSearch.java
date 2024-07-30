@@ -6,7 +6,7 @@ import java.util.Arrays;
 public class LinearSearch {
     public static void main(String[] args) {
 
-        int[] arr = {3,22,13,98,6,771,2,0};
+        int[] arr = {12, 345, 1234, 12345, 12};
         int[][] twoDArray = {{1,2,3}, {4,5,6}, {7,8,9}};
         int target = 10;
 
@@ -23,8 +23,26 @@ public class LinearSearch {
 //        int[] result = maxAndMinNumber(arr);
 //        System.out.println(Arrays.toString(result));
 
-        boolean result = twoDArraySearch(twoDArray, target);
+//        boolean result = twoDArraySearch(twoDArray, target);
+
+        int result = evenNumOfDigits(arr);
         System.out.println(result);
+
+    }
+
+    static int evenNumOfDigits(int[] arr) {
+        int result = 0;
+
+        for(int i: arr) {
+
+            int digit = (int) Math.log10(i) + 1;
+
+            if(digit % 2 == 0) {
+                result++;
+            }
+        }
+
+        return  result;
     }
 
     static boolean twoDArraySearch(int[][] arr, int target) {
