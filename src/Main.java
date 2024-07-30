@@ -3,38 +3,9 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
-        switchFunc();
-
-
     }
 
-    public static void switchFunc() {
-//        String s = "mango";
-//
-//        switch (s) {
-//            case "apple":
-//                System.out.println("It is an apple");
-//                break;
-//            case "mango":
-//                System.out.println("It is a mango");
-//                break;
-//            case "palapalam":
-//                System.out.println("It is a palapalam");
-//                break;
-//            default:
-//                System.out.println("please enter a fruit that I know");
-//        }
-        Scanner in = new Scanner(System.in);
-        int day = in.nextInt();
-        switch (day) {
-            case 1,2,3,4,5 -> System.out.println("Weekday");
-            case  6,7 -> System.out.println("Weekend");
-            default -> System.out.println("Enter a valid day");
-        }
-
-    }
-
-    public static class BasicLoopProblems {
+    public static class BasicProblems {
         public static void reverseTheNum() {
             Scanner in = new Scanner(System.in);
             System.out.println("Enter the number of which you want to reverse");
@@ -110,6 +81,33 @@ public class Main {
         }
 
     }
-    public static class BasicLearnings{}
+    public static class BasicLearnings{
+        public static void switchFunc() {
+            Scanner in = new Scanner(System.in);
+            String s = in.next();
+
+            switch (s) {
+                case "apple":
+                    System.out.println("It is an apple");
+                    break;
+                case "mango":
+                    System.out.println("It is a mango");
+                    break;
+                case "palapalam":
+                    System.out.println("It is a palapalam");
+                    break;
+                default:
+                    System.out.println("please enter a fruit that I know");
+            }
+
+            int day = in.nextInt();
+            switch (day) {
+                case 1,2,3,4,5 -> System.out.println("Weekday");
+                case  6,7 -> System.out.println("Weekend");
+                default -> System.out.println("Enter a valid day");
+            }
+
+        }
+    }
 }
 
