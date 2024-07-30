@@ -4,7 +4,7 @@ import static java.lang.Math.sqrt;
 
 public class Main {
     public static void main(String[] args) {
-        isPrime();
+        isArmStrong();
 
     }
 
@@ -19,6 +19,27 @@ public class Main {
             }
         }
         System.out.println("It is prime indeed brotha");
+    }
+
+    static void isArmStrong() {
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        int r = n;
+
+        int sum = 0;
+
+        while (r > 0) {
+            int l = r % 10;
+            sum += l * l * l;
+            r = r/10;
+        }
+
+        if (sum == n) {
+            System.out.println("is armstrong bro");
+        } else {
+            System.out.println("It aint not no armstrong bro");
+        }
+
     }
 
     public static class BasicProblems {
