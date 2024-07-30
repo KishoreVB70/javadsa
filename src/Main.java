@@ -5,8 +5,8 @@ import static java.lang.Math.sqrt;
 
 public class Main {
     public static void main(String[] args) {
-//        array2d();
-        arrayLearn();
+        array2d();
+//        arrayLearn();
     }
 
 
@@ -39,15 +39,26 @@ public class Main {
 
         System.out.println(Arrays.toString(arr));
 
-        for (int i = 0; i < arr.length; i++) {
-            for(int j = 0; j < arr[i].length; j++) {
-                System.out.print(arr[i][j] +  " ");
+//        for (int i = 0; i < arr.length; i++) {
+//            for(int j = 0; j < arr[i].length; j++) {
+//                System.out.print(arr[i][j] +  " ");
+//            }
+//            System.out.println(" ");
+//        }
+
+        for (int[] i: arr) {
+            for(int j: i) {
+                System.out.print(j + " ");
             }
             System.out.println(" ");
         }
 
-        for(int i = 0; i < arr.length; i++) {
-            System.out.println(Arrays.toString(arr[i]));
+//        for(int i = 0; i < arr.length; i++) {
+//            System.out.println(Arrays.toString(arr[i]));
+//        }
+
+        for(int[] i: arr) {
+            System.out.println(Arrays.toString(i));
         }
 
 
