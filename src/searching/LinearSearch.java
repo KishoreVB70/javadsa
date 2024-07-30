@@ -7,21 +7,40 @@ public class LinearSearch {
     public static void main(String[] args) {
 
         int[] arr = {3,22,13,98,6,771,2,0};
-        int target = 0;
+        int[][] twoDArray = {{1,2,3}, {4,5,6}, {7,8,9}};
+        int target = 10;
 
 
         String s = "Motorola";
         char ts = 'o';
 
+//         String
+
 //        int result = stringLinearSearch(s, target);
 //        System.out.println(result);
-        int[] result = maxAndMinNumber(arr);
-        System.out.println(Arrays.toString(result));
+
+//          Array
+//        int[] result = maxAndMinNumber(arr);
+//        System.out.println(Arrays.toString(result));
+
+        boolean result = twoDArraySearch(twoDArray, target);
+        System.out.println(result);
+    }
+
+    static boolean twoDArraySearch(int[][] arr, int target) {
+        for(int[] i: arr) {
+            for (int j: i) {
+                if (j == target) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     static int[] maxAndMinNumber(int[] arr) {
         int max = 0;
-        int min = Integer.MAX_VALUE;
+        int min = arr[0];
 
         for (int i: arr) {
             if (i > max) {
