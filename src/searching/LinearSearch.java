@@ -7,7 +7,7 @@ public class LinearSearch {
     public static void main(String[] args) {
 
         int[] arr = {12, 345, 1234, 12345, 12};
-        int[][] twoDArray = {{1,2,3}, {4,5,6}, {7,8,9}};
+        int[][] twoDArray = {{1,2,3}, {4,5,6}, {7,8,0}};
         int target = 10;
 
 
@@ -25,8 +25,27 @@ public class LinearSearch {
 
 //        boolean result = twoDArraySearch(twoDArray, target);
 
-        int result = evenNumOfDigits(arr);
+        int result = richestCustomerWealth(twoDArray);
         System.out.println(result);
+
+    }
+
+    static int richestCustomerWealth(int[][] accounts) {
+        int maxWealth = 0;
+
+        for(int[] i: accounts) {
+            int indWealth = 0;
+
+            for(int j:  i) {
+                indWealth += j;
+            }
+
+            if (indWealth > maxWealth) {
+                maxWealth = indWealth;
+            }
+        }
+
+        return maxWealth;
 
     }
 
