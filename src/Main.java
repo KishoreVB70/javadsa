@@ -1,3 +1,4 @@
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -7,6 +8,35 @@ import static java.lang.Math.sqrt;
 public class Main {
     public static void main(String[] args) {
         arrayListLearn();
+    }
+
+    public static void arrayList2d() {
+        Scanner in = new Scanner(System.in);
+        ArrayList<ArrayList<Integer>> arr = new ArrayList<>(2);
+
+        for (int i = 0; i < 3; i ++) {
+            ArrayList<Integer> temp = new ArrayList<>(3);
+            for (int j = 0; j < 2; j++) {
+                temp.add(in.nextInt());
+            }
+            arr.add(temp);
+        }
+
+        for(ArrayList<Integer> i: arr) {
+            for(int j: i ) {
+                System.out.print(j + " ");
+            }
+            System.out.println(" ");
+        }
+
+        for (int i = 0; i < arr.size(); i++) {
+            ArrayList<Integer> temp = new ArrayList<>(3);
+            temp = arr.get(i);
+            for(int j = 0; j < temp.size(); j++) {
+                System.out.print(temp.get(j) + " ");
+            }
+            System.out.println(" ");
+        }
     }
 
     public static void arrayListLearn() {
@@ -21,8 +51,6 @@ public class Main {
         for(int i: arr) {
             System.out.print(i+ " ");
         }
-
-
 
     }
 
