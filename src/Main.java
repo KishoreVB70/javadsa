@@ -7,10 +7,23 @@ import static java.lang.Math.sqrt;
 
 public class Main {
     public static void main(String[] args) {
-        findMaximumValueOfArray();
-
+        reverseArray();
     }
 
+    static void reverseArray() {
+        int[] arr = {1,2,6,80,2,6,125,6,8,0,11};
+        int[] reversed = new int[arr.length];
+
+        int i = arr.length - 1;
+        int j = 0;
+        while (i >= 0) {
+            reversed[j] = arr[i];
+            j++;
+            i--;
+        }
+
+        System.out.println("Reversed array: " + Arrays.toString(reversed));
+    }
     static void findMaximumValueOfArray() {
         int[] arr = {1,2,6,80,2,6,125,6,8,0,11};
 
