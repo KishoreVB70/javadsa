@@ -5,8 +5,10 @@ import static java.lang.Math.sqrt;
 
 public class Main {
     public static void main(String[] args) {
-        array2d();
+//        array2d();
+        arrayLearn();
     }
+
 
     public static void arrayLearn() {
         Scanner in = new Scanner(System.in);
@@ -19,6 +21,10 @@ public class Main {
 
         for (int i = 0; i < arr.length; i++) {
             System.out.print(arr[i] +  " ");
+        }
+
+        for (int i: arr) {
+            System.out.print(i);
         }
     }
 
