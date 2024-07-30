@@ -31,6 +31,7 @@ public class LinearSearch {
     }
 
     static int richestCustomerWealth(int[][] accounts) {
+        String url = "https://leetcode.com/problems/richest-customer-wealth/description/";
         int maxWealth = 0;
 
         for(int[] i: accounts) {
@@ -50,6 +51,7 @@ public class LinearSearch {
     }
 
     static int evenNumOfDigits(int[] arr) {
+        String url = "https://leetcode.com/problems/find-numbers-with-even-number-of-digits/description/";
         int result = 0;
 
         for(int i: arr) {
