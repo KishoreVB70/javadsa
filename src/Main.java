@@ -7,7 +7,20 @@ import static java.lang.Math.sqrt;
 
 public class Main {
     public static void main(String[] args) {
+        findMaximumValueOfArray();
 
+    }
+
+    static void findMaximumValueOfArray() {
+        int[] arr = {1,2,6,80,2,6,125,6,8,0,11};
+
+        int max = 0;
+        for (int i: arr) {
+            if(i > max) {
+                max = i;
+            }
+        }
+        System.out.println("Maximum value is: " + max);
     }
 
     static class BasicProblems {
