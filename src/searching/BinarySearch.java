@@ -6,17 +6,51 @@ public class BinarySearch {
     public static void main(String[] args) {
 //        char[] arr = {'e', 'e','g', 'g'};
         int[] descArr = {17,12,11,10,9,8,7,6,5,4,3,2,1};
-        int[] arr = {1,2,3,4,5,5,7,8,9,9};
+        int[] arr = {1,2,3,4,5,5,7,8,9,9,10,11,12};
 
-        char target = 3;
+        char target = 7;
 
 //        int result = simpleBinarySearch(arr, target);
 //        char result = nextGreatestLetter(arr, target);
-        int[] result = firstAndLastPosition(arr, target);
-        System.out.println(Arrays.toString(result));
+        int result = positionOfElementInSortedInfiniteArray(arr, target);
+        System.out.println(result);
 
 
 
+    }
+
+    static int positionOfElementInSortedInfiniteArray(int[] nums, int target) {
+        int start = 0;
+        int end = 1;
+        while(start <= end ) {
+
+            if (nums[end] == target) {
+                return end;
+            }
+
+            else if (start == end) {
+                return -1;
+            }
+
+            else if(nums[end] < target) {
+                start = end + 1;
+                end = (end + 1) * 2;
+            }
+
+            else if(nums[end] > target) {
+                int n = (start + end) / 2;
+                if(nums[n] == target) {
+                    return n;
+                }
+                else if (target > nums[n]) {
+                    start = n+1;
+                }
+                else if (target < nums[n]) {
+                    end = n-1;
+                }
+            }
+        }
+        return -1;
     }
 
     static int[] firstAndLastPosition(int[] nums, int target) {
