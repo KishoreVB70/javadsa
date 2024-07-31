@@ -5,11 +5,54 @@ import java.util.Arrays;
 public class BinarySearch {
     public static void main(String[] args) {
         int[] arr = {0,10,50,2,0};
-        int result = peakIndexInMountainArray(arr);
+        int result = findInMountainArray(arr, 2);
         System.out.println(result);
     }
 
+    static int findInMountainArray(int[] mountainArr, int target) {
+        int end = mountainArr.length -1;
+
+        // Find the peak point
+        int peakIndex = peakIndexInMountainArray(mountainArr);
+
+        // Do 2 binary search, one for the left of the peak and one for the right of the peak
+        int indexInAscendingHalf = helperForMountainFinder(mountainArr, 0, peakIndex, target, true);
+        int indexInDescendingHalf = helperForMountainFinder(mountainArr, peakIndex, end, target, false);
+
+        if (indexInDescendingHalf == Integer.MAX_VALUE &&  indexInAscendingHalf == Integer.MAX_VALUE) {
+            return  -1;
+        } else return Math.min(indexInDescendingHalf, indexInAscendingHalf);
+
+    }
+
+    private static int helperForMountainFinder(int[] arr, int start, int end, int target, boolean isAscending) {
+        while (start <= end) {
+            int n = (start + end )/2;
+            if (arr[n] == target) {
+                return n;
+            }
+
+            if (isAscending) {
+                if(target > arr[n]) {
+                    start = n+1;
+                } else {
+                    end = n-1;
+                }
+            }
+
+            else {
+                if(target > arr[n]) {
+                    end = n-1;
+                } else {
+                    start = n + 1;
+                }
+            }
+        }
+        return Integer.MAX_VALUE;
+    }
+
     static int peakIndexInMountainArray(int[] arr) {
+        String url = "https://leetcode.com/problems/peak-index-in-a-mountain-array/description/";
         int start = 0;
         int end = arr.length - 1;
         int n = 0;
@@ -24,7 +67,6 @@ public class BinarySearch {
         }
         return start;
     }
-
     static int positionOfElementInSortedInfiniteArray(int[] nums, int target) {
         int start = 0;
         int end = 1;
