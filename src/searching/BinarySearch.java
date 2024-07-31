@@ -1,13 +1,12 @@
 package searching;
 
-import java.util.Arrays;
-
 public class BinarySearch {
     public static void main(String[] args) {
         int[] arr = {0,10,50,2,0};
         int result = findInMountainArray(arr, 2);
         System.out.println(result);
     }
+
 
     interface MountainArray {
         int[] arr = {0,10,50,2,0};
@@ -19,8 +18,8 @@ public class BinarySearch {
             return arr.length;
         }
     }
-
-    static int findInMountainArrayLeetVersion(MountainArray mountainArr, int target) {
+    static int findInMountainArrayLeetHardVersion(MountainArray mountainArr, int target) {
+        String url = "https://leetcode.com/problems/find-in-mountain-array/";
         int start = 0;
         int end = mountainArr.length() - 1;
 
@@ -49,7 +48,6 @@ public class BinarySearch {
         } else return Math.min(indexInDescendingHalf, indexInAscendingHalf);
 
     }
-
     private static int helperForMountainFinderLeetVersion(MountainArray mountainArr, int start, int end, int target, boolean isAscending) {
         while (start <= end) {
             int n = (start + end )/2;
@@ -75,8 +73,6 @@ public class BinarySearch {
         }
         return Integer.MAX_VALUE;
     }
-
-
     static int findInMountainArray(int[] mountainArr, int target) {
         int end = mountainArr.length -1;
 
@@ -117,16 +113,16 @@ public class BinarySearch {
         }
         return Integer.MAX_VALUE;
     }
-
-    static int peakIndexInMountainArray(int[] arr) {
+    static int peakIndexInMountainArray(int[] nums) {
         String url = "https://leetcode.com/problems/peak-index-in-a-mountain-array/description/";
+        String url2Medium = "https://leetcode.com/problems/find-peak-element/description/";
         int start = 0;
-        int end = arr.length - 1;
+        int end = nums.length - 1;
         int n = 0;
 
         while (start < end) {
             n = (start + end) / 2;
-            if (arr[n+1] > arr[n]) {
+            if (nums[n+1] > nums[n]) {
                 start = n + 1;
             } else {
                 end = n;
@@ -353,7 +349,6 @@ public class BinarySearch {
         return -1;
 
     }
-
     static int simpleBinarySearch(int[] arr, int target) {
         if (arr.length == 0 ) {
             return -1;
