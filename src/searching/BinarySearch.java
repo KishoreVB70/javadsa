@@ -2,8 +2,8 @@ package searching;
 
 public class BinarySearch {
     public static void main(String[] args) {
-        int[] arr = {1};
-        int result = findInRotatedSortedArray(arr, 0);
+        int[] arr = {7,1,2};
+        int result = findInRotatedSortedArray(arr, 3);
         System.out.println(result);
     }
 
@@ -11,8 +11,23 @@ public class BinarySearch {
         String url = "https://leetcode.com/problems/search-in-rotated-sorted-array/";
         int end = nums.length - 1;
 
-        // 1) Find the rotation point
+        // 1) Find the pivot
         int peakIndex = findTheRotationIndexOfRotatedSortedArray(nums);
+
+        // If no pivot, then run binary search for entire array
+
+        // If the peak is at the end, then run ascending binary search
+        if (peakIndex == -1) {
+            return helperOrderAgnosticBinarySearch(nums, 0, end , target, true);
+        }
+        // If peak is at start, run descending binary search
+        else  if(peakIndex == 0) {
+            return helperOrderAgnosticBinarySearch(nums, 0, end , target, false);
+        }
+
+        // If there is a pivot
+
+        // 1)Check if the peak is the target
         if (nums[peakIndex] == target) {
             return peakIndex;
         }
@@ -57,15 +72,15 @@ public class BinarySearch {
         int end = nums.length - 1;
         int n = (start + end) /2;
 
-        // Check cases for no pivot
+        // Check cases for no pivot -> no pivot means return -1
 
         // Check if peak is at the start index
         if (nums[end] <= nums[n] && nums[n] <= nums[start]) {
-            return start;
+            return 0;
         }
         // If peak is the end index
         else if (nums[end] >= nums[n] && nums[n] >= nums[start]) {
-            return end;
+            return -1;
         }
 
         // Ran only if there is a pivot at the middle
@@ -95,7 +110,7 @@ public class BinarySearch {
                 start = n + 1;
             }
         }
-        return 0;
+        return -1;
     }
     interface MountainArray {
         int[] arr = {0,10,50,2,0};
