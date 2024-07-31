@@ -9,6 +9,74 @@ public class BinarySearch {
         System.out.println(result);
     }
 
+    interface MountainArray {
+        int[] arr = {0,10,50,2,0};
+
+        public default int get(int index) {
+          return arr[index];
+        }
+        public default int length() {
+            return arr.length;
+        }
+    }
+
+    static int findInMountainArrayLeetVersion(MountainArray mountainArr, int target) {
+        int start = 0;
+        int end = mountainArr.length() - 1;
+
+        // 1) Find the peak point
+        int n = 0;
+        while (start < end) {
+            n = (start + end) / 2;
+            if (mountainArr.get(n+1) > mountainArr.get(n)) {
+                start = n + 1;
+            } else {
+                end = n;
+            }
+        }
+        int peakIndex = start;
+
+        start = 0;
+        end = mountainArr.length() - 1;
+
+        // 2) Do 2 binary search, one for the left of the peak and one for the right of the peak
+        int indexInAscendingHalf = helperForMountainFinderLeetVersion(mountainArr, 0, peakIndex, target, true);
+        int indexInDescendingHalf = helperForMountainFinderLeetVersion(mountainArr, peakIndex, end, target, false);
+
+        // 3) Determine the return value
+        if (indexInDescendingHalf == Integer.MAX_VALUE &&  indexInAscendingHalf == Integer.MAX_VALUE) {
+            return  -1;
+        } else return Math.min(indexInDescendingHalf, indexInAscendingHalf);
+
+    }
+
+    private static int helperForMountainFinderLeetVersion(MountainArray mountainArr, int start, int end, int target, boolean isAscending) {
+        while (start <= end) {
+            int n = (start + end )/2;
+            if (mountainArr.get(n) == target) {
+                return n;
+            }
+
+            if (isAscending) {
+                if(target > mountainArr.get(n)) {
+                    start = n+1;
+                } else {
+                    end = n-1;
+                }
+            }
+
+            else {
+                if(target > mountainArr.get(n)) {
+                    end = n-1;
+                } else {
+                    start = n + 1;
+                }
+            }
+        }
+        return Integer.MAX_VALUE;
+    }
+
+
     static int findInMountainArray(int[] mountainArr, int target) {
         int end = mountainArr.length -1;
 
@@ -24,7 +92,6 @@ public class BinarySearch {
         } else return Math.min(indexInDescendingHalf, indexInAscendingHalf);
 
     }
-
     private static int helperForMountainFinder(int[] arr, int start, int end, int target, boolean isAscending) {
         while (start <= end) {
             int n = (start + end )/2;
