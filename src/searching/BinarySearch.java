@@ -8,7 +8,7 @@ public class BinarySearch {
         int[] descArr = {17,12,11,10,9,8,7,6,5,4,3,2,1};
         int[] arr = {1,2,3,4,5,5,7,8,9,9};
 
-        char target = 9;
+        char target = 3;
 
 //        int result = simpleBinarySearch(arr, target);
 //        char result = nextGreatestLetter(arr, target);
@@ -20,51 +20,36 @@ public class BinarySearch {
     }
 
     static int[] firstAndLastPosition(int[] nums, int target) {
-        int[] position = {-1,-1};
+        int[] position = new int[2];
 
+        position[0] = helperForFirstAndLastPositionSearch(nums, target, true);
+        position[1] = helperForFirstAndLastPositionSearch(nums, target, false);
+
+        return position;
+    }
+
+    static int helperForFirstAndLastPositionSearch(int[] nums, int target, boolean first) {
+        int ans = -1;
         int start = 0;
         int end = nums.length - 1;
-
-
         while(start <= end) {
             int n = (start + end) / 2;
             if (nums[n] == target) {
-                if (n > position[1]) {
-                    position[1] = n;
+                ans = n;
+                if (first) {
+                    end = n - 1;
+                } else {
+                    start = n +1;
                 }
-                start += 1;
             }
-
-            if (target > nums[n]) {
+            if(target > nums[n] ) {
                 start += 1;
             } else if (target < nums[n]) {
                 end -= 1;
             }
-
         }
+        return ans;
 
-        start = 0;
-        end = nums.length - 1;
-
-        while(start <= end) {
-            int n = (start + end) / 2;
-            if (nums[n] == target) {
-                if (position[0] == -1) {
-                    position[0] = n;
-                }
-                if (n < position[0]) {
-                    position[0] = n;
-                }
-                end -= 1;
-            }
-            if(target > nums[n] ) {
-                start += 1;
-             } else if (target < nums[n]) {
-                end -= 1;
-            }
-        }
-
-        return position;
     }
 
     static int[] firstAndLastPositionLinearSearch(int[] nums, int target) {
