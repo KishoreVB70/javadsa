@@ -3,49 +3,19 @@ package searching;
 public class BinarySearch {
     public static void main(String[] args) {
         int[] arr = {4,5,6,0,1,2};
-        int result = findInRotatedSortedArray(arr, 3);
+        int result = findInRotatedSortedArray(arr, 9);
         System.out.println(result);
     }
 
     static int findInRotatedSortedArray(int[] nums, int target) {
         String url = "https://leetcode.com/problems/search-in-rotated-sorted-array/";
-        int start = 0;
         int end = nums.length - 1;
-        int peakIndex = 0;
 
         // 1) Find the rotation point
-        while (start <= end) {
-            int n = (start + end) /2;
-
-            // If peak is at the start
-            if (n == 0) {
-                peakIndex = 0;
-                break;
-            }
-
-            // Check 1
-            if (nums[n - 1] > nums[n]) {
-                peakIndex = n-1;
-                break;
-            }
-
-            // Check 2
-            if (nums[n] < nums[start]) {
-                end = n - 1;
-            } else if(nums[n] > nums[start]) {
-                start = n;
-            }
-
-            // If nums[n] == nums[start]
-            else  {
-                start = n+1;
-            }
-        }
-
+        int peakIndex = findTheRotationIndexOfRotatedSortedArray(nums);
         if (nums[peakIndex] == target) {
             return peakIndex;
         }
-        end = nums.length - 1;
 
         // 2) Apply binary search to the left half
         int firstHalf = helperOrderAgnosticBinarySearch(nums, 0, peakIndex , target, true);
@@ -80,6 +50,36 @@ public class BinarySearch {
             }
         }
         return -1;
+    }
+    static int findTheRotationIndexOfRotatedSortedArray(int[] nums) {
+        int start = 0;
+        int end = nums.length - 1;
+        //Kind of a helper function
+        while (start <= end) {
+            int n = (start + end) /2;
+
+            // If peak is at the start
+            if (n == 0) {
+                return 0;
+            }
+
+            // Check 1
+            if (nums[n - 1] > nums[n]) {
+                return n-1;
+            }
+
+            // Check 2
+            if (nums[n] < nums[start]) {
+                end = n - 1;
+            } else if(nums[n] > nums[start]) {
+                start = n;
+            }
+            // If nums[n] == nums[start]
+            else  {
+                start = n+1;
+            }
+        }
+        return 0;
     }
 
     interface MountainArray {
