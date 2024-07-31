@@ -6,8 +6,6 @@ public class BinarySearch {
         int result = findInMountainArray(arr, 2);
         System.out.println(result);
     }
-
-
     interface MountainArray {
         int[] arr = {0,10,50,2,0};
 
@@ -18,6 +16,7 @@ public class BinarySearch {
             return arr.length;
         }
     }
+    
     static int findInMountainArrayLeetHardVersion(MountainArray mountainArr, int target) {
         String url = "https://leetcode.com/problems/find-in-mountain-array/";
         int start = 0;
@@ -73,19 +72,27 @@ public class BinarySearch {
         }
         return Integer.MAX_VALUE;
     }
-    static int findInMountainArray(int[] mountainArr, int target) {
-        int end = mountainArr.length -1;
+    static int findInMountainArray(int[] nums, int target) {
+        int end = nums.length -1;
 
         // Find the peak point
-        int peakIndex = peakIndexInMountainArray(mountainArr);
+        int peakIndex = peakIndexInMountainArray(nums);
 
-        // Do 2 binary search, one for the left of the peak and one for the right of the peak
-        int indexInAscendingHalf = helperForMountainFinder(mountainArr, 0, peakIndex, target, true);
-        int indexInDescendingHalf = helperForMountainFinder(mountainArr, peakIndex, end, target, false);
+        // 2) Check if peak is what we're looking for
+        if(target == nums[peakIndex]) {
+            return peakIndex;
+        }
 
-        if (indexInDescendingHalf == Integer.MAX_VALUE &&  indexInAscendingHalf == Integer.MAX_VALUE) {
-            return  -1;
-        } else return Math.min(indexInDescendingHalf, indexInAscendingHalf);
+        // 3) Do binary search for ascending
+        int indexInAscendingHalf = helperForMountainFinder(nums, 0, peakIndex, target, true);
+
+        // If gotten result, return it
+        if (indexInAscendingHalf != -1) {
+            return indexInAscendingHalf;
+        }
+
+        // 4) return the result of the reverse search
+        return helperForMountainFinder(nums, peakIndex, end, target, false);
 
     }
     private static int helperForMountainFinder(int[] arr, int start, int end, int target, boolean isAscending) {
