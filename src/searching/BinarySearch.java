@@ -2,8 +2,8 @@ package searching;
 
 public class BinarySearch {
     public static void main(String[] args) {
-        int[] arr = {4,5,6,7,8,0,1,2};
-        int result = findInRotatedSortedArray(arr, 9);
+        int[] arr = {1};
+        int result = findInRotatedSortedArray(arr, 0);
         System.out.println(result);
     }
 
@@ -55,28 +55,44 @@ public class BinarySearch {
         //Kind of a helper function
         int start = 0;
         int end = nums.length - 1;
+        int n = (start + end) /2;
+
+        // Check cases for no pivot
+
+        // Check if peak is at the start index
+        if (nums[end] <= nums[n] && nums[n] <= nums[start]) {
+            return start;
+        }
+        // If peak is the end index
+        else if (nums[end] >= nums[n] && nums[n] >= nums[start]) {
+            return end;
+        }
+
+        // Ran only if there is a pivot at the middle
         while (start < end) {
-            int n = (start + end) /2;
+            n = (start + end) /2;
 
-            // If peak is at the start
-            if (n == 0) {
-                return 0;
-            }
 
-            // Check 1
+            // Check for the pivot in the middle number or n-1
+
+            //Check if n-1 is the pivot
             if (nums[n - 1] > nums[n]) {
                 return n-1;
             }
+            // Check if n is the pivot
+            if (nums[n] > nums[n + 1]) {
+                return n;
+            }
 
-            // Check 2
+            // If n or n-1 is not the pivot
+
+            // If n is lesser than the start, then it would lie between
             if (nums[n] < nums[start]) {
                 end = n - 1;
-            } else if(nums[n] > nums[start]) {
-                start = n;
             }
-            // If n == start, then increase it -> used for the case where end is the peak
-            else  {
-                start = n+1;
+            // If n is greater than the start, then it would lie after
+            else if(nums[n] > nums[start]) {
+                start = n + 1;
             }
         }
         return 0;
