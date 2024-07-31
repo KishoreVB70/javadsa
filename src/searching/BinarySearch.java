@@ -2,7 +2,7 @@ package searching;
 
 public class BinarySearch {
     public static void main(String[] args) {
-        int[] arr = {4,5,6,0,1,2};
+        int[] arr = {4,5,6,7,8,0,1,2};
         int result = findInRotatedSortedArray(arr, 9);
         System.out.println(result);
     }
@@ -52,10 +52,10 @@ public class BinarySearch {
         return -1;
     }
     static int findTheRotationIndexOfRotatedSortedArray(int[] nums) {
+        //Kind of a helper function
         int start = 0;
         int end = nums.length - 1;
-        //Kind of a helper function
-        while (start <= end) {
+        while (start < end) {
             int n = (start + end) /2;
 
             // If peak is at the start
@@ -74,14 +74,13 @@ public class BinarySearch {
             } else if(nums[n] > nums[start]) {
                 start = n;
             }
-            // If nums[n] == nums[start]
+            // If n == start, then increase it -> used for the case where end is the peak
             else  {
                 start = n+1;
             }
         }
         return 0;
     }
-
     interface MountainArray {
         int[] arr = {0,10,50,2,0};
 
