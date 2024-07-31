@@ -2,8 +2,8 @@ package searching;
 
 public class BinarySearch {
     public static void main(String[] args) {
-        int[] arr = {1,2,5};
-        int result = findInRotatedSortedArray(arr, 0);
+        int[] arr = {4,5,6,0,1,2};
+        int result = findInRotatedSortedArray(arr, 3);
         System.out.println(result);
     }
 
@@ -17,21 +17,28 @@ public class BinarySearch {
         while (start <= end) {
             int n = (start + end) /2;
 
-
+            // If peak is at the start
             if (n == 0) {
                 peakIndex = 0;
                 break;
             }
 
+            // Check 1
             if (nums[n - 1] > nums[n]) {
                 peakIndex = n-1;
                 break;
             }
 
+            // Check 2
             if (nums[n] < nums[start]) {
                 end = n - 1;
-            } else {
+            } else if(nums[n] > nums[start]) {
                 start = n;
+            }
+
+            // If nums[n] == nums[start]
+            else  {
+                start = n+1;
             }
         }
 
