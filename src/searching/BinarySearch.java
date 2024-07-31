@@ -8,7 +8,7 @@ public class BinarySearch {
         int[] descArr = {17,12,11,10,9,8,7,6,5,4,3,2,1};
         int[] arr = {1,2,3,4,5,5,7,8,9,9,10,11,12};
 
-        char target = 7;
+        char target = 6;
 
 //        int result = simpleBinarySearch(arr, target);
 //        char result = nextGreatestLetter(arr, target);
@@ -28,26 +28,25 @@ public class BinarySearch {
                 return end;
             }
 
-            else if (start == end) {
-                return -1;
-            }
-
             else if(nums[end] < target) {
                 start = end + 1;
                 end = (end + 1) * 2;
             }
 
             else if(nums[end] > target) {
-                int n = (start + end) / 2;
-                if(nums[n] == target) {
-                    return n;
+                while(start <= end) {
+                    int n = (start + end) / 2;
+                    if(nums[n] == target) {
+                        return n;
+                    }
+                    else if (target > nums[n]) {
+                        start = n+1;
+                    }
+                    else if (target < nums[n]) {
+                        end = n-1;
+                    }
                 }
-                else if (target > nums[n]) {
-                    start = n+1;
-                }
-                else if (target < nums[n]) {
-                    end = n-1;
-                }
+                return -1;
             }
         }
         return -1;
