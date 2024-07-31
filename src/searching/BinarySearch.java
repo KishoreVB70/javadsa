@@ -2,10 +2,79 @@ package searching;
 
 public class BinarySearch {
     public static void main(String[] args) {
-        int[] arr = {0,10,50,2,0};
-        int result = findInMountainArray(arr, 2);
+        int[] arr = {1,2,5};
+        int result = findInRotatedSortedArray(arr, 0);
         System.out.println(result);
     }
+
+    static int findInRotatedSortedArray(int[] nums, int target) {
+        String url = "https://leetcode.com/problems/search-in-rotated-sorted-array/";
+        int start = 0;
+        int end = nums.length - 1;
+        int peakIndex = 0;
+
+        // 1) Find the rotation point
+        while (start <= end) {
+            int n = (start + end) /2;
+
+
+            if (n == 0) {
+                peakIndex = 0;
+                break;
+            }
+
+            if (nums[n - 1] > nums[n]) {
+                peakIndex = n-1;
+                break;
+            }
+
+            if (nums[n] < nums[start]) {
+                end = n - 1;
+            } else {
+                start = n;
+            }
+        }
+
+        if (nums[peakIndex] == target) {
+            return peakIndex;
+        }
+        end = nums.length - 1;
+
+        // 2) Apply binary search to the left half
+        int firstHalf = helperOrderAgnosticBinarySearch(nums, 0, peakIndex , target, true);
+        if (firstHalf != -1 ) {
+            return firstHalf;
+        }
+
+        // 3) Apply binary search to the right half
+        return helperOrderAgnosticBinarySearch(nums, peakIndex + 1, end, target, true);
+    }
+    private static int helperOrderAgnosticBinarySearch(int[] arr, int start, int end, int target, boolean isAscending) {
+        while (start <= end) {
+            int n = (start + end )/2;
+            if (arr[n] == target) {
+                return n;
+            }
+
+            if (isAscending) {
+                if(target > arr[n]) {
+                    start = n+1;
+                } else {
+                    end = n-1;
+                }
+            }
+
+            else {
+                if(target > arr[n]) {
+                    end = n-1;
+                } else {
+                    start = n + 1;
+                }
+            }
+        }
+        return -1;
+    }
+
     interface MountainArray {
         int[] arr = {0,10,50,2,0};
 
@@ -16,7 +85,6 @@ public class BinarySearch {
             return arr.length;
         }
     }
-    
     static int findInMountainArrayLeetHardVersion(MountainArray mountainArr, int target) {
         String url = "https://leetcode.com/problems/find-in-mountain-array/";
         int start = 0;
@@ -363,8 +431,6 @@ public class BinarySearch {
 
         int start = 0;
         int end = arr.length - 1;
-
-
 
         while (end >= start) {
             int i = (start + end) /2;
