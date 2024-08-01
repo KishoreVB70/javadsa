@@ -2,8 +2,8 @@ package searching;
 
 public class BinarySearch {
     public static void main(String[] args) {
-        int[] arr = {3,5,1};
-        boolean result = findInRotatedSortedArrayWithDuplicatesReturnBoolean(arr, 3);
+        int[] arr = {0,0,0};
+        boolean result = findInRotatedSortedArrayWithDuplicatesReturnBoolean(arr, 0);
         System.out.println(result);
     }
 
@@ -23,8 +23,6 @@ public class BinarySearch {
         // 2) Only elements that are to the right of the pivot would be smaller
         return nums[pivot + 1];
     }
-
-
     static boolean findInRotatedSortedArrayWithDuplicatesReturnBoolean(int[] nums, int target) {
         if (nums.length == 1) {
             return nums[0] == target;
@@ -94,8 +92,10 @@ public class BinarySearch {
             }
 
             //Check if n-1 is the pivot
-            if (nums[n - 1] > nums[n]) {
-                return n-1;
+            if (n > 0) {
+                if (nums[n - 1] > nums[n]) {
+                    return n-1;
+                }
             }
 
             // If start, middle and end are equal, Only the middle can be the pivot
