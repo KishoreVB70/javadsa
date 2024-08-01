@@ -8,26 +8,22 @@ public class BinarySearch {
     }
 
     static int splitArrayLargestSumBinarySearch(int[] nums, int k) {
+        String url = "https://leetcode.com/problems/split-array-largest-sum/submissions/1340552974/";
         // 1) Identify the largest and smallest possible value
         int start = 0;
         int end = 0;
-        // Finding the largest
+        // Finding the largest -> Sum of the array
+        //Finding the smallest -> largest value in the array
         for (int i: nums) {
             end += i;
-        }
-        //Finding the smallest
-        for (int i: nums) {
-            if (i > start) {
-                start = i;
-            }
+            start = Integer.max(start, i);
         }
 
         // 2) Apply binary search
+        int arrayEndIndex = nums.length - 1;
         while (start < end) {
             int n = (start + end) / 2;
             int numberOfArrays = 1;
-
-            int arrayEndIndex = nums.length - 1;
             int i = 0;
 
             // Run the loop for all the elements
@@ -42,15 +38,14 @@ public class BinarySearch {
                     sum += nums[i+1];
                     i++;
                 }
-                if (breakLoop) {
-                    break;
+                if (!breakLoop) {
+                    numberOfArrays++;
                 }
-                numberOfArrays++;
             }
 
             if (numberOfArrays > k) {
                 start = n+1;
-            } else if (numberOfArrays <= k) {
+            } else{
                 end = n;
             }
         }
