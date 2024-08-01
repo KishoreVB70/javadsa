@@ -2,8 +2,9 @@ package searching;
 
 public class BinarySearch {
     public static void main(String[] args) {
-        int[] arr = {7,1,2};
-        int result = findInRotatedSortedArray(arr, 3);
+        int[] arr = {1,3};
+//        int result = findTheRotationIndexOfRotatedSortedArray(arr);
+        int result = findInRotatedSortedArray(arr, 0);
         System.out.println(result);
     }
 
@@ -16,13 +17,9 @@ public class BinarySearch {
 
         // If no pivot, then run binary search for entire array
 
-        // If the peak is at the end, then run ascending binary search
+        // If the peak is at the end, then it is a normal ascending array, run binary search along the array
         if (peakIndex == -1) {
             return helperOrderAgnosticBinarySearch(nums, 0, end , target, true);
-        }
-        // If peak is at start, run descending binary search
-        else  if(peakIndex == 0) {
-            return helperOrderAgnosticBinarySearch(nums, 0, end , target, false);
         }
 
         // If there is a pivot
@@ -32,13 +29,17 @@ public class BinarySearch {
             return peakIndex;
         }
 
-        // 2) Apply binary search to the left half
-        int firstHalf = helperOrderAgnosticBinarySearch(nums, 0, peakIndex , target, true);
-        if (firstHalf != -1 ) {
-            return firstHalf;
+        // 2) Only if the target is lesser than the peak and greater than the start, it can lie in the left half -> Apply binary search to the left half
+        if (target >= nums[0] && target <= nums[peakIndex] ) {
+            // Check if pivot is at the start, if so, the target won't be present in the left
+            if (peakIndex == 0) {
+                return -1;
+            }
+
+            return helperOrderAgnosticBinarySearch(nums, 0, peakIndex -1, target, true);
         }
 
-        // 3) Apply binary search to the right half
+        // 3) Apply binary search to the right half, since that's the only thing left
         return helperOrderAgnosticBinarySearch(nums, peakIndex + 1, end, target, true);
     }
     private static int helperOrderAgnosticBinarySearch(int[] arr, int start, int end, int target, boolean isAscending) {
@@ -72,31 +73,26 @@ public class BinarySearch {
         int end = nums.length - 1;
         int n = (start + end) /2;
 
-        // Check cases for no pivot -> no pivot means return -1
 
-        // Check if peak is at the start index
-        if (nums[end] <= nums[n] && nums[n] <= nums[start]) {
+        // Check if there is no pivot -> normal ascending array
+        if (nums[end] >= nums[n] && nums[n] >= nums[start]) {
             return 0;
         }
-        // If peak is the end index
-        else if (nums[end] >= nums[n] && nums[n] >= nums[start]) {
-            return -1;
-        }
 
-        // Ran only if there is a pivot at the middle
+        // Ran only if there is a pivot
         while (start < end) {
             n = (start + end) /2;
 
-
             // Check for the pivot in the middle number or n-1
+
+            // Check if n is the pivot
+            if (nums[n] > nums[n + 1]) {
+                return n;
+            }
 
             //Check if n-1 is the pivot
             if (nums[n - 1] > nums[n]) {
                 return n-1;
-            }
-            // Check if n is the pivot
-            if (nums[n] > nums[n + 1]) {
-                return n;
             }
 
             // If n or n-1 is not the pivot
