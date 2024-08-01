@@ -3,11 +3,60 @@ package searching;
 public class BinarySearch {
     public static void main(String[] args) {
         int[] nums = {7,2,5,10,8};
-        int result = splitArrayLargestSum(nums, 2);
+        int result = splitArrayLargestSumBinarySearch(nums, 2);
         System.out.println(result);
     }
 
-    static int splitArrayLargestSum(int[] nums, int k) {
+    static int splitArrayLargestSumBinarySearch(int[] nums, int k) {
+        // 1) Identify the largest and smallest possible value
+        int start = 0;
+        int end = 0;
+        // Finding the largest
+        for (int i: nums) {
+            end += i;
+        }
+        //Finding the smallest
+        for (int i: nums) {
+            if (i > start) {
+                start = i;
+            }
+        }
+
+        // 2) Apply binary search
+        while (start < end) {
+            int n = (start + end) / 2;
+            int numberOfArrays = 1;
+
+            int arrayEndIndex = nums.length - 1;
+            int i = 0;
+
+            // Run the loop for all the elements
+            while (i < arrayEndIndex) {
+                int sum = nums[i];
+                boolean breakLoop = false;
+                while (sum <= n) {
+                    if (i == arrayEndIndex) {
+                        breakLoop = true;
+                        break;
+                    }
+                    sum += nums[i+1];
+                    i++;
+                }
+                if (breakLoop) {
+                    break;
+                }
+                numberOfArrays++;
+            }
+
+            if (numberOfArrays > k) {
+                start = n+1;
+            } else if (numberOfArrays <= k) {
+                end = n;
+            }
+        }
+        return start;
+    }
+    static int splitArrayLargestSumBruteForce(int[] nums, int k) {
         int lowest = Integer.MAX_VALUE;
         int end = nums.length -1;
         int numberOfRounds = k -1;
@@ -26,7 +75,7 @@ public class BinarySearch {
             while (startIndex[endIndex -1] < endIndex) {
                 // Calculate the array total for each array
                 int[] arraySum = new int[k];
-                for (int array = 0; array <= k; k++) {
+                for (int array = 0; array <= startIndex[array + 1]; k++) {
                     arraySum[array] += nums[array];
                 }
 
@@ -49,7 +98,6 @@ public class BinarySearch {
 
         return lowest;
     }
-
     static int numberOfRotations(int[] nums) {
         return (findTheRotationIndexOfRotatedSortedArray(nums)) + 1;
     }
