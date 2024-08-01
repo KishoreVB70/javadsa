@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class Selection {
     public static void main(String[] args) {
-        int[] nums = {6,5,7,21,1,7};
+        int[] nums = {6,5,7,21,1,7, -1};
         int[] result = simpleSelectionSort(nums);
         System.out.println(Arrays.toString(result));
 
@@ -12,7 +12,7 @@ public class Selection {
 
     static int[] simpleSelectionSort(int[] nums) {
         int start = 0;
-        for (int i = 0; i < nums.length; i++) {
+        for (int i = 0; i < nums.length - 1; i++) {
             int smallIndex =start;
 
             // 1) find the smallest
