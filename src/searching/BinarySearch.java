@@ -12,6 +12,7 @@ public class BinarySearch {
         // 1) Identify the largest and smallest possible value
         int start = 0;
         int end = 0;
+
         // Finding the largest -> Sum of the array
         //Finding the smallest -> largest value in the array
         for (int i: nums) {
