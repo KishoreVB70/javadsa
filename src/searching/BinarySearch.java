@@ -2,9 +2,22 @@ package searching;
 
 public class BinarySearch {
     public static void main(String[] args) {
-        int[] arr = {0,0,0};
-        boolean result = findInRotatedSortedArrayWithDuplicatesReturnBoolean(arr, 0);
+        int[] nums = {5,6,1,2,3,4};
+        int result = numberOfRotations(nums);
         System.out.println(result);
+    }
+
+    static int numberOfRotations(int[] nums) {
+        // 1 -> find the pivot
+        int pivot = findTheRotationIndexOfRotatedSortedArray(nums);
+        // 2 -> no pivot
+        if (pivot == -1) {
+            return pivot;
+        }
+        // 2 -> index of the pivot is the number of rotations
+        else {
+            return pivot + 1;
+        }
     }
 
 
@@ -142,8 +155,6 @@ public class BinarySearch {
         }
         return -1;
     }
-
-
     static  int findMinimumValueInRotatedSortedArray(int[] nums) {
         String url = "https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/description/";
         // 1) Find the pivot
