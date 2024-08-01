@@ -2,25 +2,47 @@ package searching;
 
 public class BinarySearch {
     public static void main(String[] args) {
-        int[] nums = {5,6,1,2,3,4};
-        int result = numberOfRotations(nums);
+        int[] nums = {7,2,5,10,8};
+        int result = splitArrayLargestSum(nums, 2);
         System.out.println(result);
     }
 
-    static int numberOfRotations(int[] nums) {
-        // 1 -> find the pivot
-        int pivot = findTheRotationIndexOfRotatedSortedArray(nums);
-        // 2 -> no pivot
-        if (pivot == -1) {
-            return pivot;
+    static int splitArrayLargestSum(int[] nums, int k) {
+        int start = 0;
+        int start2 = 1;
+        int end = nums.length -1;
+
+        // Keep track of the lowest number
+        int lowest = Integer.MAX_VALUE;
+        while (start2 <= end) {
+            int array1Sum = 0;
+
+            for (int i = start; i < start2; i++) {
+                array1Sum += nums[i];
+            }
+
+            int array2Sum = 0;
+            for (int i = start2; i <= end; i++) {
+                array1Sum += nums[i];
+            }
+
+            int highValue = Integer.max(array1Sum, array2Sum);
+
+            if (highValue < lowest) {
+                lowest = highValue;
+            }
+
+            start2++;
+            start++;
         }
-        // 2 -> index of the pivot is the number of rotations
-        else {
-            return pivot + 1;
-        }
+
+        // Compare the
+        return lowest;
     }
 
-
+    static int numberOfRotations(int[] nums) {
+        return (findTheRotationIndexOfRotatedSortedArray(nums)) + 1;
+    }
     static  int findMinimumValueInRotatedSortedArrayWithDuplicates(int[] nums) {
         String url = "https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/description/";
         // 1) Find the pivot
