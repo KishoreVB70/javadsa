@@ -2,11 +2,64 @@ package searching;
 
 public class BinarySearch {
     public static void main(String[] args) {
-        int[] arr = {5,5,6,6,6,6,1,3,4,4};
-        int result = findInRotatedSortedArrayWithDuplicates(arr,6);
+        int[] arr = {3,4,5,1,2};
+        int result = findMinimumValueInRotatedSortedArray(arr);
         System.out.println(result);
     }
 
+    static  int findMinimumValueInRotatedSortedArray(int[] nums) {
+        String url = "https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/description/";
+        // 1) Find the pivot
+        int pivot = findTheRotationIndexOfRotatedSortedArray(nums);
+
+        // If there is no pivot, then it is normal array, first element will be the smallest
+        if (pivot == -1) {
+            return nums[0];
+        }
+        // 2) Only elements that are to the right of the pivot would be smaller
+        return nums[pivot + 1];
+    }
+    static int findTheRotationIndexOfRotatedSortedArray(int[] nums) {
+        //Kind of a helper function
+        int start = 0;
+        int end = nums.length - 1;
+        int n = (start + end) /2;
+
+
+        // Check if there is no pivot -> normal ascending array, return -1
+        if (nums[end] >= nums[n] && nums[n] >= nums[start]) {
+            return -1;
+        }
+
+        // Ran only if there is a pivot
+        while (start < end) {
+            n = (start + end) /2;
+
+            // Check for the pivot in the middle number or n-1
+
+            // Check if n is the pivot
+            if (nums[n] > nums[n + 1]) {
+                return n;
+            }
+
+            //Check if n-1 is the pivot
+            if (nums[n - 1] > nums[n]) {
+                return n-1;
+            }
+
+            // If n or n-1 is not the pivot
+
+            // If n is lesser than the start, then it would lie between
+            if (nums[n] < nums[start]) {
+                end = n - 1;
+            }
+            // If n is greater than the start, then it would lie after
+            else if(nums[n] > nums[start]) {
+                start = n + 1;
+            }
+        }
+        return 0;
+    }
     static int findInRotatedSortedArrayWithDuplicates(int[] nums, int target) {
         String url = "https://leetcode.com/problems/search-in-rotated-sorted-array/";
         int end = nums.length - 1;
@@ -148,47 +201,6 @@ public class BinarySearch {
             }
         }
         return -1;
-    }
-    static int findTheRotationIndexOfRotatedSortedArray(int[] nums) {
-        //Kind of a helper function
-        int start = 0;
-        int end = nums.length - 1;
-        int n = (start + end) /2;
-
-
-        // Check if there is no pivot -> normal ascending array, return -1
-        if (nums[end] >= nums[n] && nums[n] >= nums[start]) {
-            return -1;
-        }
-
-        // Ran only if there is a pivot
-        while (start < end) {
-            n = (start + end) /2;
-
-            // Check for the pivot in the middle number or n-1
-
-            // Check if n is the pivot
-            if (nums[n] > nums[n + 1]) {
-                return n;
-            }
-
-            //Check if n-1 is the pivot
-            if (nums[n - 1] > nums[n]) {
-                return n-1;
-            }
-
-            // If n or n-1 is not the pivot
-
-            // If n is lesser than the start, then it would lie between
-            if (nums[n] < nums[start]) {
-                end = n - 1;
-            }
-            // If n is greater than the start, then it would lie after
-            else if(nums[n] > nums[start]) {
-                start = n + 1;
-            }
-        }
-        return 0;
     }
     interface MountainArray {
         int[] arr = {0,10,50,2,0};
