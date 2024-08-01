@@ -8,35 +8,45 @@ public class BinarySearch {
     }
 
     static int splitArrayLargestSum(int[] nums, int k) {
-        int start = 0;
-        int start2 = 1;
-        int end = nums.length -1;
-
-        // Keep track of the lowest number
         int lowest = Integer.MAX_VALUE;
-        while (start2 <= end) {
-            int array1Sum = 0;
-
-            for (int i = start; i < start2; i++) {
-                array1Sum += nums[i];
-            }
-
-            int array2Sum = 0;
-            for (int i = start2; i <= end; i++) {
-                array1Sum += nums[i];
-            }
-
-            int highValue = Integer.max(array1Sum, array2Sum);
-
-            if (highValue < lowest) {
-                lowest = highValue;
-            }
-
-            start2++;
-            start++;
+        int end = nums.length -1;
+        int numberOfRounds = k -1;
+        // Number of arrays = k
+        int[] startIndex = new int[k];
+        // Populate the start index array
+        for (int i = 0; i <= k; k++) {
+            startIndex[i] = i;
         }
 
-        // Compare the
+        int endIndex = k;
+        // Start rounds
+        for (int round = 0; round < endIndex ; round++) {
+
+            // Define the end condition of each round
+            while (startIndex[endIndex -1] < endIndex) {
+                // Calculate the array total for each array
+                int[] arraySum = new int[k];
+                for (int array = 0; array <= k; k++) {
+                    arraySum[array] += nums[array];
+                }
+
+                // Find the maximum value of all array totals
+                int max = arraySum[0];
+                for (int i = 1; i < arraySum.length; i++) {
+                    max = Math.max(max, arraySum[i]);
+                }
+
+                // If it is lower than the previous, set it to it;
+                if (max < lowest) {
+                    lowest = max;
+                }
+            }
+
+            // End of round -> round++
+            endIndex--;
+            round++;
+        }
+
         return lowest;
     }
 
