@@ -2,12 +2,94 @@ package searching;
 
 public class BinarySearch {
     public static void main(String[] args) {
-        int[] arr = {1,3};
-//        int result = findTheRotationIndexOfRotatedSortedArray(arr);
-        int result = findInRotatedSortedArray(arr, 0);
+        int[] arr = {5,5,6,6,6,6,1,3,4,4};
+        int result = findInRotatedSortedArrayWithDuplicates(arr,6);
         System.out.println(result);
     }
 
+    static int findInRotatedSortedArrayWithDuplicates(int[] nums, int target) {
+        String url = "https://leetcode.com/problems/search-in-rotated-sorted-array/";
+        int end = nums.length - 1;
+
+        // 1) Find the pivot
+        int pivotIndex = findTheRotationIndexOfRotatedSortedArrayWithDuplicates(nums);
+
+        // If no pivot, then run binary search for entire array
+
+        // If the pivot is at the end, then it is a normal ascending array, run binary search along the array
+        if (pivotIndex == -1) {
+            return helperOrderAgnosticBinarySearch(nums, 0, end , target, true);
+        }
+
+        // If there is a pivot
+
+        // 1)Check if the pivot is the target
+        if (nums[pivotIndex] == target) {
+            while (pivotIndex > 0) {
+                if (nums[pivotIndex -1] == nums[pivotIndex]) {
+                    pivotIndex -=1;
+                }else  {
+                    break;
+                }
+
+            }
+            return pivotIndex;
+        }
+
+        // 2) Only if the target is lesser than the peak and greater than the start, it can lie in the left half -> Apply binary search to the left half
+        if (target >= nums[0] && target <= nums[pivotIndex] ) {
+            // Check if pivot is at the start, if so, the target won't be present in the left
+            if (pivotIndex == 0) {
+                return -1;
+            }
+
+            return helperOrderAgnosticBinarySearch(nums, 0, pivotIndex -1, target, true);
+        }
+
+        // 3) Apply binary search to the right half, since that's the only thing left
+        return helperOrderAgnosticBinarySearch(nums, pivotIndex + 1, end, target, true);
+    }
+    static int findTheRotationIndexOfRotatedSortedArrayWithDuplicates(int[] nums) {
+        int start = 0;
+        int end = nums.length - 1;
+        int n = (start + end) /2;
+
+
+        // Check if there is no pivot -> normal ascending array
+        if (nums[end] >= nums[n] && nums[n] >= nums[start]) {
+            return -1;
+        }
+
+        // Ran only if there is a pivot
+        while (start < end) {
+            n = (start + end) /2;
+
+            // Check for the pivot in the middle number or n-1
+
+            // Check if n is the pivot
+            // If the number is greater than the right, then it is automatically the pivot, no exceptions
+            if (nums[n] > nums[n + 1]) {
+                return n;
+            }
+
+            //Check if n-1 is the pivot
+            if (nums[n - 1] > nums[n]) {
+                return n-1;
+            }
+
+            // If n or n-1 is not the pivot
+
+            // If n is lesser than the start, then it would lie between
+            if (nums[n] < nums[start]) {
+                end = n - 1;
+            }
+            // If n is greater than the start, then it would lie after
+            else if(nums[n] > nums[start]) {
+                start = n + 1;
+            }
+        }
+        return 0;
+    }
     static int findInRotatedSortedArray(int[] nums, int target) {
         String url = "https://leetcode.com/problems/search-in-rotated-sorted-array/";
         int end = nums.length - 1;
@@ -74,9 +156,9 @@ public class BinarySearch {
         int n = (start + end) /2;
 
 
-        // Check if there is no pivot -> normal ascending array
+        // Check if there is no pivot -> normal ascending array, return -1
         if (nums[end] >= nums[n] && nums[n] >= nums[start]) {
-            return 0;
+            return -1;
         }
 
         // Ran only if there is a pivot
@@ -106,7 +188,7 @@ public class BinarySearch {
                 start = n + 1;
             }
         }
-        return -1;
+        return 0;
     }
     interface MountainArray {
         int[] arr = {0,10,50,2,0};
