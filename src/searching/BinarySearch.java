@@ -2,8 +2,8 @@ package searching;
 
 public class BinarySearch {
     public static void main(String[] args) {
-        int[] arr = {3,3,1,3,3,3,3};
-        int result = findTheRotationIndexOfRotatedSortedArrayWithDuplicates(arr);
+        int[] arr = {3,5,1};
+        boolean result = findInRotatedSortedArrayWithDuplicatesReturnBoolean(arr, 3);
         System.out.println(result);
     }
 
@@ -23,6 +23,50 @@ public class BinarySearch {
         // 2) Only elements that are to the right of the pivot would be smaller
         return nums[pivot + 1];
     }
+
+
+    static boolean findInRotatedSortedArrayWithDuplicatesReturnBoolean(int[] nums, int target) {
+        if (nums.length == 1) {
+            return nums[0] == target;
+        }
+        int end = nums.length -1;
+        // 1) Pivot
+        int pivot = findTheRotationIndexOfRotatedSortedArrayWithDuplicates(nums);
+        int value;
+
+
+        //2) If the pivot is at the end
+        if (pivot == -1) {
+            value = helperOrderAgnosticBinarySearch(nums,0, end, target, true);
+            if (value == -1) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        // 3) If there is a pivot, Check if pivot is the target
+        if (nums[pivot] == target) {
+            return true;
+        }
+
+        // 4) Check if value is in the left half or the right half
+
+        //Search the right half
+        if (target < nums[0] && target < nums[pivot]) {
+            value = helperOrderAgnosticBinarySearch(nums,pivot +1, end, target, true);
+        }
+        //Search left half
+        else {
+            value = helperOrderAgnosticBinarySearch(nums, 0, pivot-1, target, true);
+        }
+
+        if (value == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
     static int findTheRotationIndexOfRotatedSortedArrayWithDuplicates(int[] nums) {
         int start = 0;
         int end = nums.length - 1;
@@ -32,14 +76,11 @@ public class BinarySearch {
         // If start, middle and end are equal, Only the middle can be the pivot
         if (nums[end] == nums[start] && nums[start] == nums[n]) {
             end--;
-            start++;
         }
         // Check if there is no pivot -> normal ascending array
         else if (nums[end] >= nums[n] && nums[n] >= nums[start]){
             return -1;
         }
-
-
 
         // Ran only if there is a pivot
         while (start < end) {
@@ -74,7 +115,32 @@ public class BinarySearch {
                 start = n + 1;
             }
         }
-        return 0;
+        return start;
+    }
+    private static int helperOrderAgnosticBinarySearch(int[] arr, int start, int end, int target, boolean isAscending) {
+        while (start <= end) {
+            int n = (start + end )/2;
+            if (arr[n] == target) {
+                return n;
+            }
+
+            if (isAscending) {
+                if(target > arr[n]) {
+                    start = n+1;
+                } else {
+                    end = n-1;
+                }
+            }
+
+            else {
+                if(target > arr[n]) {
+                    end = n-1;
+                } else {
+                    start = n + 1;
+                }
+            }
+        }
+        return -1;
     }
 
 
@@ -206,31 +272,6 @@ public class BinarySearch {
 
         // 3) Apply binary search to the right half, since that's the only thing left
         return helperOrderAgnosticBinarySearch(nums, peakIndex + 1, end, target, true);
-    }
-    private static int helperOrderAgnosticBinarySearch(int[] arr, int start, int end, int target, boolean isAscending) {
-        while (start <= end) {
-            int n = (start + end )/2;
-            if (arr[n] == target) {
-                return n;
-            }
-
-            if (isAscending) {
-                if(target > arr[n]) {
-                    start = n+1;
-                } else {
-                    end = n-1;
-                }
-            }
-
-            else {
-                if(target > arr[n]) {
-                    end = n-1;
-                } else {
-                    start = n + 1;
-                }
-            }
-        }
-        return -1;
     }
     interface MountainArray {
         int[] arr = {0,10,50,2,0};
