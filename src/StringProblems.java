@@ -1,6 +1,6 @@
 public class StringProblems {
     public static void main(String[] args) {
-        String s = "malayalam";
+        String s = "abba";
         System.out.println(findPalindrome(s));
     }
 
