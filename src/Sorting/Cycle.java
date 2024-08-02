@@ -1,10 +1,57 @@
 package Sorting;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Cycle {
     public static void main(String[] args) {
-        int[] nums = {0,27,40,43,47,22,42,34,33,31,49,10,24,28,1,46,20,37,41,11,29,4,30,13,19,3,12,23,39,44,17,25,26,5,38,2,18,48,14,16,32,21,8,6,35,7,15,36,9};
-        int result = findMissingNumberIn0toN(nums);
-        System.out.println(result);
+        int[] nums = {1,2,4,4,7,7,7,3};
+
+//        System.out.println(findAllTheMissingNumbersIn1toNWithDuplicates(nums));
+//        System.out.println(Arrays.toString(findAllTheMissingNumbersIn1toNWithDuplicates(nums)));
+
+        helperCycleSortForMultipleMissingDuplicateNumbers1ToN(nums);
+        System.out.println(Arrays.toString(nums));
+    }
+
+    static List<Integer> findAllTheMissingNumbersIn1toNWithDuplicates(int[] nums) {
+        // 1 -> sort
+        helperCycleSortForMultipleMissingDuplicateNumbers1ToN(nums);
+
+        // 2 -> add duplicates to list
+        List<Integer> list = new ArrayList<>(1);
+
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] != i+1) {
+                list.add(i+1);
+            }
+        }
+        return list;
+    }
+    static void helperCycleSortForMultipleMissingDuplicateNumbers1ToN(int[] nums) {
+        int i = 0;
+        while (i < nums.length) {
+            // If it is correctly sorted, move ahead
+            int currentNumber = nums[i];
+            if (currentNumber == i+1) {
+                i++;
+            }
+            else {
+                // Check if it is a duplicate number or the final element
+                if (nums[currentNumber-1] == currentNumber ) {
+                    i++;
+                }
+                else{
+                    helperSwap(nums, i, (currentNumber-1));
+                }
+            }
+        }
+    }
+    static void helperSwap(int[] nums, int indexA, int indexB) {
+        int temp = nums[indexA];
+        nums[indexA] = nums[indexB];
+        nums[indexB] = temp;
     }
 
     static int findMissingNumberIn0toN(int[] nums) {
@@ -30,12 +77,6 @@ public class Cycle {
         }
         return nums.length;
     }
-    static void helperSwap(int[] nums, int indexA, int indexB) {
-        int temp = nums[indexA];
-        nums[indexA] = nums[indexB];
-        nums[indexB] = temp;
-    }
-
     static int findMissingNumberIn0toNnotOptimized(int[] nums) {
         int i = 0;
         int swaps = 0;
@@ -84,8 +125,6 @@ public class Cycle {
         }
         return  i;
     }
-
-
     static void simpleCycleSort(int[] nums) {
         int i = 0;
         while (i < nums.length) {
