@@ -6,28 +6,24 @@ import java.util.List;
 
 public class Cycle {
     public static void main(String[] args) {
-        int[] nums = {1,2,4,4,7,7,7,3};
+        int[] nums = {1,3,4,2,2};
 
 //        System.out.println(findAllTheMissingNumbersIn1toNWithDuplicates(nums));
 //        System.out.println(Arrays.toString(findAllTheMissingNumbersIn1toNWithDuplicates(nums)));
 
         helperCycleSortForMultipleMissingDuplicateNumbers1ToN(nums);
-        System.out.println(Arrays.toString(nums));
+        System.out.println(findOneDuplicateNumberIn1ToN(nums));
     }
 
-    static List<Integer> findAllTheMissingNumbersIn1toNWithDuplicates(int[] nums) {
-        // 1 -> sort
+    static int findOneDuplicateNumberIn1ToN(int[] nums) {
+        // Sort the array
         helperCycleSortForMultipleMissingDuplicateNumbers1ToN(nums);
-
-        // 2 -> add duplicates to list
-        List<Integer> list = new ArrayList<>(1);
-
         for (int i = 0; i < nums.length; i++) {
             if (nums[i] != i+1) {
-                list.add(i+1);
+                return nums[i];
             }
         }
-        return list;
+        return 0;
     }
     static void helperCycleSortForMultipleMissingDuplicateNumbers1ToN(int[] nums) {
         int i = 0;
@@ -54,6 +50,22 @@ public class Cycle {
         nums[indexB] = temp;
     }
 
+
+
+    static List<Integer> findAllTheMissingNumbersIn1toNWithDuplicates(int[] nums) {
+        // 1 -> sort
+        helperCycleSortForMultipleMissingDuplicateNumbers1ToN(nums);
+
+        // 2 -> add duplicates to list
+        List<Integer> list = new ArrayList<>(1);
+
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] != i+1) {
+                list.add(i+1);
+            }
+        }
+        return list;
+    }
     static int findMissingNumberIn0toN(int[] nums) {
         int i = 0;
         while (i < nums.length) {
