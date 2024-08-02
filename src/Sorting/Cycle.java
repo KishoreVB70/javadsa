@@ -6,10 +6,30 @@ import java.util.List;
 
 public class Cycle {
     public static void main(String[] args) {
-        int[] nums = {4,3,2,7,8,2,3,1};
-        System.out.println(findAllDuplicateNumbersIn1toN(nums));
+        int[] nums = {3,2,2};
+        System.out.println(Arrays.toString(findOneNumberMissingOneNumberDuplicate1ToN(nums)));
     }
 
+    static int[] findOneNumberMissingOneNumberDuplicate1ToN(int[] nums) {
+        // Sort it
+        helperCycleSortForMultipleMissingDuplicateNumbers1ToN(nums);
+
+        //Get the duplicate and the missing
+        int[] errorNums = new int[2];
+        for(int i = 0; i < nums.length; i++) {
+            if (nums[i] != i +1) {
+                errorNums[0] = nums[i];
+                errorNums[1] = i +1;
+                return errorNums;
+            }
+        }
+        return errorNums;
+    }
+    static void helperSwap(int[] nums, int indexA, int indexB) {
+        int temp = nums[indexA];
+        nums[indexA] = nums[indexB];
+        nums[indexB] = temp;
+    }
     static List<Integer>findAllDuplicateNumbersIn1toN(int[] nums) {
         // 1) sort
         helperCycleSortForMultipleMissingDuplicateNumbers1ToN(nums);
@@ -30,22 +50,18 @@ public class Cycle {
             int currentNumber = nums[i];
             if (currentNumber == i+1) {
                 i++;
+                continue;
             }
-            else {
-                // Check if it is a duplicate number or the final element
-                if (nums[currentNumber-1] == currentNumber ) {
-                    i++;
-                }
-                else{
-                    helperSwap(nums, i, (currentNumber-1));
-                }
+
+            // Check if it is a duplicate
+            if (nums[currentNumber-1] == currentNumber ) {
+                i++;
+            }
+            // If not duplicate, then swap
+            else{
+                helperSwap(nums, i, (currentNumber-1));
             }
         }
-    }
-    static void helperSwap(int[] nums, int indexA, int indexB) {
-        int temp = nums[indexA];
-        nums[indexA] = nums[indexB];
-        nums[indexB] = temp;
     }
     static int findOneDuplicateNumberIn1ToN(int[] nums) {
         int i = 0;
@@ -162,5 +178,4 @@ public class Cycle {
             }
         }
     }
-
 }
