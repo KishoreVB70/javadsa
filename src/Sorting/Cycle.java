@@ -16,14 +16,29 @@ public class Cycle {
     }
 
     static int findOneDuplicateNumberIn1ToN(int[] nums) {
-        // Sort the array
-        helperCycleSortForMultipleMissingDuplicateNumbers1ToN(nums);
-        for (int i = 0; i < nums.length; i++) {
-            if (nums[i] != i+1) {
-                return nums[i];
+        int i = 0;
+        while (i < nums.length) {
+            // If it is correctly sorted, move ahead
+            int currentNumber = nums[i];
+            if (currentNumber == i+1) {
+                i++;
+            }
+            else {
+                // Check if it is a duplicate number
+                if (nums[currentNumber-1] == currentNumber ) {
+                    return currentNumber;
+                }
+                else{
+                    helperSwap(nums, i, (currentNumber-1));
+                }
             }
         }
         return 0;
+    }
+    static void helperSwap(int[] nums, int indexA, int indexB) {
+        int temp = nums[indexA];
+        nums[indexA] = nums[indexB];
+        nums[indexB] = temp;
     }
     static void helperCycleSortForMultipleMissingDuplicateNumbers1ToN(int[] nums) {
         int i = 0;
@@ -43,11 +58,6 @@ public class Cycle {
                 }
             }
         }
-    }
-    static void helperSwap(int[] nums, int indexA, int indexB) {
-        int temp = nums[indexA];
-        nums[indexA] = nums[indexB];
-        nums[indexB] = temp;
     }
 
 
