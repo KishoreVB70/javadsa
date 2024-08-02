@@ -1,7 +1,10 @@
 package patterns;
 
+import javax.swing.plaf.IconUIResource;
+
 public class PatternQuestions {
     public static void main(String[] args) {
+
     }
 
     static void q1() {
@@ -71,7 +74,26 @@ public class PatternQuestions {
 
     }
     static void q8(){
+        for (int i = 1; i <= 5; i++) {
+            // Number of gaps
+            int numberOfGapsPerSide = (10 - (2*i))/2;
 
+            for (int j = 1; j <= numberOfGapsPerSide; j++) {
+                System.out.print(" ");
+            }
+
+            // Number of stars
+            int numberOfStars = (i + (i -1));
+
+            for (int j = 1; j <= numberOfStars ; j++) {
+                System.out.print("*");
+            }
+
+            for (int j = 1; j <= numberOfGapsPerSide; j++) {
+                System.out.print(" ");
+            }
+            System.out.println();
+        }
     }
     static void q9(){
 
