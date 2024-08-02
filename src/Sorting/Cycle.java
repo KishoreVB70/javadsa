@@ -6,9 +6,42 @@ import java.util.List;
 
 public class Cycle {
     public static void main(String[] args) {
-        int[] nums = {3,2,2};
-        System.out.println(Arrays.toString(findOneNumberMissingOneNumberDuplicate1ToN(nums)));
+        int[] nums = {1,1};
+        System.out.println(findFirstMissingPositiveNumberWithDuplicateNoRangeGiven(nums));
     }
+
+    static int findFirstMissingPositiveNumberWithDuplicateNoRangeGiven(int[] nums) {
+        // Sort
+        int i = 0;
+        while (i < nums.length) {
+            int currentNumber = nums[i];
+            if (currentNumber == i+1) {
+                i++;
+                continue;
+            }
+            if (currentNumber >= nums.length || currentNumber < 1 || nums[currentNumber -1 ] == currentNumber) {
+                i++;
+            }
+            else {
+                helperSwap(nums, i, currentNumber-1);
+            }
+        }
+
+        i = 0;
+        while (i < nums.length) {
+            if (nums[i] != i+1) {
+                return i+1;
+            }
+            i++;
+        }
+        return i+1;
+    }
+    static void helperSwap(int[] nums, int indexA, int indexB) {
+        int temp = nums[indexA];
+        nums[indexA] = nums[indexB];
+        nums[indexB] = temp;
+    }
+
 
     static int[] findOneNumberMissingOneNumberDuplicate1ToN(int[] nums) {
         // Sort it
@@ -24,11 +57,6 @@ public class Cycle {
             }
         }
         return errorNums;
-    }
-    static void helperSwap(int[] nums, int indexA, int indexB) {
-        int temp = nums[indexA];
-        nums[indexA] = nums[indexB];
-        nums[indexB] = temp;
     }
     static List<Integer>findAllDuplicateNumbersIn1toN(int[] nums) {
         // 1) sort
