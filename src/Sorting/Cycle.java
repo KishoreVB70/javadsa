@@ -6,39 +6,22 @@ import java.util.List;
 
 public class Cycle {
     public static void main(String[] args) {
-        int[] nums = {1,3,4,2,2};
-
-//        System.out.println(findAllTheMissingNumbersIn1toNWithDuplicates(nums));
-//        System.out.println(Arrays.toString(findAllTheMissingNumbersIn1toNWithDuplicates(nums)));
-
-        helperCycleSortForMultipleMissingDuplicateNumbers1ToN(nums);
-        System.out.println(findOneDuplicateNumberIn1ToN(nums));
+        int[] nums = {4,3,2,7,8,2,3,1};
+        System.out.println(findAllDuplicateNumbersIn1toN(nums));
     }
 
-    static int findOneDuplicateNumberIn1ToN(int[] nums) {
-        int i = 0;
-        while (i < nums.length) {
-            // If it is correctly sorted, move ahead
-            int currentNumber = nums[i];
-            if (currentNumber == i+1) {
-                i++;
-            }
-            else {
-                // Check if it is a duplicate number
-                if (nums[currentNumber-1] == currentNumber ) {
-                    return currentNumber;
-                }
-                else{
-                    helperSwap(nums, i, (currentNumber-1));
-                }
+    static List<Integer>findAllDuplicateNumbersIn1toN(int[] nums) {
+        // 1) sort
+        helperCycleSortForMultipleMissingDuplicateNumbers1ToN(nums);
+
+        List<Integer> duplicates = new ArrayList<>(1);
+
+        for (int i = 0; i < nums.length; i++) {
+            if(nums[i] != i+1) {
+                duplicates.add(nums[i]);
             }
         }
-        return 0;
-    }
-    static void helperSwap(int[] nums, int indexA, int indexB) {
-        int temp = nums[indexA];
-        nums[indexA] = nums[indexB];
-        nums[indexB] = temp;
+        return duplicates;
     }
     static void helperCycleSortForMultipleMissingDuplicateNumbers1ToN(int[] nums) {
         int i = 0;
@@ -59,9 +42,31 @@ public class Cycle {
             }
         }
     }
-
-
-
+    static void helperSwap(int[] nums, int indexA, int indexB) {
+        int temp = nums[indexA];
+        nums[indexA] = nums[indexB];
+        nums[indexB] = temp;
+    }
+    static int findOneDuplicateNumberIn1ToN(int[] nums) {
+        int i = 0;
+        while (i < nums.length) {
+            // If it is correctly sorted, move ahead
+            int currentNumber = nums[i];
+            if (currentNumber == i+1) {
+                i++;
+            }
+            else {
+                // Check if it is a duplicate number
+                if (nums[currentNumber-1] == currentNumber ) {
+                    return currentNumber;
+                }
+                else{
+                    helperSwap(nums, i, (currentNumber-1));
+                }
+            }
+        }
+        return 0;
+    }
     static List<Integer> findAllTheMissingNumbersIn1toNWithDuplicates(int[] nums) {
         // 1 -> sort
         helperCycleSortForMultipleMissingDuplicateNumbers1ToN(nums);
