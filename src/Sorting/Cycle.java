@@ -1,15 +1,42 @@
 package Sorting;
 
-import java.util.Arrays;
-
 public class Cycle {
     public static void main(String[] args) {
         int[] nums = {0,27,40,43,47,22,42,34,33,31,49,10,24,28,1,46,20,37,41,11,29,4,30,13,19,3,12,23,39,44,17,25,26,5,38,2,18,48,14,16,32,21,8,6,35,7,15,36,9};
-        int missing = findMissingNumberIn0toN(nums);
-        System.out.println(missing);
+        int result = findMissingNumberIn0toN(nums);
+        System.out.println(result);
     }
 
     static int findMissingNumberIn0toN(int[] nums) {
+        int i = 0;
+        while (i < nums.length) {
+            if (nums[i] == i) {
+                i++;
+            }
+            else {
+                if (nums[i] == nums.length) {
+                    i++;
+                }
+                else{
+                    helperSwap(nums, i, nums[i]);
+                }
+            }
+        }
+
+        for(int j = 0; j < nums.length; j++) {
+            if (nums[j] != j) {
+                return j;
+            }
+        }
+        return nums.length;
+    }
+    static void helperSwap(int[] nums, int indexA, int indexB) {
+        int temp = nums[indexA];
+        nums[indexA] = nums[indexB];
+        nums[indexB] = temp;
+    }
+
+    static int findMissingNumberIn0toNnotOptimized(int[] nums) {
         int i = 0;
         int swaps = 0;
         while (i < nums.length) {
@@ -56,11 +83,6 @@ public class Cycle {
             }
         }
         return  i;
-    }
-    static void helperSwap(int[] nums, int indexA, int indexB) {
-        int temp = nums[indexA];
-        nums[indexA] = nums[indexB];
-        nums[indexB] = temp;
     }
 
 
