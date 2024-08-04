@@ -59,5 +59,9 @@ public class MathematicProblems {
         return(mask & num);
     }
 
+    static int findtheRightMostSetInteger(int num) {
+        return 1;
+    }
+
 }
 
