@@ -3,7 +3,7 @@ package patterns;
 public class MathematicProblems {
     public static void main(String[] args) {
         int[] nums = {1,2,3,4,2,1,4};
-        System.out.println(findOneUniqueNumberInPositiveArray(nums));
+        System.out.println(findTheIthBit(9,2));
     }
 
     static boolean isOdd(int n) {
@@ -24,6 +24,20 @@ public class MathematicProblems {
             unique = unique ^ i;
         }
         return unique;
+    }
+
+    static int findTheIthBit(int num, int n) {
+        // 1 -> create mask
+        int mask = 1;
+        mask = mask << (n - 1);
+
+        // AND
+        mask = num & mask;
+
+        // Unshift
+        mask = mask >> (n-1);
+
+        return mask;
     }
 }
 
