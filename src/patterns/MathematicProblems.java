@@ -3,7 +3,7 @@ package patterns;
 public class MathematicProblems {
     public static void main(String[] args) {
         int[] nums = {1,2,3,4,2,1,4};
-        System.out.println(setTheIthBit(9,2));
+        System.out.println(unsetTheIthBit(9,4));
     }
 
     static boolean isOdd(int n) {
@@ -48,6 +48,15 @@ public class MathematicProblems {
         mask = mask | num;
 
         return mask;
+    }
+
+    static int unsetTheIthBit(int num, int n) {
+        // 1 -> create mask
+        int mask = 1 << (n-1);
+        // 2 -> Not the mask
+        mask = ~mask;
+        // 3 -> AND operation
+        return(mask & num);
     }
 
 }
