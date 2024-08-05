@@ -5,16 +5,32 @@ import java.util.Arrays;
 public class MathematicProblems {
     public static void main(String[] args) {
         int[] nums = {1,2,3,4,2,1,4};
-        findAllThePrimeNumbersTillN(50);
+        System.out.println(findTheSquareRootOfPerfectSquareNumbers(44));
     }
 
     static boolean isOdd(int n) {
         return ((n & 1) == 1);
     }
 
-//    static int findTheSquareRootOfPerfectSquareNumbers(int n) {
-//
-//    }
+    static int findTheSquareRootOfPerfectSquareNumbers(int n) {
+        int start = 0;
+        int end = n/2;
+
+        while (start < end) {
+            int m = (start + end)/2;
+
+            if (m*m == n) {
+                return m;
+            } else if (m*m > n) {
+                end = m -1;
+            } else {
+                start = m+1;
+            }
+        }
+
+        return end;
+
+    }
 
     static void findAllThePrimeNumbersTillN(int n) {
         boolean[] notPrime = new boolean[n+1];
