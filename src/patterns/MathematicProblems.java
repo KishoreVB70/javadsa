@@ -7,7 +7,21 @@ import java.util.List;
 public class MathematicProblems {
     public static void main(String[] args) {
         int[] nums = {1,2,3,4,2,1,4};
-        findTheFactorsOfNumber(20);
+        System.out.println(lcm(3,13));
+
+
+    }
+
+
+    static int lcm(int a, int b) {
+        int d = hcf(a, b);
+        return (a * b) / d;
+    }
+    static int hcf(int a, int b) {
+        if (a == 0) {
+            return  b;
+        }
+        return  hcf(b % a, a);
     }
 
     static boolean isOdd(int n) {
