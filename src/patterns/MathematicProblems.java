@@ -8,11 +8,10 @@ public class MathematicProblems {
     public static void main(String[] args) {
         int[] nums = {1,2,3,4,2,1,4};
         System.out.println(lcm(3,13));
-
-
     }
 
 
+    // Part 2
     static int lcm(int a, int b) {
         int d = hcf(a, b);
         return (a * b) / d;
@@ -23,11 +22,9 @@ public class MathematicProblems {
         }
         return  hcf(b % a, a);
     }
-
     static boolean isOdd(int n) {
         return ((n & 1) == 1);
     }
-
     static void findTheFactorsOfNumber(int n) {
         List<Integer> roots = new ArrayList<>();
 
@@ -42,7 +39,6 @@ public class MathematicProblems {
             System.out.print(roots.get(i) + " ");
         }
     }
-
     static int findTheSquareRootOfPerfectSquareNumbers(int n) {
         int start = 0;
         int end = n/2;
@@ -62,7 +58,6 @@ public class MathematicProblems {
         return end;
 
     }
-
     static void findAllThePrimeNumbersTillN(int n) {
         boolean[] notPrime = new boolean[n+1];
         // Outer for loop
@@ -97,6 +92,8 @@ public class MathematicProblems {
         }
     }
 
+
+    // Part 1
     static int findOneNonDuplicateNumberInNegativePositiveArray(int[] nums) {
         int sum = 0;
         for(int i: nums) {
@@ -104,7 +101,6 @@ public class MathematicProblems {
         }
         return sum;
     }
-
     static  int findOneUniqueNumberInPositiveArray(int[] nums) {
         int unique = 0;
         for(int i: nums) {
@@ -112,7 +108,6 @@ public class MathematicProblems {
         }
         return unique;
     }
-
     static int findTheIthBit(int num, int n) {
         // 1 -> create mask
         int mask = 1;
@@ -126,7 +121,6 @@ public class MathematicProblems {
 
         return mask;
     }
-
     static int setTheIthBit(int num, int n) {
         // 1 -> create mask
         int mask = 1 << (n - 1);
@@ -136,7 +130,6 @@ public class MathematicProblems {
 
         return mask;
     }
-
     static int unsetTheIthBit(int num, int n) {
         // 1 -> create mask
         int mask = 1 << (n-1);
@@ -145,10 +138,8 @@ public class MathematicProblems {
         // 3 -> AND operation
         return(mask & num);
     }
-
     static int findtheRightMostSetInteger(int num) {
         return 1;
     }
-
 }
 
