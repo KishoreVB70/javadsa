@@ -1,10 +1,21 @@
 public class Recursion {
     public static void main(String[] args) {
         int[] nums = {1,2,3,4,5,6,7,8,9,10,12,13};
-        System.out.println(numberOfZeros(1201010));
+        System.out.println(numberOfStepsToReduceTo0(14));
     }
 
 
+    // Basic easy questions
+    static int numberOfStepsToReduceTo0(int n) {
+        // Base condition
+        if (n == 0) {
+            return 0;
+        }
+        if (n % 2 == 0) {
+            return 1 + numberOfStepsToReduceTo0(n/2);
+        }
+        else return 1+ numberOfStepsToReduceTo0(n-1);
+    }
     static int numberOfZeros(int number) {
         // Base condition
         if (number < 10) {
