@@ -1,14 +1,27 @@
 public class Recursion {
     public static void main(String[] args) {
         int[] nums = {1,2,3,4,5,6,7,8,9,10,12,13};
-        System.out.println(reverseANumber(1342));
+        System.out.println(numberOfZeros(1201010));
     }
 
 
+    static int numberOfZeros(int number) {
+        // Base condition
+        if (number < 10) {
+            return number == 0?1:0;
+        }
 
+        if (number % 10 == 0) {
+            return 1 + numberOfZeros(number/10);
+        }
+        return numberOfZeros(number/10);
+    }
+    static boolean palindromeNumber(int number) {
+        return  (number == reverseANumber(number));
+    }
     static int reverseANumber(int number) {
         // Base condition
-        if (number / 10 < 1) {
+        if (number < 10) {
             return number;
         }
 
