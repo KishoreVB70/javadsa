@@ -5,6 +5,7 @@ public class Recursion {
     }
 
 
+
     static int reverseANumber(int number) {
         // Base condition
         if (number / 10 < 1) {
@@ -12,10 +13,8 @@ public class Recursion {
         }
 
         // Finding the position of the number
-        int position = 1;
-        for (int i = number; i >= 10; i= i/10) {
-            position *= 10;
-        }
+        int digits =  (int)Math.log10(number);
+        int position = (int) Math.pow(10, digits);
 
         // Obtaining the last number
         int lastDigit = number % 10;
