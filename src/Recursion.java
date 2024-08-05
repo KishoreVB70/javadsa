@@ -1,20 +1,28 @@
 public class Recursion {
     public static void main(String[] args) {
         int[] nums = {1,2,3,4,5,6,7,8,9,10,12,13};
-        System.out.println(reverseANumber(1342, 1000));
+        System.out.println(reverseANumber(1342));
     }
 
 
-    static int reverseANumber(int number, int position) {
+    static int reverseANumber(int number) {
         // Base condition
         if (number / 10 < 1) {
             return number;
         }
 
+        // Finding the position of the number
+        int position = 1;
+        for (int i = number; i >= 10; i= i/10) {
+            position *= 10;
+        }
+
+        // Obtaining the last number
         int lastDigit = number % 10;
         int newNumber = lastDigit * position;
 
-        return (newNumber + reverseANumber(number/10, position/10));
+        // Returning
+        return (newNumber + reverseANumber(number/10));
     }
     static int productOfDigitsOfNum(int n) {
         if (n / 10 < 1) {
