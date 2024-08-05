@@ -1,12 +1,29 @@
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Recursion {
     public static void main(String[] args) {
-        int[] nums = {1,2,3,4,5,6,7,8,9,10,12,13};
-        System.out.println(linearSearchIndex(nums, 13));
+        int[] nums = {1,2,3,13,13,4,5,6,7,8,9,10,12,13};
+        System.out.println(linearSearchMultipleIndex(nums, 13));
     }
 
     // Array problems
+
+    static List<Integer> linearSearchMultipleIndex(int[] nums, int num) {
+        List<Integer> list = new ArrayList<>(1);
+        helperLinearSearchMultipleIndex(nums, num, 0, list);
+        return list;
+    }
+
+    static void helperLinearSearchMultipleIndex(int[] nums, int num, int n, List<Integer> list) {
+        if (nums[n] == num) list.add(n);
+
+        if (n == nums.length - 1) {
+            return;
+        }
+        helperLinearSearchMultipleIndex(nums, num, n+1, list);
+    }
 
     static boolean linearSearchBool(int[] nums, int num) {
         return helperLinearSearchBool(nums, num, 0);
