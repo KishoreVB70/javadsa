@@ -4,23 +4,47 @@ import java.util.List;
 
 public class Recursion {
     public static void main(String[] args) {
-        int[] nums = {1,2,3,4};
-        System.out.println(findPivotInRotateArray(nums));
+        int[] nums = {5,1,2,3,4};
+        System.out.println(findInRotatedArray(nums, 0));
     }
 
     // Array problems
 
+    static int findInRotatedArray(int[] nums, int target) {
+        // 1) find pivot
+        int pivot = findPivotInRotateArray(nums);
+
+        // 2) Check if pivot is the target
+        if (nums[pivot] == target) {
+            return pivot;
+        }
+
+        // 3) If non-rotated array
+        if (pivot == nums.length - 1) {
+            return binarySearchViaRecursion(nums, 0 , pivot, target);
+        }
+
+        // 4) If a target out of bounds is given
+        if (target > nums[pivot] || target < nums[pivot+1]) {
+            return -1;
+        }
+
+        // 5) If rotated array
+        return target < nums[0]
+                ?binarySearchViaRecursion(nums, pivot+1, nums.length-1, target)
+                :binarySearchViaRecursion(nums, 0, pivot -1, target);
+    }
+
     static int findPivotInRotateArray(int[] nums) {
         int end = nums.length-1;
         // If no pivot
-        if (nums[0] < nums[end/2] || nums[end/2] < nums[end]) {
+        if (nums[0] < nums[end/2] && nums[end/2] < nums[end]) {
             return end;
         }
 
         return helperFindPivotInRotateArray(nums, 0, end);
 
     }
-
     static int helperFindPivotInRotateArray(int[] nums, int start, int end) {
 
         // Base condition
@@ -29,7 +53,6 @@ public class Recursion {
         }
 
         int m = (start + end) / 2;
-
 
         // If pivot is found
         if (nums[m] > nums[m+1]) {
@@ -44,7 +67,6 @@ public class Recursion {
         } else {
             return helperFindPivotInRotateArray(nums, m+1, end);
         }
-
     }
 
     static List<Integer> linearSearchMultipleIndex(int[] nums, int num) {
