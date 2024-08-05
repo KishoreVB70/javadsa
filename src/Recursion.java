@@ -1,11 +1,17 @@
 public class Recursion {
     public static void main(String[] args) {
         int[] nums = {1,2,3,4,5,6,7,8,9,10,12,13};
-        System.out.println(binarySearch(nums, 0, nums.length - 1, 1));
+        System.out.println(factorialMan(4));
     }
 
 
-    static int binarySearch(int[] nums, int start, int end, int target) {
+    static int factorialMan(int n) {
+        if (n == 1) {
+            return 1;
+        }
+        return n * factorialMan(n-1);
+    }
+    static int binarySearchViaRecursion(int[] nums, int start, int end, int target) {
         // Base condition -> target is not in the array
         if (start > end) {
             return -1;
@@ -19,10 +25,10 @@ public class Recursion {
             return n;
         }
         else if (currentValue > target) {
-            return binarySearch(nums, start, n-1, target);
+            return binarySearchViaRecursion(nums, start, n-1, target);
         }
         else  {
-            return binarySearch(nums, n+1, end, target);
+            return binarySearchViaRecursion(nums, n+1, end, target);
         }
     }
     static int fibonacciNumber(int n) {

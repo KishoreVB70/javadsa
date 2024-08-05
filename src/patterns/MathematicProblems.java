@@ -6,8 +6,7 @@ import java.util.List;
 
 public class MathematicProblems {
     public static void main(String[] args) {
-        int[] nums = {1,2,3,4,2,1,4};
-        System.out.println(lcm(3,13));
+        System.out.println("Hi");
     }
 
 
