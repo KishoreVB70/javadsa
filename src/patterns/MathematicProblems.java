@@ -5,11 +5,28 @@ import java.util.Arrays;
 public class MathematicProblems {
     public static void main(String[] args) {
         int[] nums = {1,2,3,4,2,1,4};
-        System.out.println(findTheSquareRootOfPerfectSquareNumbers(44));
+        findTheFactorsOfNumber(20);
     }
 
     static boolean isOdd(int n) {
         return ((n & 1) == 1);
+    }
+
+    static void findTheFactorsOfNumber(int n) {
+        int[] factors = new int[10];
+        boolean[] isNotFactor = new boolean[n];
+        for (int i = 2; i < n; i++) {
+            if (n % i != 0) {
+                isNotFactor[i] = true;
+            }
+        }
+        for (int i = 1; i < n; i++) {
+            if (!isNotFactor[i]) {
+                System.out.printf("%d is a factor", i);
+                System.out.println();
+            }
+
+        }
     }
 
     static int findTheSquareRootOfPerfectSquareNumbers(int n) {
