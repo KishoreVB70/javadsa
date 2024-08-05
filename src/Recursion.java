@@ -1,13 +1,19 @@
 public class Recursion {
     public static void main(String[] args) {
         int[] nums = {1,2,3,4,5,6,7,8,9,10,12,13};
-        System.out.println(factorialMan(4));
+        System.out.println(sumOfDigitsOfNum(523));
     }
 
 
+    static int sumOfDigitsOfNum(int n) {
+        if (n % 10 < 1) {
+            return n;
+        }
+        return (n % 10) + sumOfDigitsOfNum(n/10);
+    }
     static int factorialMan(int n) {
-        if (n == 1) {
-            return 1;
+        if (n == 2) {
+            return 2;
         }
         return n * factorialMan(n-1);
     }
