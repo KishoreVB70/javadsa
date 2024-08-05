@@ -3,24 +3,39 @@ import java.util.Arrays;
 public class Recursion {
     public static void main(String[] args) {
         int[] nums = {1,2,3,4,5,6,7,8,9,10,12,13};
-        System.out.println(findIfArrayIsSorted(nums));
+        System.out.println(linearSearchBool(nums, 14));
     }
 
     // Array problems
-    static boolean findIfArrayIsSorted(int[] n) {
-        return helperFindIfArrayIsSorted(n, 0);
+
+    static boolean linearSearchBool(int[] nums, int num) {
+        return helperLinearSearchBool(nums, num, 0);
     }
-    static  boolean helperFindIfArrayIsSorted(int[] arr, int n) {
+    static boolean helperLinearSearchBool(int[] nums, int num, int n) {
+        if (n == nums.length -1 ) {
+            return (nums[n] == num);
+        }
+
+        if (nums[n] == num) {
+            return true;
+        }
+
+        return helperLinearSearchBool(nums, num, n+1);
+    }
+    static boolean findIfArrayIsSorted(int[] n) {
+        return helperFindIfArrayIsSortedLinear(n, 0);
+    }
+    static  boolean helperFindIfArrayIsSortedLinear(int[] arr, int n) {
         // Base condition
         if (n == arr.length - 1) {
             return true;
         }
         if (arr[n] <= arr[n+1]) {
-            return helperFindIfArrayIsSorted(arr, n+1);
+            return helperFindIfArrayIsSortedLinear(arr, n+1);
         }
         return false;
     }
-
+    // Flopped problem
     static boolean helperFindIfArrayIsSortedBinary(int[] n, int start, int end) {
         int m = (start + end) / 2;
         // Base Condition
