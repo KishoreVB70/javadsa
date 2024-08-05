@@ -4,18 +4,54 @@ import java.util.List;
 
 public class Recursion {
     public static void main(String[] args) {
-        int[] nums = {1,2,3,13,13,4,5,6,7,8,9,10,12,13};
-        System.out.println(linearSearchMultipleIndex(nums, 13));
+        int[] nums = {1,2,3,4};
+        System.out.println(findPivotInRotateArray(nums));
     }
 
     // Array problems
+
+    static int findPivotInRotateArray(int[] nums) {
+        int end = nums.length-1;
+        // If no pivot
+        if (nums[0] < nums[end/2] || nums[end/2] < nums[end]) {
+            return end;
+        }
+
+        return helperFindPivotInRotateArray(nums, 0, end);
+
+    }
+
+    static int helperFindPivotInRotateArray(int[] nums, int start, int end) {
+
+        // Base condition
+        if (start >= end) {
+            return start;
+        }
+
+        int m = (start + end) / 2;
+
+
+        // If pivot is found
+        if (nums[m] > nums[m+1]) {
+            return m;
+        } else if (nums[m-1] > nums[m]) {
+            return  m-1;
+        }
+
+        // If no pivot
+        if (nums[m] < nums[start]) {
+            return helperFindPivotInRotateArray(nums, start, m-2);
+        } else {
+            return helperFindPivotInRotateArray(nums, m+1, end);
+        }
+
+    }
 
     static List<Integer> linearSearchMultipleIndex(int[] nums, int num) {
         List<Integer> list = new ArrayList<>(1);
         helperLinearSearchMultipleIndex(nums, num, 0, list);
         return list;
     }
-
     static void helperLinearSearchMultipleIndex(int[] nums, int num, int n, List<Integer> list) {
         if (nums[n] == num) list.add(n);
 
@@ -24,7 +60,6 @@ public class Recursion {
         }
         helperLinearSearchMultipleIndex(nums, num, n+1, list);
     }
-
     static boolean linearSearchBool(int[] nums, int num) {
         return helperLinearSearchBool(nums, num, 0);
     }
