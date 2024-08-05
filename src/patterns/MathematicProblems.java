@@ -1,6 +1,8 @@
 package patterns;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class MathematicProblems {
     public static void main(String[] args) {
@@ -13,19 +15,17 @@ public class MathematicProblems {
     }
 
     static void findTheFactorsOfNumber(int n) {
-        int[] factors = new int[10];
-        boolean[] isNotFactor = new boolean[n];
-        for (int i = 2; i < n; i++) {
-            if (n % i != 0) {
-                isNotFactor[i] = true;
+        List<Integer> roots = new ArrayList<>();
+
+        for (int i = 1; i <= Math.sqrt(n); i++) {
+            if (n % i == 0) {
+                System.out.print(i + " ");
+                roots.add(n/i);
             }
         }
-        for (int i = 1; i < n; i++) {
-            if (!isNotFactor[i]) {
-                System.out.printf("%d is a factor", i);
-                System.out.println();
-            }
 
+        for (int i = roots.size() - 1; i >= 0; i--) {
+            System.out.print(roots.get(i) + " ");
         }
     }
 
