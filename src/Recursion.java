@@ -1,7 +1,39 @@
+import java.util.Arrays;
+
 public class Recursion {
     public static void main(String[] args) {
         int[] nums = {1,2,3,4,5,6,7,8,9,10,12,13};
-        System.out.println(numberOfStepsToReduceTo0(14));
+        System.out.println(findIfArrayIsSorted(nums));
+    }
+
+    // Array problems
+    static boolean findIfArrayIsSorted(int[] n) {
+        return helperFindIfArrayIsSorted(n, 0);
+    }
+    static  boolean helperFindIfArrayIsSorted(int[] arr, int n) {
+        // Base condition
+        if (n == arr.length - 1) {
+            return true;
+        }
+        if (arr[n] <= arr[n+1]) {
+            return helperFindIfArrayIsSorted(arr, n+1);
+        }
+        return false;
+    }
+
+    static boolean helperFindIfArrayIsSortedBinary(int[] n, int start, int end) {
+        int m = (start + end) / 2;
+        // Base Condition
+        if (start >= end) {
+            return true;
+        }
+
+        if (n[start] <= n[m] && n[m] <= n[end] ) {
+            return helperFindIfArrayIsSortedBinary(n,start+1, end-1 );
+        }
+        else {
+            return false;
+        }
     }
 
 
