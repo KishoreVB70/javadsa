@@ -3,7 +3,7 @@ import java.util.Arrays;
 public class Recursion {
     public static void main(String[] args) {
         int[] nums = {1,2,3,4,5,6,7,8,9,10,12,13};
-        System.out.println(linearSearchBool(nums, 14));
+        System.out.println(linearSearchIndex(nums, 12));
     }
 
     // Array problems
@@ -21,6 +21,20 @@ public class Recursion {
         }
 
         return helperLinearSearchBool(nums, num, n+1);
+    }
+    static int linearSearchIndex(int[] nums, int num) {
+        return helperLinearSearchIndex(nums, num, 0);
+    }
+    static int helperLinearSearchIndex(int[] nums, int num, int n) {
+        if (n == nums.length -1 ) {
+            return (nums[n] == num)?n:-1;
+        }
+
+        if (nums[n] == num) {
+            return n;
+        }
+
+        return helperLinearSearchIndex(nums, num, n+1);
     }
     static boolean findIfArrayIsSorted(int[] n) {
         return helperFindIfArrayIsSortedLinear(n, 0);
