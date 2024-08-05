@@ -5,31 +5,49 @@ import java.util.Arrays;
 public class MathematicProblems {
     public static void main(String[] args) {
         int[] nums = {1,2,3,4,2,1,4};
-        System.out.println(Arrays.toString(findAllThePrimeNumbersTillN(20)));
+        findAllThePrimeNumbersTillN(50);
     }
 
     static boolean isOdd(int n) {
         return ((n & 1) == 1);
     }
 
-    static int[] findAllThePrimeNumbersTillN(int n) {
-        int[] result = new int[20];
-        int k = 0;
+//    static int findTheSquareRootOfPerfectSquareNumbers(int n) {
+//
+//    }
+
+    static void findAllThePrimeNumbersTillN(int n) {
+        boolean[] notPrime = new boolean[n+1];
+        // Outer for loop
         for (int i = 2; i <= n; i++) {
-            boolean continuer = false;
+            if (notPrime[i]) {
+                continue;
+            }
+
+            boolean primer = true;
+
+            // Check if prime
             for (int j = 2; j <= Math.sqrt(i); j++) {
                 if (i % j == 0) {
-                    continuer = true;
+                    primer = false;
                     break;
                 }
             }
-            if (continuer) {
-                continue;
+
+            if (primer) {
+                // Eliminate all the multiples of i
+                for (int k = 2*i; k <= n; k = k+i) {
+                    notPrime[k] = true;
+                }
             }
-            result[k] = i;
-            k++;
         }
-        return result;
+
+        for (int i = 2; i <= n; i++) {
+            if (!notPrime[i]) {
+                System.out.printf("%d is prime", i);
+                System.out.println();
+            }
+        }
     }
 
     static int findOneNonDuplicateNumberInNegativePositiveArray(int[] nums) {
