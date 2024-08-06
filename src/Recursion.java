@@ -10,21 +10,32 @@ public class Recursion {
 
     // Pattern problems
     static void printStars(int n) {
-        helperPrintStarsReverse(1, 1, n);
+        helperPrintStarsReversePure(n, 1);
     }
 
     static void helperPrintStars(int row, int column) {
         if (row == 0) {
             return;
         }
-        System.out.print("*");
         if (column == row) {
             System.out.println();
             helperPrintStars(--row, 1);
         } else {
             helperPrintStars(row, ++column);
         }
+    }
 
+    static void helperPrintStarsReversePure(int row, int column) {
+        if ( row == 0) {
+            return;
+        }
+        if (column <= row) {
+            helperPrintStarsReversePure(row, ++column);
+            System.out.print("*");
+        } else {
+            helperPrintStarsReversePure(--row, 1);
+            System.out.println();
+        }
     }
     static void helperPrintStarsReverse(int row, int column, int n) {
         if (row == n+1) {
