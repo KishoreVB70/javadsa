@@ -4,10 +4,35 @@ import java.util.List;
 
 public class Recursion {
     public static void main(String[] args) {
-        System.out.println(removeTargetStringInString("kacha mango bite fight uh maa mangop mango madura kani", "mango"));
+        System.out.println(printAllSubsetsOfString("abc").toString());
     }
 
     // String
+
+    // Subset problems
+    static List<String> printAllSubsetsOfString(String original) {
+        List<String> stList = new ArrayList<>(original.length() * 2);
+        helperPrintAllSubsetsOfString(stList, original, "");
+        return stList;
+    }
+
+    static void helperPrintAllSubsetsOfString(List<String> stList, String original, String processed) {
+        // Base condition
+        if (original.isEmpty()) {
+            if (processed.isEmpty()) {
+                return;
+            }
+            stList.add(processed);
+            return;
+        }
+        // Add
+        helperPrintAllSubsetsOfString(stList, original.substring(1), processed + original.charAt(0));
+
+        // Ignore
+        helperPrintAllSubsetsOfString(stList, original.substring(1), processed);
+    }
+
+    // Basic strings
     static String removeTargetStringInString(String original, String target) {
         // Base condition
         if (original.isEmpty()) {
@@ -35,7 +60,6 @@ public class Recursion {
 
 
     }
-
     static String removeTargetCharInStringReturn(String original , char target) {
         // Base condition
         if (original.isEmpty()) {
