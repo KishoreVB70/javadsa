@@ -12,8 +12,32 @@ public class Recursion {
     // Selection sort
     static void selectionSort(int[] nums) {
         // Find the largest
-        helperSelectionSort(nums, nums.length -1);
+//        helperSelectionSort(nums, nums.length -1);
         // Sort it in the right place
+
+        helperSelectionSortIntegrated(nums, 1, nums.length -1, 0);
+    }
+
+    static void helperSelectionSortIntegrated(int[] nums, int n, int end, int largest) {
+        // Base condition for outer
+        if (end <= 0) {
+            return;
+        }
+
+        // Base condition for inner
+        if (n > end) {
+            // Swap
+            helperSwap(nums, largest, end);
+            helperSelectionSortIntegrated(nums, 1, --end, 0);
+            return;
+        }
+
+        if (nums[n] > nums[largest]) {
+            largest = n;
+            helperSelectionSortIntegrated(nums, ++n, end, largest);
+        } else {
+            helperSelectionSortIntegrated(nums, ++n, end, largest);
+        }
     }
 
     static void helperSelectionSort(int[] nums, int end) {
