@@ -11,13 +11,9 @@ public class Recursion {
 
     // Selection sort
     static void selectionSort(int[] nums) {
-        // Find the largest
-//        helperSelectionSort(nums, nums.length -1);
-        // Sort it in the right place
-
+        //helperSelectionSort(nums, nums.length -1);
         helperSelectionSortIntegrated(nums, 1, nums.length -1, 0);
     }
-
     static void helperSelectionSortIntegrated(int[] nums, int n, int end, int largest) {
         // Base condition for outer
         if (end <= 0) {
@@ -39,7 +35,6 @@ public class Recursion {
             helperSelectionSortIntegrated(nums, ++n, end, largest);
         }
     }
-
     static void helperSelectionSort(int[] nums, int end) {
         // Base condition
         if (end <= 0) {
@@ -54,7 +49,6 @@ public class Recursion {
         // Iteration
         helperSelectionSort(nums, --end);
     }
-
     static int helperFindLargest(int[] nums, int n, int end, int largest) {
         if (n > end) {
             return largest;
@@ -67,6 +61,7 @@ public class Recursion {
             return helperFindLargest(nums, ++n, end, largest);
         }
     }
+
 
     // Bubble sort
     static void bubbleSort(int[] nums) {
@@ -149,6 +144,7 @@ public class Recursion {
         }
         System.out.println();
     }
+
 
     // Array problems
     static int FindInRotatedArrayWithoutPivot(int[] nums, int target) {
