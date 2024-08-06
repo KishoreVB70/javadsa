@@ -4,9 +4,41 @@ import java.util.List;
 
 public class Recursion {
     public static void main(String[] args) {
-        int[] nums = {3,5,1,4,2};
-        selectionSort(nums);
-        System.out.println(Arrays.toString(nums));
+        System.out.println(removeTargetCharInStringReturn("kacha mango bite fight uh maa", 'a'));
+
+    }
+
+    // String
+    static String removeTargetCharInStringReturn(String original , char target) {
+        // Base condition
+        if (original.isEmpty()) {
+            return "";
+        }
+
+        if (original.charAt(0) == target) {
+            return removeTargetCharInStringReturn(original.substring(1) , target);
+        } else {
+            return original.charAt(0) + removeTargetCharInStringReturn(original.substring(1) , target);
+        }
+    }
+
+
+
+    static void removeTargetElementInStringPrint(String original, char target) {
+        String processed = "";
+
+        helperRemoveTargetElementInStringPrint(original, processed, target);
+
+    }
+    static void helperRemoveTargetElementInStringPrint(String original, String processed, char target) {
+        if (original.isEmpty()) {
+            System.out.println(processed);
+            return;
+        }
+        if (original.charAt(0) != target) {
+            processed += original.charAt(0);
+        }
+        helperRemoveTargetElementInStringPrint(original.substring(1), processed, target);
     }
 
     // Selection sort
