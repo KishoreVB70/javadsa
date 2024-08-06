@@ -10,12 +10,29 @@ public class Recursion {
     // String
 
     // Subset problems
+    static void helperPrintAllSubsetsAlongWithAscii(List<String> stList, String original, String processed) {
+        // Base condition
+        if (original.isEmpty()) {
+            if (processed.isEmpty()) {
+                return;
+            }
+            stList.add(processed);
+            return;
+        }
+        // Add
+        helperPrintAllSubsetsAlongWithAscii(stList, original.substring(1), processed + original.charAt(0));
+
+        // Add the ascii value
+        helperPrintAllSubsetsAlongWithAscii(stList, original.substring(1), (processed +  (int)original.charAt(0) ) );
+
+        // Ignore
+        helperPrintAllSubsetsAlongWithAscii(stList, original.substring(1), processed);
+    }
     static List<String> printAllSubsetsOfString(String original) {
         List<String> stList = new ArrayList<>(original.length() * 2);
-        helperPrintAllSubsetsOfString(stList, original, "");
+        helperPrintAllSubsetsAlongWithAscii(stList, original, "");
         return stList;
     }
-
     static void helperPrintAllSubsetsOfString(List<String> stList, String original, String processed) {
         // Base condition
         if (original.isEmpty()) {
