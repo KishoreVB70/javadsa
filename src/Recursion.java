@@ -4,16 +4,50 @@ import java.util.List;
 
 public class Recursion {
     public static void main(String[] args) {
-        int[] nums = {5,4,1,2,3};
-        bubbleSort(nums);
+        int[] nums = {3,5,1,4,2};
+        selectionSort(nums);
         System.out.println(Arrays.toString(nums));
+    }
+
+    // Selection sort
+    static void selectionSort(int[] nums) {
+        // Find the largest
+        helperSelectionSort(nums, nums.length -1);
+        // Sort it in the right place
+    }
+
+    static void helperSelectionSort(int[] nums, int end) {
+        // Base condition
+        if (end <= 0) {
+            return;
+        }
+
+        // 1 -> find the largest element
+        int largestElement = helperFindLargest(nums,1, end, 0);
+        // 2 -> sort it in right place
+        helperSwap(nums, largestElement, end);
+
+        // Iteration
+        helperSelectionSort(nums, --end);
+    }
+
+    static int helperFindLargest(int[] nums, int n, int end, int largest) {
+        if (n > end) {
+            return largest;
+        }
+
+        if (nums[n] > nums[largest]) {
+            largest = n;
+            return helperFindLargest(nums, ++n, end, largest);
+        } else {
+            return helperFindLargest(nums, ++n, end, largest);
+        }
     }
 
     // Bubble sort
     static void bubbleSort(int[] nums) {
         helperBubbleSort(nums, 0, 0, nums.length - 1);
     }
-
     static void helperBubbleSort(int[] nums, int n, int swaps, int end) {
         // Base condition for one row
         if (n >= end) {
@@ -33,7 +67,6 @@ public class Recursion {
             helperBubbleSort(nums, ++n, swaps, end);
         }
     }
-
     static  void helperSwap(int[] nums, int indexA, int indexB) {
         int temp = nums[indexA];
         nums[indexA] = nums[indexB];
