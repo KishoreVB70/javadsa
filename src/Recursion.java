@@ -11,14 +11,14 @@ public class Recursion {
 
     // Bubble sort
     static void bubbleSort(int[] nums) {
-        helperBubbleSort(nums, 0, 0);
+        helperBubbleSort(nums, 0, 0, nums.length - 1);
     }
 
-    static void helperBubbleSort(int[] nums, int n, int swaps) {
+    static void helperBubbleSort(int[] nums, int n, int swaps, int end) {
         // Base condition for one row
-        if (n >= nums.length - 1) {
+        if (n >= end) {
             if (swaps > 1) {
-                helperBubbleSort(nums, 0, 0);
+                helperBubbleSort(nums, 0, 0, --end);
                 return;
             } else {
                 return;
@@ -28,9 +28,9 @@ public class Recursion {
         // Swap if smaller, if not smaller, move on to the next num
         if (nums[n] > nums[n+1]) {
             helperSwap(nums, n, n+1);
-            helperBubbleSort(nums, ++n, ++swaps);
+            helperBubbleSort(nums, ++n, ++swaps, end);
         } else {
-            helperBubbleSort(nums, ++n, swaps);
+            helperBubbleSort(nums, ++n, swaps, end);
         }
     }
 
