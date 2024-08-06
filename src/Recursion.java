@@ -4,15 +4,47 @@ import java.util.List;
 
 public class Recursion {
     public static void main(String[] args) {
-        int[] nums = {5,1,2,3,4};
-        printStars(5);
+        int[] nums = {5,4,1,2,3};
+        bubbleSort(nums);
+        System.out.println(Arrays.toString(nums));
     }
+
+    // Bubble sort
+    static void bubbleSort(int[] nums) {
+        helperBubbleSort(nums, 0, 0);
+    }
+
+    static void helperBubbleSort(int[] nums, int n, int swaps) {
+        // Base condition for one row
+        if (n >= nums.length - 1) {
+            if (swaps > 1) {
+                helperBubbleSort(nums, 0, 0);
+                return;
+            } else {
+                return;
+            }
+        }
+
+        // Swap if smaller, if not smaller, move on to the next num
+        if (nums[n] > nums[n+1]) {
+            helperSwap(nums, n, n+1);
+            helperBubbleSort(nums, ++n, ++swaps);
+        } else {
+            helperBubbleSort(nums, ++n, swaps);
+        }
+    }
+
+    static  void helperSwap(int[] nums, int indexA, int indexB) {
+        int temp = nums[indexA];
+        nums[indexA] = nums[indexB];
+        nums[indexB] = temp;
+    }
+
 
     // Pattern problems
     static void printStars(int n) {
         helperPrintStarsReversePure(n, 1);
     }
-
     static void helperPrintStars(int row, int column) {
         if (row == 0) {
             return;
@@ -24,7 +56,6 @@ public class Recursion {
             helperPrintStars(row, ++column);
         }
     }
-
     static void helperPrintStarsReversePure(int row, int column) {
         if ( row == 0) {
             return;
