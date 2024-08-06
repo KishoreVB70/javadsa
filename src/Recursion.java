@@ -4,11 +4,38 @@ import java.util.List;
 
 public class Recursion {
     public static void main(String[] args) {
-        System.out.println(removeTargetCharInStringReturn("kacha mango bite fight uh maa", 'a'));
-
+        System.out.println(removeTargetStringInString("kacha mango bite fight uh maa mangop mango madura kani", "mango"));
     }
 
     // String
+    static String removeTargetStringInString(String original, String target) {
+        // Base condition
+        if (original.isEmpty()) {
+            return "";
+        }
+
+        // Obtain the next word
+        int blankIndex = original.indexOf(' ');
+        // Base condition
+        if (blankIndex == -1) {
+            if (original.equals(target) ) {
+                return "";
+            }
+            return original;
+
+        }
+
+        String currentString = original.substring(0, blankIndex);
+        if (currentString.equals(target) ) {
+            return removeTargetStringInString(original.substring(blankIndex+1), target);
+        } else {
+            return currentString + " " + removeTargetStringInString(original.substring(blankIndex+1), target);
+        }
+
+
+
+    }
+
     static String removeTargetCharInStringReturn(String original , char target) {
         // Base condition
         if (original.isEmpty()) {
@@ -21,9 +48,6 @@ public class Recursion {
             return original.charAt(0) + removeTargetCharInStringReturn(original.substring(1) , target);
         }
     }
-
-
-
     static void removeTargetElementInStringPrint(String original, char target) {
         String processed = "";
 
