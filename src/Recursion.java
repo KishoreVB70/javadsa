@@ -10,16 +10,31 @@ public class Recursion {
 
     // Pattern problems
     static void printStars(int n) {
+        helperPrintStars(5, 1);
+    }
+
+    static void helperPrintStars(int row, int column) {
+        if (row == 0) {
+            return;
+        }
+        System.out.print("*");
+        if (column == row) {
+            System.out.println();
+            helperPrintStars(--row, 1);
+        } else {
+            helperPrintStars(row, ++column);
+        }
+
+    }
+    static void printStarsPartial(int n) {
+        if (n == 0) {
+            return;
+        }
+        printStars(n-1);
         for (int i = 1; i <= n; i++) {
             System.out.print("*");
         }
         System.out.println();
-
-        if (n == 1) {
-            return;
-        }
-
-        printStars(n-1);
     }
 
     // Array problems
