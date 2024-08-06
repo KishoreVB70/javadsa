@@ -5,11 +5,118 @@ import java.util.List;
 public class Recursion {
     public static void main(String[] args) {
         int[] nums = {5,1,2,3,4};
-        System.out.println(findInRotatedArray(nums, 0));
+        printStars(5);
+    }
+
+    // Pattern problems
+    static void printStars(int n) {
+        for (int i = 1; i <= n; i++) {
+            System.out.print("*");
+        }
+        System.out.println();
+
+        if (n == 1) {
+            return;
+        }
+
+        printStars(n-1);
     }
 
     // Array problems
+    static int FindInRotatedArrayWithoutPivot(int[] nums, int target) {
+        int end = nums.length -1 ;
+        // Check if no pivot -> normal binary search
+        if (nums[0] < nums[end/2] && nums[end/2] < nums[end]) {
+            return binarySearchViaRecursion(nums,0,end,target);
+        }
 
+        // If there is a pivot, then this
+        return helperFindInRotatedArrayWithoutPivot(nums, target, 0, nums.length-1);
+
+    }
+    static int helperFindInRotatedArrayWithoutPivot(int[] nums, int target, int start, int end) {
+        // base condition
+        if (start > end) {
+            return -1;
+        }
+        int m = (start + end) /2 ;
+
+        // check if middle is the target
+        if (nums[m] == target) {
+            return m;
+        }
+
+        // Left side is sorted
+        if (nums[start] < nums[m]) {
+            // Target is within m till end
+            if (target < nums[m] && target < nums[start]) {
+                return  helperFindInRotatedArrayWithoutPivot(nums, target, m+1, end);
+            }
+
+            // Target is within m till end
+            if (target < nums[m] && target > nums[start]) {
+                return helperFindInRotatedArrayWithoutPivot(nums, target, start, m-1);
+            }
+
+            // If target is the start
+            return helperFindInRotatedArrayWithoutPivot(nums, target, start, m-1);
+        }
+
+        // Check if the start is larger -> this means
+        // everything to the right is sorted
+        // the pivot is to the left
+        if (nums[start] > nums[m]) {
+
+            // If the target is greater than middle and the start,
+            // it's in the left
+            if (target > nums[m] && target > nums[start]) {
+                return  helperFindInRotatedArrayWithoutPivot(nums, target, start, m-1);
+            }
+
+            // If the target is larger than the middle but smaller than start
+            // It's in the right
+            if (target > nums[m] && target < nums[start]) {
+                return  helperFindInRotatedArrayWithoutPivot(nums, target, m+1, end);
+            }
+
+            // If the target is larger than start and larger than middle
+            // It's in the left
+            if (target > nums[m] && target > nums[start]) {
+                return  helperFindInRotatedArrayWithoutPivot(nums, target, start, m-1);
+
+            }
+            // Element is smaller than middle and start
+            if (target < nums[start] && target < nums[m]) {
+                return  helperFindInRotatedArrayWithoutPivot(nums, target, start, m-1);
+
+            }
+        }
+
+
+
+        // Pivot in in the right
+
+
+        // Check if pivot is in the right
+
+        // Check if target lies in the left of middle
+        if (nums[0] >= nums[m] && target > nums[0]) {
+            return helperFindInRotatedArrayWithoutPivot(nums, target, start, m-1);
+        }
+        if (nums[0] <= nums[m] && target < nums[m]) {
+            return  helperFindInRotatedArrayWithoutPivot(nums, target, m+1, end);
+        }
+
+        // Check if target lies in the right of middle
+        if (nums[0] <= nums[m] && target > nums[m]) {
+            return  helperFindInRotatedArrayWithoutPivot(nums, target, m+1, end);
+        }
+
+        return -1;
+
+
+
+    }
     static int findInRotatedArray(int[] nums, int target) {
         // 1) find pivot
         int pivot = findPivotInRotateArray(nums);
@@ -34,7 +141,6 @@ public class Recursion {
                 ?binarySearchViaRecursion(nums, pivot+1, nums.length-1, target)
                 :binarySearchViaRecursion(nums, 0, pivot -1, target);
     }
-
     static int findPivotInRotateArray(int[] nums) {
         int end = nums.length-1;
         // If no pivot
@@ -68,7 +174,6 @@ public class Recursion {
             return helperFindPivotInRotateArray(nums, m+1, end);
         }
     }
-
     static List<Integer> linearSearchMultipleIndex(int[] nums, int num) {
         List<Integer> list = new ArrayList<>(1);
         helperLinearSearchMultipleIndex(nums, num, 0, list);
