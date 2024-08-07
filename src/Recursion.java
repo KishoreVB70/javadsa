@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Recursion {
     public static void main(String[] args) {
-        int[] nums = {1,2,3,4,5};
+        int[] nums = {1,2,3};
         System.out.println(allSubsetsIteration(nums).toString());
     }
 
@@ -53,19 +53,10 @@ public class Recursion {
 
     static List<List<Integer>>  allSubsetsIteration(int[] original) {
         List<List<Integer>> processed = new ArrayList<>(original.length * 2);
-        for(int i: original) {
-            // In the first turn
-            if (processed.isEmpty()) {
-                List<Integer> temp = new ArrayList<>();
-                // Push empty
-                processed.add(temp);
-                // Push the number itself
-                List<Integer> temp2 = new ArrayList<>();
-                temp.add(i);
-                processed.add(temp2);
-                continue;
-            }
+        // Add empty list
+        processed.add(new ArrayList<>());
 
+        for(int i: original) {
             // Initial processed size
             int sizeOfProcessed = processed.size();
 
