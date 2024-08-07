@@ -5,12 +5,38 @@ import java.util.List;
 public class Recursion {
     public static void main(String[] args) {
         int[] nums = {1,2,2,3};
-        System.out.println(allSubsetsIterationWithDuplicateElementsCheating(nums).toString());
+        System.out.println(allSubsetsIterationWithDuplicateElements(nums).toString());
     }
 
     // String
 
     // Subset problems
+    static List<List<Integer>> allSubsetsIterationWithDuplicateElements(int[] original) {
+        List<List<Integer>> processed = new ArrayList<>();
+        processed.add(new ArrayList<>());
+
+        int start = 0;
+        for (int i = 0; i < original.length; i++) {
+
+            int sizeOfProcessed = processed.size();
+            // If it is not the first turn, create new array with each combination
+            for (int j = start; j < sizeOfProcessed; j++) {
+                List<Integer> temp = new ArrayList<>(processed.get(j));
+                temp.add(original[i]);
+                processed.add(temp);
+            }
+
+            if (i < original.length - 1 && original[i] == original[i+1]) {
+                start = processed.size() - sizeOfProcessed;
+            } else {
+                start = 0;
+            }
+
+        }
+
+        return processed;
+    }
+
     static List<List<Integer>> allSubsetsIterationWithDuplicateElementsCheating(int[] original) {
         List<List<Integer>> processed = new ArrayList<>();
         processed.add(new ArrayList<>());
