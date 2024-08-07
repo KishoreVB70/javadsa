@@ -4,12 +4,19 @@ import java.util.List;
 
 public class Recursion {
     public static void main(String[] args) {
-        System.out.println(printAllSubsetsOfString("abc").toString());
+        int[] nums = {1,2,3,4,5};
+        System.out.println(allSubsetsIteration(nums).toString());
     }
 
     // String
 
     // Subset problems
+
+    static List<String> allSubsetsOfString(String original) {
+        List<String> stList = new ArrayList<>(original.length() * 2);
+        helperPrintAllSubsetsAlongWithAscii(stList, original, "");
+        return stList;
+    }
     static void helperPrintAllSubsetsAlongWithAscii(List<String> stList, String original, String processed) {
         // Base condition
         if (original.isEmpty()) {
@@ -28,11 +35,6 @@ public class Recursion {
         // Ignore
         helperPrintAllSubsetsAlongWithAscii(stList, original.substring(1), processed);
     }
-    static List<String> printAllSubsetsOfString(String original) {
-        List<String> stList = new ArrayList<>(original.length() * 2);
-        helperPrintAllSubsetsAlongWithAscii(stList, original, "");
-        return stList;
-    }
     static void helperPrintAllSubsetsOfString(List<String> stList, String original, String processed) {
         // Base condition
         if (original.isEmpty()) {
@@ -47,6 +49,35 @@ public class Recursion {
 
         // Ignore
         helperPrintAllSubsetsOfString(stList, original.substring(1), processed);
+    }
+
+    static List<List<Integer>>  allSubsetsIteration(int[] original) {
+        List<List<Integer>> processed = new ArrayList<>(original.length * 2);
+        for(int i: original) {
+            // In the first turn
+            if (processed.isEmpty()) {
+                List<Integer> temp = new ArrayList<>();
+                // Push empty
+                processed.add(temp);
+                // Push the number itself
+                List<Integer> temp2 = new ArrayList<>();
+                temp.add(i);
+                processed.add(temp2);
+                continue;
+            }
+
+            // Initial processed size
+            int sizeOfProcessed = processed.size();
+
+            // If it is not the first turn, create new array with each combination
+            for (int j = 0; j < sizeOfProcessed; j++) {
+                List<Integer> temp = new ArrayList<>(processed.get(j));
+                temp.add(i);
+                processed.add(temp);
+            }
+        }
+
+        return processed;
     }
 
     // Basic strings
