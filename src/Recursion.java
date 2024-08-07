@@ -4,14 +4,55 @@ import java.util.List;
 
 public class Recursion {
     public static void main(String[] args) {
-        int[] nums = {1,2,3};
-        System.out.println(allSubsetsIteration(nums).toString());
+        int[] nums = {1,2,2,3};
+        System.out.println(allSubsetsIterationWithDuplicateElementsCheating(nums).toString());
     }
 
     // String
 
     // Subset problems
+    static List<List<Integer>> allSubsetsIterationWithDuplicateElementsCheating(int[] original) {
+        List<List<Integer>> processed = new ArrayList<>();
+        processed.add(new ArrayList<>());
 
+
+        for(int i: original) {
+            // Initial processed size
+            int sizeOfProcessed = processed.size();
+
+            // If it is not the first turn, create new array with each combination
+            for (int j = 0; j < sizeOfProcessed; j++) {
+                List<Integer> temp = new ArrayList<>(processed.get(j));
+                temp.add(i);
+                if (processed.contains(temp)) {
+                    continue;
+                }
+                processed.add(temp);
+            }
+        }
+
+        return processed;
+    }
+
+    static List<List<Integer>>  allSubsetsIteration(int[] original) {
+        List<List<Integer>> processed = new ArrayList<>(original.length * 2);
+        // Add empty list
+        processed.add(new ArrayList<>());
+
+        for(int i: original) {
+            // Initial processed size
+            int sizeOfProcessed = processed.size();
+
+            // If it is not the first turn, create new array with each combination
+            for (int j = 0; j < sizeOfProcessed; j++) {
+                List<Integer> temp = new ArrayList<>(processed.get(j));
+                temp.add(i);
+                processed.add(temp);
+            }
+        }
+
+        return processed;
+    }
     static List<String> allSubsetsOfString(String original) {
         List<String> stList = new ArrayList<>(original.length() * 2);
         helperPrintAllSubsetsAlongWithAscii(stList, original, "");
@@ -50,27 +91,6 @@ public class Recursion {
         // Ignore
         helperPrintAllSubsetsOfString(stList, original.substring(1), processed);
     }
-
-    static List<List<Integer>>  allSubsetsIteration(int[] original) {
-        List<List<Integer>> processed = new ArrayList<>(original.length * 2);
-        // Add empty list
-        processed.add(new ArrayList<>());
-
-        for(int i: original) {
-            // Initial processed size
-            int sizeOfProcessed = processed.size();
-
-            // If it is not the first turn, create new array with each combination
-            for (int j = 0; j < sizeOfProcessed; j++) {
-                List<Integer> temp = new ArrayList<>(processed.get(j));
-                temp.add(i);
-                processed.add(temp);
-            }
-        }
-
-        return processed;
-    }
-
     // Basic strings
     static String removeTargetStringInString(String original, String target) {
         // Base condition
