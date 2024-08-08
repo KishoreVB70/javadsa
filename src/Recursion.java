@@ -4,52 +4,119 @@ import java.util.List;
 public class Recursion {
     public static void main(String[] args) {
         int[] nums = {1,2,3};
-        System.out.println(findAllPermutations(nums).toString());
+        System.out.println(findAllCombinationsArray(nums));
+
     }
 
-    // String
 
     // Subset problems
-    static List<List<Integer>> findAllPermutations(int[] orignial) {
-        List<List<Integer>> processed = new ArrayList<>(1);
-        helperFindAllPermutations(orignial, processed, 0);
-        return processed;
+
+    static List<List<Integer>> findAllCombinationsArray(int[] original) {
+        List<List<Integer>> returnList = new ArrayList<>(original.length*2);
+
+        // Adding empty list
+        List<Integer> emptyList = new ArrayList<Integer>();
+
+        helperFindAllCombinationsArray(original, emptyList, 0, returnList);
+        return returnList;
     }
 
-    static void helperFindAllPermutations(int[] original, List<List<Integer>> processed, int current) {
+    static void helperFindAllCombinationsArray(int[] original, List<Integer> processed, int currentIndex, List<List<Integer>> returnList) {
+        // Base condition
+        if (currentIndex == original.length) {
+            returnList.add(processed);
+            return;
+        }
+
+        //Add it
+        List<Integer> argList = new ArrayList<>(processed);
+        argList.add(original[currentIndex]);
+        helperFindAllCombinationsArray(original, argList, currentIndex+1, returnList);
+
+
+        // Ignore it
+        List<Integer> argList2 = new ArrayList<>(processed);
+        helperFindAllCombinationsArray(original, argList2, currentIndex+1, returnList);
+    }
+
+    // Permutations
+    static List<List<Integer>> findAllPermutations(int[] original) {
+        List<List<Integer>> returnList = new ArrayList<>(original.length * 2);
+        helperFindAllPermutationsArrayNoReturn(original, new ArrayList<>(), 0, returnList);
+        return returnList;
+    }
+    static List<List<Integer>> helperFindAllPermutationsArrayReturn(int[] original, List<Integer> processed, int current) {
+        List<List<Integer>> returnList = new ArrayList<>();
 
         // Base condition
         if (current == original.length) {
-            return;
+            returnList.add(processed);
+            return returnList;
         }
 
-        // Start condition
-        if (processed.isEmpty()) {
-            List<Integer> temp = new ArrayList<>(0);
-            temp.add(original[current]);
-            processed.add(temp);
-            helperFindAllPermutations(original, processed, ++current);
-            return;
+        for (int i = 0; i <= processed.size(); i++) {
+            int sizeOfThatArray = processed.size();
+
+            // Start
+            List<Integer> argList = new ArrayList<>((processed.subList(0, i)));
+
+            // Middle
+            argList.add(original[current]);
+
+            //End
+            argList.addAll(processed.subList(i,sizeOfThatArray));
+
+            // Call next
+            returnList.addAll(helperFindAllPermutationsArrayReturn(original, argList, current+1 ));
         }
+        return returnList;
 
-        int originalSizeOfProcessed = processed.size();
-        for (int i = 0; i < originalSizeOfProcessed; i++) {
-            int originalSize = processed.get(i).size();
-
-            for (int j = 0; j < originalSize; j++) {
-                List<Integer> temp = new ArrayList<>(processed.get(i));
-                temp.add(j, original[current]);
-                processed.add(temp);
-            }
-            // By default add at the last place
-            processed.get(i).add(original[current]);
-        }
-        helperFindAllPermutations(original, processed, ++current);
-
-
-        // For every element in the array, add the current in all positions
 
     }
+    static void helperFindAllPermutationsArrayNoReturn(int[] original, List<Integer> processed, int current, List<List<Integer>> returnList) {
+        // Base condition
+        if (current == original.length) {
+            returnList.add(processed);
+            return;
+        }
+
+        for (int i = 0; i <= processed.size(); i++) {
+            int sizeOfThatArray = processed.size();
+
+            // Start
+            List<Integer> argList = new ArrayList<>((processed.subList(0, i)));
+
+            // Middle
+            argList.add(original[current]);
+
+            //End
+            argList.addAll(processed.subList(i,sizeOfThatArray));
+
+            // Call next
+            helperFindAllPermutationsArrayNoReturn(original, argList, current+1, returnList);
+        }
+    }
+    static void findAllPermutationsString(String st){
+        helperFindAllPermutationsString(st.substring(1), st.substring(0,1));
+    }
+    static void helperFindAllPermutationsString(String original, String processed) {
+        // Base condition
+        if (original.isEmpty()) {
+            System.out.println(processed);
+            return;
+        }
+
+        for (int i = 0; i <= processed.length(); i++) {
+            String firstHalf = processed.substring(0, i);
+            String secondHalf = processed.substring(i);
+
+            helperFindAllPermutationsString(
+                    original.substring(1),
+                    firstHalf + original.charAt(0) + secondHalf);
+        }
+    }
+
+    // Combinations
     static List<List<Integer>> allSubsetsIterationWithDuplicateElements(int[] original) {
         List<List<Integer>> processed = new ArrayList<>();
         processed.add(new ArrayList<>());
@@ -75,7 +142,6 @@ public class Recursion {
 
         return processed;
     }
-
     static List<List<Integer>> allSubsetsIterationWithDuplicateElementsCheating(int[] original) {
         List<List<Integer>> processed = new ArrayList<>();
         processed.add(new ArrayList<>());
@@ -98,7 +164,6 @@ public class Recursion {
 
         return processed;
     }
-
     static List<List<Integer>>  allSubsetsIteration(int[] original) {
         List<List<Integer>> processed = new ArrayList<>(original.length * 2);
         // Add empty list
