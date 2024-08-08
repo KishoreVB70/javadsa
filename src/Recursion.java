@@ -4,7 +4,7 @@ import java.util.List;
 public class Recursion {
     public static void main(String[] args) {
         int[] nums = {1,2,3};
-        System.out.println(findAllCombinationsString("abc"));
+        System.out.println(findAllCombinationsStringDuplicate("abbc"));
     }
 
 
@@ -39,7 +39,6 @@ public class Recursion {
         List<Integer> argList2 = new ArrayList<>(processed);
         helperFindAllCombinationsArray(original, argList2, currentIndex+1, returnList);
     }
-
     // 2) Find all combinations -> String
     static List<String> findAllCombinationsString(String original) {
         List<String> returnList = new ArrayList<>(original.length() * 2);
@@ -52,16 +51,44 @@ public class Recursion {
             returnList.add(processed);
             return;
         }
-
         // Ignore
         helperFindAllCombinationsString(original.substring(1), processed, returnList);
-
 
         // Add
         helperFindAllCombinationsString(original.substring(1), processed + original.charAt(0), returnList);
     }
 
     // 3) Find all combination with duplicates -> String
+    static List<String> findAllCombinationsStringDuplicate(String original) {
+        List<String> returnList = new ArrayList<>();
+        helperFindAllCombinationsStringDuplicate(original, "" , returnList, false);
+        return returnList;
+    }
+
+    static void helperFindAllCombinationsStringDuplicate(String original, String processed, List<String> returnList, boolean duplicate) {
+        // Base condition
+        if (original.isEmpty()) {
+            returnList.add(processed);
+            return;
+        }
+
+        // If it is a duplicate, don't do the addition step
+        if (duplicate) {
+            // Ignore
+            helperFindAllCombinationsStringDuplicate(original.substring(1), processed, returnList, false);
+            return;
+        }
+
+
+        // If duplicate, add true to only ignore step
+        helperFindAllCombinationsStringDuplicate(
+                original.substring(1),
+                processed, returnList,
+                original.length() > 1 && original.charAt(0) == original.charAt(1)
+        );
+        // Add
+        helperFindAllCombinationsStringDuplicate(original.substring(1), processed + original.charAt(0), returnList, false);
+    }
 
     // 4) Find all combination with duplicates -> Array
 
