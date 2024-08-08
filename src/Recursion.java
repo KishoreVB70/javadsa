@@ -3,8 +3,8 @@ import java.util.List;
 
 public class Recursion {
     public static void main(String[] args) {
-        int[] nums = {1,2,3};
-        System.out.println(findAllCombinationsStringDuplicate("abbc"));
+        int[] nums = {1,2,2,3};
+        System.out.println(findAllCombinationsArray(nums));
     }
 
 
@@ -19,7 +19,7 @@ public class Recursion {
         // Adding empty list
         List<Integer> emptyList = new ArrayList<Integer>();
 
-        helperFindAllCombinationsArray(original, emptyList, 0, returnList);
+        helperFindAllCombinationsArrayDuplicate(original, emptyList, returnList, 0, false);
         return returnList;
     }
     static void helperFindAllCombinationsArray(int[] original, List<Integer> processed, int currentIndex, List<List<Integer>> returnList) {
@@ -43,6 +43,7 @@ public class Recursion {
     static List<String> findAllCombinationsString(String original) {
         List<String> returnList = new ArrayList<>(original.length() * 2);
         helperFindAllCombinationsString(original, "", returnList);
+        helperFindAllCombinationsStringDuplicate(original, "" , returnList, false);
         return returnList;
     }
     static void helperFindAllCombinationsString(String original, String processed, List<String> returnList) {
@@ -57,14 +58,7 @@ public class Recursion {
         // Add
         helperFindAllCombinationsString(original.substring(1), processed + original.charAt(0), returnList);
     }
-
     // 3) Find all combination with duplicates -> String
-    static List<String> findAllCombinationsStringDuplicate(String original) {
-        List<String> returnList = new ArrayList<>();
-        helperFindAllCombinationsStringDuplicate(original, "" , returnList, false);
-        return returnList;
-    }
-
     static void helperFindAllCombinationsStringDuplicate(String original, String processed, List<String> returnList, boolean duplicate) {
         // Base condition
         if (original.isEmpty()) {
@@ -89,11 +83,39 @@ public class Recursion {
         // Add
         helperFindAllCombinationsStringDuplicate(original.substring(1), processed + original.charAt(0), returnList, false);
     }
-
     // 4) Find all combination with duplicates -> Array
+    static void helperFindAllCombinationsArrayDuplicate(int[] original, List<Integer> processed, List<List<Integer>> returnList, int currentIndex, boolean duplicate) {
+        // Base condition
+        if (currentIndex == original.length) {
+            returnList.add(processed);
+            return;
+        }
+
+        List<Integer> temp1 = new ArrayList<>(processed);
+        boolean nextDuplicate = currentIndex < original.length - 1 && original[currentIndex] == original[currentIndex+1];
+
+        if (duplicate) {
+            // Skip adding phase -> only ignore phase
+            helperFindAllCombinationsArrayDuplicate(original, temp1, returnList, currentIndex+1, nextDuplicate);
+            return;
+        }
+
+        // Ignore
+        helperFindAllCombinationsArrayDuplicate(original, temp1, returnList, currentIndex+1, nextDuplicate);
+
+        // Add
+        List<Integer> temp2 = new ArrayList<>(processed);
+        temp2.add(original[currentIndex]);
+        helperFindAllCombinationsArrayDuplicate(original, temp2, returnList, currentIndex+1, false);
+
+    }
+    // 5) Find all combination -> String -> iteration
+    // 6) Find all combination -> Array -> iteration
+    // 7) Find all combination with duplicates -> String -> iteration
+    // 8) FInd all combination with duplicates -> array -> iteration
+
 
     // II] Permutation problems
-
     // 1) Find all permutations -> String
 
     // 2) Find all permutations -> Array
