@@ -1,16 +1,55 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Recursion {
     public static void main(String[] args) {
-        int[] nums = {1,2,2,3};
-        System.out.println(allSubsetsIterationWithDuplicateElements(nums).toString());
+        int[] nums = {1,2,3};
+        System.out.println(findAllPermutations(nums).toString());
     }
 
     // String
 
     // Subset problems
+    static List<List<Integer>> findAllPermutations(int[] orignial) {
+        List<List<Integer>> processed = new ArrayList<>(1);
+        helperFindAllPermutations(orignial, processed, 0);
+        return processed;
+    }
+
+    static void helperFindAllPermutations(int[] original, List<List<Integer>> processed, int current) {
+
+        // Base condition
+        if (current == original.length) {
+            return;
+        }
+
+        // Start condition
+        if (processed.isEmpty()) {
+            List<Integer> temp = new ArrayList<>(0);
+            temp.add(original[current]);
+            processed.add(temp);
+            helperFindAllPermutations(original, processed, ++current);
+            return;
+        }
+
+        int originalSizeOfProcessed = processed.size();
+        for (int i = 0; i < originalSizeOfProcessed; i++) {
+            int originalSize = processed.get(i).size();
+
+            for (int j = 0; j < originalSize; j++) {
+                List<Integer> temp = new ArrayList<>(processed.get(i));
+                temp.add(j, original[current]);
+                processed.add(temp);
+            }
+            // By default add at the last place
+            processed.get(i).add(original[current]);
+        }
+        helperFindAllPermutations(original, processed, ++current);
+
+
+        // For every element in the array, add the current in all positions
+
+    }
     static List<List<Integer>> allSubsetsIterationWithDuplicateElements(int[] original) {
         List<List<Integer>> processed = new ArrayList<>();
         processed.add(new ArrayList<>());
@@ -117,6 +156,8 @@ public class Recursion {
         // Ignore
         helperPrintAllSubsetsOfString(stList, original.substring(1), processed);
     }
+
+
     // Basic strings
     static String removeTargetStringInString(String original, String target) {
         // Base condition
