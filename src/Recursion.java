@@ -4,13 +4,15 @@ import java.util.List;
 public class Recursion {
     public static void main(String[] args) {
         int[] nums = {1,2,3};
-        System.out.println(findAllCombinationsArray(nums));
-
+        System.out.println(findAllCombinationsString("abc"));
     }
 
 
     // Subset problems
 
+    // I] COMBINATION PROBLEMS
+
+    // 1) Find all combinations -> Array
     static List<List<Integer>> findAllCombinationsArray(int[] original) {
         List<List<Integer>> returnList = new ArrayList<>(original.length*2);
 
@@ -20,7 +22,6 @@ public class Recursion {
         helperFindAllCombinationsArray(original, emptyList, 0, returnList);
         return returnList;
     }
-
     static void helperFindAllCombinationsArray(int[] original, List<Integer> processed, int currentIndex, List<List<Integer>> returnList) {
         // Base condition
         if (currentIndex == original.length) {
@@ -39,7 +40,36 @@ public class Recursion {
         helperFindAllCombinationsArray(original, argList2, currentIndex+1, returnList);
     }
 
-    // Permutations
+    // 2) Find all combinations -> String
+    static List<String> findAllCombinationsString(String original) {
+        List<String> returnList = new ArrayList<>(original.length() * 2);
+        helperFindAllCombinationsString(original, "", returnList);
+        return returnList;
+    }
+    static void helperFindAllCombinationsString(String original, String processed, List<String> returnList) {
+        // Base condition
+        if (original.isEmpty()) {
+            returnList.add(processed);
+            return;
+        }
+
+        // Ignore
+        helperFindAllCombinationsString(original.substring(1), processed, returnList);
+
+
+        // Add
+        helperFindAllCombinationsString(original.substring(1), processed + original.charAt(0), returnList);
+    }
+
+    // 3) Find all combination with duplicates -> String
+
+    // 4) Find all combination with duplicates -> Array
+
+    // II] Permutation problems
+
+    // 1) Find all permutations -> String
+
+    // 2) Find all permutations -> Array
     static List<List<Integer>> findAllPermutations(int[] original) {
         List<List<Integer>> returnList = new ArrayList<>(original.length * 2);
         helperFindAllPermutationsArrayNoReturn(original, new ArrayList<>(), 0, returnList);
