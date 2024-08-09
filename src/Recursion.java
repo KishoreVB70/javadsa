@@ -4,17 +4,17 @@ import java.util.List;
 public class Recursion {
     public static void main(String[] args) {
         int[] nums = {1,2,2,3};
-        System.out.println(diceCombinationToGetTheValue(6));
+        System.out.println(diceCombinationToGetTheValue(8));
     }
 
 
     // Subset problems
 
-    // Microsoft problem
+    // Microsoft Dice problem
     static List<List<Integer>> diceCombinationToGetTheValue(int digit) {
         List<List<Integer>> returnList = new ArrayList<>();
 
-        if (digit == 0 || digit > 12) {
+        if (digit <= 1 || digit > 12) {
             return returnList;
         }
 
@@ -23,21 +23,12 @@ public class Recursion {
 
         helperDiceCombinationToGetTheValueRecursionStreamLine(digit, 1, processed, returnList, true, false);
         return returnList;
-
-
     }
-
-    static void helperDiceCombinationToGetTheValueRecursionStreamLine(
-            int digit, int currentValue,
-            List<Integer> processed, List<List<Integer>> returnList,
-            boolean isFirst, boolean ignore )
-    {
-
+    static void helperDiceCombinationToGetTheValueRecursionStreamLine(int digit, int currentValue, List<Integer> processed, List<List<Integer>> returnList, boolean isFirst, boolean ignore ) {
         // Base condition
         if (currentValue > 6) {
             if (processed.size() > 1 && processed.get(0) + processed.get(1) == digit) {
                 returnList.add(processed);
-                return;
             }
             return;
         }
@@ -46,14 +37,11 @@ public class Recursion {
         if (processed.size() > 1) {
             if (processed.get(0) + processed.get(1) == digit) {
                 returnList.add(processed);
-                return;
-            } else {
-                return;
             }
+            return;
         }
 
         // Function body
-
         ArrayList<Integer> temp1 = new ArrayList<>(processed);
         if (processed.get(0) == 0) {
             temp1.set(0,currentValue);
@@ -67,24 +55,19 @@ public class Recursion {
             helperDiceCombinationToGetTheValueRecursionStreamLine(digit, currentValue, processed, returnList, false, true);
         } else {
             currentValue++;
-
             // Ignore it
             helperDiceCombinationToGetTheValueRecursionStreamLine(digit, currentValue, processed, returnList, true, false);
-            if (ignore) {
-                return;
-            }
+        }
+
+        // If ignore, don't do the addition step
+        if (ignore) {
+            return;
         }
 
         // Add step
         helperDiceCombinationToGetTheValueRecursionStreamLine(digit, currentValue, temp1, returnList, false, false);
     }
-
-    static void helperDiceCombinationToGetTheValueRecursion(
-        int digit, int currentValue,
-        List<Integer> processed, List<List<Integer>> returnList,
-        boolean isFirst, boolean ignore )
-    {
-
+    static void helperDiceCombinationToGetTheValueRecursion(int digit, int currentValue,List<Integer> processed, List<List<Integer>> returnList,boolean isFirst, boolean ignore ) {
         // Base condition
         if (currentValue > 6) {
             if (processed.size() > 1 && processed.get(0) + processed.get(1) == digit) {
@@ -180,6 +163,7 @@ public class Recursion {
             }
         }
     }
+
     // Google problem
     static List<String> letterCombinations(String digits) {
         List<String> returnList = new ArrayList<>();
@@ -213,7 +197,6 @@ public class Recursion {
     }
 
     // I] COMBINATION PROBLEMS
-
     // 1) Find all combinations -> Array
     static List<List<Integer>> findAllCombinationsArray(int[] original) {
         List<List<Integer>> returnList = new ArrayList<>(original.length*2);
