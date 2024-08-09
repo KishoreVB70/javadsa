@@ -1,10 +1,49 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Recursion {
     public static void main(String[] args) {
-        int[] nums = {1,2,2,3};
-        System.out.println(diceCombinationToGetTheValue(8));
+        int[] nums = {2,2};
+        System.out.println(findNumberOfUniquePathsBacktracking(nums));
+    }
+
+
+    // Backtracking problems
+
+    // 1) Finding the number of unique paths
+    static int findNumberOfUniquePathsBacktracking(int[] goal) {
+        int[] start = {0,0};
+
+        return helperFindNumberOfUniquePathsBacktracking(goal, start);
+    }
+
+    static int helperFindNumberOfUniquePathsBacktracking(int[] goal, int[] current) {
+        int count = 0;
+        System.out.println(Arrays.toString(current));
+
+        // Base condition
+        if (Arrays.equals(goal, current)) {
+            return 1;
+        }
+
+        // Either add it in the left -> index 0
+        if (current[0] < 2) {
+            int[] temp = new int[2];
+            temp[0] = current[0] + 1 ;
+            temp[1] = current[1];
+            count += helperFindNumberOfUniquePathsBacktracking(goal, temp);
+        }
+
+        // Or add it in the right -> index 1
+        if (current[1] < 2) {
+            int[] temp = new int[2];
+            temp[0] = current[0];
+            temp[1] = current[1] + 1;
+            count += helperFindNumberOfUniquePathsBacktracking(goal, temp);
+        }
+
+        return count;
     }
 
 
