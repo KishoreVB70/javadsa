@@ -7,8 +7,8 @@ public class Recursion {
         int[] nums = {2,2};
         int[][] maze = {{0,0}, {1,1}, {1,2}, {1,3}};
 
-        List<List<List<Integer>>> result = findAllTheUniquePathsOfMaze(nums);
-        for(List<List<Integer>> i: result) {
+        List<String> result = findAllUniquePathsOfMazeString(nums);
+        for(String i: result) {
             System.out.println(i);
         }
     }
@@ -54,7 +54,6 @@ public class Recursion {
         helperFindAllTheUniquePathsOfMaze(goal, current, processed, returnList);
         return  returnList;
     }
-
     static void helperFindAllTheUniquePathsOfMaze(int[] goal, List<Integer> current, List<List<Integer>> processed, List<List<List<Integer>>> returnList) {
         List<List<Integer>> newProcessed = new ArrayList<>(processed);
         newProcessed.add(current);
@@ -80,6 +79,33 @@ public class Recursion {
         }
 
     }
+    static List<String> findAllUniquePathsOfMazeString(int[] goal) {
+        List<String> resultList = new ArrayList<>();
+        int[] current = {0,0};
+        helperFindAllUniquePathsOfMazeString(goal, current, "", resultList);
+        return resultList;
+    }
+    static void helperFindAllUniquePathsOfMazeString(int[] goal, int[] current, String processed, List<String> returnList) {
+        if (Arrays.equals(goal,current)) {
+            returnList.add(processed);
+            return;
+        }
+
+        if (current[0] < goal[0]) {
+            int[] newCurrent = new int[2];
+            newCurrent[0] = current[0] + 1;
+            newCurrent[1] = current[1];
+            helperFindAllUniquePathsOfMazeString(goal, newCurrent, processed + "R", returnList);
+        }
+
+        if (current[1] < goal[1]) {
+            int[] newCurrent = new int[2];
+            newCurrent[0] = current[0];
+            newCurrent[1] = current[1] + 1;
+            helperFindAllUniquePathsOfMazeString(goal, newCurrent, processed + "D", returnList);
+        }
+    }
+
 
     static List<List<Integer>> helperFindAllTheUniquePathsOfMazeReturn(int[] goal, List<Integer> current, List<List<Integer>> processed, List<List<List<Integer>>> returnList) {
         List<List<Integer>> newProcessed = new ArrayList<>(processed);
