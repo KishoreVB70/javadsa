@@ -81,38 +81,6 @@ public class Recursion {
         }
 
     }
-    static void helperFindAllTheUniquePathsOfMazeObstacle(int[] goal,int[] obstacle, List<Integer> current, List<List<Integer>> processed, List<List<List<Integer>>> returnList) {
-        // If in the path of obstacle, return back
-        if (current.get(0) == obstacle[0] && current.get(1) == obstacle[1]) {
-            return;
-        }
-
-        List<List<Integer>> newProcessed = new ArrayList<>(processed);
-        newProcessed.add(current);
-
-        if (current.get(0) == goal[0] && current.get(1) == goal[1]) {
-            returnList.add(newProcessed);
-            return;
-        }
-
-        // Add to the left
-        if (current.get(0) < goal[0]) {
-            // Create new List
-            List<Integer> temp = new ArrayList<>(current);
-            temp.set(0, current.getFirst() + 1);
-            helperFindAllTheUniquePathsOfMazeObstacle(goal, obstacle, temp, newProcessed, returnList);
-        }
-
-        // Add to the right
-        if (current.get(1) < goal[1]) {
-            List<Integer> temp2 = new ArrayList<>(current);
-            temp2.set(1, current.get(1) + 1);
-            helperFindAllTheUniquePathsOfMazeObstacle(goal, obstacle, temp2, newProcessed, returnList);
-        }
-
-    }
-
-
 
     // 3) Return the path as string directions
     static List<String> findAllUniquePathsOfMazeString(int[] goal) {
@@ -174,7 +142,7 @@ public class Recursion {
         }
     }
 
-    // 5) With obstacles
+    // 5) With obstacles -> string
     static void helperFindTheNumberOfPathWithObstacles(int[] goal, int[] obstacle, int[] current, String processed, List<String> returnList ) {
         // If we have reached the obstacle, return
         if (Arrays.equals(current, obstacle)) {
@@ -211,6 +179,42 @@ public class Recursion {
 
     }
 
+    // 5) With obstacles -> List of int
+    static void helperFindAllTheUniquePathsOfMazeObstacle(int[] goal,int[] obstacle, List<Integer> current, List<List<Integer>> processed, List<List<List<Integer>>> returnList) {
+        // If in the path of obstacle, return back
+        if (current.get(0) == obstacle[0] && current.get(1) == obstacle[1]) {
+            return;
+        }
+
+        List<List<Integer>> newProcessed = new ArrayList<>(processed);
+        newProcessed.add(current);
+
+        if (current.get(0) == goal[0] && current.get(1) == goal[1]) {
+            returnList.add(newProcessed);
+            return;
+        }
+
+        // Add to the left
+        if (current.get(0) < goal[0]) {
+            // Create new List
+            List<Integer> temp = new ArrayList<>(current);
+            temp.set(0, current.getFirst() + 1);
+            helperFindAllTheUniquePathsOfMazeObstacle(goal, obstacle, temp, newProcessed, returnList);
+        }
+
+        // Add to the right
+        if (current.get(1) < goal[1]) {
+            List<Integer> temp2 = new ArrayList<>(current);
+            temp2.set(1, current.get(1) + 1);
+            helperFindAllTheUniquePathsOfMazeObstacle(goal, obstacle, temp2, newProcessed, returnList);
+        }
+
+    }
+
+    // 6) Boolean array for simulating obstacles
+
+
+    // Any direction instead of just down and up
     // Subset problems
 
     // Microsoft Dice problem
