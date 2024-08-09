@@ -44,7 +44,7 @@ public class Recursion {
         return count;
     }
 
-    // 2) Returning all the paths
+    // 2) Returning all the paths as int array
     static List<List<List<Integer>>> findAllTheUniquePathsOfMaze(int[] goal) {
         List<List<List<Integer>>> returnList = new ArrayList<>();
         List<List<Integer>> processed = new ArrayList<>();
@@ -79,10 +79,12 @@ public class Recursion {
         }
 
     }
+
+    // 3) Return the path as string directions
     static List<String> findAllUniquePathsOfMazeString(int[] goal) {
         List<String> resultList = new ArrayList<>();
         int[] current = {0,0};
-        helperFindAllUniquePathsOfMazeString(goal, current, "", resultList);
+        helperFindAllUniquePathsOfMazeStringDiagonal(goal, current, "", resultList);
         return resultList;
     }
     static void helperFindAllUniquePathsOfMazeString(int[] goal, int[] current, String processed, List<String> returnList) {
@@ -106,33 +108,38 @@ public class Recursion {
         }
     }
 
+    // 4) Return the path as string -> Include diagonal
 
-    static List<List<Integer>> helperFindAllTheUniquePathsOfMazeReturn(int[] goal, List<Integer> current, List<List<Integer>> processed, List<List<List<Integer>>> returnList) {
-        List<List<Integer>> newProcessed = new ArrayList<>(processed);
-
-        newProcessed.add(current);
-        if (current.get(0) == goal[0] && current.get(1) == goal[1]) {
-            return newProcessed;
+    static void helperFindAllUniquePathsOfMazeStringDiagonal(int[] goal, int[] current, String processed, List<String> returnList) {
+        if (Arrays.equals(goal, current)) {
+            returnList.add(processed);
+            return;
         }
 
-        // Add to the left
-        if (current.get(0) < goal[0]) {
-            // Create new List
-            List<Integer> temp = new ArrayList<>(current);
-            temp.set(0, current.getFirst() + 1);
-            newProcessed.addAll(helperFindAllTheUniquePathsOfMazeReturn(goal, temp, newProcessed, returnList));
+        // Diagonal
+        if (current[0] <  goal[0] &&  current[1] < goal[1]) {
+            int[] newCurrent = new int[2];
+            newCurrent[0] = current[0] + 1;
+            newCurrent[1] = current[1] +1;
+            helperFindAllUniquePathsOfMazeStringDiagonal(goal, newCurrent, processed + "S", returnList);
         }
 
-        // Add to the right
-        if (current.get(1) < goal[1]) {
-            current.set(1, current.get(1) +1);
-            newProcessed.addAll(helperFindAllTheUniquePathsOfMazeReturn(goal, current, newProcessed, returnList));
+        // Right
+        if (current[0] < goal[0]) {
+            int[] newCurrent = new int[2];
+            newCurrent[0] = current[0] + 1;
+            newCurrent[1] = current[1];
+            helperFindAllUniquePathsOfMazeString(goal, newCurrent, processed + "R", returnList);
         }
 
-        return newProcessed;
-
+        // Down
+        if (current[1] < goal[1]) {
+            int[] newCurrent = new int[2];
+            newCurrent[0] = current[0];
+            newCurrent[1] = current[1] + 1;
+            helperFindAllUniquePathsOfMazeString(goal, newCurrent, processed + "D", returnList);
+        }
     }
-
 
 
     // Subset problems
