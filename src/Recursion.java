@@ -4,11 +4,129 @@ import java.util.List;
 public class Recursion {
     public static void main(String[] args) {
         int[] nums = {1,2,2,3};
-        System.out.println(letterCombinations(""));
+        System.out.println(diceCombinationToGetTheValue(6));
     }
 
 
     // Subset problems
+
+    // Microsoft problem
+    static List<List<Integer>> diceCombinationToGetTheValue(int digit) {
+        List<List<Integer>> returnList = new ArrayList<>();
+
+        if (digit == 0 || digit > 12) {
+            return returnList;
+        }
+
+        List<Integer> processed = new ArrayList<>();
+        processed.add(0);
+
+        helperDiceCombinationToGetTheValueRecursion(digit, 1, processed, returnList, true, false);
+        return returnList;
+
+
+    }
+
+    static void helperDiceCombinationToGetTheValueRecursion(
+            int digit, int currentValue,
+            List<Integer> processed, List<List<Integer>> returnList,
+            boolean isFirst, boolean ignore ) {
+
+        // Base condition
+        if (currentValue > 6) {
+            if (processed.size() > 1 && processed.get(0) + processed.get(1) == digit) {
+                returnList.add(processed);
+                return;
+            }
+            return;
+        }
+
+        // Another base condition
+        if (processed.size() > 1) {
+            if (processed.get(0) + processed.get(1) == digit) {
+                returnList.add(processed);
+                return;
+            } else {
+                return;
+            }
+        }
+
+        // Function body
+        if (isFirst) {
+            if (processed.get(0) == 0) {
+                // Add it
+                ArrayList<Integer> temp1 = new ArrayList<>(processed);
+                temp1.set(0,currentValue);
+                helperDiceCombinationToGetTheValueRecursion(digit, currentValue, temp1, returnList, false, false);
+
+                // Ignore it
+                helperDiceCombinationToGetTheValueRecursion(digit, currentValue, processed, returnList, false, true);
+                return;
+            }
+
+
+            // Ignore it
+            helperDiceCombinationToGetTheValueRecursion(digit, currentValue, processed, returnList, false, true);
+
+            // Add it
+            ArrayList<Integer> temp1 = new ArrayList<>(processed);
+            temp1.add(currentValue);
+            helperDiceCombinationToGetTheValueRecursion(digit, currentValue, temp1, returnList, false, false);
+        } else {
+            if (processed.get(0) == 0) {
+                // Ignore it
+                helperDiceCombinationToGetTheValueRecursion(digit, currentValue+1, processed, returnList, true, false);
+
+                if (ignore) {
+                    return;
+                }
+
+                // Add it
+                ArrayList<Integer> temp1 = new ArrayList<>(processed);
+                temp1.set(0,currentValue);
+                helperDiceCombinationToGetTheValueRecursion(digit, currentValue+1, temp1, returnList, true, false);
+                return;
+            }
+
+            // Ignore it
+            helperDiceCombinationToGetTheValueRecursion(digit, currentValue+1, processed, returnList, true, false);
+
+            if (ignore) {
+                return;
+            }
+
+            // Add it
+            ArrayList<Integer> temp1 = new ArrayList<>(processed);
+            temp1.add(currentValue);
+            helperDiceCombinationToGetTheValueRecursion(digit, currentValue+1, temp1, returnList, true, false);
+        }
+
+
+    }
+    static void helperDiceCombinationToGetTheValueIteration(int digit, List<List<Integer>> returnList) {
+        int[] dieFaces = {1,2,3,4,5,6};
+
+        int start = 0;
+        int end = 6;
+
+        for (int i = start; i < end; i++) {
+            for (int j = i; j < end; j++) {
+
+                // Making the process efficient
+                if (dieFaces[i] + dieFaces[j] > digit) {
+                    break;
+                }
+
+                // Checking if equal and adding
+                if (dieFaces[i] + dieFaces[j] == digit) {
+                    List<Integer> tempList = new ArrayList<>(2);
+                    tempList.add(dieFaces[i]);
+                    tempList.add(dieFaces[j]);
+                    returnList.add(tempList);
+                }
+            }
+        }
+    }
     // Google problem
     static List<String> letterCombinations(String digits) {
         List<String> returnList = new ArrayList<>();
@@ -21,7 +139,6 @@ public class Recursion {
         helperLetterCombinations(digits, "", letters,  returnList);
         return returnList;
     }
-
     static void helperLetterCombinations(String digits, String processed, String[] letters, List<String> returnList) {
         // Base condition
         if (digits.isEmpty()) {
