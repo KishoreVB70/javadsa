@@ -7,7 +7,10 @@ public class Recursion {
         int[] nums = {2,2};
         int[][] maze = {{0,0}, {1,1}, {1,2}, {1,3}};
 
-        System.out.println(findNumberOfUniquePathsBacktracking(nums));
+        List<List<List<Integer>>> result = findAllTheUniquePathsOfMaze(nums);
+        for(List<List<Integer>> i: result) {
+            System.out.println(i);
+        }
     }
 
 
@@ -19,12 +22,11 @@ public class Recursion {
 
         return helperFindNumberOfUniquePathsBacktracking(goal, start);
     }
-
     static int helperFindNumberOfUniquePathsBacktracking(int[] goal, int[] current) {
         int count = 0;
 
         // Base condition
-        if (current[0] == 2 || current[1] == 2) {
+        if (current[0] == goal[0] || current[1] == goal[1]) {
             return 1;
         }
 
@@ -41,6 +43,70 @@ public class Recursion {
         count += helperFindNumberOfUniquePathsBacktracking(goal, current);
         return count;
     }
+
+    // 2) Returning all the paths
+    static List<List<List<Integer>>> findAllTheUniquePathsOfMaze(int[] goal) {
+        List<List<List<Integer>>> returnList = new ArrayList<>();
+        List<List<Integer>> processed = new ArrayList<>();
+        List<Integer> current  = new ArrayList<>();
+        current.add(0);
+        current.add(0);
+        helperFindAllTheUniquePathsOfMaze(goal, current, processed, returnList);
+        return  returnList;
+    }
+
+    static void helperFindAllTheUniquePathsOfMaze(int[] goal, List<Integer> current, List<List<Integer>> processed, List<List<List<Integer>>> returnList) {
+        List<List<Integer>> newProcessed = new ArrayList<>(processed);
+        newProcessed.add(current);
+
+        if (current.get(0) == goal[0] && current.get(1) == goal[1]) {
+            returnList.add(newProcessed);
+            return;
+        }
+
+        // Add to the left
+        if (current.get(0) < goal[0]) {
+            // Create new List
+            List<Integer> temp = new ArrayList<>(current);
+            temp.set(0, current.getFirst() + 1);
+            helperFindAllTheUniquePathsOfMaze(goal, temp, newProcessed, returnList);
+        }
+
+        // Add to the right
+        if (current.get(1) < goal[1]) {
+            List<Integer> temp2 = new ArrayList<>(current);
+            temp2.set(1, current.get(1) + 1);
+            helperFindAllTheUniquePathsOfMaze(goal, temp2, newProcessed, returnList);
+        }
+
+    }
+
+    static List<List<Integer>> helperFindAllTheUniquePathsOfMazeReturn(int[] goal, List<Integer> current, List<List<Integer>> processed, List<List<List<Integer>>> returnList) {
+        List<List<Integer>> newProcessed = new ArrayList<>(processed);
+
+        newProcessed.add(current);
+        if (current.get(0) == goal[0] && current.get(1) == goal[1]) {
+            return newProcessed;
+        }
+
+        // Add to the left
+        if (current.get(0) < goal[0]) {
+            // Create new List
+            List<Integer> temp = new ArrayList<>(current);
+            temp.set(0, current.getFirst() + 1);
+            newProcessed.addAll(helperFindAllTheUniquePathsOfMazeReturn(goal, temp, newProcessed, returnList));
+        }
+
+        // Add to the right
+        if (current.get(1) < goal[1]) {
+            current.set(1, current.get(1) +1);
+            newProcessed.addAll(helperFindAllTheUniquePathsOfMazeReturn(goal, current, newProcessed, returnList));
+        }
+
+        return newProcessed;
+
+    }
+
 
 
     // Subset problems
