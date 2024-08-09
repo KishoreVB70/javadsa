@@ -4,11 +4,43 @@ import java.util.List;
 public class Recursion {
     public static void main(String[] args) {
         int[] nums = {1,2,2,3};
-        System.out.println(findAllCombinationsArray(nums));
+        System.out.println(letterCombinations(""));
     }
 
 
     // Subset problems
+    // Google problem
+    static List<String> letterCombinations(String digits) {
+        List<String> returnList = new ArrayList<>();
+        String[] letters = {" ", " ", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+
+        if (digits.isEmpty()) {
+            return returnList;
+        }
+
+        helperLetterCombinations(digits, "", letters,  returnList);
+        return returnList;
+    }
+
+    static void helperLetterCombinations(String digits, String processed, String[] letters, List<String> returnList) {
+        // Base condition
+        if (digits.isEmpty()) {
+            returnList.add(processed);
+            return;
+        }
+
+        int currentDigit = digits.charAt(0) - '0';
+
+        for (int i = 0; i < letters[currentDigit].length(); i++) {
+            String currentString = letters[currentDigit];
+            helperLetterCombinations(
+                    digits.substring(1),
+                    processed + currentString.charAt(i),
+                    letters, returnList
+            );
+        }
+
+    }
 
     // I] COMBINATION PROBLEMS
 
@@ -110,6 +142,20 @@ public class Recursion {
 
     }
     // 5) Find all combination -> String -> iteration
+    static List<String> findAllCombinationsStringIteration(String original) {
+        String processed = "";
+        List<String> returnList = new ArrayList<>();
+        returnList.add(" ");
+        for (int i = 0; i < original.length(); i++) {
+            for(int j = 0; j < processed.length(); j++) {
+                // Add it
+                processed = processed + original.charAt(i);
+                // Ignore it
+            }
+            returnList.add(processed);
+        }
+        return returnList;
+    }
     // 6) Find all combination -> Array -> iteration
     // 7) Find all combination with duplicates -> String -> iteration
     // 8) FInd all combination with duplicates -> array -> iteration
