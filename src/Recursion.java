@@ -5,6 +5,8 @@ import java.util.List;
 public class Recursion {
     public static void main(String[] args) {
         int[] nums = {2,2};
+        int[][] maze = {{0,0}, {1,1}, {1,2}, {1,3}};
+
         System.out.println(findNumberOfUniquePathsBacktracking(nums));
     }
 
@@ -20,29 +22,23 @@ public class Recursion {
 
     static int helperFindNumberOfUniquePathsBacktracking(int[] goal, int[] current) {
         int count = 0;
-        System.out.println(Arrays.toString(current));
 
         // Base condition
-        if (Arrays.equals(goal, current)) {
+        if (current[0] == 2 || current[1] == 2) {
             return 1;
         }
 
         // Either add it in the left -> index 0
-        if (current[0] < 2) {
-            int[] temp = new int[2];
-            temp[0] = current[0] + 1 ;
-            temp[1] = current[1];
-            count += helperFindNumberOfUniquePathsBacktracking(goal, temp);
-        }
+        int[] temp = new int[2];
+        temp[0] = current[0] + 1;
+        temp[1] = current[1];
+        count += helperFindNumberOfUniquePathsBacktracking(goal, temp);
 
         // Or add it in the right -> index 1
-        if (current[1] < 2) {
-            int[] temp = new int[2];
-            temp[0] = current[0];
-            temp[1] = current[1] + 1;
-            count += helperFindNumberOfUniquePathsBacktracking(goal, temp);
-        }
+        current[1] = current[1] + 1;
 
+        // Using the same input array
+        count += helperFindNumberOfUniquePathsBacktracking(goal, current);
         return count;
     }
 
