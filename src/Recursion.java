@@ -21,16 +21,69 @@ public class Recursion {
         List<Integer> processed = new ArrayList<>();
         processed.add(0);
 
-        helperDiceCombinationToGetTheValueRecursion(digit, 1, processed, returnList, true, false);
+        helperDiceCombinationToGetTheValueRecursionStreamLine(digit, 1, processed, returnList, true, false);
         return returnList;
 
 
     }
 
-    static void helperDiceCombinationToGetTheValueRecursion(
+    static void helperDiceCombinationToGetTheValueRecursionStreamLine(
             int digit, int currentValue,
             List<Integer> processed, List<List<Integer>> returnList,
-            boolean isFirst, boolean ignore ) {
+            boolean isFirst, boolean ignore )
+    {
+
+        // Base condition
+        if (currentValue > 6) {
+            if (processed.size() > 1 && processed.get(0) + processed.get(1) == digit) {
+                returnList.add(processed);
+                return;
+            }
+            return;
+        }
+
+        // Another base condition
+        if (processed.size() > 1) {
+            if (processed.get(0) + processed.get(1) == digit) {
+                returnList.add(processed);
+                return;
+            } else {
+                return;
+            }
+        }
+
+        // Function body
+
+        ArrayList<Integer> temp1 = new ArrayList<>(processed);
+        if (processed.get(0) == 0) {
+            temp1.set(0,currentValue);
+        }
+        else {
+            temp1.add(currentValue);
+        }
+
+        if (isFirst) {
+            // Ignore it
+            helperDiceCombinationToGetTheValueRecursionStreamLine(digit, currentValue, processed, returnList, false, true);
+        } else {
+            currentValue++;
+
+            // Ignore it
+            helperDiceCombinationToGetTheValueRecursionStreamLine(digit, currentValue, processed, returnList, true, false);
+            if (ignore) {
+                return;
+            }
+        }
+
+        // Add step
+        helperDiceCombinationToGetTheValueRecursionStreamLine(digit, currentValue, temp1, returnList, false, false);
+    }
+
+    static void helperDiceCombinationToGetTheValueRecursion(
+        int digit, int currentValue,
+        List<Integer> processed, List<List<Integer>> returnList,
+        boolean isFirst, boolean ignore )
+    {
 
         // Base condition
         if (currentValue > 6) {
