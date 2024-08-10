@@ -5,20 +5,134 @@ import java.util.List;
 
 public class Recursion {
     public static void main(String[] args) {
-        int[] nums = {2,2};
-        boolean[][] maze = {
-                {true, true, true},
-                {true, false, true},
-                {true, false, true}};
+        List<List<List<Integer>>> list = nQueens(4);
 
-        System.out.println(findAllTheUniquePathOfMazeObstacleBooleanIn(maze, nums));
-
-//        List<List<List<Integer>>> result = findAllTheUniquePathsOfMaze(nums);
-//        for(List<List<Integer>> i: result) {
-//            System.out.println(i);
-//        }
+        for (List<List<Integer>> processed: list) {
+            System.out.println(processed);
+        }
     }
 
+    // Backtracking problems
+    // 1) N queens
+    static  List<List<List<Integer>>> nQueens(int n) {
+        List<List<List<Integer>>> returnList = new ArrayList<>();
+        List<List<Integer>> processed = new ArrayList<>();
+
+        List<Integer> current = new ArrayList<>(2);
+        current.add(0);
+        current.add(0);
+
+        boolean[][] board = new boolean[n][n];
+        // Set boolean array to true first
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                board[i][j] = true;
+            }
+        }
+
+        helperNQueens(board, n, current, processed, returnList, 0);
+        return  returnList;
+
+    }
+
+    static void helperNQueens(boolean[][] board, int n, List<Integer> current, List<List<Integer>> processed, List<List<List<Integer>>> returnList, int queens) {
+        int row = current.get(0);
+        int column = current.get(1);
+
+        // Victory base condition
+        if (queens == n) {
+            returnList.add(processed);
+            return;
+        }
+
+        if (row >= n || column >= n) {
+            return;
+        }
+
+        // If the row doesn't have any queen -> backtrack
+        if (queens < row) {
+            return;
+        }
+
+
+        List<Integer> newCurrent = new ArrayList<>(current);
+        List<List<Integer>> newProcessed = new ArrayList<>(processed);
+
+        // If it is false, try the next one
+        if (!board[row][column]) {
+
+
+            // If it is at the edge of the row, go onto the next row
+            if (current.get(1) == n - 1) {
+                // Go to the next row
+                newCurrent.set(0, row + 1);
+
+                // Go on to the first column
+                newCurrent.set(1, 0);
+            } else {
+                newCurrent.set(1, column + 1);
+            }
+            helperNQueens(board, n, newCurrent, newProcessed, returnList, queens);
+            return;
+        }
+
+        // If not false, add the queen there
+
+        // Go on to the next row
+        // Set all the targets to false
+
+        board[row][column] = false;
+        helperChangeStateNQueens(board, row, column, n, false);
+
+        // Go on to the next row first column
+        newCurrent.set(0, row + 1);
+        newCurrent.set(1, 0);
+
+        // Add current to processed
+        newProcessed.add(current);
+
+        // Increment the queen
+        helperNQueens(board, n, newCurrent, newProcessed, returnList, queens+1);
+
+
+        // Back tracking step
+        helperChangeStateNQueens(board, row, column, n, true);
+        board[row][column] = true;
+
+        // Continue condition
+        // If there is space still, don't return, keep going boii
+        if (column < n-1) {
+            newCurrent.set(0, row);
+            newCurrent.set(1, column+1);
+            helperNQueens(board, n, newCurrent, processed, returnList, queens);
+        }
+    }
+
+    static void helperChangeStateNQueens(boolean[][] board, int row, int column, int n, boolean bool) {
+        // All further bottom elements
+        for (int i = row + 1; i < n; i++) {
+            board[i][column] = bool;
+        }
+
+        // All further diagonal to the right side bottom elements
+        int i = row+1;
+        int j = column+1;
+        while (i < n && j < n) {
+            board[i][j] = bool;
+            i++;
+            j++;
+        }
+
+        // All further diagonal to the left side bottom elements
+        i = row+1;
+        j = column-1;
+        while (i < n && j >= 0) {
+            board[i][j] = bool;
+            i++;
+            j--;
+        }
+
+    }
 
     // Maze problems (intro to back tracking)
 
@@ -332,7 +446,6 @@ public class Recursion {
     }
 
     // 8) Printing the matrix along with the path
-
     static void helperFindAllThePathOfMazeAnyDirectionObstacleBooleanInPrintMatrix(int[] goal, int[] current,boolean[][] maze, String processed,  List<String> returnList, int currentStep, int[][] matrix) {
         int index0 = current[0];
         int index1 = current[1];
@@ -405,8 +518,6 @@ public class Recursion {
         // Resetting the index to 0
         matrix[index0][index1] = 0;
     }
-
-
 
 
     // Subset problems
