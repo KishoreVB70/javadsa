@@ -6,12 +6,17 @@ import java.util.List;
 public class Recursion {
     public static void main(String[] args) {
         int[] nums = {2,2};
-        int[][] maze = {{0,0}, {1,1}, {1,2}, {1,3}};
+        boolean[][] maze = {
+                {true, true, true},
+                {true, false, true},
+                {false, true, true}};
 
-        List<List<List<Integer>>> result = findAllTheUniquePathsOfMaze(nums);
-        for(List<List<Integer>> i: result) {
-            System.out.println(i);
-        }
+        System.out.println(findAllTheUniquePathOfMazeObstacleBooleanIn(maze, nums));
+
+//        List<List<List<Integer>>> result = findAllTheUniquePathsOfMaze(nums);
+//        for(List<List<Integer>> i: result) {
+//            System.out.println(i);
+//        }
     }
 
 
@@ -212,7 +217,51 @@ public class Recursion {
     }
 
     // 6) Boolean array for simulating obstacles
+    static List<String> findAllTheUniquePathOfMazeObstacleBooleanIn(boolean[][] maze, int[] goal) {
+        List<String> returnList = new ArrayList<>();
+        int[] current = {0,0};
+        helperFindAllTheUniquePathOfMazeObstacleBooleanIn(goal, current,maze, "", returnList);
+        return returnList;
+    }
 
+    static void helperFindAllTheUniquePathOfMazeObstacleBooleanIn(int[] goal, int[] current,boolean[][] maze, String processed,  List<String> returnList) {
+        // Base condition
+        if (Arrays.equals(goal, current)) {
+            returnList.add(processed);
+            return;
+        }
+        int index0 = current[0];
+        int index1 = current[1];
+
+        // If bostacle
+        if (!maze[index1][index0]) {
+            return;
+        }
+
+        if (index0 < goal[0] &&  index1 < goal[1]) {
+            int[] temp1 = new int[2];
+            temp1[0] = index0 + 1;
+            temp1[1] = index1 + 1;
+            helperFindAllTheUniquePathOfMazeObstacleBooleanIn(goal, temp1, maze, processed + "D", returnList);
+        }
+
+        if (index0 < goal[0]) {
+            int[] temp1 = new int[2];
+            temp1[0] = index0 + 1;
+            temp1[1] = index1;
+            helperFindAllTheUniquePathOfMazeObstacleBooleanIn(goal, temp1, maze, processed + "R", returnList);
+        }
+
+        if (index1 < goal[1]) {
+            int[] temp1 = new int[2];
+            temp1[0] = index0;
+            temp1[1] = index1 + 1;
+            helperFindAllTheUniquePathOfMazeObstacleBooleanIn(goal, temp1, maze, processed + "B", returnList);
+        }
+
+
+
+    }
 
     // Any direction instead of just down and up
     // Subset problems
