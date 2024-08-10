@@ -220,7 +220,8 @@ public class Recursion {
     static List<String> findAllTheUniquePathOfMazeObstacleBooleanIn(boolean[][] maze, int[] goal) {
         List<String> returnList = new ArrayList<>();
         int[] current = {0,0};
-        helperFindAllThePathOfMazeAnyDirectionObstacleBooleanIn(goal, current,maze, "", returnList);
+        int[][] matrix = {{0,0,0},{0,0,0}, {0,0,0}};
+        helperFindAllThePathOfMazeAnyDirectionObstacleBooleanInPrintMatrix(goal, current,maze, "", returnList, 0, matrix);
         return returnList;
     }
     static void helperFindAllTheUniquePathOfMazeObstacleBooleanIn(int[] goal, int[] current,boolean[][] maze, String processed,  List<String> returnList) {
@@ -262,7 +263,7 @@ public class Recursion {
 
     }
 
-    // Any direction instead of just down and up -> BACKTRACKING
+    // 7)BACKTRACKING  -> Any direction instead of just down and right
     static void helperFindAllThePathOfMazeAnyDirectionObstacleBooleanIn (int[] goal, int[] current,boolean[][] maze, String processed,  List<String> returnList) {
         // Base condition
         if (Arrays.equals(goal, current)) {
@@ -329,6 +330,86 @@ public class Recursion {
 
 
     }
+
+    // 8) Printing the matrix along with the path
+    static void helperFindAllThePathOfMazeAnyDirectionObstacleBooleanInPrintMatrix (int[] goal, int[] current,boolean[][] maze, String processed,  List<String> returnList, int currentStep, int[][] matrix) {
+        int index0 = current[0];
+        int index1 = current[1];
+
+        // If obstacle
+        if (!maze[index0][index1]) {
+            return;
+        }
+
+        matrix[index0][index1] = currentStep;
+
+        // Base condition
+        if (Arrays.equals(goal, current)) {
+            for (int[] i: matrix) {
+                System.out.println(Arrays.toString(i));
+            }
+            System.out.println(processed);
+            System.out.println("-----");
+            returnList.add(processed);
+            matrix[index0][index1] = 0;
+            return;
+        }
+
+
+
+
+        // Backtracking step
+        maze[index0][index1] = false;
+
+        // Diagonal
+        if (index0 < goal[0] &&  index1 < goal[1]) {
+            int[] temp1 = new int[2];
+            temp1[0] = index0 + 1;
+            temp1[1] = index1 + 1;
+            helperFindAllThePathOfMazeAnyDirectionObstacleBooleanInPrintMatrix(goal, temp1, maze, processed + "D",  returnList, ++currentStep, matrix);
+            currentStep--;
+        }
+
+        // Up
+        if (index1 > 0) {
+            int[] temp1 = new int[2];
+            temp1[0] = index0;
+            temp1[1] = index1 - 1;
+            helperFindAllThePathOfMazeAnyDirectionObstacleBooleanInPrintMatrix(goal, temp1, maze, processed + "L", returnList,++currentStep, matrix);
+            currentStep--;
+        }
+
+        // Left
+        if (index0 > 0) {
+            int[] temp1 = new int[2];
+            temp1[0] = index0 - 1;
+            temp1[1] = index1;
+            helperFindAllThePathOfMazeAnyDirectionObstacleBooleanInPrintMatrix(goal, temp1, maze, processed + "U", returnList,++currentStep, matrix);
+            currentStep--;
+        }
+
+        // Right
+        if (index0 < goal[0]) {
+            int[] temp1 = new int[2];
+            temp1[0] = index0 + 1;
+            temp1[1] = index1;
+            helperFindAllThePathOfMazeAnyDirectionObstacleBooleanInPrintMatrix(goal, temp1, maze, processed + "B", returnList, ++currentStep, matrix);
+            currentStep--;
+        }
+
+        // Bottom
+        if (index1 < goal[1]) {
+            int[] temp1 = new int[2];
+            temp1[0] = index0;
+            temp1[1] = index1 + 1;
+            helperFindAllThePathOfMazeAnyDirectionObstacleBooleanInPrintMatrix(goal, temp1, maze, processed + "R", returnList, ++currentStep, matrix);
+        }
+
+        // Backtracking
+        maze[index0][index1] = true;
+        matrix[index0][index1] = 0;
+    }
+
 
 
     // Subset problems
