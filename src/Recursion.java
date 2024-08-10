@@ -8,7 +8,7 @@ public class Recursion {
         int[] nums = {2,2};
         boolean[][] maze = {
                 {true, true, true},
-                {true, false, true},
+                {true, true, true},
                 {false, true, true}};
 
         System.out.println(findAllTheUniquePathOfMazeObstacleBooleanIn(maze, nums));
@@ -20,7 +20,7 @@ public class Recursion {
     }
 
 
-    // Backtracking problems
+    // Maze problems (intro to back tracking)
 
     // 1) Finding the number of unique paths
     static int findNumberOfUniquePathsBacktracking(int[] goal) {
@@ -220,10 +220,9 @@ public class Recursion {
     static List<String> findAllTheUniquePathOfMazeObstacleBooleanIn(boolean[][] maze, int[] goal) {
         List<String> returnList = new ArrayList<>();
         int[] current = {0,0};
-        helperFindAllTheUniquePathOfMazeObstacleBooleanIn(goal, current,maze, "", returnList);
+        helperFindAllThePathOfMazeAnyDirectionObstacleBooleanIn(goal, current,maze, "", returnList);
         return returnList;
     }
-
     static void helperFindAllTheUniquePathOfMazeObstacleBooleanIn(int[] goal, int[] current,boolean[][] maze, String processed,  List<String> returnList) {
         // Base condition
         if (Arrays.equals(goal, current)) {
@@ -263,7 +262,75 @@ public class Recursion {
 
     }
 
-    // Any direction instead of just down and up
+    // Any direction instead of just down and up -> BACKTRACKING
+    static void helperFindAllThePathOfMazeAnyDirectionObstacleBooleanIn (int[] goal, int[] current,boolean[][] maze, String processed,  List<String> returnList) {
+        // Base condition
+        if (Arrays.equals(goal, current)) {
+            returnList.add(processed);
+            return;
+        }
+        int index0 = current[0];
+        int index1 = current[1];
+
+        // If obstacle
+        if (!maze[index0][index1]) {
+            return;
+        }
+
+        // Diagonal
+        if (index0 < goal[0] &&  index1 < goal[1]) {
+            maze[index0][index1] = false;
+            int[] temp1 = new int[2];
+            temp1[0] = index0 + 1;
+            temp1[1] = index1 + 1;
+            helperFindAllThePathOfMazeAnyDirectionObstacleBooleanIn(goal, temp1, maze, processed + "D", returnList);
+            maze[index0][index1] = true;
+        }
+
+        // Up
+        if (index1 > 0) {
+            maze[index0][index1] = false;
+            int[] temp1 = new int[2];
+            temp1[0] = index0;
+            temp1[1] = index1 - 1;
+            helperFindAllThePathOfMazeAnyDirectionObstacleBooleanIn(goal, temp1, maze, processed + "U", returnList);
+            maze[index0][index1] = true;
+        }
+
+        // Left
+        if (index0 > 0) {
+            maze[index0][index1] = false;
+            int[] temp1 = new int[2];
+            temp1[0] = index0 - 1;
+            temp1[1] = index1;
+            helperFindAllThePathOfMazeAnyDirectionObstacleBooleanIn(goal, temp1, maze, processed + "L", returnList);
+            maze[index0][index1] = true;
+        }
+
+        // Right
+        if (index0 < goal[0]) {
+            maze[index0][index1] = false;
+            int[] temp1 = new int[2];
+            temp1[0] = index0 + 1;
+            temp1[1] = index1;
+            helperFindAllThePathOfMazeAnyDirectionObstacleBooleanIn(goal, temp1, maze, processed + "R", returnList);
+            maze[index0][index1] = true;
+        }
+
+        // Bottom
+        if (index1 < goal[1]) {
+            maze[index0][index1] = false;
+            int[] temp1 = new int[2];
+            temp1[0] = index0;
+            temp1[1] = index1 + 1;
+            helperFindAllThePathOfMazeAnyDirectionObstacleBooleanIn(goal, temp1, maze, processed + "B", returnList);
+            maze[index0][index1] = true;
+        }
+
+
+    }
+
+
     // Subset problems
 
     // Microsoft Dice problem
