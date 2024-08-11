@@ -136,7 +136,7 @@ public class Recursion {
 
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                charMan[i][j] = 'X';
+                charMan[i][j] = 'O';
             }
         }
 
@@ -200,13 +200,20 @@ public class Recursion {
             newCurrent.set(0, row+1);
             newCurrent.set(1, 0);
             helperNKnights(board, newCurrent, newProcessed, returnList, knights +1, charMan);
-        } else if (column == n & row == n) {
-            helperNKnights(board, newCurrent, newProcessed, returnList, knights +1, charMan);
+        } else if (column == n-1 & row == n-1) {
+            if (knights + 1 == n) {
+                returnList.add(newProcessed);
+                for (int i = 0; i < n; i++) {
+                    System.out.println(charMan[i]);
+                }
+                System.out.println(newProcessed);
+                return;
+            }
         }
 
         // Back tracking step
         board[row][column] = false;
-        charMan[row][column] = 'X';
+        charMan[row][column] = 'O';
 
         List<Integer> newestNewCurrent = new ArrayList<>(current);
         List<List<Integer>> newestNewProcessed = new ArrayList<>(processed);
