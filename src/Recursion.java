@@ -282,7 +282,7 @@ public class Recursion {
         char charac = helperFindAppropriateSudokuChar(board, row, column);
 
         // If no combination is possible -> return
-        if (charac == '.') {
+        if (charac == 'x') {
             return;
         }
 
@@ -300,11 +300,58 @@ public class Recursion {
     }
 
     static char helperFindAppropriateSudokuChar(char[][] board, int row, int column) {
-        // Check for all the elements in the row
+        int i = 1;
+        while (i <= 9) {
+            boolean nextNum = false;
 
-        // Check for all the elements in the column
+            // Check for all the elements in the row
+            int tempRow = 0;
+            while (tempRow <= 9) {
+                if (board[tempRow][column] == i + '0') {
+                    nextNum = true;
+                    break;
+                }
+            }
+            if (nextNum) {
+                continue;
+            }
 
-        // Check for all the element in the grid
+            // Check for all the elements in the column
+            int tempColumn = 0;
+            while (tempColumn <= 9) {
+                if (board[row][tempColumn] == i + '0') {
+                    nextNum = true;
+                    break;
+                }
+            }
+            if (nextNum) {
+                continue;
+            }
+
+            // Check for all the element in the grid
+            int startOfGridRow;
+            int startOfGridColumn;
+
+            for (int j = 0; j < 3; j++) {
+                for (int k = 0; k < 3; k++) {
+                    if (board[tempRow][tempColumn] == i) {
+                        nextNum = true;
+                        break;
+                    }
+                }
+                if (nextNum) {
+                    break;
+                }
+            }
+
+
+            if (!nextNum) {
+                return (char) ((char) i + '0');
+            }
+        }
+
+        return 'x';
+
     }
 
     // Maze problems (intro to back tracking)
