@@ -1,4 +1,3 @@
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,19 +22,103 @@ public class Recursion {
         current.add(0);
 
         boolean[][] board = new boolean[n][n];
-        // Set boolean array to true first
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                board[i][j] = true;
-            }
-        }
-
-        helperNQueens(board, n, current, processed, returnList, 0);
+        helperNQueens(board, current, processed, returnList, 0);
         return  returnList;
 
     }
+    static void helperNQueens(boolean[][] board, List<Integer> current, List<List<Integer>> processed, List<List<List<Integer>>> returnList, int queens) {
+        int row = current.get(0);
+        int column = current.get(1);
+        int n = board.length;
 
-    static void helperNQueens(boolean[][] board, int n, List<Integer> current, List<List<Integer>> processed, List<List<List<Integer>>> returnList, int queens) {
+        // Base condition
+        if (queens == n) {
+            returnList.add(processed);
+            return;
+        }
+
+        // Return condition -> queen is less than row
+        if (queens < row) {
+            return;
+        }
+
+        List<Integer> newCurrent = new ArrayList<>(current);
+        List<List<Integer>> newProcessed = new ArrayList<>(processed);
+
+        // If queen can't be placed
+        if (!helperFindIfCanPlaceQueenNQueens(board, row, column, n) ) {
+            // Move on to the next position
+            if (column < n -1) {
+                newCurrent.set(1, column+1);
+            } else if (row < n -1){
+                newCurrent.set(0, row+1);
+                newCurrent.set(1, 0);
+            } else {
+                // If we have reached the last row
+                return;
+            }
+            helperNQueens(board, newCurrent, newProcessed, returnList, queens);
+            return;
+        }
+
+        // If the queen can be placed -> true, or else stays as false
+        board[row][column] = true;
+
+        // New position
+        newProcessed.add(current);
+        newCurrent.set(0, row +1);
+        newCurrent.set(1, 0);
+        helperNQueens(board, newCurrent, newProcessed, returnList, queens + 1);
+
+        // Back tracking step
+        board[row][column] = false;
+
+        // Only if there is space in the row, move on to the next position
+        if (column < n -1) {
+            List<Integer> newestNewCurrent = new ArrayList<>(current);
+            List<List<Integer>> newestNewProcessed = new ArrayList<>(processed);
+            newestNewCurrent.set(1, column+1);
+            helperNQueens(board, newestNewCurrent, newestNewProcessed, returnList, queens);
+        }
+        // Else -> return
+    }
+    static boolean helperFindIfCanPlaceQueenNQueens(boolean[][] board, int row, int column, int n) {
+        int tempRow = row - 1;
+        // Straight up
+        while (tempRow >= 0) {
+            if (board[tempRow][column]) {
+                return  false;
+            }
+            tempRow--;
+        }
+
+        // Left up diagonal
+        tempRow = row - 1;
+        int tempColumn = column - 1;
+        while (tempRow >= 0 && tempColumn >= 0) {
+            if (board[tempRow][tempColumn]) {
+                return  false;
+            }
+            tempRow--;
+            tempColumn--;
+        }
+
+        // Right up diagonal
+        tempRow = row - 1;
+        tempColumn = column + 1;
+        while (tempRow >= 0 && tempColumn < n) {
+            if (board[tempRow][tempColumn]) {
+                return  false;
+            }
+            tempRow--;
+            tempColumn++;
+        }
+
+        return  true;
+
+    }
+
+    static void helperNQueensBot(boolean[][] board, int n, List<Integer> current, List<List<Integer>> processed, List<List<List<Integer>>> returnList, int queens) {
         int row = current.get(0);
         int column = current.get(1);
 
@@ -72,7 +155,7 @@ public class Recursion {
             } else {
                 newCurrent.set(1, column + 1);
             }
-            helperNQueens(board, n, newCurrent, newProcessed, returnList, queens);
+            helperNQueensBot(board, n, newCurrent, newProcessed, returnList, queens);
             return;
         }
 
@@ -92,7 +175,7 @@ public class Recursion {
         newProcessed.add(current);
 
         // Increment the queen
-        helperNQueens(board, n, newCurrent, newProcessed, returnList, queens+1);
+        helperNQueensBot(board, n, newCurrent, newProcessed, returnList, queens+1);
 
 
         // Back tracking step
@@ -104,9 +187,13 @@ public class Recursion {
         if (column < n-1) {
             newCurrent.set(0, row);
             newCurrent.set(1, column+1);
-            helperNQueens(board, n, newCurrent, processed, returnList, queens);
+            helperNQueensBot(board, n, newCurrent, processed, returnList, queens);
         }
     }
+
+    // 2) N Knights
+
+    // 3) Sudoku solver
 
     static void helperChangeStateNQueens(boolean[][] board, int row, int column, int n, boolean bool) {
         // All further bottom elements
