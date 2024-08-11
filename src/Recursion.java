@@ -271,6 +271,7 @@ public class Recursion {
             return;
         }
 
+        // If it is already assigned, move ahead
         if (! (board[row][column] == '.')) {
             if (column < board.length -1) {
                 sudokuSolver(board, row, column + 1);
@@ -281,33 +282,23 @@ public class Recursion {
             return;
         }
 
-        char charac = helperFindAppropriateSudokuChar(board, row, column);
+        // If it is assigned, try every number
+        for (int i = 1; i < 9; i++) {
+            if (helperFindIfNumberCanBePlaced(board, i, row, column)) {
+                board[row][column] = (char)  ( (char) i + '0');
 
-        // If no combination is possible -> return
-        if (charac == 'x') {
-            return;
+                // Check the next element
+                if (column < board.length -1) {
+                    sudokuSolver(board, row, column + 1);
+                } else {
+                    sudokuSolver(board, row + 1, 0);
+                }
+                // If it returns, move back to normal
+                board[row][column] = '.';
+            }
         }
 
-        // If it is a match -> set character
-        board[row][column] = charac;
-
-        // Check the next element
-        if (column < board.length -1) {
-            sudokuSolver(board, row, column + 1);
-        } else {
-            sudokuSolver(board, row + 1, 0);
-        }
-
-        // Back tracking
-        board[row][column] = '.';
-
-        // Check the next element
-        if (column < board.length -1) {
-            sudokuSolver(board, row, column + 1);
-        } else {
-            sudokuSolver(board, row + 1, 0);
-        }
-
+        // If nothing works out, go back for the previous to change it's combination
     }
 
     static char helperFindAppropriateSudokuChar(char[][] board, int row, int column) {
@@ -363,6 +354,36 @@ public class Recursion {
 
         return 'x';
 
+    }
+    static boolean helperFindIfNumberCanBePlaced(char[][] board, int i, int row, int column) {
+        // Check for all the elements in the row
+        for (int tempRow = 0; tempRow < 9  ; tempRow++) {
+            if (board[tempRow][column] == i + '0') {
+                return  false;
+            }
+        }
+
+        // Check for all the elements in the column
+        for (int tempColumn = 0; tempColumn < 9  ; tempColumn++) {
+            if (board[row][tempColumn] == i + '0') {
+                return false;
+            }
+        }
+        // Check for all the element in the grid
+
+        // Condition -> if the row or column is getting perfectly divided by 3, then it is the starting column or row
+        int startOfGridRow = (row - row % 3 );
+        int startOfGridColumn = (column - column % 3);
+
+        for (int j = startOfGridRow; j <= startOfGridRow + 2; j++) {
+            for (int k = startOfGridColumn; k <= startOfGridColumn + 2; k++) {
+                if (board[j][k] == i) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     // Maze problems (intro to back tracking)
