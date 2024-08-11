@@ -4,8 +4,10 @@ import java.util.List;
 
 public class Recursion {
     public static void main(String[] args) {
-        List<List<List<Integer>>> list = nKnights(4);
+        char board[][] = {{'5','3','.','.','7','.','.','.','.'},{'6','.','.','1','9','5','.','.','.'},{'.','9','8','.','.','.','.','6','.'},{'8','.','.','.','6','.','.','.','3'},{'4','.','.','8','.','3','.','.','1'},{'7','.','.','.','2','.','.','.','6'},{'.','6','.','.','.','.','2','8','.'},{'.','.','.','4','1','9','.','.','5'},{'.','.','.','.','8','.','.','7','9'}};
+        sudokuSolver(board);
     }
+
 
     // Backtracking problems
     // 1) N queens
@@ -261,8 +263,8 @@ public class Recursion {
     }
 
     static void sudokuSolver(char[][] board, int row, int column) {
-        // Base condition
-        if (row == board.length - 1 && column == board.length - 1) {
+        // Base condition -> when you exceeded the sudoku, it means you've solved it
+        if (row == board.length) {
             for (char[] chars : board) {
                 System.out.println(chars);
             }
@@ -286,27 +288,36 @@ public class Recursion {
             return;
         }
 
-
         // If it is a match -> set character
         board[row][column] = charac;
 
         // Check the next element
         if (column < board.length -1) {
             sudokuSolver(board, row, column + 1);
-        } else if (row < board.length -1 ) {
+        } else {
+            sudokuSolver(board, row + 1, 0);
+        }
+
+        // Back tracking
+        board[row][column] = '.';
+
+        // Check the next element
+        if (column < board.length -1) {
+            sudokuSolver(board, row, column + 1);
+        } else {
             sudokuSolver(board, row + 1, 0);
         }
 
     }
 
     static char helperFindAppropriateSudokuChar(char[][] board, int row, int column) {
-        int i = 1;
-        while (i <= 9) {
+        int i = 0;
+        while (i < 9) {
+            i++;
             boolean nextNum = false;
 
             // Check for all the elements in the row
-            int tempRow = 0;
-            while (tempRow <= 9) {
+            for (int tempRow = 0; tempRow < 9  ; tempRow++) {
                 if (board[tempRow][column] == i + '0') {
                     nextNum = true;
                     break;
@@ -317,8 +328,7 @@ public class Recursion {
             }
 
             // Check for all the elements in the column
-            int tempColumn = 0;
-            while (tempColumn <= 9) {
+            for (int tempColumn = 0; tempColumn < 9  ; tempColumn++) {
                 if (board[row][tempColumn] == i + '0') {
                     nextNum = true;
                     break;
@@ -329,12 +339,14 @@ public class Recursion {
             }
 
             // Check for all the element in the grid
-            int startOfGridRow;
-            int startOfGridColumn;
 
-            for (int j = 0; j < 3; j++) {
-                for (int k = 0; k < 3; k++) {
-                    if (board[tempRow][tempColumn] == i) {
+            // Condition -> if the row or column is getting perfectly divided by 3, then it is the starting column or row
+            int startOfGridRow = (row - row % 3 );
+            int startOfGridColumn = (column - column % 3);
+
+            for (int j = startOfGridRow; j <= startOfGridRow + 2; j++) {
+                for (int k = startOfGridColumn; k <= startOfGridColumn + 2; k++) {
+                    if (board[j][k] == i) {
                         nextNum = true;
                         break;
                     }
@@ -343,7 +355,6 @@ public class Recursion {
                     break;
                 }
             }
-
 
             if (!nextNum) {
                 return (char) ((char) i + '0');
