@@ -162,11 +162,6 @@ public class Recursion {
             return;
         }
 
-        // Return condition -> Knight is less than row -> not a condition bro
-//        if (knights < row) {
-//            return;
-//        }
-
         List<Integer> newCurrent = new ArrayList<>(current);
         List<List<Integer>> newProcessed = new ArrayList<>(processed);
 
@@ -258,9 +253,59 @@ public class Recursion {
 
     }
 
-
     // 3) Sudoku solver
+    static void sudokuSolver(char[][] board) {
+        int row = 0;
+        int column = 0;
+        sudokuSolver(board, row, column);
+    }
 
+    static void sudokuSolver(char[][] board, int row, int column) {
+        // Base condition
+        if (row == board.length - 1 && column == board.length - 1) {
+            for (char[] chars : board) {
+                System.out.println(chars);
+            }
+            return;
+        }
+
+        if (! (board[row][column] == '.')) {
+            if (column < board.length -1) {
+                sudokuSolver(board, row, column + 1);
+            } else if (row < board.length -1 ) {
+                sudokuSolver(board, row + 1, 0);
+            }
+            // If not both condition, then it means, it the last element and return bro
+            return;
+        }
+
+        char charac = helperFindAppropriateSudokuChar(board, row, column);
+
+        // If no combination is possible -> return
+        if (charac == '.') {
+            return;
+        }
+
+
+        // If it is a match -> set character
+        board[row][column] = charac;
+
+        // Check the next element
+        if (column < board.length -1) {
+            sudokuSolver(board, row, column + 1);
+        } else if (row < board.length -1 ) {
+            sudokuSolver(board, row + 1, 0);
+        }
+
+    }
+
+    static char helperFindAppropriateSudokuChar(char[][] board, int row, int column) {
+        // Check for all the elements in the row
+
+        // Check for all the elements in the column
+
+        // Check for all the element in the grid
+    }
 
     // Maze problems (intro to back tracking)
 
