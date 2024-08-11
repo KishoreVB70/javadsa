@@ -4,11 +4,7 @@ import java.util.List;
 
 public class Recursion {
     public static void main(String[] args) {
-        List<List<List<Integer>>> list = nQueens(4);
-
-        for (List<List<Integer>> processed: list) {
-            System.out.println(processed);
-        }
+        List<List<List<Integer>>> list = nKnights(4);
     }
 
     // Backtracking problems
@@ -133,6 +129,128 @@ public class Recursion {
     }
 
     // 2) N Knights
+    static List<List<List<Integer>>> nKnights(int n) {
+        List<List<List<Integer>>> returnList = new ArrayList<>();
+        List<List<Integer>> processed = new ArrayList<>();
+        char[][] charMan = new char[n][n];
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                charMan[i][j] = 'X';
+            }
+        }
+
+        List<Integer> current = new ArrayList<>(2);
+        current.add(0);
+        current.add(0);
+        boolean[][] board = new boolean[n][n];
+        helperNKnights(board, current, processed, returnList, 0, charMan);
+        return  returnList;
+    }
+    static void helperNKnights(boolean[][] board, List<Integer> current, List<List<Integer>> processed, List<List<List<Integer>>> returnList, int knights, char[][] charMan) {
+        int row = current.get(0);
+        int column = current.get(1);
+        int n = board.length;
+
+        // Base condition
+        if (knights == n) {
+            returnList.add(processed);
+            for (int i = 0; i < n; i++) {
+                System.out.println(charMan[i]);
+            }
+            System.out.println(processed);
+            return;
+        }
+
+        // Return condition -> Knight is less than row -> not a condition bro
+//        if (knights < row) {
+//            return;
+//        }
+
+        List<Integer> newCurrent = new ArrayList<>(current);
+        List<List<Integer>> newProcessed = new ArrayList<>(processed);
+
+        // If queen can't be placed
+        if (!helperFindIfCanPlaceNKnights(board, row, column, n) ) {
+            // Move on to the next position
+            if (column < n -1) {
+                newCurrent.set(1, column+1);
+            } else if (row < n -1){
+                newCurrent.set(0, row+1);
+                newCurrent.set(1, 0);
+            } else {
+                // If we have reached the last row
+                return;
+            }
+            helperNKnights(board, newCurrent, newProcessed, returnList, knights, charMan);
+            return;
+        }
+
+        // If the queen can be placed -> true, or else stays as false
+        board[row][column] = true;
+        charMan[row][column] = 'K';
+        newProcessed.add(current);
+
+
+        // New position
+        if (column < n -1) {
+            newCurrent.set(1, column+1);
+            helperNKnights(board, newCurrent, newProcessed, returnList, knights+1, charMan);
+        } else if ( row < n-1 ) {
+            newCurrent.set(0, row+1);
+            newCurrent.set(1, 0);
+            helperNKnights(board, newCurrent, newProcessed, returnList, knights +1, charMan);
+        } else if (column == n & row == n) {
+            helperNKnights(board, newCurrent, newProcessed, returnList, knights +1, charMan);
+        }
+
+        // Back tracking step
+        board[row][column] = false;
+        charMan[row][column] = 'X';
+
+        List<Integer> newestNewCurrent = new ArrayList<>(current);
+        List<List<Integer>> newestNewProcessed = new ArrayList<>(processed);
+
+        // Only if there is space in the row, move on to the next position
+        if (column < n -1) {
+            newestNewCurrent.set(1, column+1);
+            helperNKnights(board, newestNewCurrent, newestNewProcessed, returnList, knights, charMan);
+        } else if ( row < n-1 ) {
+            newestNewCurrent.set(0, row+1);
+            newestNewCurrent.set(1, 0);
+            helperNKnights(board, newestNewCurrent, newestNewProcessed, returnList, knights, charMan);
+        }
+        // Else -> return
+    }
+    static boolean helperFindIfCanPlaceNKnights(boolean[][] board, int row, int column, int n) {
+
+        // Top,Top right and left
+        int tempRow = row - 2;
+        if (tempRow >= 0) {
+            if ( (column - 1 >= 0 && board[tempRow][column-1]) || (column + 1 < n && board[tempRow][column+1])) {
+                return false;
+            }
+        }
+
+        tempRow = row -1;
+        if (tempRow >= 0) {
+            // Left, Left, Top
+            int tempColumn = column - 2;
+            if (tempColumn >= 0 && board[tempRow][tempColumn]) {
+                return false;
+            }
+
+            // Right, Right, top
+            tempColumn = column + 2;
+            if (tempColumn < n && board[tempRow][tempColumn]) {
+                    return false;
+            }
+        }
+
+        return  true;
+
+    }
+
 
     // 3) Sudoku solver
 
