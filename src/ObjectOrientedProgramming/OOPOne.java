@@ -6,24 +6,24 @@ import java.util.Objects;
 public class OOPOne {
     public static void main(String[] args) {
         // Only declaring, not initialized(creating memory in heap)
-        Student kishore;
+        final Student kishore;
 
         // Initializing -> new keyword is used to dynamically allocate memory in runtime
         kishore = new Student("Kishore", 21);
 
         // kishore is the reference variable pointing to the memory address of that object
 
-        System.out.println(kishore.rollNum);
 
         Student kathir = new Student(kishore);
-        System.out.println(kathir.name);
 
         // dot operator
         kishore.name = "kishore";
         kishore.rollNum = 7;
+
+        System.out.println(kishore.name);
     }
 
-    static class Student {
+    final static class Student {
         String name;
         int rollNum;
 
