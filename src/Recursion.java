@@ -4,8 +4,31 @@ import java.util.List;
 
 public class Recursion {
     public static void main(String[] args) {
-        char board[][] = {{'5','3','.','.','7','.','.','.','.'},{'6','.','.','1','9','5','.','.','.'},{'.','9','8','.','.','.','.','6','.'},{'8','.','.','.','6','.','.','.','3'},{'4','.','.','8','.','3','.','.','1'},{'7','.','.','.','2','.','.','.','6'},{'.','6','.','.','.','.','2','8','.'},{'.','.','.','4','1','9','.','.','5'},{'.','.','.','.','8','.','.','7','9'}};
-        sudokuSolver(board);
+
+        char[][] temp = {
+                {'.','.','4','.','.','.','6','3','.'},
+                {'.','.','.','.','.','.','.','.','.'},
+                {'5','.','.','.','.','.','.','9','.'},
+                {'.','.','.','5','6','.','.','.','.'},
+                {'4','.','3','.','.','.','.','.','1'},
+                {'.','.','.','7','.','.','.','.','.'},
+                {'.','.','.','5','.','.','.','.','.'},
+                {'.','.','.','.','.','.','.','.','.'},
+                {'.','.','.','.','.','.','.','.','.'}};
+
+
+
+        char board[][] = {
+                {'5','3','.','.','7','.','.','.','.'},
+                {'6','.','.','1','9','5','.','.','.'},
+                {'.','9','8','.','.','.','.','6','.'},
+                {'8','.','.','.','6','.','.','.','3'},
+                {'4','.','.','8','.','3','.','.','1'},
+                {'7','.','.','.','2','.','.','.','6'},
+                {'.','6','.','.','.','.','2','8','.'},
+                {'.','.','.','4','1','9','.','.','5'},
+                {'.','.','.','.','8','.','.','7','9'}};
+        System.out.println(isSudokuValid(temp));
 
 //        System.out.println( (char) ((char) 1 + '0'));
     }
@@ -330,6 +353,76 @@ public class Recursion {
         for (int j = startOfGridRow; j <= startOfGridRow + 2; j++) {
             for (int k = startOfGridColumn; k <= startOfGridColumn + 2; k++) {
                 if ( board[j][k] == (char) ((char) i + '0')) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+
+    // 4) Misc -> not backtracking -> finding if a sudoku is valid or not
+    static boolean isSudokuValid(char[][] board) {
+        return  isSudokuValid(board, 0, 0);
+    }
+    static boolean isSudokuValid(char[][] board, int row, int column) {
+        if (row == board.length) {
+            return true;
+        }
+
+        if (board[row][column] == '.') {
+            if (column < board.length - 1) {
+                return isSudokuValid(board, row, column +1);
+            } else {
+                return isSudokuValid(board, row + 1, 0);
+            }
+        }
+
+
+        if (!helperFindIfNumberCanBePlacedValidEdition(board, row, column ) ) {
+            return false;
+        }
+
+        if (column < board.length - 1) {
+            return isSudokuValid(board, row, column +1);
+        } else {
+            return isSudokuValid(board, row + 1, 0);
+        }
+
+    }
+    static boolean helperFindIfNumberCanBePlacedValidEdition(char[][] board, int row, int column) {
+        // Check for all the elements in the row
+        for (int tempRow = 0; tempRow < 9  ; tempRow++) {
+            if (tempRow == row) {
+                continue;
+            }
+            if (board[tempRow][column] == board[row][column]) {
+                return  false;
+            }
+        }
+
+        // Check for all the elements in the column
+        for (int tempColumn = 0; tempColumn < 9  ; tempColumn++) {
+            if (tempColumn == column) {
+                continue;
+            }
+            if ( board[row][tempColumn] == board[row][column]) {
+                return false;
+            }
+        }
+        // Check for all the element in the grid
+
+        // Condition -> if the row or column is getting perfectly divided by 3, then it is the starting column or row
+        int startOfGridRow = (row - row % 3 );
+        int startOfGridColumn = (column - column % 3);
+
+        for (int j = startOfGridRow; j <= startOfGridRow + 2; j++) {
+            for (int k = startOfGridColumn; k <= startOfGridColumn + 2; k++) {
+                if (j == row && k == column) {
+                    continue;
+                }
+                if ( board[j][k] == board[row][column]) {
                     return false;
                 }
             }
