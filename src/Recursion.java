@@ -6,6 +6,8 @@ public class Recursion {
     public static void main(String[] args) {
         char board[][] = {{'5','3','.','.','7','.','.','.','.'},{'6','.','.','1','9','5','.','.','.'},{'.','9','8','.','.','.','.','6','.'},{'8','.','.','.','6','.','.','.','3'},{'4','.','.','8','.','3','.','.','1'},{'7','.','.','.','2','.','.','.','6'},{'.','6','.','.','.','.','2','8','.'},{'.','.','.','4','1','9','.','.','5'},{'.','.','.','.','8','.','.','7','9'}};
         sudokuSolver(board);
+
+//        System.out.println( (char) ((char) 1 + '0'));
     }
 
 
@@ -259,39 +261,44 @@ public class Recursion {
     static void sudokuSolver(char[][] board) {
         int row = 0;
         int column = 0;
-        sudokuSolver(board, row, column);
+        boolean[] solved = {false};
+        sudokuSolver(board, row, column, solved);
     }
-
-    static void sudokuSolver(char[][] board, int row, int column) {
+    static void sudokuSolver(char[][] board, int row, int column, boolean[] solved) {
         // Base condition -> when you exceeded the sudoku, it means you've solved it
         if (row == board.length) {
             for (char[] chars : board) {
                 System.out.println(chars);
             }
+            solved[0] = true;
             return;
         }
+
 
         // If it is already assigned, move ahead
         if (! (board[row][column] == '.')) {
             if (column < board.length -1) {
-                sudokuSolver(board, row, column + 1);
-            } else if (row < board.length -1 ) {
-                sudokuSolver(board, row + 1, 0);
+                sudokuSolver(board, row, column + 1, solved);
+            } else {
+                sudokuSolver(board, row + 1, 0, solved);
             }
             // If not both condition, then it means, it the last element and return bro
             return;
         }
 
         // If it is assigned, try every number
-        for (int i = 1; i < 9; i++) {
+        for (int i = 1; i <= 9; i++) {
             if (helperFindIfNumberCanBePlaced(board, i, row, column)) {
                 board[row][column] = (char)  ( (char) i + '0');
 
                 // Check the next element
                 if (column < board.length -1) {
-                    sudokuSolver(board, row, column + 1);
+                    sudokuSolver(board, row, column + 1, solved);
                 } else {
-                    sudokuSolver(board, row + 1, 0);
+                    sudokuSolver(board, row + 1, 0, solved);
+                }
+                if (solved[0]) {
+                    return;
                 }
                 // If it returns, move back to normal
                 board[row][column] = '.';
@@ -300,6 +307,38 @@ public class Recursion {
 
         // If nothing works out, go back for the previous to change it's combination
     }
+    static boolean helperFindIfNumberCanBePlaced(char[][] board, int i, int row, int column) {
+        // Check for all the elements in the row
+        for (int tempRow = 0; tempRow < 9  ; tempRow++) {
+            if (board[tempRow][column] == (char) ((char) i + '0')) {
+                return  false;
+            }
+        }
+
+        // Check for all the elements in the column
+        for (int tempColumn = 0; tempColumn < 9  ; tempColumn++) {
+            if ( board[row][tempColumn] == (char) ((char) i + '0')) {
+                return false;
+            }
+        }
+        // Check for all the element in the grid
+
+        // Condition -> if the row or column is getting perfectly divided by 3, then it is the starting column or row
+        int startOfGridRow = (row - row % 3 );
+        int startOfGridColumn = (column - column % 3);
+
+        for (int j = startOfGridRow; j <= startOfGridRow + 2; j++) {
+            for (int k = startOfGridColumn; k <= startOfGridColumn + 2; k++) {
+                if ( board[j][k] == (char) ((char) i + '0')) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+
 
     static char helperFindAppropriateSudokuChar(char[][] board, int row, int column) {
         int i = 0;
@@ -354,36 +393,6 @@ public class Recursion {
 
         return 'x';
 
-    }
-    static boolean helperFindIfNumberCanBePlaced(char[][] board, int i, int row, int column) {
-        // Check for all the elements in the row
-        for (int tempRow = 0; tempRow < 9  ; tempRow++) {
-            if (board[tempRow][column] == i + '0') {
-                return  false;
-            }
-        }
-
-        // Check for all the elements in the column
-        for (int tempColumn = 0; tempColumn < 9  ; tempColumn++) {
-            if (board[row][tempColumn] == i + '0') {
-                return false;
-            }
-        }
-        // Check for all the element in the grid
-
-        // Condition -> if the row or column is getting perfectly divided by 3, then it is the starting column or row
-        int startOfGridRow = (row - row % 3 );
-        int startOfGridColumn = (column - column % 3);
-
-        for (int j = startOfGridRow; j <= startOfGridRow + 2; j++) {
-            for (int k = startOfGridColumn; k <= startOfGridColumn + 2; k++) {
-                if (board[j][k] == i) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
     }
 
     // Maze problems (intro to back tracking)
