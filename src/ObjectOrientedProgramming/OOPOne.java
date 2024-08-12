@@ -1,5 +1,6 @@
 package ObjectOrientedProgramming;
 
+import javax.print.attribute.standard.MediaSize;
 import java.util.Objects;
 
 public class OOPOne {
@@ -14,6 +15,9 @@ public class OOPOne {
 
         System.out.println(kishore.rollNum);
 
+        Student kathir = new Student(kishore);
+        System.out.println(kathir.name);
+
         // dot operator
         kishore.name = "kishore";
         kishore.rollNum = 7;
@@ -26,6 +30,11 @@ public class OOPOne {
         Student(String _name, int _rollNum) {
             name = _name;
             rollNum = _rollNum;
+        }
+
+        Student (Student other) {
+            this.name = other.name;
+            this.rollNum = other.rollNum;
         }
     }
 }
