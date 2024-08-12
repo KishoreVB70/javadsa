@@ -1,5 +1,7 @@
 package ObjectOrientedProgramming;
 
+import java.util.Arrays;
+
 public class MyArrayList {
     private int[] data;
     private int size;
@@ -18,11 +20,19 @@ public class MyArrayList {
     }
 
     int pop() {
+        if (size > 0) {
          return data[--size];
+        }
+        return -1;
     }
 
     void add(int value) {
         data[size] = value;
         size++;
+    }
+
+    @Override
+    public String toString() {
+        return Arrays.toString(data);
     }
 }
