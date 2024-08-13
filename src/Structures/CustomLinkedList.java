@@ -41,6 +41,10 @@ public class CustomLinkedList<T> {
             return;
         }
 
+        if (index > size) {
+            return;
+        }
+
         Node tempPrevious = head;
         int currentIndex = 0;
 
@@ -59,13 +63,11 @@ public class CustomLinkedList<T> {
     }
 
     void replace(int index, T value) {
-        // Find the node
-        int currentIndex = 0;
-        Node temp = head;
-        while (currentIndex < index) {
-            temp = temp.next;
-            currentIndex++;
+        if (index > size) {
+            return;
         }
+
+        Node temp = findTheNode(index);
         temp.value = value;
     }
 
@@ -104,6 +106,28 @@ public class CustomLinkedList<T> {
         return size;
     }
 
+    T get(int index) {
+        Node temp = findTheNode(index);
+        if (index > size) {
+            return null;
+        }
+        return (T) temp.value;
+    }
+
+    private Node findTheNode(int index) {
+        // Find the node
+        int currentIndex = 0;
+        Node temp = head;
+        while (currentIndex < index) {
+            if (temp == null) {
+                return new Node();
+            }
+            temp = temp.next;
+            currentIndex++;
+        }
+        return temp;
+    }
+
     void printAll() {
          Node temp = head;
 
@@ -129,6 +153,11 @@ public class CustomLinkedList<T> {
 
         Node (T value) {
             this.value = value;
+            this.next = null;
+        }
+
+        Node () {
+            this.value = null;
             this.next = null;
         }
 
