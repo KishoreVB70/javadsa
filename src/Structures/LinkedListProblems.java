@@ -10,7 +10,7 @@ public class LinkedListProblems {
 
         }
         arr.printAll();
-        arr.set(3, 5);
+        System.out.println(arr.get(6));
         arr.printAll();
     }
 }
