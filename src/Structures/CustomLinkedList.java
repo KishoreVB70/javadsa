@@ -5,31 +5,60 @@ public class CustomLinkedList<T> {
     private Node tail;
     private Node head;
 
-     void addAtHead(T value) {
+    void addAtHead(T value) {
          Node temp = new Node(value);
          temp.next = head;
          head = temp;
          size++;
 
          // Fresh linked list
-        if (tail.value == null) {
+        if (tail == null) {
             tail = head;
         }
     }
 
-     void add(T value) {
+    void add(T value) {
         Node temp = new Node(value);
-        tail.next = temp;
-        tail = temp;
         size++;
 
-         // If fresh linked list
-         if (head.value == null) {
-             head = tail;
-         }
+        if (tail == null) {
+            tail = temp;
+            head = tail;
+            return;
+        }
+        tail.next = temp;
+        tail = temp;
     }
 
-     T removeHead() {
+     void set(int index, T value) {
+        if (index == 0) {
+            addAtHead(value);
+            return;
+        }
+
+        if (index == size) {
+            add(value);
+            return;
+        }
+
+        Node tempPrevious = head;
+        int currentIndex = 0;
+
+        while (currentIndex < index -1) {
+            tempPrevious = tempPrevious.next;
+            currentIndex++;
+        }
+
+        Node newNode = new Node(value);
+
+        Node tempNext = tempPrevious.next;
+        tempPrevious.next = newNode;
+
+        newNode.next = tempNext;
+
+    }
+
+    T removeHead() {
         // If head can't be removed
         if (head == tail) {
             return head.value;
@@ -40,7 +69,7 @@ public class CustomLinkedList<T> {
         return value;
     }
 
-     T removeTail() {
+    T removeTail() {
         // If tail can't be removed
         if (head == tail) {
             return head.value;
@@ -58,6 +87,10 @@ public class CustomLinkedList<T> {
         tail.next = null;
 
         return value;
+    }
+
+    int length() {
+        return size;
     }
 
     void printAll() {
@@ -85,10 +118,6 @@ public class CustomLinkedList<T> {
 
         Node (T value) {
             this.value = value;
-            this.next = null;
-        }
-        Node () {
-            this.value = null;
             this.next = null;
         }
 

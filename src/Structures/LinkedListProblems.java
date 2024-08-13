@@ -10,6 +10,10 @@ public class LinkedListProblems {
         arr.add(52);
         System.out.println(arr);
         arr.printAll();
+        System.out.println(arr.length());
+        arr.set(2,99);
+        arr.printAll();
+
     }
 }
 
