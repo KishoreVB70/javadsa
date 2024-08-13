@@ -53,7 +53,7 @@ public class CustomLinkedList<T> {
         size++;
 
     }
-    void replace(int index, T value) {
+    void set(int index, T value) {
         if (index > size) {
             return;
         }
@@ -92,12 +92,12 @@ public class CustomLinkedList<T> {
             return;
         }
 
-        if (index == size) {
+        if (index == size - 1) {
             removeTail();
             return;
         }
 
-        if (index > size) {
+        if (index >= size) {
             return;
         }
 
@@ -159,7 +159,7 @@ public class CustomLinkedList<T> {
              System.out.print(temp.value + ",");
              temp = temp.next;
          }
-        System.out.print("]");
+        System.out.println("]");
 
     }
 
