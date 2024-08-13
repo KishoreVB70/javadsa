@@ -9,6 +9,8 @@ public class LinkedListProblems {
         arr.insertFirst(13);
         arr.add(41);
         arr.printElements();
+        arr.remove(1);
+        arr.printElements();
     }
 }
 

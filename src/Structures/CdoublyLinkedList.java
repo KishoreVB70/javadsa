@@ -68,12 +68,20 @@ public class CdoublyLinkedList<T> {
 
     // Removing functions
     void removeFirst(){
+        if (head == null) {
+            return;
+        }
         head = head.next;
         head.previous = null;
+        size--;
     }
     void remove(){
+        if (tail == null) {
+            return;
+        }
         tail = tail.previous;
         tail.next = null;
+        size--;
     }
     void remove(int index){
         if (index == 0) {
@@ -85,6 +93,8 @@ public class CdoublyLinkedList<T> {
         if (index > size) {
             return;
         }
+
+        size--;
 
         Node previous = findNode(index - 1);
         Node next = (previous.next).next;
