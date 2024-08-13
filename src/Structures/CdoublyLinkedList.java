@@ -67,12 +67,29 @@ public class CdoublyLinkedList<T> {
     }
 
     // Removing functions
-    void removeFirst(){}
-    void remove(){}
+    void removeFirst(){
+        head = head.next;
+        head.previous = null;
+    }
+    void remove(){
+        tail = tail.previous;
+        tail.next = null;
+    }
     void remove(int index){
+        if (index == 0) {
+            removeFirst();
+        }
+        if (index == size) {
+            remove();
+        }
         if (index > size) {
             return;
         }
+
+        Node previous = findNode(index - 1);
+        Node next = (previous.next).next;
+        next.previous = previous;
+        previous.next = next;
     }
 
     // Getting functions
