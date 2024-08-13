@@ -4,14 +4,13 @@ public class LinkedListProblems {
     public static void main(String[] args) {
         CustomLinkedList<Integer> arr = new CustomLinkedList<>();
         arr.add(22);
-        System.out.println(arr);
         arr.add(42);
-        System.out.println(arr);
         arr.add(52);
-        System.out.println(arr);
         arr.printAll();
         System.out.println(arr.length());
-        arr.set(2,99);
+        arr.set(3,99);
+        arr.printAll();
+        arr.replace(0,44);
         arr.printAll();
 
     }

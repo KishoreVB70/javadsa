@@ -58,6 +58,17 @@ public class CustomLinkedList<T> {
 
     }
 
+    void replace(int index, T value) {
+        // Find the node
+        int currentIndex = 0;
+        Node temp = head;
+        while (currentIndex < index) {
+            temp = temp.next;
+            currentIndex++;
+        }
+        temp.value = value;
+    }
+
     T removeHead() {
         // If head can't be removed
         if (head == tail) {
