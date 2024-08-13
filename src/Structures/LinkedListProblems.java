@@ -4,12 +4,25 @@ import java.util.LinkedList;
 
 public class LinkedListProblems {
     public static void main(String[] args) {
-        ListNode arr = new ListNode(20);
-        arr.next = new ListNode(40);
-        arr.next = new ListNode(40);
-        arr.next = new ListNode(40);
+        ListNode head = new ListNode(1);
+        ListNode peasant1 = new ListNode(2);
+        ListNode peasant3 = new ListNode(4);
+
+        ListNode head1 = new ListNode(1);
+        ListNode peasant2 = new ListNode(3);
+        ListNode peasant4 = new ListNode(4);
+
+        head.next = peasant1;
+        peasant1.next = peasant3;
+        head1.next = peasant2;
+        peasant2.next = peasant4;
 
 
+        ListNode thala = mergeTwoSinglyLL(head, head1);
+        while (thala != null) {
+            System.out.println(thala.val);
+            thala = thala.next;
+        }
     }
 
     // 1) Insert in singly linked list using recursion
@@ -47,6 +60,7 @@ public class LinkedListProblems {
     }
 
     // 3 Remove duplicates from singly linked list
+    //https://leetcode.com/problems/remove-duplicates-from-sorted-list/
     static public class ListNode {
         int val;
         ListNode next;
@@ -54,7 +68,6 @@ public class LinkedListProblems {
         ListNode(int val) { this.val = val; }
         ListNode(int val, ListNode next) { this.val = val; this.next = next; }
    }
-
     static ListNode removeDuplicateSinglyLinked(ListNode head) {
         if (head == null) {
             return null;
@@ -62,7 +75,6 @@ public class LinkedListProblems {
         head.next = removeDuplicateSinglyLinked(head.next, head.val);
         return head;
     }
-
     static ListNode  removeDuplicateSinglyLinked(ListNode currentNode, int previousValue) {
         // Base condition
         if (currentNode == null) {
@@ -80,11 +92,59 @@ public class LinkedListProblems {
 
     }
 
+    // 4 Remove duplicates from sorted list
+    static ListNode mergeTwoSinglyLL(ListNode list1, ListNode list2) {
+        // Case 1 -> both are null
+        if (list1 == null && list2 == null) {
+            return null;
+        }
+        // Case -> list 1 is null
+        if (list1 == null && list2 != null) {
+            return list2;}
+        // Case -> list 1 is null
+        if (list2 == null && list1 != null) {
+            return list1;
+        }
 
 
+        // Actual stuff
+        int smallest;
+        if (list1.val < list2.val) {
+            smallest = list1.val;
+            list2 = list2.next;
+        } else  {
+            smallest = list1.val;
+            list1 = list1.next;
+        }
+        ListNode tempThala = new ListNode(smallest);
+        ListNode thala = tempThala;
 
 
+        while (list1 != null && list2 != null) {
+            if (list1.val < list2.val) {
+                tempThala.next = list1;
+                tempThala = tempThala.next;
+                list1 = list1.next;
+            } else  {
+                tempThala.next = list2;
+                tempThala = tempThala.next;
+                list2 = list2.next;
+            }
+        }
+        // Add the remaining
+        while (list2 != null) {
+            tempThala.next = list2;
+            tempThala = tempThala.next;
+            list2 = list2.next;
+        }
+        while (list1 != null) {
+            tempThala.next = list1;
+            tempThala = tempThala.next;
+            list1 = list1.next;
+        }
 
+        return thala;
+    }
 }
 
 
