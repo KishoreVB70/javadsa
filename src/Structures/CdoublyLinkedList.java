@@ -19,15 +19,17 @@ public class CdoublyLinkedList<T> {
     }
     void add(T value) {
         Node temp = new Node(value);
-        tail.next = temp;
-        temp.previous = tail;
-        tail = temp;
         size++;
 
         // First time
-        if (head == null) {
+        if (tail == null) {
+            tail = temp;
             head = tail;
+            return;
         }
+        tail.next = temp;
+        temp.previous = tail;
+        tail = temp;
     }
     void add(int index, T value) {
         if (index == 0) {
@@ -37,6 +39,10 @@ public class CdoublyLinkedList<T> {
 
         if(index == size) {
             add(value);
+            return;
+        }
+
+        if (index > size) {
             return;
         }
 
@@ -53,20 +59,47 @@ public class CdoublyLinkedList<T> {
         previous.next = temp;
     }
     void set(int index, T value) {
+        if (index > size) {
+            return;
+        }
+        Node temp = findNode(index);
+        temp.value = value;
     }
 
     // Removing functions
     void removeFirst(){}
     void remove(){}
-    void remove(int index){}
+    void remove(int index){
+        if (index > size) {
+            return;
+        }
+    }
 
     // Getting functions
     int length() {return  size;}
+    T getFirst() {return head.value;}
+    T getLast() {return tail.value;}
     T get(int index){
+        if (index == 0) {
+            return getFirst();
+        }
+
+        if (index == size) {
+            return  getLast();
+        }
+
+        if (index > size) {
+            return null;
+        }
+
         Node temp = findNode(index);
         return temp.value;
     }
     private Node findNode(int index) {
+        if (index > size) {
+            return new Node();
+        }
+
         Node temp = head;
         int currentIndex = 0;
         while (temp != null) {
