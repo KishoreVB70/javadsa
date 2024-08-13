@@ -55,9 +55,12 @@ public class CustomLinkedList<T> {
     }
     void addRecursion(int index, T value) {
         Node current = head;
+        if (index == 0) {
+            insertFirst(value);
+            return;
+        }
         helperAddRecursion(index, 0, value, current);
     }
-
     private void helperAddRecursion(int index, int currentIndex, T value, Node currentNode) {
         // Base condition
         if (currentNode == null) {
@@ -66,15 +69,46 @@ public class CustomLinkedList<T> {
         }
         // Success condition
         if (currentIndex == index - 1) {
+            // This means it's the tail
+            if (currentNode.next == null) {
+                add(value);
+                return;
+            }
+
+            // Not tail or head
             Node temp = new Node(value);
             Node next = currentNode.next;
             currentNode.next = temp;
             temp.next = next;
+            this.size++;
             return;
         }
 
         // Next one
         helperAddRecursion(index, currentIndex+1, value, currentNode.next);
+    }
+    void addBeforeValueRecursion(T target, T value) {
+        if (head.value == target) {
+            insertFirst(value);
+            return;
+        }
+        helperAddBeforeValueRecursion(target, value, head);
+    }
+    Node  helperAddBeforeValueRecursion(T target, T value, Node currentNode) {
+        // Base condition
+        if (currentNode == null) {
+            return currentNode;
+        }
+
+        // Success condition
+        if (currentNode.value == target) {
+            Node temp = new Node(value);
+            temp.next = currentNode;
+            return temp;
+        }
+
+        currentNode.next = helperAddBeforeValueRecursion(target, value, currentNode.next);
+        return  currentNode;
     }
     void set(int index, T value) {
         if (index > size) {

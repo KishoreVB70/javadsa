@@ -58,6 +58,44 @@ public class CdoublyLinkedList<T> {
         next.previous = temp;
         previous.next = temp;
     }
+    void addRecursion(int index, T value) {
+        if (index == 0) {
+            insertFirst(value);
+            return;
+        }
+        Node current = head;
+        helperAddRecursion(index, 0, value, current);
+
+    }
+    private void helperAddRecursion(int index, int currentIndex, T value, Node currentNode) {
+        // Base condition
+        if (currentNode == null) {
+            System.out.println("Index out of bound");
+            return;
+        }
+
+        // Success
+        if (currentIndex == index - 1) {
+            if (currentNode.next == null) {
+                add(value);
+                return;
+            }
+            Node previous = currentNode;
+            Node next = currentNode.next;
+
+            Node temp = new Node(value);
+            temp.previous = previous;
+            temp.next = next;
+
+            previous.next = temp;
+            next.previous = temp;
+            size++;
+        }
+
+        // Continue condition
+        helperAddRecursion(index, currentIndex + 1, value, currentNode.next);
+    }
+
     void set(int index, T value) {
         if (index > size) {
             return;
