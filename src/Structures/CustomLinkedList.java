@@ -7,11 +7,10 @@ public class CustomLinkedList<T> {
         tail = temp;
     }
 
-    Node tail;
-    Node head;
+    private Node tail;
+    private Node head;
 
-
-    public void addAtHead(T value) {
+     void addAtHead(T value) {
         if (head.value == null) {
             head.value = value;
             return;
@@ -22,7 +21,7 @@ public class CustomLinkedList<T> {
         head = temp;
     }
 
-    public void add(T value) {
+     void add(T value) {
         // If fresh linked list
         if (head.value == null) {
             head.value = value;
@@ -34,7 +33,7 @@ public class CustomLinkedList<T> {
         tail = temp;
     }
 
-    public T removeHead() {
+     T removeHead() {
         // If head can't be removed
         if (head == tail) {
             return head.value;
@@ -45,7 +44,7 @@ public class CustomLinkedList<T> {
         return value;
     }
 
-    public T removeTail() {
+     T removeTail() {
         // If tail can't be removed
         if (head == tail) {
             return head.value;
@@ -65,14 +64,28 @@ public class CustomLinkedList<T> {
         return value;
     }
 
+    void printAll() {
+         Node temp = head;
+
+        System.out.print("[");
+         while (temp != null) {
+             System.out.print(temp.value + ",");
+             temp = temp.next;
+         }
+        System.out.print("]");
+
+    }
+
+
+
     @Override
     public String toString() {
         return " head=" + head + " tail=" + tail;
     }
 
     private class Node {
-        T value;
-        Node next;
+        private T value;
+        private Node next;
 
         Node (T value) {
             this.value = value;

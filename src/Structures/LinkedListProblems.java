@@ -9,10 +9,7 @@ public class LinkedListProblems {
         System.out.println(arr);
         arr.add(52);
         System.out.println(arr);
-        arr.removeHead();
-        System.out.println(arr);
-        arr.removeTail();
-        System.out.println(arr);
+        arr.printAll();
     }
 }
 
