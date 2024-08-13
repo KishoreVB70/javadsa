@@ -65,6 +65,11 @@ public class CustomLinkedList<T> {
         return value;
     }
 
+    @Override
+    public String toString() {
+        return " head=" + head + " tail=" + tail;
+    }
+
     private class Node {
         T value;
         Node next;
@@ -76,6 +81,11 @@ public class CustomLinkedList<T> {
         Node () {
             this.value = null;
             this.next = null;
+        }
+
+        @Override
+        public String toString() {
+            return value + "";
         }
     }
 }
