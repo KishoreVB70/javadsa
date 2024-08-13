@@ -55,24 +55,28 @@ public class LinkedListProblems {
         ListNode(int val, ListNode next) { this.val = val; this.next = next; }
    }
 
-    static void removeDuplicateSinglyLinked(ListNode head) {
-        removeDuplicateSinglyLinked(head.next, head, head.val);
+    static ListNode removeDuplicateSinglyLinked(ListNode head) {
+        if (head == null) {
+            return null;
+        }
+        head.next = removeDuplicateSinglyLinked(head.next, head.val);
+        return head;
     }
 
-    static void removeDuplicateSinglyLinked(ListNode currentNode, ListNode previousNode, int previousValue) {
+    static ListNode  removeDuplicateSinglyLinked(ListNode currentNode, int previousValue) {
         // Base condition
         if (currentNode == null) {
-            return;
+            return null;
         }
 
         // Remove condition
         if (currentNode.val == previousValue) {
-            previousNode.next = currentNode.next;
-            removeDuplicateSinglyLinked(currentNode.next, previousNode, previousValue);
-            return;
+            return removeDuplicateSinglyLinked(currentNode.next, currentNode.val);
+
         }
 
-        removeDuplicateSinglyLinked(currentNode.next, previousNode.next, currentNode.val);
+        currentNode.next =  removeDuplicateSinglyLinked(currentNode.next, currentNode.val);
+        return currentNode;
 
     }
 
