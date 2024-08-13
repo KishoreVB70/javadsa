@@ -59,7 +59,7 @@ public class LinkedListProblems {
         arr.printAll();
     }
 
-    // 3 Remove duplicates from singly linked list
+    // 3) Remove duplicates from singly linked list
     //https://leetcode.com/problems/remove-duplicates-from-sorted-list/
     static public class ListNode {
         int val;
@@ -92,7 +92,8 @@ public class LinkedListProblems {
 
     }
 
-    // 4 Remove duplicates from sorted list
+    // 4) Remove duplicates from sorted list
+    //https://leetcode.com/problems/merge-two-sorted-lists/
     static ListNode mergeTwoSinglyLL(ListNode list1, ListNode list2) {
         // Case 1 -> both are null
         if (list1 == null && list2 == null) {
@@ -111,10 +112,10 @@ public class LinkedListProblems {
         int smallest;
         if (list1.val < list2.val) {
             smallest = list1.val;
-            list2 = list2.next;
-        } else  {
-            smallest = list1.val;
             list1 = list1.next;
+        } else  {
+            smallest = list2.val;
+            list2 = list2.next;
         }
         ListNode tempThala = new ListNode(smallest);
         ListNode thala = tempThala;
@@ -131,6 +132,7 @@ public class LinkedListProblems {
                 list2 = list2.next;
             }
         }
+
         // Add the remaining
         while (list2 != null) {
             tempThala.next = list2;
@@ -144,6 +146,31 @@ public class LinkedListProblems {
         }
 
         return thala;
+    }
+
+    //5) Find if linked list is cycled
+    static boolean isLinkedListCycled(ListNode head) {
+        if (head == null || head.next == null) {
+            return false;
+        }
+
+        ListNode fast = head.next;
+        ListNode slow = head;
+
+        while (fast != null && slow != null) {
+            if (fast == slow) {
+                return true;
+            }
+
+            if (fast.next == null) {
+                return false;
+            }
+
+            fast = (fast.next).next;
+            slow = slow.next;
+        }
+
+        return false;
     }
 }
 
