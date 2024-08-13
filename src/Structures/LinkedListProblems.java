@@ -11,7 +11,7 @@ public class LinkedListProblems {
         arr.add(52);
         arr.printAll();
         System.out.println(arr.length());
-        arr.set(3,99);
+        arr.add(3,99);
         arr.printAll();
         arr.replace(0,44);
         arr.printAll();

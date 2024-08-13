@@ -5,7 +5,7 @@ public class CustomLinkedList<T> {
     private Node tail;
     private Node head;
 
-    void addAtHead(T value) {
+    void insertFirst(T value) {
          Node temp = new Node(value);
          temp.next = head;
          head = temp;
@@ -16,7 +16,6 @@ public class CustomLinkedList<T> {
             tail = head;
         }
     }
-
     void add(T value) {
         Node temp = new Node(value);
         size++;
@@ -29,10 +28,9 @@ public class CustomLinkedList<T> {
         tail.next = temp;
         tail = temp;
     }
-
-     void set(int index, T value) {
+    void add(int index, T value) {
         if (index == 0) {
-            addAtHead(value);
+            insertFirst(value);
             return;
         }
 
@@ -45,23 +43,16 @@ public class CustomLinkedList<T> {
             return;
         }
 
-        Node tempPrevious = head;
-        int currentIndex = 0;
-
-        while (currentIndex < index -1) {
-            tempPrevious = tempPrevious.next;
-            currentIndex++;
-        }
-
+        Node tempPrevious = findTheNode(index - 1);
         Node newNode = new Node(value);
 
         Node tempNext = tempPrevious.next;
         tempPrevious.next = newNode;
 
         newNode.next = tempNext;
+        size++;
 
     }
-
     void replace(int index, T value) {
         if (index > size) {
             return;
@@ -70,6 +61,7 @@ public class CustomLinkedList<T> {
         Node temp = findTheNode(index);
         temp.value = value;
     }
+
 
     T removeHead() {
         // If head can't be removed
@@ -81,7 +73,6 @@ public class CustomLinkedList<T> {
         head = head.next;
         return value;
     }
-
     T removeTail() {
         // If tail can't be removed
         if (head == tail) {
@@ -102,10 +93,6 @@ public class CustomLinkedList<T> {
         return value;
     }
 
-    int length() {
-        return size;
-    }
-
     T get(int index) {
         Node temp = findTheNode(index);
         if (index > size) {
@@ -113,7 +100,9 @@ public class CustomLinkedList<T> {
         }
         return (T) temp.value;
     }
-
+    int length() {
+        return size;
+    }
     private Node findTheNode(int index) {
         // Find the node
         int currentIndex = 0;
@@ -127,7 +116,6 @@ public class CustomLinkedList<T> {
         }
         return temp;
     }
-
     void printAll() {
          Node temp = head;
 
@@ -139,8 +127,6 @@ public class CustomLinkedList<T> {
         System.out.print("]");
 
     }
-
-
 
     @Override
     public String toString() {
