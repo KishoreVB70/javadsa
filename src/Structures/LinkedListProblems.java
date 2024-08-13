@@ -5,24 +5,27 @@ import java.util.LinkedList;
 public class LinkedListProblems {
     public static void main(String[] args) {
         ListNode head = new ListNode(1);
-        ListNode peasant1 = new ListNode(2);
-        ListNode peasant3 = new ListNode(4);
+        ListNode peasant1 = new ListNode(4);
+        ListNode peasant3 = new ListNode(5);
+        ListNode peasant5 = new ListNode(6);
+        ListNode peasant7 = new ListNode(7);
+        ListNode peasant9 = new ListNode(8);
 
-        ListNode head1 = new ListNode(1);
-        ListNode peasant2 = new ListNode(3);
-        ListNode peasant4 = new ListNode(4);
+//        ListNode head1 = new ListNode(1);
+//        ListNode peasant2 = new ListNode(3);
+//        ListNode peasant4 = new ListNode(4);
+//        head1.next = peasant2;
+//        peasant2.next = peasant4;
 
         head.next = peasant1;
         peasant1.next = peasant3;
-        head1.next = peasant2;
-        peasant2.next = peasant4;
+        peasant3.next = peasant5;
+        peasant5.next = peasant7;
+        peasant7.next = peasant9;
+        peasant9.next = peasant1;
 
 
-        ListNode thala = mergeTwoSinglyLL(head, head1);
-        while (thala != null) {
-            System.out.println(thala.val);
-            thala = thala.next;
-        }
+        System.out.println(lengthOfLinkedListCycle(head));
     }
 
     // 1) Insert in singly linked list using recursion
@@ -150,27 +153,40 @@ public class LinkedListProblems {
 
     //5) Find if linked list is cycled
     static boolean isLinkedListCycled(ListNode head) {
-        if (head == null || head.next == null) {
-            return false;
-        }
-
         ListNode fast = head.next;
         ListNode slow = head;
 
-        while (fast != null && slow != null) {
-            if (fast == slow) {
-                return true;
-            }
-
-            if (fast.next == null) {
-                return false;
-            }
-
+        while (fast != null && fast.next != null) {
             fast = (fast.next).next;
             slow = slow.next;
+            if (fast == slow) {
+                System.out.println(fast.val);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //6) Find the length of the cycle
+    static int lengthOfLinkedListCycle(ListNode head) {
+        ListNode fast = head.next;
+        ListNode slow = head;
+
+        while (fast != null && fast.next != null) {
+            fast = (fast.next).next;
+            slow = slow.next;
+            if (fast == slow) {
+                int i = 1;
+                slow = slow.next;
+                while (fast != slow) {
+                    i++;
+                    slow = slow.next;
+                }
+                return i;
+            }
         }
 
-        return false;
+        return -1;
     }
 }
 
