@@ -5,7 +5,7 @@ import java.util.Arrays;
 public class GenArrayList<T> {
     private Object[] data;
     private int size;
-    final static int INITIAL_SIZE = 10;
+    final private static int INITIAL_SIZE = 10;
 
     int length() {
         return size;
@@ -16,7 +16,7 @@ public class GenArrayList<T> {
     }
 
     T get(int index) {
-        return (T)data[index];
+        return (T) (data[index]);
     }
 
     T pop() {
@@ -27,11 +27,14 @@ public class GenArrayList<T> {
     }
 
     void add(T value) {
-        if (size == data.length - 1) {
+        if (size == data.length) {
             resize();
         }
-        data[size] = value;
-        size++;
+        data[size++] = value;
+    }
+
+    void set(T value, int index) {
+        data[index] = value;
     }
 
     private void  resize() {

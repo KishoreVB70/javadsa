@@ -2,10 +2,13 @@ package ObjectOrientedProgramming;
 
 public class Main {
     public static void main(String[] args) {
-        MyArrayList arr = new MyArrayList();
-        GenArrayList<String> arr1  = new GenArrayList<>();
-        arr1.add("Foilor");
-        System.out.println(arr1);
-        System.out.println(arr1.length());
+        GenArrayList<Integer> arr  = new GenArrayList<>();
+
+        for (int i = 0; i < 15; i++) {
+            arr.add(i*2);
+        }
+
+        System.out.println(arr);
+
     }
 }
