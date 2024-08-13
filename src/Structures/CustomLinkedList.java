@@ -1,36 +1,32 @@
 package Structures;
 
 public class CustomLinkedList<T> {
-    public CustomLinkedList() {
-        Node temp = new Node();
-        head = temp;
-        tail = temp;
-    }
-
+    private int size;
     private Node tail;
     private Node head;
 
      void addAtHead(T value) {
-        if (head.value == null) {
-            head.value = value;
-            return;
-        }
+         Node temp = new Node(value);
+         temp.next = head;
+         head = temp;
+         size++;
 
-        Node temp = new Node(value);
-        temp.next = head;
-        head = temp;
+         // Fresh linked list
+        if (tail.value == null) {
+            tail = head;
+        }
     }
 
      void add(T value) {
-        // If fresh linked list
-        if (head.value == null) {
-            head.value = value;
-            return;
-        }
-
         Node temp = new Node(value);
         tail.next = temp;
         tail = temp;
+        size++;
+
+         // If fresh linked list
+         if (head.value == null) {
+             head = tail;
+         }
     }
 
      T removeHead() {
