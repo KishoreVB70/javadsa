@@ -61,36 +61,71 @@ public class CustomLinkedList<T> {
         Node temp = findTheNode(index);
         temp.value = value;
     }
+    Node find(T value) {
+        Node temp = head;
+        while (temp != null) {
+            if (temp.value == value) {
+                return temp;
+            }
+            temp = temp.next;
+        }
+        return new Node();
+    }
 
 
-    T removeHead() {
-        // If head can't be removed
-        if (head == tail) {
-            return head.value;
+    void removeHead() {
+        // Nothing to remove
+        if (head == null) {
+            return;
         }
 
-        T value = head.value;
+        // If only one element
+        if(head == tail) {
+            tail = null;
+        }
+
         head = head.next;
-        return value;
     }
-    T removeTail() {
-        // If tail can't be removed
+    void remove(int index) {
+        if (index == 0) {
+            removeHead();
+            return;
+        }
+
+        if (index == size) {
+            removeTail();
+            return;
+        }
+
+        if (index > size) {
+            return;
+        }
+
+        Node previous = findTheNode(index - 1);
+        previous.next = (previous.next).next;
+    }
+    void removeTail() {
+        // Nothing to remove
+        if (tail == null) {
+            return;
+        }
+
+        // If only one element
         if (head == tail) {
-            return head.value;
+            head = null;
+            tail = null;
+            return;
         }
 
         // 1) Find element before tail
-        Node current = head;
-        while (current.next != tail) {
-            current = current.next;
+        Node temp = head;
+        while (temp.next != tail) {
+            temp = temp.next;
         }
 
-        T value = tail.value;
         // 2) Set it as the tail
-        tail = current;
+        tail = temp;
         tail.next = null;
-
-        return value;
     }
 
     T get(int index) {
@@ -98,7 +133,7 @@ public class CustomLinkedList<T> {
         if (index > size) {
             return null;
         }
-        return (T) temp.value;
+        return temp.value;
     }
     int length() {
         return size;
