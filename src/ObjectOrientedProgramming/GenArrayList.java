@@ -27,8 +27,20 @@ public class GenArrayList<T> {
     }
 
     void add(T value) {
+        if (size == data.length - 1) {
+            resize();
+        }
         data[size] = value;
         size++;
+    }
+
+    private void  resize() {
+        Object[] temp = new Object[size * 2];
+        // Copy over the data
+        for (int i = 0; i < data.length; i++) {
+            temp[i] = data[i];
+        }
+        data = temp;
     }
 
     @Override
