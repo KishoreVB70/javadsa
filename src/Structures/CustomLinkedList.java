@@ -53,6 +53,29 @@ public class CustomLinkedList<T> {
         size++;
 
     }
+    void addRecursion(int index, T value) {
+        Node current = head;
+        helperAddRecursion(index, 0, value, current);
+    }
+
+    private void helperAddRecursion(int index, int currentIndex, T value, Node currentNode) {
+        // Base condition
+        if (currentNode == null) {
+            System.out.println("Index out of range!");
+            return;
+        }
+        // Success condition
+        if (currentIndex == index - 1) {
+            Node temp = new Node(value);
+            Node next = currentNode.next;
+            currentNode.next = temp;
+            temp.next = next;
+            return;
+        }
+
+        // Next one
+        helperAddRecursion(index, currentIndex+1, value, currentNode.next);
+    }
     void set(int index, T value) {
         if (index > size) {
             return;
@@ -71,6 +94,7 @@ public class CustomLinkedList<T> {
         }
         return new Node();
     }
+
 
 
     void removeHead() {

@@ -4,14 +4,20 @@ import java.util.LinkedList;
 
 public class LinkedListProblems {
     public static void main(String[] args) {
-        CdoublyLinkedList<Integer> arr= new CdoublyLinkedList<>();
-        arr.add(12);
-        arr.insertFirst(13);
-        arr.add(41);
-        arr.printElements();
-        arr.remove(1);
-        arr.printElements();
+        addSinglyRecursion(2, 99);
     }
+
+    // 1) Insert in singly linked list using recursion
+    static void  addSinglyRecursion(int index, int value) {
+        CustomLinkedList<Integer> arr = new CustomLinkedList<>();
+        for (int i = 0; i <6; i++) {
+            arr.add(i*2);
+        }
+        arr.printAll();
+        arr.addRecursion(index, value);
+        arr.printAll();
+    }
+
 }
 
 
