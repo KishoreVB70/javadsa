@@ -1,6 +1,7 @@
 package Structures;
 
 import java.util.LinkedList;
+import java.util.List;
 
 public class LinkedListProblems {
     public static void main(String[] args) {
@@ -252,26 +253,16 @@ public class LinkedListProblems {
     // 8) Find middle node of singly linked list
     // https://leetcode.com/problems/middle-of-the-linked-list/
     static ListNode findMiddle(ListNode head) {
-        // 1) -> find the length
-        int length = 0;
-        ListNode temp = head;
-        while (temp != null) {
-            temp = temp.next;
-            length++;
+        // Without using the length
+        ListNode fast = head;
+        ListNode slow = head;
+
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
         }
 
-        if (length == 0) {
-            return  null;
-        }
-
-        int middle = length/2;
-        temp = head;
-        length = 0;
-        while (length < middle) {
-            temp = temp.next;
-            length++;
-        }
-        return temp;
+        return slow;
     }
 
 
