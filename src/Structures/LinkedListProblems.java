@@ -5,12 +5,12 @@ import java.util.List;
 
 public class LinkedListProblems {
     public static void main(String[] args) {
-        ListNode head = new ListNode(1);
-        ListNode peasant1 = new ListNode(4);
-        ListNode peasant3 = new ListNode(5);
-        ListNode peasant5 = new ListNode(6);
-        ListNode peasant7 = new ListNode(7);
-        ListNode peasant9 = new ListNode(8);
+        ListNode head = new ListNode(2);
+        ListNode peasant1 = new ListNode(1);
+        ListNode peasant3 = new ListNode(3);
+        ListNode peasant5 = new ListNode(5);
+        ListNode peasant7 = new ListNode(6);
+        ListNode peasant9 = new ListNode(4);
 
 //        ListNode head1 = new ListNode(1);
 //        ListNode peasant2 = new ListNode(3);
@@ -23,8 +23,13 @@ public class LinkedListProblems {
         peasant3.next = peasant5;
         peasant5.next = peasant7;
         peasant7.next = peasant9;
-        peasant9.next = peasant1;
-        System.out.println(isHappyNumber(2));
+        peasant9.next = null;
+
+        ListNode moto = bubbleSortLinkedList(head);
+        while (moto != null) {
+            System.out.println(moto.val);
+            moto = moto.next;
+        }
 
     }
 
@@ -263,6 +268,78 @@ public class LinkedListProblems {
         }
 
         return slow;
+    }
+
+    // 9) Sort linked list
+    static ListNode bubbleSortLinkedList(ListNode head) {
+        // No element or only one element
+        if (head == null || head.next == null) {
+            return head;
+        }
+
+        ListNode avoider = null;
+
+        while (avoider != head) {
+            // We know first and second elements are not null
+            ListNode fast = head.next;
+            ListNode avg = head;
+            ListNode slow = null;
+            while (fast != avoider) {
+                if (fast.val < avg.val) {
+                    // Change the head to keep track of this clutter
+                    if (avg == head) {
+                        head = fast;
+                    }
+
+                    avg.next = fast.next;
+                    fast.next = avg;
+
+                    if (slow != null) {
+                        slow.next = fast;
+                    }
+
+                    // Slow will become the fast as it is now behind
+                    slow = fast;
+
+                    // Move fast forward by one
+                    fast = avg.next;
+
+                    // avg will stay right there
+
+
+                } else {
+                    // If order is correct move everything forward by one
+                    slow = avg;
+                    avg = fast;
+                    fast = fast.next;
+                }
+            }
+            avoider = avg;
+        }
+        return head;
+    }
+
+    static ListNode mergeSortLinkedList(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        return head;
+    }
+    static ListNode mergeSortLinkedList(ListNode start, ListNode end) {
+        // 1 -> find the middle of the list
+        ListNode middle = findMiddle(start);
+
+
+        // Split array into two
+        ListNode l1 = mergeSortLinkedList(start, middle);
+        ListNode l2 = mergeSortLinkedList(middle.next, end);
+
+        // Merge the two sorted parts
+        mergeTwoSinglyLL(l1, l2);
+        return start;
+
+
+
     }
 
 
