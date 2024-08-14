@@ -25,7 +25,7 @@ public class LinkedListProblems {
         peasant7.next = peasant9;
         peasant9.next = null;
 
-        ListNode moto = bubbleSortLinkedList(head);
+        ListNode moto = sortList(head);
         while (moto != null) {
             System.out.println(moto.val);
             moto = moto.next;
@@ -305,8 +305,6 @@ public class LinkedListProblems {
                     fast = avg.next;
 
                     // avg will stay right there
-
-
                 } else {
                     // If order is correct move everything forward by one
                     slow = avg;
@@ -319,28 +317,37 @@ public class LinkedListProblems {
         return head;
     }
 
-    static ListNode mergeSortLinkedList(ListNode head) {
+    static ListNode sortList(ListNode head) {
+        // If only one -> return
         if (head == null || head.next == null) {
             return head;
         }
-        return head;
+
+        ListNode mid = findMiddleBreak(head);
+        ListNode left = sortList(head);
+        ListNode right = sortList(mid);
+
+        // Merge the two
+        return mergeTwoSinglyLL(left, right);
     }
-    static ListNode mergeSortLinkedList(ListNode start, ListNode end) {
-        // 1 -> find the middle of the list
-        ListNode middle = findMiddle(start);
 
+    static ListNode findMiddleBreak(ListNode head) {
+        // Without using the length
+        ListNode fast = head;
+        ListNode slow = head;
+        ListNode breaker = head;
 
-        // Split array into two
-        ListNode l1 = mergeSortLinkedList(start, middle);
-        ListNode l2 = mergeSortLinkedList(middle.next, end);
+        while (fast != null && fast.next != null) {
+            breaker = slow;
+            fast = fast.next.next;
+            slow = slow.next;
+        }
 
-        // Merge the two sorted parts
-        mergeTwoSinglyLL(l1, l2);
-        return start;
-
-
-
+        breaker.next = null;
+        return slow;
     }
+
+
 
 
 
