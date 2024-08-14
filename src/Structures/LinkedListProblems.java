@@ -9,7 +9,7 @@ public class LinkedListProblems {
         ListNode peasant3 = new ListNode(3);
         ListNode peasant5 = new ListNode(4);
         ListNode peasant7 = new ListNode(5);
-        ListNode peasant9 = new ListNode(6);
+//        ListNode peasant9 = new ListNode(6);
 
 //        ListNode head1 = new ListNode(1);
 //        ListNode peasant2 = new ListNode(3);
@@ -21,8 +21,8 @@ public class LinkedListProblems {
         peasant1.next = peasant3;
         peasant3.next = peasant5;
         peasant5.next = peasant7;
-        peasant7.next = peasant9;
-        peasant9.next = null;
+//        peasant7.next = peasant9;
+//        peasant9.next = null;
 
         ListNode temp = head;
         while (temp != null) {
@@ -30,9 +30,7 @@ public class LinkedListProblems {
             temp = temp.next;
         }
 
-        ListNode moto = reverseLinkedListRecursion(head);
-
-
+        ListNode moto = reverseLeftAndRightNode(head, 2, 4);
 
         System.out.println("");
 
@@ -358,9 +356,9 @@ public class LinkedListProblems {
     }
 
     // 10 Reversal of linked list
-    // Approach 1 -> Same algorithm as bubble sort -> place the first element at last, and so on
+    // Approach 1 -> bad approach =>  Same algorithm as bubble sort -> place the first element at last, and so on
     // Approach 2 -> set the current.next in recursion
-
+    //https://leetcode.com/problems/reverse-linked-list/
     static ListNode reverseLinkedListRecursion(ListNode head) {
         if (head == null || head.next == null) {
             return head;
@@ -369,7 +367,6 @@ public class LinkedListProblems {
         return reverseLinkedListRecursion(null, head);
     }
     static ListNode reverseLinkedListRecursion(ListNode previous, ListNode current) {
-
         if (current.next == null) {
             current.next = previous;
             return  current;
@@ -377,6 +374,56 @@ public class LinkedListProblems {
         ListNode next = current.next;
         current.next = previous;
         return reverseLinkedListRecursion(current, next);
+    }
+    static ListNode reverseLeftAndRightNode(ListNode head, int left, int right) {
+
+        // If there is no elements, one element, reverse the same element
+        if (left == right || head == null || head.next == null) {
+            return head;
+        }
+
+        ListNode temp = head;
+        ListNode leftNode = null;
+        ListNode rightNode = null;
+        ListNode rightNext = null;
+        ListNode leftPrevious = null;
+
+        int length = 1;
+        while (temp != null) {
+            if (length == left - 1) {
+                leftPrevious = temp;
+                leftNode = temp.next;
+            }
+
+            if (length == left) {
+                leftNode = temp;
+            }
+
+            if (length == right) {
+                rightNode = temp;
+                // Check for the last element
+                rightNext = temp.next;
+                rightNode.next = null;
+                break;
+            }
+            length++;
+            temp = temp.next;
+        }
+
+        if (leftNode == null) {
+            return head;
+        }
+
+        ListNode reversedHead =  reverseLinkedListRecursion(leftNode);
+        leftNode.next = rightNext;
+
+        if (leftPrevious != null) {
+            leftPrevious.next = reversedHead;
+        } else {
+            head = reversedHead;
+        }
+
+        return head;
     }
 
 
