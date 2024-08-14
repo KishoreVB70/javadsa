@@ -30,7 +30,7 @@ public class LinkedListProblems {
             temp = temp.next;
         }
 
-        ListNode moto = reverseLeftAndRightNode(head, 2, 4);
+        ListNode moto = reverseLinkedListIteration(head);
 
         System.out.println("");
 
@@ -355,7 +355,7 @@ public class LinkedListProblems {
         return slow;
     }
 
-    // 10 Reversal of linked list
+    // 10) Reversal of linked list
     // Approach 1 -> bad approach =>  Same algorithm as bubble sort -> place the first element at last, and so on
     // Approach 2 -> set the current.next in recursion
     //https://leetcode.com/problems/reverse-linked-list/
@@ -375,6 +375,32 @@ public class LinkedListProblems {
         current.next = previous;
         return reverseLinkedListRecursion(current, next);
     }
+
+
+    // Using iteration
+    static ListNode reverseLinkedListIteration(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode temp = head.next;
+        while (temp != null) {
+            ListNode next = temp.next;
+
+            temp.next = head;
+
+            // Only for the first time
+            if (temp == head.next) {
+                head.next = null;
+            }
+            head = temp;
+            //------
+            temp = next;
+        }
+        return head;
+    }
+
+    // 11) Only specific part of the linked list reverse
+    //https://leetcode.com/problems/reverse-linked-list-ii/
     static ListNode reverseLeftAndRightNode(ListNode head, int left, int right) {
 
         // If there is no elements, one element, reverse the same element
@@ -425,6 +451,10 @@ public class LinkedListProblems {
 
         return head;
     }
+
+    // 12)
+
+
 
 
 
