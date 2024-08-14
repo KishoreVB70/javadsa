@@ -150,7 +150,7 @@ public class LinkedListProblems {
         return thala;
     }
 
-    //5) Find if linked list is cycled
+    // 5) Find if linked list is cycled
     static boolean isLinkedListCycled(ListNode head) {
         ListNode fast = head.next;
         ListNode slow = head;
@@ -166,7 +166,7 @@ public class LinkedListProblems {
         return false;
     }
 
-    //5A) Find the length of the cycle
+    // 5A) Find the length of the cycle
     static int lengthOfLinkedListCycle(ListNode head) {
         ListNode fast = head;
         ListNode slow = head;
@@ -187,7 +187,8 @@ public class LinkedListProblems {
         return -1;
     }
 
-    //6) Find the Start Node of the cycle
+    // 6) Find the Start Node of the cycle
+    // https://leetcode.com/problems/linked-list-cycle-ii/
     static ListNode startNodeOfCycle(ListNode head) {
         // 1 -> get the length
         int length = lengthOfLinkedListCycle(head);
@@ -210,7 +211,6 @@ public class LinkedListProblems {
 
     // 7) Happy number
     //https://leetcode.com/problems/happy-number/
-
     static boolean isHappyNumber(int n) {
         int fastPointer = n;
         int slowPointer = n;
@@ -249,6 +249,30 @@ public class LinkedListProblems {
         return true;
     }
 
+    // 8) Find middle node of singly linked list
+    // https://leetcode.com/problems/middle-of-the-linked-list/
+    static ListNode findMiddle(ListNode head) {
+        // 1) -> find the length
+        int length = 0;
+        ListNode temp = head;
+        while (temp != null) {
+            temp = temp.next;
+            length++;
+        }
+
+        if (length == 0) {
+            return  null;
+        }
+
+        int middle = length/2;
+        temp = head;
+        length = 0;
+        while (length < middle) {
+            temp = temp.next;
+            length++;
+        }
+        return temp;
+    }
 
 
 
