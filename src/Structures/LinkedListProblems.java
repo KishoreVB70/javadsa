@@ -1,16 +1,15 @@
 package Structures;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public class LinkedListProblems {
     public static void main(String[] args) {
-        ListNode head = new ListNode(2);
-        ListNode peasant1 = new ListNode(1);
+        ListNode head = new ListNode(1);
+        ListNode peasant1 = new ListNode(2);
         ListNode peasant3 = new ListNode(3);
-        ListNode peasant5 = new ListNode(5);
-        ListNode peasant7 = new ListNode(6);
-        ListNode peasant9 = new ListNode(4);
+        ListNode peasant5 = new ListNode(4);
+        ListNode peasant7 = new ListNode(5);
+        ListNode peasant9 = new ListNode(6);
 
 //        ListNode head1 = new ListNode(1);
 //        ListNode peasant2 = new ListNode(3);
@@ -25,9 +24,21 @@ public class LinkedListProblems {
         peasant7.next = peasant9;
         peasant9.next = null;
 
-        ListNode moto = sortList(head);
+        ListNode temp = head;
+        while (temp != null) {
+            System.out.print(temp.val + "->");
+            temp = temp.next;
+        }
+
+        ListNode moto = reverseLinkedListRecursion(head);
+
+
+
+        System.out.println("");
+
+
         while (moto != null) {
-            System.out.println(moto.val);
+            System.out.print(moto.val + "->");
             moto = moto.next;
         }
 
@@ -271,6 +282,7 @@ public class LinkedListProblems {
     }
 
     // 9) Sort linked list
+    //https://leetcode.com/problems/sort-list/
     static ListNode bubbleSortLinkedList(ListNode head) {
         // No element or only one element
         if (head == null || head.next == null) {
@@ -316,21 +328,19 @@ public class LinkedListProblems {
         }
         return head;
     }
-
-    static ListNode sortList(ListNode head) {
+    static ListNode mergeSortList(ListNode head) {
         // If only one -> return
         if (head == null || head.next == null) {
             return head;
         }
 
         ListNode mid = findMiddleBreak(head);
-        ListNode left = sortList(head);
-        ListNode right = sortList(mid);
+        ListNode left = mergeSortList(head);
+        ListNode right = mergeSortList(mid);
 
         // Merge the two
         return mergeTwoSinglyLL(left, right);
     }
-
     static ListNode findMiddleBreak(ListNode head) {
         // Without using the length
         ListNode fast = head;
@@ -346,6 +356,30 @@ public class LinkedListProblems {
         breaker.next = null;
         return slow;
     }
+
+    // 10 Reversal of linked list
+    // Approach 1 -> Same algorithm as bubble sort -> place the first element at last, and so on
+    // Approach 2 -> set the current.next in recursion
+
+    static ListNode reverseLinkedListRecursion(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+
+        return reverseLinkedListRecursion(null, head);
+    }
+    static ListNode reverseLinkedListRecursion(ListNode previous, ListNode current) {
+
+        if (current.next == null) {
+            current.next = previous;
+            return  current;
+        }
+        ListNode next = current.next;
+        current.next = previous;
+        return reverseLinkedListRecursion(current, next);
+    }
+
+
 
 
 
