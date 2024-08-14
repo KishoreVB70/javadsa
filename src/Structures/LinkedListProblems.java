@@ -6,11 +6,11 @@ import java.util.ListIterator;
 public class LinkedListProblems {
     public static void main(String[] args) {
         ListNode head = new ListNode(1);
-        ListNode peasant1 = new ListNode(1);
-//        ListNode peasant3 = new ListNode(2);
-//        ListNode peasant5 = new ListNode(2);
-//        ListNode peasant7 = new ListNode(1);
-//        ListNode peasant9 = new ListNode(6);
+        ListNode peasant1 = new ListNode(2);
+        ListNode peasant3 = new ListNode(3);
+        ListNode peasant5 = new ListNode(4);
+        ListNode peasant7 = new ListNode(5);
+        ListNode peasant9 = new ListNode(6);
 
 //        ListNode head1 = new ListNode(1);
 //        ListNode peasant2 = new ListNode(3);
@@ -19,10 +19,10 @@ public class LinkedListProblems {
 //        peasant2.next = peasant4;
 
         head.next = peasant1;
-//        peasant1.next = peasant3;
-//        peasant3.next = peasant5;
-//        peasant5.next = peasant7;
-//        peasant7.next = peasant9;
+        peasant1.next = peasant3;
+        peasant3.next = peasant5;
+        peasant5.next = peasant7;
+        peasant7.next = peasant9;
 //        peasant9.next = null;
 
         ListNode temp = head;
@@ -31,9 +31,8 @@ public class LinkedListProblems {
             temp = temp.next;
         }
 
-        System.out.println(isLinkedListPalindrome(head));
 
-//        ListNode moto = reverseLinkedListIteration(head);
+//        ListNode moto = reOrderLL(head);
 //
 //        System.out.println("");
 //
@@ -478,6 +477,50 @@ public class LinkedListProblems {
         }
 
         return true;
+    }
+
+    // 13) Re order linked list
+    static void reOrderLL (ListNode head) {
+        if (head == null || head.next == null) {
+            return;
+        }
+
+        if (head.next.next == null) {
+            return;
+        }
+
+        // 1) Find mid
+        ListNode mid = findMiddleBreak(head);
+
+        // 2) Reverse second half
+        ListNode reversed = reverseLinkedListIteration(mid);
+
+        ListNode newList = head;
+        ListNode currentNode = head.next;
+        // 3) Create new LL, first element will be from the first half, second element will be from the second half
+        while (currentNode != null && reversed != null) {
+            ListNode leftNext = currentNode.next;
+            ListNode rightNext = reversed.next;
+
+            currentNode.next = null;
+            reversed.next = null;
+            newList.next = reversed;
+            reversed.next = currentNode;
+            newList = currentNode;
+            currentNode = leftNext;
+            reversed = rightNext;
+        }
+
+        while (currentNode != null) {
+            newList.next = currentNode;
+            newList = newList.next;
+            currentNode = currentNode.next;
+        }
+        while (reversed != null) {
+            newList.next = reversed;
+            newList = newList.next;
+            reversed = reversed.next;
+        }
     }
 
 
