@@ -1,14 +1,15 @@
 package Structures;
 
 import java.util.List;
+import java.util.ListIterator;
 
 public class LinkedListProblems {
     public static void main(String[] args) {
         ListNode head = new ListNode(1);
-        ListNode peasant1 = new ListNode(2);
-        ListNode peasant3 = new ListNode(3);
-        ListNode peasant5 = new ListNode(4);
-        ListNode peasant7 = new ListNode(5);
+        ListNode peasant1 = new ListNode(1);
+//        ListNode peasant3 = new ListNode(2);
+//        ListNode peasant5 = new ListNode(2);
+//        ListNode peasant7 = new ListNode(1);
 //        ListNode peasant9 = new ListNode(6);
 
 //        ListNode head1 = new ListNode(1);
@@ -18,9 +19,9 @@ public class LinkedListProblems {
 //        peasant2.next = peasant4;
 
         head.next = peasant1;
-        peasant1.next = peasant3;
-        peasant3.next = peasant5;
-        peasant5.next = peasant7;
+//        peasant1.next = peasant3;
+//        peasant3.next = peasant5;
+//        peasant5.next = peasant7;
 //        peasant7.next = peasant9;
 //        peasant9.next = null;
 
@@ -30,15 +31,17 @@ public class LinkedListProblems {
             temp = temp.next;
         }
 
-        ListNode moto = reverseLinkedListIteration(head);
+        System.out.println(isLinkedListPalindrome(head));
 
-        System.out.println("");
-
-
-        while (moto != null) {
-            System.out.print(moto.val + "->");
-            moto = moto.next;
-        }
+//        ListNode moto = reverseLinkedListIteration(head);
+//
+//        System.out.println("");
+//
+//
+//        while (moto != null) {
+//            System.out.print(moto.val + "->");
+//            moto = moto.next;
+//        }
 
     }
 
@@ -382,21 +385,18 @@ public class LinkedListProblems {
         if (head == null || head.next == null) {
             return head;
         }
-        ListNode temp = head.next;
-        while (temp != null) {
-            ListNode next = temp.next;
-
-            temp.next = head;
-
-            // Only for the first time
-            if (temp == head.next) {
-                head.next = null;
+        ListNode prev = null;
+        ListNode current = head;
+        ListNode next = head.next;
+        while (current != null) {
+            current.next = prev;
+            prev = current;
+            current = next;
+            if (next != null) {
+                next = next.next;
             }
-            head = temp;
-            //------
-            temp = next;
         }
-        return head;
+        return prev;
     }
 
     // 11) Only specific part of the linked list reverse
@@ -452,7 +452,33 @@ public class LinkedListProblems {
         return head;
     }
 
-    // 12)
+    // 12) Is linked list palindrome
+    static boolean isLinkedListPalindrome(ListNode head) {
+        if (head == null) {
+            return false;
+        }
+
+        if (head.next == null) {
+            return  true;
+        }
+
+        // 1) Find the mid
+        ListNode mid = findMiddleBreak(head);
+
+        // 2) Reverse the right part
+        ListNode reversed = reverseLinkedListIteration(mid);
+
+        // 3)Compare one by one and if same palindrome
+        while (head != null && reversed != null) {
+            if (head.val != reversed.val) {
+                return false;
+            }
+            head = head.next;
+            reversed = reversed.next;
+        }
+
+        return true;
+    }
 
 
 
