@@ -23,9 +23,8 @@ public class LinkedListProblems {
         peasant5.next = peasant7;
         peasant7.next = peasant9;
         peasant9.next = peasant1;
+        System.out.println(isHappyNumber(2));
 
-
-        System.out.println(lengthOfLinkedListCycle(head));
     }
 
     // 1) Insert in singly linked list using recursion
@@ -167,27 +166,145 @@ public class LinkedListProblems {
         return false;
     }
 
-    //6) Find the length of the cycle
+    //5A) Find the length of the cycle
     static int lengthOfLinkedListCycle(ListNode head) {
-        ListNode fast = head.next;
+        ListNode fast = head;
         ListNode slow = head;
 
         while (fast != null && fast.next != null) {
             fast = (fast.next).next;
             slow = slow.next;
             if (fast == slow) {
-                int i = 1;
-                slow = slow.next;
-                while (fast != slow) {
-                    i++;
+                int i = 0;
+                do {
                     slow = slow.next;
-                }
+                    i++;
+                } while (fast != slow);
                 return i;
             }
         }
 
         return -1;
     }
+
+    //6) Find the Start Node of the cycle
+    static ListNode startNodeOfCycle(ListNode head) {
+        // 1 -> get the length
+        int length = lengthOfLinkedListCycle(head);
+        if (length == -1) {
+            return null;
+        }
+        // 2 -> move first pointer the length into the array
+        ListNode first = head;
+        ListNode second = head;
+        for (int i = 0; i < length; i++) {
+            first = first.next;
+        }
+        // 3 -> Move first and second back till they meet
+        while (first != second) {
+            second = second.next;
+            first = first.next;
+        }
+        return first;
+    }
+
+    // 7) Happy number
+    //https://leetcode.com/problems/happy-number/
+
+    static boolean isHappyNumber(int n) {
+        int fastPointer = n;
+        int slowPointer = n;
+
+        // Do this two times
+        while (fastPointer != 1) {
+            for (int i = 0; i < 2 ; i++) {
+                int tempNum = 0;
+                while (fastPointer > 9) {
+                    int lastDigit = fastPointer % 10;
+                    fastPointer /= 10;
+                    tempNum += lastDigit * lastDigit;
+                }
+                tempNum += fastPointer * fastPointer;
+                fastPointer = tempNum;
+            }
+
+            if (fastPointer == 1) {
+                return true;
+            }
+
+            int tempNum = 0;
+            while (slowPointer > 9) {
+                int lastDigit = slowPointer % 10;
+                slowPointer /= 10;
+                tempNum += lastDigit * lastDigit;
+            }
+            tempNum += slowPointer * slowPointer;
+            slowPointer= tempNum;
+
+            if (fastPointer == slowPointer) {
+                return false;
+            }
+
+        }
+        return true;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
