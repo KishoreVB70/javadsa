@@ -32,7 +32,7 @@ public class LinkedListProblems {
         }
 
 
-        ListNode moto = reverseKGroup(head, 3);
+        ListNode moto = rotateLLBasedOnK(head, 2);
 
         System.out.println("");
 
@@ -525,7 +525,7 @@ public class LinkedListProblems {
         }
     }
 
-    // 14 Hard -> Reverse Nodes in K group
+    // 14) Hard -> Reverse Nodes in K group
     //https://leetcode.com/problems/reverse-nodes-in-k-group/
     static ListNode reverseKGroup(ListNode head, int k) {
         if (head == null || head.next == null || k == 1) {
@@ -589,6 +589,93 @@ public class LinkedListProblems {
         return  head;
     }
 
+    // 15) Rotate linked list
+    static ListNode rotateLLBasedOnK(ListNode head, int k) {
+        if (head == null || head.next == null || k == 0) {
+            return head;
+        }
+
+        // 1-> find the size of the linked list
+        Object[] lengthAndTail = lengthAndTail(head);
+        int length = (int) lengthAndTail[0];
+        ListNode actualTail = (ListNode) lengthAndTail[1];
+
+
+        // Base condition
+        if (k % length == 0) {
+            return head;
+        }
+
+        // 2-> Find the index of the element that is to become head
+        int indexOfHead;
+
+        // in case k is larger than length
+        if (k > length) {
+            k = k % length;
+        }
+
+        // Note -> index starts from 1 and not 0
+        indexOfHead = length - k;
+
+        // 3-> obtain the node that is to become tail and the node that is to become head
+        ListNode tail = head;
+        ListNode newHead;
+
+        for (int i = 1; i <indexOfHead ; i++) {
+            tail = tail.next;
+        }
+        // end of the cycle, tail will become tail
+        newHead = tail.next;
+        tail.next = null;
+        actualTail.next = head;
+        head = newHead;
+
+        return  head;
+    }
+
+    static Object[] lengthAndTail(ListNode head) {
+        int i = 1;
+        while (head.next != null ) {
+            head = head.next;
+            i++;
+        }
+
+        return  new Object[]{i, head};
+    }
+
+    static int lengthOfNormalLL(ListNode head) {
+        if (head == null) {
+            return 0;
+        }
+
+        int i = 1;
+        while (head.next != null ) {
+            head = head.next;
+            i++;
+        }
+
+
+        return i;
+    }
+
+    static ListNode rotateLLOneTime(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+
+        // 1 -> find the tail
+        ListNode prev = null;
+        ListNode tail = head;
+        while (tail.next != null) {
+            prev = tail;
+            tail = tail.next;
+        }
+        // Once the loop breaks, prev will be t-1 -> new tail
+        prev.next = null;
+        tail.next = head;
+        head = tail;
+        return  head;
+    }
 
 
 
