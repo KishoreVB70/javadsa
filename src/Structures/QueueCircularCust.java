@@ -19,8 +19,7 @@ public class QueueCircularCust {
     public void add(int i) {
         // Check if stack is full
         if (isFull()) {
-            System.out.println("Queue full");
-            return;
+            resize();
         }
 
         // Next end spot = data
@@ -34,13 +33,16 @@ public class QueueCircularCust {
             System.out.println("Stack is empty, can't remove");
         }
 
-        // If
+
+        // If it is the last element -> set to pre historic conditions
         if (start % data.length == end % data.length) {
             int removed = data[start];
             start = 0;
             end = -1;
             return removed;
         }
+
+        // If normal, return value, and move ahead
         return data[start++];
     }
 
@@ -53,6 +55,18 @@ public class QueueCircularCust {
             System.out.print(data[i % data.length] + ",");
         }
         System.out.println();
+    }
+
+    private void resize() {
+        int[] newArray = new int[data.length * 2];
+        int j = 0;
+        for (int i = start; i <= end; i++) {
+            newArray[j] = data[i % data.length];
+            j++;
+        }
+        data = newArray;
+        start = 0;
+        end = j;
     }
 
     private boolean isFull () {
