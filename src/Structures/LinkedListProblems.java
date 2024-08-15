@@ -44,6 +44,14 @@ public class LinkedListProblems {
 
     }
 
+    // Most important in LL is
+    // 1) Recursion is superior for some problems
+    // 2) Two pointer method will be helpful for finding a node or finding cycle
+    // 3) Finding middle is very important -> 2 pointer method
+    // 4) Merge sort is good for sorting list
+    // 5) Reversing list is important
+    // 6) Re ordering is also important -> easy for the most part
+
     // 1) Insert in singly linked list using recursion
     static void  addSinglyRecursion(int index, int value) {
         CustomLinkedList<Integer> arr = new CustomLinkedList<>();
@@ -65,7 +73,7 @@ public class LinkedListProblems {
         arr.addRecursion(index, value);
         arr.printElements();
     }
-    // 1c) Insert in circular singly linked list recursion
+
 
     // 2) Insert before a specific value single linked list recursion
     static void insertBeforeValueRecursion(int target, int value) {
@@ -88,8 +96,9 @@ public class LinkedListProblems {
         ListNode(int val, ListNode next) { this.val = val; this.next = next; }
    }
     static ListNode removeDuplicateSinglyLinked(ListNode head) {
-        if (head == null) {
-            return null;
+        // No elements -> no duplicates || Only one element -> No duplicates
+        if (head == null || head.next == null) {
+            return head;
         }
         head.next = removeDuplicateSinglyLinked(head.next, head.val);
         return head;
@@ -103,7 +112,6 @@ public class LinkedListProblems {
         // Remove condition
         if (currentNode.val == previousValue) {
             return removeDuplicateSinglyLinked(currentNode.next, currentNode.val);
-
         }
 
         currentNode.next =  removeDuplicateSinglyLinked(currentNode.next, currentNode.val);
@@ -114,61 +122,30 @@ public class LinkedListProblems {
     // 4) Remove duplicates from sorted list
     //https://leetcode.com/problems/merge-two-sorted-lists/
     static ListNode mergeTwoSinglyLL(ListNode list1, ListNode list2) {
-        // Case 1 -> both are null
-        if (list1 == null && list2 == null) {
-            return null;
-        }
-        // Case -> list 1 is null
-        if (list1 == null && list2 != null) {
-            return list2;}
-        // Case -> list 1 is null
-        if (list2 == null && list1 != null) {
-            return list1;
-        }
-
-
-        // Actual stuff
-        int smallest;
-        if (list1.val < list2.val) {
-            smallest = list1.val;
-            list1 = list1.next;
-        } else  {
-            smallest = list2.val;
-            list2 = list2.next;
-        }
-        ListNode tempThala = new ListNode(smallest);
-        ListNode thala = tempThala;
-
-
-        while (list1 != null && list2 != null) {
-            if (list1.val < list2.val) {
-                tempThala.next = list1;
-                tempThala = tempThala.next;
-                list1 = list1.next;
-            } else  {
-                tempThala.next = list2;
-                tempThala = tempThala.next;
-                list2 = list2.next;
+        // This a recursive approach
+        if(list1!=null && list2!=null){
+            if(list1.val<list2.val){
+                list1.next=mergeTwoSinglyLL(list1.next,list2);
+                return list1;
+            }
+            else{
+                list2.next=mergeTwoSinglyLL(list1,list2.next);
+                return list2;
             }
         }
 
-        // Add the remaining
-        while (list2 != null) {
-            tempThala.next = list2;
-            tempThala = tempThala.next;
-            list2 = list2.next;
-        }
-        while (list1 != null) {
-            tempThala.next = list1;
-            tempThala = tempThala.next;
-            list1 = list1.next;
-        }
-
-        return thala;
+        // Base condition, if either one is null, then return the other, it will contain all the next
+        if(list1==null) return list2;
+        return list1;
     }
 
     // 5) Find if linked list is cycled
+    //https://leetcode.com/problems/linked-list-cycle/description/
     static boolean isLinkedListCycled(ListNode head) {
+        if (head == null || head.next == null) {
+            return false;
+        }
+
         ListNode fast = head.next;
         ListNode slow = head;
 
@@ -176,7 +153,6 @@ public class LinkedListProblems {
             fast = (fast.next).next;
             slow = slow.next;
             if (fast == slow) {
-                System.out.println(fast.val);
                 return true;
             }
         }
@@ -699,43 +675,4 @@ public class LinkedListProblems {
 
 
 
-
-
-
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
