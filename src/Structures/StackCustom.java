@@ -43,8 +43,9 @@ public class StackCustom {
             return;
         }
         for (int i = 0; i <= ptr; i++) {
-            System.out.println(data[i]);
+            System.out.print(data[i] + ",");
         }
+        System.out.println();
     }
 
     private void extendArray() {
