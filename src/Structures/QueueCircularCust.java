@@ -17,21 +17,29 @@ public class QueueCircularCust {
     }
 
     public void add(int i) {
+        // Check if stack is full
         if (isFull()) {
-            System.out.println("Queue is full");
+            System.out.println("Queue full");
+            return;
         }
 
-        if (isEmpty()) {
-            start = 0;
-            end = -1;
-        }
-
-        data[++end] = i;
+        // Next end spot = data
+        end++;
+        data[end % data.length] = i;
     }
 
     public int remove() {
+        // If no elements
         if (isEmpty()) {
-            System.out.println("Queue is empty");
+            System.out.println("Stack is empty, can't remove");
+        }
+
+        // If
+        if (start % data.length == end % data.length) {
+            int removed = data[start];
+            start = 0;
+            end = -1;
+            return removed;
         }
         return data[start++];
     }
@@ -42,17 +50,20 @@ public class QueueCircularCust {
             return;
         }
         for (int i = start; i <= end ; i++) {
-            System.out.print(data[i] + ",");
+            System.out.print(data[i % data.length] + ",");
         }
         System.out.println();
     }
 
     private boolean isFull () {
-        return end == data.length - 1;
+        if (end == -1) {
+            return false;
+        }
+        return ((end+1) % data.length == start);
     }
 
     private boolean isEmpty () {
-        return start == end + 1;
+        return end == -1;
     }
 
 
