@@ -631,8 +631,7 @@ public class LinkedListProblems {
         head = newHead;
 
         return  head;
-    }
-
+    } 
     static Object[] lengthAndTail(ListNode head) {
         int i = 1;
         while (head.next != null ) {
@@ -642,7 +641,6 @@ public class LinkedListProblems {
 
         return  new Object[]{i, head};
     }
-
     static int lengthOfNormalLL(ListNode head) {
         if (head == null) {
             return 0;
@@ -657,7 +655,6 @@ public class LinkedListProblems {
 
         return i;
     }
-
     static ListNode rotateLLOneTime(ListNode head) {
         if (head == null || head.next == null) {
             return head;
