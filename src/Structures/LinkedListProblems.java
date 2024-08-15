@@ -10,7 +10,7 @@ public class LinkedListProblems {
         ListNode peasant3 = new ListNode(3);
         ListNode peasant5 = new ListNode(4);
         ListNode peasant7 = new ListNode(5);
-        ListNode peasant9 = new ListNode(6);
+//        ListNode peasant9 = new ListNode(6);
 
 //        ListNode head1 = new ListNode(1);
 //        ListNode peasant2 = new ListNode(3);
@@ -22,7 +22,7 @@ public class LinkedListProblems {
         peasant1.next = peasant3;
         peasant3.next = peasant5;
         peasant5.next = peasant7;
-        peasant7.next = peasant9;
+//        peasant7.next = peasant9;
 //        peasant9.next = null;
 
         ListNode temp = head;
@@ -32,15 +32,15 @@ public class LinkedListProblems {
         }
 
 
-//        ListNode moto = reOrderLL(head);
-//
-//        System.out.println("");
-//
-//
-//        while (moto != null) {
-//            System.out.print(moto.val + "->");
-//            moto = moto.next;
-//        }
+        ListNode moto = reverseKGroup(head, 3);
+
+        System.out.println("");
+
+
+        while (moto != null) {
+            System.out.print(moto.val + "->");
+            moto = moto.next;
+        }
 
     }
 
@@ -452,6 +452,7 @@ public class LinkedListProblems {
     }
 
     // 12) Is linked list palindrome
+    //https://leetcode.com/problems/palindrome-linked-list/
     static boolean isLinkedListPalindrome(ListNode head) {
         if (head == null) {
             return false;
@@ -480,6 +481,7 @@ public class LinkedListProblems {
     }
 
     // 13) Re order linked list
+    // https://leetcode.com/problems/reorder-list/
     static void reOrderLL (ListNode head) {
         if (head == null || head.next == null) {
             return;
@@ -522,6 +524,72 @@ public class LinkedListProblems {
             reversed = reversed.next;
         }
     }
+
+    // 14 Hard -> Reverse Nodes in K group
+    //https://leetcode.com/problems/reverse-nodes-in-k-group/
+    static ListNode reverseKGroup(ListNode head, int k) {
+        if (head == null || head.next == null || k == 1) {
+            return  head;
+        }
+
+        ListNode previous = null;
+        ListNode current = head;
+        ListNode next = head.next;
+        int i = 1;
+
+        ListNode lp = null;
+        ListNode l = null;
+        ListNode r = null;
+        ListNode rn = null;
+
+        while (current != null) {
+            // 1 -> identify the left node
+            if (i == 1) {
+                lp = previous;
+                l = current;
+            }
+
+            // 2 -> identify the right node
+            if (i == k) {
+                r = current;
+                rn = next;
+                r.next = null;
+
+                // 3 -> once both identified, rotate
+                ListNode reversed = reverseLinkedListIteration(l);
+
+                // If null, head will be pointing to it, if not null, previous would be pointing
+
+                // Reversed will be the first element
+                if (lp != null) {
+                    lp.next = reversed;
+                } else {
+                    head = reversed;
+                }
+
+                // Left will become the last element and hence point to the right next
+                l.next = rn;
+                i = 1;
+                previous = l;
+                current = rn;
+                if (rn != null) {
+                    next = rn.next;
+                }
+                continue;
+            }
+
+            // Move on if right not acquired
+            current = next;
+            previous = current;
+            if (next != null) {
+                next = next.next;
+            }
+            i++;
+        }
+        return  head;
+    }
+
+
 
 
 
