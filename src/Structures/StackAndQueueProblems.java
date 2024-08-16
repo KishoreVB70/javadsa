@@ -7,7 +7,7 @@ import java.util.Stack;
 public class StackAndQueueProblems {
 
     public static void main(String[] args) {
-        String bot = "()";
+        String bot = "()()())))";
     }
 
     //1) Implementing Queue with stack
@@ -329,6 +329,55 @@ public class StackAndQueueProblems {
         while (!stack.isEmpty()) {
             stack.pop();
             count++;
+        }
+
+        return count;
+    }
+    public static int minAddToMakeParenthesisValid2Version(String s) {
+        int count = 0;
+        Stack<Character> stackOP = new Stack<>();
+        Stack<Character> stackCP = new Stack<>();
+        int backCount = 0;
+        int leftOver = 0;
+        for (char c : s.toCharArray()) {
+            if (c == '(') {
+                stackOP.push(c);
+                continue;
+            }
+
+            // When stack is empty
+            if (stackOP.isEmpty()) {
+                leftOver++;
+                continue;
+            }
+
+            // In any condition, if back count is not 1, then don't bother, just increase it
+            if (backCount == 0) {
+                backCount++;
+            } else {
+                stackOP.pop();
+                backCount--;
+            }
+
+        }
+
+        // Reduce the residue back count
+        // It would either be 0 or 1, so always do this
+        count -= backCount;
+
+        // Counting the left over
+        if (leftOver > 0) {
+            if (leftOver % 2 == 0) {
+                count += leftOver/2;
+            } else {
+                count += (leftOver/2) + 1;
+            }
+        }
+
+        // Adding ( that is left
+        while (!stackOP.isEmpty()) {
+            count += 2;
+            stackOP.pop();
         }
 
         return count;
