@@ -8,7 +8,7 @@ public class StackAndQueueProblems {
 
     public static void main(String[] args) {
         int[] rectangle = {2,1,5,6,2,3};
-        System.out.println(largestRectangleArea(rectangle));
+        System.out.println(largestRectangleArea2(rectangle));
     }
 
     //1) Implementing Queue with stack
@@ -179,6 +179,45 @@ public class StackAndQueueProblems {
             current++;
         }
 
+        return largestRectangle;
+
+    }
+    public static int largestRectangleArea2(int[] heights) {
+        if (heights.length == 0) {
+            return 0;
+        }
+        if (heights.length == 1) {
+            return heights[0];
+        }
+
+        int largestRectangle = 0;
+        for (int i = 0; i < heights.length; i++) {
+            int sum = heights[i];
+
+            int j = i-1;
+            // Go in the left direction
+            while (j >= 0) {
+                if (heights[j] >= heights[i]) {
+                    sum += heights[i];
+                    j--;
+                } else {
+                    break;
+                }
+            }
+
+            j = i+1;
+            // Go in the right direction
+            while (j < heights.length) {
+                if (heights[j] >= heights[i]) {
+                    sum += heights[i];
+                    j++;
+                } else {
+                    break;
+                }
+            }
+
+            largestRectangle = Integer.max(largestRectangle, sum);
+        }
         return largestRectangle;
 
     }
