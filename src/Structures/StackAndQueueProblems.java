@@ -1,5 +1,6 @@
 package Structures;
 
+import java.util.List;
 import java.util.Queue;
 import java.util.Stack;
 
@@ -100,7 +101,54 @@ public class StackAndQueueProblems {
         }
     }
 
-    // 3)
+    // 3) Game of two stacks
+    //https://www.hackerrank.com/challenges/game-of-two-stacks/problem
+    public static int twoStacks(int maxSum, List<Integer> a, List<Integer> b) {
+        return helperTwoStacksRecursion(a, b, 0, 0, maxSum);
+    }
+
+    public static int helperTwoStacksRecursion(List<Integer> a, List<Integer> b, int sum, int count, int maxSum) {
+        // Base condition for size
+        if (sum > maxSum) {
+            return  --count;
+        }
+
+        // Base condition for empty
+        if (a.isEmpty() && b.isEmpty()) {
+            return count;
+        }
+
+        int progress1 = 0;
+        int progress2 = 0;
+
+        // If both are not empty, two recursion call
+        if (!a.isEmpty() && !b.isEmpty()) {
+            int aValue = a.getFirst();
+            progress1 = helperTwoStacksRecursion(a.subList(1, a.size()), b, sum + aValue, count+1, maxSum);
+
+            int bValue = b.getFirst();
+            progress2 = helperTwoStacksRecursion(a, b.subList(1, b.size()), sum + bValue, count+1, maxSum);
+        }
+
+        if (a.isEmpty()) {
+            int bValue = b.getFirst();
+            progress1 = 0;
+            progress2 = helperTwoStacksRecursion(a, b.subList(1, b.size()), sum + bValue, count+1, maxSum);
+        }
+
+        if (b.isEmpty()) {
+            int aValue = a.getFirst();
+            progress2 = 0;
+            progress1 = helperTwoStacksRecursion(a.subList(1, a.size()), b, sum + aValue, count+1, maxSum);
+        }
+
+
+        if (progress1 > progress2) {
+            return  progress1;
+        } else {
+            return  progress2;
+        }
+    }
 
 
 }
