@@ -302,7 +302,7 @@ public class StackAndQueueProblems {
                     stackOut.push(']');
                     break;
                 default:
-                    if (stackOut.isEmpty() || c != stackOut.peek()) {
+                    if (stackOut.isEmpty() || c != stackOut.pop()) {
                         return false;
                     }
                     stackOut.pop();
@@ -310,6 +310,28 @@ public class StackAndQueueProblems {
             p = p.substring(1);
         }
         return stackOut.isEmpty();
+    }
+    public static int minAddToMakeValid(String s) {
+        int count = 0;
+        Stack<Character> stack = new Stack<>();
+        for (char c : s.toCharArray()) {
+            if (c == '(') {
+                stack.push(c);
+                continue;
+            }
+            if (stack.isEmpty()) {
+                count++;
+                continue;
+            }
+            stack.pop();
+        }
+
+        while (!stack.isEmpty()) {
+            stack.pop();
+            count++;
+        }
+
+        return count;
     }
 
 
