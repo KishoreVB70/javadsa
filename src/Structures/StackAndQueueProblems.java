@@ -7,15 +7,8 @@ import java.util.Stack;
 public class StackAndQueueProblems {
 
     public static void main(String[] args) {
-        MyQueue obj = new MyQueue();
-        obj.push(1);
-        obj.push(2);
-        int param_3 = obj.peek();
-        System.out.println(param_3);
-        int param_2 = obj.pop();
-        System.out.println(param_2);
-        boolean param_4 = obj.empty();
-        System.out.println(param_4);
+        int[] rectangle = {2,1,5,6,2,3};
+        System.out.println(largestRectangleArea(rectangle));
     }
 
     //1) Implementing Queue with stack
@@ -106,7 +99,6 @@ public class StackAndQueueProblems {
     public static int twoStacks(int maxSum, List<Integer> a, List<Integer> b) {
         return helperTwoStacksRecursion(a, b, 0, 0, maxSum);
     }
-
     public static int helperTwoStacksRecursion(List<Integer> a, List<Integer> b, int sum, int count, int maxSum) {
         // Base condition for size
         if (sum > maxSum) {
@@ -150,6 +142,46 @@ public class StackAndQueueProblems {
         }
     }
 
+    // 4) Largest rectangle in histogram -> Ez Pz
+    // https://leetcode.com/problems/largest-rectangle-in-histogram/
+    public static int largestRectangleArea(int[] heights) {
+        if (heights.length == 0) {
+            return 0;
+        }
+        if (heights.length == 1) {
+            return heights[0];
+        }
+
+        int largestRectangle = 0;
+        boolean isNotOver = false;
+        int current = 1;
+        int sum = 0;
+        while (!isNotOver) {
+            if (sum > largestRectangle) {
+                largestRectangle = sum;
+            }
+            isNotOver = true;
+            int i = 0;
+            sum = 0;
+
+            while (i < heights.length) {
+                if (heights[i] >= current) {
+                    isNotOver = false;
+                    sum+= current;
+                } else {
+                    if (sum > largestRectangle) {
+                        largestRectangle = sum;
+                    }
+                    sum = 0;
+                }
+                i++;
+            }
+            current++;
+        }
+
+        return largestRectangle;
+
+    }
 
 }
 
