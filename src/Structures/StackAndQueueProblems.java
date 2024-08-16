@@ -7,8 +7,7 @@ import java.util.Stack;
 public class StackAndQueueProblems {
 
     public static void main(String[] args) {
-        int[] rectangle = {2, 1, 5, 6, 2, 3};
-        System.out.println(largestRectangle(rectangle));
+        String bot = "()";
     }
 
     //1) Implementing Queue with stack
@@ -279,6 +278,38 @@ public class StackAndQueueProblems {
         }
 
         return Math.max(max, area);
+    }
+
+    // 5) Valid parenthesis
+    //https://leetcode.com/problems/valid-parentheses/
+    public static boolean isValidParenthesis(String s) {
+        if (s.isEmpty()) {
+            return false;
+        }
+        String p = s;
+        Stack<Character> stackOut = new Stack<Character>();
+
+        while (!p.isEmpty()) {
+            char c = p.charAt(0);
+            switch (c) {
+                case '(':
+                    stackOut.push(')');
+                    break;
+                case '{':
+                    stackOut.push('}');
+                    break;
+                case '[':
+                    stackOut.push(']');
+                    break;
+                default:
+                    if (stackOut.isEmpty() || c != stackOut.peek()) {
+                        return false;
+                    }
+                    stackOut.pop();
+            }
+            p = p.substring(1);
+        }
+        return stackOut.isEmpty();
     }
 
 
