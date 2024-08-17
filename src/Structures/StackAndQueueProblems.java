@@ -1,13 +1,18 @@
 package Structures;
 
-import java.util.List;
-import java.util.Queue;
-import java.util.Stack;
+import java.util.*;
 
 public class StackAndQueueProblems {
 
     public static void main(String[] args) {
-        String bot = "()()())))";
+        MyStack myStack = new MyStack();
+        myStack.push(1);
+        myStack.push(2);
+        myStack.push(3);
+        System.out.println(myStack.pop());
+        System.out.println(myStack.pop());
+        System.out.println(myStack.pop());
+        System.out.println(myStack.empty());
     }
 
     //1) Implementing Queue with stack
@@ -51,45 +56,43 @@ public class StackAndQueueProblems {
     }
 
     // 2) Implement Stack with Queue -> Incomplete
-    class MyStack {
-        private Stack<Integer> stack1;
-        private Stack<Integer> stack2;
-
+    static class MyStack {
         private Queue<Integer> queue1;
         private Queue<Integer> queue2;
 
 
         public MyStack() {
-//            queue1 = new Queue<Integer>();
-//            queue2 = new Queue<Integer>();
+            queue1 = new ArrayDeque<Integer>();
+            queue2 = new ArrayDeque<Integer>();
         }
 
         public void push(int x) {
-            // 1) Empty stack 1 into stack 2
-            while (!stack1.empty()) {
-                stack2.push(stack1.pop());
+            int size = queue1.size();
+            for (int i = 0; i < size; i++) {
+                queue2.add(queue1.remove());
             }
-
-            // 2) Add x into stack 1
-            stack1.push(x);
-
-            // 3) Empty stack 2 into stack 1
-            while (!stack2.empty()) {
-                stack1.push(stack2.pop());
-            }
+            queue1.add(x);
         }
 
         public int pop() {
-            // Ezz
-            return stack1.pop();
+            int popped = queue1.remove();
+            while (!queue2.isEmpty()) {
+                queue1.add(queue2.remove());
+            }
+
+            int size = queue1.size();
+            for (int i = 0; i < size - 1; i++) {
+                queue2.add(queue1.remove());
+            }
+            return popped;
         }
 
         public int top() {
-            return stack1.peek();
+            return queue1.peek();
         }
 
         public boolean empty() {
-            return stack1.empty();
+            return queue1.isEmpty();
         }
     }
 
