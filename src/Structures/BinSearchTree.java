@@ -52,6 +52,18 @@ public class BinSearchTree {
         }
     }
 
+    void display() {
+        display(root, "Root is: ");
+    }
+    private void display(Node node, String text) {
+        if (node == null) {
+            return;
+        }
+        System.out.println(text + node.value);
+        display(node.left, "Left of " + node.value + "is: ");
+        display(node.right, "Right of " + node.value + "is: ");
+    }
+
 
 
     class Node {
