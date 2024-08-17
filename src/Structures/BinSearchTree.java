@@ -7,57 +7,64 @@ public class BinSearchTree {
     }
 
     void insert(int value) {
-        insert(root, value);
+        this.root = insert(root, value);
     }
     private Node insert(Node node, int value) {
         if (node == null) {
             Node newNode = new Node(value);
             return newNode;
         }
+        if (value < node.value) {
+            node.left = insert(node.left, value);
+        }
 
         if (value > node.value) {
-            Node returner = insert(node.right, value);
-            if (returner != null) {
-                node.right = returner;
-            }
+            node.right = insert(node.right, value);
         }
-        else {
-            Node returner = insert(node.left, value);
-            if (returner != null) {
-                node.left = returner;
-            }
-        }
-        return null;
+
+        node.height = Integer.max(height(node.right), height(node.left)) + 1;
+
+        return node;
     }
 
     void remove(int value) {
-        remove(root, value);
+        this.root = remove(root, value);
     }
     private Node remove(Node node, int value) {
         if (node == null) {
             return null;
         }
+
         if (node.value == value) {
-            return node;
+            return null;
         }
 
         if (value < node.value) {
-            Node returner = remove(node.left, value);
-            if (returner != null) {
-                node.left = null;
-            }
-        } else {
-            Node returner = remove(node.right, value);
-            if (returner != null) {
-                node.right = null;
-            }
+            node.left = remove(node.left, value);
         }
-        return null;
+
+        if (value > node.value){
+            node.right = remove(node.right, value);
+        }
+
+        node.height = Integer.max(height(node.right), height(node.left)) + 1;
+
+        return node;
     }
 
-    Node get (int value) {
-        return get(root, value);
+    boolean isBalanced() {
+        return isBalanced(root);
     }
+
+    private boolean isBalanced(Node node) {
+        if (node == null) {
+            return true;
+        }
+        int abs  = Math.abs(height(node.left) - height(node.right));
+        return  ( abs<=1 && isBalanced(node.left) && isBalanced(node.right));
+    }
+
+    Node get (int value) {return get(root, value);}
     private Node get(Node node, int value) {
         // Negative base condition
         if (node == null) {
@@ -70,14 +77,17 @@ public class BinSearchTree {
 
         if (value > node.value) {
             return get(node.right, value);
-        } else {
-            return get(node.right, value);
         }
-    }
 
-    void display() {
-        display(root, "Root is: ");
+        return get(node.left, value);
     }
+    private int height(Node node) {
+        if (node == null) {
+            return -1;
+        }
+        return node.height;
+    }
+    void display() {display(root, "Root is: ");}
     private void display(Node node, String text) {
         if (node == null) {
             return;
@@ -87,12 +97,11 @@ public class BinSearchTree {
         display(node.right, "Right of " + node.value + " is: ");
     }
 
-
-
     class Node {
         int value;
         Node left;
         Node right;
+        int height;
 
         Node(int value) {
             this.value = value;
