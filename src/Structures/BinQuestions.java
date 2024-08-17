@@ -11,6 +11,6 @@ public class BinQuestions {
         tree.insert(47);
         tree.insert(46);
         tree.insert(46);
-        tree.display();
+        tree.prettyDisplay();
     }
 }
