@@ -2,7 +2,11 @@ package Structures;
 
 public class BinQuestions {
     public static void main(String[] args) {
-        BinTree bts = new BinTree(true);
-        bts.display();
+        BinSearchTree tree = new BinSearchTree(21);
+        tree.insert(20);
+        tree.insert(22);
+        tree.insert(19);
+        tree.insert(18);
+        tree.display();
     }
 }

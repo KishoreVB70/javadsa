@@ -9,18 +9,25 @@ public class BinSearchTree {
     void insert(int value) {
         insert(root, value);
     }
-    private void insert(Node node, int value) {
+    private Node insert(Node node, int value) {
         if (node == null) {
-            node.value = value;
-            return;
+            Node newNode = new Node(value);
+            return newNode;
         }
 
-        if (node.value > value) {
-            insert(node.right, value);
+        if (value > node.value) {
+            Node returner = insert(node.right, value);
+            if (returner != null) {
+                node.right = returner;
+            }
         }
         else {
-            insert(node.left, value);
+            Node returner = insert(node.left, value);
+            if (returner != null) {
+                node.left = returner;
+            }
         }
+        return null;
     }
 
     boolean remove(int value) {
@@ -60,8 +67,8 @@ public class BinSearchTree {
             return;
         }
         System.out.println(text + node.value);
-        display(node.left, "Left of " + node.value + "is: ");
-        display(node.right, "Right of " + node.value + "is: ");
+        display(node.left, "Left of " + node.value + " is: ");
+        display(node.right, "Right of " + node.value + " is: ");
     }
 
 
