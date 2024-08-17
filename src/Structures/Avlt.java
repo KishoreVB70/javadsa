@@ -93,10 +93,8 @@ public class Avlt {
         // In left rotate, right side didn't get their height changed
 
         // Only change the height of the left side children
-        if (rightChild.right != null) {
-            rightChild.right.height = Integer.max(height(rightChild.right.left), height(rightChild.right.right)) + 1;
-        }
-        rightChild.left.height = Integer.max(height(rightChild.left.left), height(rightChild.left.right)) + 1;
+
+        parent.height = Integer.max(height(parent.left), height(parent.right)) + 1;
 
         rightChild.height = Integer.max(height(rightChild.right), height(rightChild.left)) + 1;
 
@@ -118,12 +116,7 @@ public class Avlt {
         // In left rotate, right side didn't get their height changed
 
         // Only change the height of the left side children
-        if (leftChild.left != null) {
-            leftChild.left.height = Integer.max(height(leftChild.left.left), height(leftChild.left.right)) + 1;
-        }
-
-        // This always true though since we set it up as the parent
-        leftChild.right.height = Integer.max(height(leftChild.right.left), height(leftChild.right.right)) + 1;
+        parent.height = Integer.max(height(parent.left), height(parent.right)) + 1;
 
         leftChild.height = Integer.max(height(leftChild.right), height(leftChild.left)) + 1;
 
