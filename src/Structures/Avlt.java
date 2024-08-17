@@ -29,80 +29,77 @@ public class Avlt {
             return node;
         }
 
-        // Do the rotation Thing
+        // If not balance, balance and return it
+        return doRotation(node, value);
 
-        // 1 -> Find the type of rotation that you want to do
-        // Obtain all the people required
+
+    }
+
+    private Node doRotation(Node parent, int value) {
+        // Obtain all the information required
         boolean firstLeft;
         boolean secondLeft;
 
-        // 1) This node is the parent
-        Node parent = node;
 
-        // 2) Child is the one which is adequate for the value
+        // Find the child direction
         Node child;
-        if (value < node.value) {
-            child = node.left;
+        if (value < parent.value) {
+            child = parent.left;
             firstLeft = true;
         } else {
-            child = node.right;
+            child = parent.right;
             firstLeft = false;
         }
 
-        // 3) Get the grand child
-        Node grandChild;
+        // Find the grandchild direction
         if (value < child.value) {
-            grandChild = child.left;
             secondLeft = true;
         } else {
-            grandChild = child.right;
             secondLeft = false;
         }
 
-        // Do the rotation
-
-        // Straight forward rotation -> Edges
-        if (firstLeft && secondLeft) {
-            parent = rightRotate(parent);
-        } else if (!firstLeft && !secondLeft) {
-            parent = leftRotate(parent);
-        }
-
-        // Not straight forward
+        // Do the rotation for child if necessary
         if (firstLeft && !secondLeft) {
             child = leftRotate(child);
             parent.left = child;
-            parent = rightRotate(parent);
-        } else {
+        } else if (!firstLeft && secondLeft) {
             child = rightRotate(child);
             parent.left = child;
+        }
+
+
+        // Straight forward rotation -> Edges
+        if (firstLeft) {
+            parent = rightRotate(parent);
+        } else  {
             parent = leftRotate(parent);
         }
 
         return parent;
     }
+//    private Node doRotation(Node parent) {}
 
-    private Node leftRotate(Node node) {
+    private Node leftRotate(Node parent) {
         // Obtain the dominant child
-        Node rightChild = node.right;
+        Node rightChild = parent.right;
 
         // Fix the left part -> Obtain non-dominant grand child -> right left grand child
         Node rightLeft = rightChild.left;
-        rightChild.left = node;
-        node.right = rightLeft;
+        rightChild.left = parent;
+        parent.right = rightLeft;
 
         // Fix the right -> nothing needs to be fixed bro, all fine there
         return rightChild;
 
     }
-    private Node rightRotate(Node node) {
+    private Node rightRotate(Node parent) {
         // Obtain the dominant child
-        Node leftChild = node.left;
+        Node leftChild = parent.left;
 
         // Fix the right part -> Obtain non-dominant grand child -> right left grand child
         Node leftRight = leftChild.right;
-        leftChild.right = node;
-        node.left = leftRight;
+        leftChild.right = parent;
+        parent.left = leftRight;
 
         // Fix the left -> nothing needs to be fixed bro, all fine there
         return leftChild;
