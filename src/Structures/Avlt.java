@@ -64,7 +64,7 @@ public class Avlt {
             parent.left = child;
         } else if (!firstLeft && secondLeft) {
             child = rightRotate(child);
-            parent.left = child;
+            parent.right = child;
         }
 
 
@@ -77,7 +77,6 @@ public class Avlt {
 
         return parent;
     }
-//    private Node doRotation(Node parent) {}
 
     private Node leftRotate(Node parent) {
         // Obtain the dominant child
@@ -89,6 +88,18 @@ public class Avlt {
         parent.right = rightLeft;
 
         // Fix the right -> nothing needs to be fixed bro, all fine there
+
+        // Updating the height
+        // In left rotate, right side didn't get their height changed
+
+        // Only change the height of the left side children
+        if (rightChild.right != null) {
+            rightChild.right.height = Integer.max(height(rightChild.right.left), height(rightChild.right.right)) + 1;
+        }
+        rightChild.left.height = Integer.max(height(rightChild.left.left), height(rightChild.left.right)) + 1;
+
+        rightChild.height = Integer.max(height(rightChild.right), height(rightChild.left)) + 1;
+
         return rightChild;
 
     }
@@ -102,6 +113,20 @@ public class Avlt {
         parent.left = leftRight;
 
         // Fix the left -> nothing needs to be fixed bro, all fine there
+
+        // Updating the height
+        // In left rotate, right side didn't get their height changed
+
+        // Only change the height of the left side children
+        if (leftChild.left != null) {
+            leftChild.left.height = Integer.max(height(leftChild.left.left), height(leftChild.left.right)) + 1;
+        }
+
+        // This always true though since we set it up as the parent
+        leftChild.right.height = Integer.max(height(leftChild.right.left), height(leftChild.right.right)) + 1;
+
+        leftChild.height = Integer.max(height(leftChild.right), height(leftChild.left)) + 1;
+
         return leftChild;
     }
 
@@ -169,8 +194,8 @@ public class Avlt {
         if (node == null) {
             return;
         }
-        System.out.println(text + node.value);
-        display(node.left, "Left of " + node.value + " is: ");
+        System.out.println(text + node.value + " H: " + height(node));
+        display(node.left, "Left of " + node.value + " is: " );
         display(node.right, "Right of " + node.value + " is: ");
     }
 
