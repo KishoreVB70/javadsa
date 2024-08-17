@@ -30,13 +30,29 @@ public class BinSearchTree {
         return null;
     }
 
-    boolean remove(int value) {
-        Node target = get(value);
-        if (target == null) {
-            return false;
+    void remove(int value) {
+        remove(root, value);
+    }
+    private Node remove(Node node, int value) {
+        if (node == null) {
+            return null;
         }
-        target = null;
-        return true;
+        if (node.value == value) {
+            return node;
+        }
+
+        if (value < node.value) {
+            Node returner = remove(node.left, value);
+            if (returner != null) {
+                node.left = null;
+            }
+        } else {
+            Node returner = remove(node.right, value);
+            if (returner != null) {
+                node.right = null;
+            }
+        }
+        return null;
     }
 
     Node get (int value) {

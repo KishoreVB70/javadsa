@@ -7,6 +7,7 @@ public class BinQuestions {
         tree.insert(22);
         tree.insert(19);
         tree.insert(18);
+        tree.remove(22);
         tree.display();
     }
 }
