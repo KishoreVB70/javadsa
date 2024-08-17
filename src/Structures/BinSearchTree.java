@@ -55,7 +55,6 @@ public class BinSearchTree {
     boolean isBalanced() {
         return isBalanced(root);
     }
-
     private boolean isBalanced(Node node) {
         if (node == null) {
             return true;
