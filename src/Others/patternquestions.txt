@@ -1,6 +1,6 @@
 Pattern Questions
 
-Print these patterns using loops:
+Print these Others using loops:
 
 ```text
 

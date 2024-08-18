@@ -1,6 +1,4 @@
-package patterns;
-
-import javax.swing.plaf.IconUIResource;
+package Others;
 
 public class PatternQuestions {
     public static void main(String[] args) {

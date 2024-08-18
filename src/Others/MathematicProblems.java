@@ -1,7 +1,6 @@
-package patterns;
+package Others;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class MathematicProblems {
