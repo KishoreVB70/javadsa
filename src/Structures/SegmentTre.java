@@ -9,8 +9,7 @@ public class SegmentTre {
         Node left;
         Node right;
 
-        Node(int value, int start, int end) {
-            this.value = value;
+        Node( int start, int end) {
             this.start = start;
             this.end = end;
         }
@@ -18,7 +17,27 @@ public class SegmentTre {
     }
 
     private static final int DEFAULT_VALUE = 0;
-    SegmentTre(){}
+
+    SegmentTre(int[] arr){
+        root = populate(new Node(0, arr.length-1), arr) ;
+    }
+
+    private Node populate(Node node, int[] arr) {
+        // Base condition
+        if (node.start == node.end) {
+            node.value = arr[node.start];
+            return node;
+        }
+
+        int m = (node.start + node.end) / 2;
+
+        node.left = populate(new Node(node.start,m),arr);
+        node.right = populate(new Node(m+1,node.end),arr);
+
+        node.value = node.right.value + node.left.value;
+
+        return node;
+    }
 
     Node root;
     public int findValue(int s, int e) {
