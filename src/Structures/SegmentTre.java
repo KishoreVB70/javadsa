@@ -40,11 +40,11 @@ public class SegmentTre {
     }
 
     Node root;
-    public int findValue(int s, int e) {
-        return findValue(root,s, e );
+    public int findValueInRange(int s, int e) {
+        return findValueInRange(root,s, e );
     }
 
-    private int findValue(Node node, int s, int e) {
+    private int findValueInRange(Node node, int s, int e) {
         // Negative base condition
         if (node.start > e || node.end < s) {
             return DEFAULT_VALUE;
@@ -57,8 +57,8 @@ public class SegmentTre {
 
 
         // Partially inside
-        int left = findValue(node.left, s, e);
-        int right = findValue(node.right, s, e);
+        int left = findValueInRange(node.left, s, e);
+        int right = findValueInRange(node.right, s, e);
 
         return left + right;
     }
