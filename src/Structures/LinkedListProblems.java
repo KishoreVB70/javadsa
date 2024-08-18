@@ -5,12 +5,16 @@ import java.util.ListIterator;
 
 public class LinkedListProblems {
     public static void main(String[] args) {
+        int[] bot = {1,2,6,3,4,5,6};
+
+
         ListNode head = new ListNode(1);
         ListNode peasant1 = new ListNode(2);
-        ListNode peasant3 = new ListNode(3);
-        ListNode peasant5 = new ListNode(4);
-        ListNode peasant7 = new ListNode(5);
-//        ListNode peasant9 = new ListNode(6);
+        ListNode peasant3 = new ListNode(6);
+        ListNode peasant5 = new ListNode(3);
+        ListNode peasant7 = new ListNode(4);
+        ListNode peasant9 = new ListNode(5);
+        ListNode peasant11 = new ListNode(6);
 
 //        ListNode head1 = new ListNode(1);
 //        ListNode peasant2 = new ListNode(3);
@@ -22,8 +26,8 @@ public class LinkedListProblems {
         peasant1.next = peasant3;
         peasant3.next = peasant5;
         peasant5.next = peasant7;
-//        peasant7.next = peasant9;
-//        peasant9.next = null;
+        peasant7.next = peasant9;
+        peasant9.next = peasant11;
 
         ListNode temp = head;
         while (temp != null) {
@@ -32,7 +36,7 @@ public class LinkedListProblems {
         }
 
 
-        ListNode moto = rotateLLBasedOnK(head, 2);
+        ListNode moto = removeElements(head, 6);
 
         System.out.println("");
 
@@ -650,6 +654,34 @@ public class LinkedListProblems {
         return  head;
     }
 
+    // 16) Easy easy problem doing for streak
+    public static ListNode removeElements(ListNode head, int val) {
+        while(head != null) {
+            if (head.val == val) {
+                head = head.next;
+                continue;
+            }
+            break;
+        }
+
+        if (head == null || head.next == null) {
+            return head;
+        }
+
+
+        ListNode previous = head;
+        ListNode current = head.next;
+
+        while (current !=  null) {
+            if (current.val == val) {
+                previous.next = current.next;
+            } else {
+                previous = current;
+            }
+            current = current.next;
+        }
+        return head;
+    }
 
 
 
