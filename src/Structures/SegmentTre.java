@@ -81,7 +81,9 @@ public class SegmentTre {
         int left = updateValue(node.left, target, val);
         int right = updateValue(node.right, target, val);
 
-        return left + right;
+        node.value = left + right;
+
+        return node.value;
     }
 
     void prettyDisplay() {prettyDisplay(root, 0);}
