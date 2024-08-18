@@ -84,6 +84,36 @@ public class SegmentTre {
         return left + right;
     }
 
+    void prettyDisplay() {prettyDisplay(root, 0);}
+    private void prettyDisplay(Node node, int level) {
+        if (node == null) {
+            return;
+        }
+
+        prettyDisplay(node.right, level+1);
+
+        if (level != 0) {
+            for (int i = 0; i < level-1; i++) {
+                System.out.print("|\t\t");
+            }
+            System.out.println("|------>" + node.value);
+        }
+        // root node -> no indentation or spacing or whatever
+        else {
+            System.out.println(node.value);
+        }
+        prettyDisplay(node.left, level+1);
+    }
+    void display() {display(root, "Root is: ");}
+    private void display(Node node, String text) {
+        if (node == null) {
+            return;
+        }
+        System.out.println(text + node.value + " S: " + node.start + " E: " + node.end);
+        display(node.left, "Left of " + node.value + " is: " );
+        display(node.right, "Right of " + node.value + " is: ");
+    }
+
 
 
 
