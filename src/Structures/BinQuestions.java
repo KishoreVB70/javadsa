@@ -11,7 +11,7 @@ public class BinQuestions {
         root.left.right = new TreeNode(5);
         root.right.left = new TreeNode(6);
         root.right.right = new TreeNode(7);
-        System.out.println(zigzagLevelOrder2(root));
+        System.out.println(zigzagLevelOrder1(root));
     }
 
     // 4 -> Level order successor -> BFS
@@ -84,36 +84,40 @@ public class BinQuestions {
             return returnList;
         }
 
-        Queue<TreeNode> q = new LinkedList<>();
-        Stack<TreeNode> s = new Stack<>();
+        ArrayDeque<TreeNode> q = new ArrayDeque<>();
 
         q.offer(root);
-        while (!q.isEmpty() || !s.isEmpty()) {
+        boolean rev = false;
+        while (!q.isEmpty()) {
+            int size = q.size();
             List<Integer> currentList = new ArrayList<>();
-            if (q.isEmpty()) {
-                while (!s.isEmpty()) {
-                    TreeNode node = s.pop();
+            if (!rev) {
+                for (int i = 0; i < size ; i++) {
+                    TreeNode node = q.removeFirst();
                     currentList.add(node.val);
                     if (node.left != null) {
-                        q.offer(node.left);
+                        q.addLast(node.left);
                     }
                     if (node.right != null) {
-                        q.offer(node.right);
+                        q.addLast(node.right);
                     }
                 }
             } else {
-                while (!q.isEmpty()) {
-                    TreeNode node = q.poll();
+                for (int i = 0; i < size ; i++) {
+                    TreeNode node = q.removeLast();
                     currentList.add(node.val);
-                    if (node.left != null) {
-                        s.push(node.left);
-                    }
                     if (node.right != null) {
-                        s.push(node.right);
+                        q.addFirst(node.right);
+                    }
+
+                    if (node.left != null) {
+                        q.addFirst(node.left);
                     }
                 }
             }
+
             returnList.add(currentList);
+            rev = !rev;
         }
         return  returnList;
     }
