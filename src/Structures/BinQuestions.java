@@ -1,6 +1,6 @@
 package Structures;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class BinQuestions {
     public static void main(String[] args) {
@@ -22,6 +22,19 @@ public class BinQuestions {
             this.value = value;
         }
     }
+    public static class TreeNode {
+      int val;
+      TreeNode left;
+      TreeNode right;
+
+      TreeNode() {}
+      TreeNode(int val) { this.val = val; }
+      TreeNode(int val, TreeNode left, TreeNode right) {
+          this.val = val;
+          this.left = left;
+          this.right = right;
+      }
+  }
 
     // 1 -> Breath first search
     static void bfsPrint(BinSearchTree.Node root) {
@@ -50,6 +63,51 @@ public class BinQuestions {
         nodes.removeFirst();
         bfsPrint(nodes);
 
+
+    }
+
+    // 2) Returning every level as a separate list in an Array list
+    // https://leetcode.com/problems/binary-tree-level-order-traversal/
+
+    public List<List<Integer>> levelOrderTraversalArrayList(TreeNode root) {
+        List<List<Integer>> returnList = new ArrayList<>();
+
+        if (root == null) {
+            return returnList;
+        }
+        Queue<TreeNode> qu = new ArrayDeque<>();
+        qu.add(root);
+
+        levelOrderTraversalArrayList(returnList, new ArrayList<>(), qu, null ) ;
+        return returnList;
+    }
+
+    static void levelOrderTraversalArrayList(List<List<Integer>> returnList, List<Integer> currentList, Queue<TreeNode> currentQ, Queue<TreeNode> nextQ) {
+ 
+        if (nextQ == null) {
+            nextQ = new ArrayDeque<>();
+        }
+
+        TreeNode node = currentQ.remove();
+        currentList.add(node.val);
+
+        if (node.left != null) {
+            nextQ.add(node.left);
+        }
+
+        if (node.right != null) {
+            nextQ.add(node.right);
+        }
+
+        // If current level is over
+        if (currentQ.isEmpty()) {
+            returnList.add(currentList);
+            levelOrderTraversalArrayList(returnList, new ArrayList<>(),  nextQ,  null);
+            return;
+        }
+
+        // If current level is not over
+        levelOrderTraversalArrayList(returnList, currentList,  currentQ,  nextQ);
 
     }
 }
