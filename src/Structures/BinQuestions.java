@@ -11,7 +11,7 @@ public class BinQuestions {
         root.left.right = new TreeNode(5);
         root.right.left = new TreeNode(6);
         root.right.right = new TreeNode(7);
-        System.out.println(zigzagLevelOrder1(root));
+        System.out.println(levelOrderBottom(root));
     }
 
     // 4 -> Level order successor -> BFS
@@ -76,7 +76,7 @@ public class BinQuestions {
 
     // 5 -> Binary Tree Zigzag Level Order Traversal
     // Medium https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/
-
+    // Legit => Don't reverse
     public static List<List<Integer>> zigzagLevelOrder1(TreeNode root) {
         List<List<Integer>> returnList = new ArrayList<>();
 
@@ -121,6 +121,7 @@ public class BinQuestions {
         }
         return  returnList;
     }
+    // Reversing
     public static List<List<Integer>> zigzagLevelOrder2(TreeNode root) {
         List<List<Integer>> returnList = new ArrayList<>();
 
@@ -150,6 +151,33 @@ public class BinQuestions {
             }
             returnList.add(currentList);
             n++;
+        }
+        return  returnList;
+    }
+
+    // 6 -> Level order traversal, but from last
+    // Medium -> https://leetcode.com/problems/binary-tree-level-order-traversal-ii/
+    public static List<List<Integer>> levelOrderBottom(TreeNode root) {
+        List<List<Integer>> returnList = new ArrayList<>();
+        if (root == null) {
+            return returnList;
+        }
+        Queue<TreeNode> q = new LinkedList<>();
+        q.offer(root);
+        while (!q.isEmpty()) {
+            int size = q.size();
+            List<Integer> currentList = new ArrayList<>();
+            for (int i = 0; i < size; i++) {
+                TreeNode node = q.poll();
+                currentList.add(node.val);
+                if (node.left != null) {
+                    q.offer(node.left);
+                }
+                if (node.right != null) {
+                    q.offer(node.right);
+                }
+            }
+            returnList.addFirst(currentList);
         }
         return  returnList;
     }
