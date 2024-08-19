@@ -10,29 +10,35 @@ public class BinQuestions {
         System.out.println(averageOfLevels(root));
     }
 
-    static class Node {
-        int value;
-        BinSearchTree.Node left;
-        BinSearchTree.Node right;
-        int height;
-
-        Node(int value) {
-            this.value = value;
+    // 4 -> Level order successor -> BFS
+    static TreeNode findLevelOrderSuccessor (TreeNode root, TreeNode target) {
+        if (root == null) {
+            return null;
         }
-    }
-    public static class TreeNode {
-      int val;
-      TreeNode left;
-      TreeNode right;
 
-      TreeNode() {}
-      TreeNode(int val) { this.val = val; }
-      TreeNode(int val, TreeNode left, TreeNode right) {
-          this.val = val;
-          this.left = left;
-          this.right = right;
-      }
-  }
+        Queue<TreeNode> q = new LinkedList<>();
+        q.offer(root);
+
+        while (!q.isEmpty()) {
+            TreeNode currentNode = q.poll();
+            if (currentNode == target) {
+                if (!q.isEmpty()) {
+                    return q.poll();
+                }
+                return null;
+            }
+
+            if (currentNode.left != null) {
+                q.offer(currentNode.left);
+            }
+            if (currentNode.right != null) {
+                q.offer(currentNode.right);
+            }
+        }
+
+        return null;
+    }
+
 
     // 1 -> Breath first search
     static void bfsPrint(BinSearchTree.Node root) {
@@ -111,7 +117,7 @@ public class BinQuestions {
 
     }
 
-    // 3) Easy -> Average of all levels as a list
+    // 3) Easy -> can't believe this is a google question -> Average of all levels as a list
     //https://leetcode.com/problems/average-of-levels-in-binary-tree/
     public static List<Double> averageOfLevels(TreeNode root) {
         Queue<TreeNode> q = new LinkedList<>();
@@ -141,5 +147,30 @@ public class BinQuestions {
             returnList.add((double) total/n);
         }
         return  returnList;
+    }
+
+
+    static class Node {
+        int value;
+        BinSearchTree.Node left;
+        BinSearchTree.Node right;
+        int height;
+
+        Node(int value) {
+            this.value = value;
+        }
+    }
+    public static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode() {}
+        TreeNode(int val) { this.val = val; }
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
     }
 }
