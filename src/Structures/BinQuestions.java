@@ -11,7 +11,8 @@ public class BinQuestions {
     }
 
     // 4 -> Level order successor -> BFS
-    static TreeNode findLevelOrderSuccessor (TreeNode root, TreeNode target) {
+    // Type 1 -> If there is nothing to the right, you want the next one to the far left
+    static TreeNode findLevelOrderSuccessor1 (TreeNode root, TreeNode target) {
         if (root == null) {
             return null;
         }
@@ -34,6 +35,39 @@ public class BinQuestions {
             if (currentNode.right != null) {
                 q.offer(currentNode.right);
             }
+        }
+
+        return null;
+    }
+    // Type 2 -> if there is nothing to the right, return null
+    static TreeNode findLevelOrderSuccessor2(TreeNode root, TreeNode target) {
+        if (root == null) {
+            return null;
+        }
+
+        Queue<TreeNode> q = new LinkedList<>();
+        q.offer(root);
+
+        while (!q.isEmpty()) {
+            int size = q.size();
+            for (int i = 0; i < size; i++) {
+                TreeNode currentNode = q.poll();
+                if (currentNode == target) {
+                    if (i+1 == size) {
+                        return null;
+                    }
+                    return q.poll();
+                }
+                if (currentNode.left != null) {
+                    q.offer(currentNode.left);
+                }
+                if (currentNode.right != null) {
+                    q.offer(currentNode.right);
+                }
+            }
+
+
+
         }
 
         return null;
