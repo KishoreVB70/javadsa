@@ -4,10 +4,14 @@ import java.util.*;
 
 public class BinQuestions {
     public static void main(String[] args) {
-        TreeNode root = new TreeNode(2147483647);
-        root.left = new TreeNode(2147483647);
-        root.right = new TreeNode(2147483647);
-        System.out.println(averageOfLevels(root));
+        TreeNode root = new TreeNode(1);
+        root.left = new TreeNode(2);
+        root.right = new TreeNode(3);
+        root.left.left = new TreeNode(4);
+        root.left.right = new TreeNode(5);
+        root.right.left = new TreeNode(6);
+        root.right.right = new TreeNode(7);
+        System.out.println(zigzagLevelOrder2(root));
     }
 
     // 4 -> Level order successor -> BFS
@@ -22,18 +26,17 @@ public class BinQuestions {
 
         while (!q.isEmpty()) {
             TreeNode currentNode = q.poll();
-            if (currentNode == target) {
-                if (!q.isEmpty()) {
-                    return q.poll();
-                }
-                return null;
-            }
-
             if (currentNode.left != null) {
                 q.offer(currentNode.left);
             }
             if (currentNode.right != null) {
                 q.offer(currentNode.right);
+            }
+            if (currentNode == target) {
+                if (!q.isEmpty()) {
+                    return q.poll();
+                }
+                return null;
             }
         }
 
@@ -52,25 +55,99 @@ public class BinQuestions {
             int size = q.size();
             for (int i = 0; i < size; i++) {
                 TreeNode currentNode = q.poll();
-                if (currentNode == target) {
-                    if (i+1 == size) {
-                        return null;
-                    }
-                    return q.poll();
-                }
                 if (currentNode.left != null) {
                     q.offer(currentNode.left);
                 }
                 if (currentNode.right != null) {
                     q.offer(currentNode.right);
                 }
+
+                if (currentNode == target) {
+                    if (i+1 == size) {
+                        return null;
+                    }
+                    return q.poll();
+                }
             }
-
-
-
         }
 
         return null;
+    }
+
+    // 5 -> Binary Tree Zigzag Level Order Traversal
+    // Medium https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/
+
+    public static List<List<Integer>> zigzagLevelOrder1(TreeNode root) {
+        List<List<Integer>> returnList = new ArrayList<>();
+
+        if (root == null) {
+            return returnList;
+        }
+
+        Queue<TreeNode> q = new LinkedList<>();
+        Stack<TreeNode> s = new Stack<>();
+
+        q.offer(root);
+        while (!q.isEmpty() || !s.isEmpty()) {
+            List<Integer> currentList = new ArrayList<>();
+            if (q.isEmpty()) {
+                while (!s.isEmpty()) {
+                    TreeNode node = s.pop();
+                    currentList.add(node.val);
+                    if (node.left != null) {
+                        q.offer(node.left);
+                    }
+                    if (node.right != null) {
+                        q.offer(node.right);
+                    }
+                }
+            } else {
+                while (!q.isEmpty()) {
+                    TreeNode node = q.poll();
+                    currentList.add(node.val);
+                    if (node.left != null) {
+                        s.push(node.left);
+                    }
+                    if (node.right != null) {
+                        s.push(node.right);
+                    }
+                }
+            }
+            returnList.add(currentList);
+        }
+        return  returnList;
+    }
+    public static List<List<Integer>> zigzagLevelOrder2(TreeNode root) {
+        List<List<Integer>> returnList = new ArrayList<>();
+
+        if (root == null) {
+            return returnList;
+        }
+
+        Queue<TreeNode> q = new LinkedList<>();
+
+        q.offer(root);
+        int n = 1;
+        while (!q.isEmpty()) {
+            List<Integer> currentList = new ArrayList<>();
+            int size = q.size();
+            for (int i = 0; i < size; i++) {
+                TreeNode node = q.poll();
+                if (node.left != null) {
+                    q.offer(node.left);
+                }
+                if (node.right != null) {
+                    q.offer(node.right);
+                }
+                currentList.add(node.val);
+            }
+            if (n % 2 == 0) {
+                currentList = currentList.reversed();
+            }
+            returnList.add(currentList);
+            n++;
+        }
+        return  returnList;
     }
 
 
