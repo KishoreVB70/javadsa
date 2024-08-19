@@ -75,20 +75,24 @@ public class BinQuestions {
         if (root == null) {
             return returnList;
         }
-        Queue<TreeNode> qu = new ArrayDeque<>();
+
+        List<TreeNode> qu = new ArrayList<>();
         qu.add(root);
 
         levelOrderTraversalArrayList(returnList, new ArrayList<>(), qu, null ) ;
         return returnList;
     }
 
-    static void levelOrderTraversalArrayList(List<List<Integer>> returnList, List<Integer> currentList, Queue<TreeNode> currentQ, Queue<TreeNode> nextQ) {
- 
-        if (nextQ == null) {
-            nextQ = new ArrayDeque<>();
+    static void levelOrderTraversalArrayList(List<List<Integer>> returnList, List<Integer> currentList, List<TreeNode> currentQ, List<TreeNode> nextQ) {
+        if (currentQ.isEmpty()) {
+            return;
         }
 
-        TreeNode node = currentQ.remove();
+        if (nextQ == null) {
+            nextQ = new ArrayList<>();
+        }
+
+        TreeNode node = currentQ.removeFirst();
         currentList.add(node.val);
 
         if (node.left != null) {
