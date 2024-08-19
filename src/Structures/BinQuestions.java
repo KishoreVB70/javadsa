@@ -4,12 +4,10 @@ import java.util.*;
 
 public class BinQuestions {
     public static void main(String[] args) {
-        BinSearchTree tree = new BinSearchTree(7);
-        for (int i = 0; i < 6; i++) {
-            tree.insert(i*2);
-        }
-        tree.prettyDisplay();
-        bfsPrint(tree.root);
+        TreeNode root = new TreeNode(2147483647);
+        root.left = new TreeNode(2147483647);
+        root.right = new TreeNode(2147483647);
+        System.out.println(averageOfLevels(root));
     }
 
     static class Node {
@@ -66,9 +64,8 @@ public class BinQuestions {
 
     }
 
-    // 2) Returning every level as a separate list in an Array list
+    // 2) Returning every level as a separate list as a list
     // https://leetcode.com/problems/binary-tree-level-order-traversal/
-
     public List<List<Integer>> levelOrderTraversalArrayList(TreeNode root) {
         List<List<Integer>> returnList = new ArrayList<>();
 
@@ -82,7 +79,6 @@ public class BinQuestions {
         levelOrderTraversalArrayList(returnList, new ArrayList<>(), qu, null ) ;
         return returnList;
     }
-
     static void levelOrderTraversalArrayList(List<List<Integer>> returnList, List<Integer> currentList, List<TreeNode> currentQ, List<TreeNode> nextQ) {
         if (currentQ.isEmpty()) {
             return;
@@ -113,5 +109,37 @@ public class BinQuestions {
         // If current level is not over
         levelOrderTraversalArrayList(returnList, currentList,  currentQ,  nextQ);
 
+    }
+
+    // 3) Easy -> Average of all levels as a list
+    //https://leetcode.com/problems/average-of-levels-in-binary-tree/
+    public static List<Double> averageOfLevels(TreeNode root) {
+        Queue<TreeNode> q = new LinkedList<>();
+        List<Double> returnList = new ArrayList<>();
+
+        q.offer(root);
+
+        while (!q.isEmpty()) {
+            int currentLevelEnd = q.size();
+            // 1) Find the double while also adding children to next level
+            long total = 0;
+            int n = 0;
+
+            while (n < currentLevelEnd) {
+                TreeNode node = q.poll();
+                if (node.right != null) {
+                    q.offer(node.right);
+                }
+                if (node.left != null) {
+                    q.offer(node.left);
+                }
+
+                total += node.val;
+                n++;
+            }
+
+            returnList.add((double) total/n);
+        }
+        return  returnList;
     }
 }
