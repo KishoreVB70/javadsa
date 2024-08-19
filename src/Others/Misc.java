@@ -1,10 +1,11 @@
 package Others;
 
+import java.text.DecimalFormat;
 import java.util.Random;
 
 public class Misc {
     public static void main(String[] args) {
-        System.out.println(createRandomString(30));
+        printFormattedString(7.2929);
     }
 
     static String createRandomString(int num) {
@@ -16,5 +17,10 @@ public class Misc {
             st.append(c);
         }
         return st.toString();
+    }
+
+    static void printFormattedString(double num) {
+        DecimalFormat df = new DecimalFormat("00.000000");
+        System.out.println(df.format(num));
     }
 }
