@@ -4,15 +4,17 @@ import java.util.*;
 
 public class BinQuestions {
     public static void main(String[] args) {
-        TreeNode root = new TreeNode(1);
-        root.left = new TreeNode(-42);
-        root.right = new TreeNode(-42);
+        TreeNode root = new TreeNode(4);
+        root.left = new TreeNode(7);
+        root.right = new TreeNode(2);
 
-        root.left.right = new TreeNode(76);
-        root.right.left = new TreeNode(76);
-        root.left.right.right = new TreeNode(13);
-        root.right.left.right = new TreeNode(13);
-        System.out.println(diameterOfBinaryTree(root));
+        root.left.right = new TreeNode(6);
+        root.left.left = new TreeNode(9);
+        root.right.left = new TreeNode(3);
+        root.right.right = new TreeNode(1);
+//        root.left.right.right = new TreeNode(6);
+//        root.right.left.right = new TreeNode(7);
+        System.out.println(invertTree(root));
     }
     public static class Node {
         public int val;
@@ -52,6 +54,27 @@ public class BinQuestions {
         diameter = Integer.max(l+r, diameter);
         return  Integer.max(l,r) + 1;
     }
+
+    // 12) Invert binary tree
+    // Easy https://leetcode.com/problems/invert-binary-tree/
+    static public TreeNode invertTree(TreeNode root) {
+        if (root == null) {
+            return  null;
+        }
+        invert(root);
+        return root;
+    }
+    static public void invert(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        TreeNode temp = root.left;
+        root.left = root.right;
+        root.right = temp;
+        invert(root.left);
+        invert(root.right);
+    }
+
 
 
 
