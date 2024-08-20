@@ -36,38 +36,21 @@ public class BinQuestions {
     //--------------------- DFS questions -----------------------
     // 11) Diameter of binary tree
     // Easy https://leetcode.com/problems/diameter-of-binary-tree/
+    static public int diameter = 0;
     static public int diameterOfBinaryTree(TreeNode root) {
-        if( (root == null) || (root.left == null && root.right == null)){
-            return 0;
-        }
-
-        int a = 0;
-        int b = 0;
-
-        if (root.left != null ) {
-            a = lengthTillLeaf(root.left, 0);
-        }
-
-        if (root.right != null) {
-            b = lengthTillLeaf(root.right, 0);
-        }
-
-
-        int currentDia = a + b;
-        int diameterLeft =  diameterOfBinaryTree(root.left);
-        int diameterRight =  diameterOfBinaryTree(root.right);
-
-        return Integer.max(currentDia, Integer.max(diameterLeft, diameterRight));
+        height(root);
+        return diameter;
     }
-
-    static  public int lengthTillLeaf(TreeNode node, int c) {
+    static  public int height(TreeNode node) {
         // Base condition
         if (node == null) {
-            return c;
+            return 0;
         }
-        int l = lengthTillLeaf(node.left, c+1);
-        int r = lengthTillLeaf(node.right, c+1);
-        return  Integer.max(l,r);
+        int l = height(node.left);
+        int r = height(node.right);
+        int dia = l + r;
+        diameter = Integer.max(l+r, diameter);
+        return  Integer.max(l,r) + 1;
     }
 
 
