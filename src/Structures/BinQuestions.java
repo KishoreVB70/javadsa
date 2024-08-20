@@ -35,7 +35,6 @@ public class BinQuestions {
 
     // 8) Right side view
     // Medium https://leetcode.com/problems/binary-tree-right-side-view/
-
     public static List<Integer> rightSideView(TreeNode root) {
         List<Integer> lt = new ArrayList<>();
         if (root == null) {
@@ -61,6 +60,62 @@ public class BinQuestions {
         }
         return lt;
     }
+
+    //9) Find cousin or not
+    // Easy https://leetcode.com/problems/cousins-in-binary-tree/
+    public boolean isCousins(TreeNode root, int x, int y) {
+        if (root == null) {
+            return false;
+        }
+
+        boolean found = false;
+        Queue<TreeNode> q = new LinkedList<>();
+        q.offer(root);
+        while (!q.isEmpty()) {
+            int size = q.size();
+            for (int i = 0; i < size; i++) {
+                TreeNode node = q.poll();
+                if (node.left != null) {
+                    if (node.left.val == x || node.left.val == y) {
+                        if (found) {
+                            return true;
+                        }
+                        if (i == size -1) {
+                            return false;
+                        }
+                        found = true;
+                        continue;
+                    }
+                }
+                if (node.right != null) {
+                    if (node.right.val == x || node.right.val == y) {
+                        if (found) {
+                            return true;
+                        }
+                        if (i == size -1) {
+                            return false;
+                        }
+                        found = true;
+                        continue;
+                    }
+                }
+
+                if(node.left != null){
+                    q.offer(node.left);
+                }
+                if (node.right != null) {
+                    q.offer(node.right);
+                }
+                if (i == size -1) {
+                    if (found) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     //7 Next right pointer
     // Medium https://leetcode.com/problems/populating-next-right-pointers-in-each-node/
     public static Node connectToNext1(Node root) {
