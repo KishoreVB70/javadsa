@@ -14,7 +14,10 @@ public class BinQuestions {
         root.right.right = new TreeNode(1);
 //        root.left.right.right = new TreeNode(6);
 //        root.right.left.right = new TreeNode(7);
-        System.out.println(invertTree(root));
+
+        int[] bot = {-10,-3,0,5,9};
+
+        System.out.println(sortedArrayToBST(bot));
     }
     public static class Node {
         public int val;
@@ -37,6 +40,27 @@ public class BinQuestions {
     };
     //--------------------- DFS questions -----------------------
 
+    // 14) Convert sorted array into binary search tree
+    // Very easy https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree/
+    public static TreeNode sortedArrayToBST(int[] nums) {
+        return sortedArrayToBST(nums, 0, nums.length-1);
+    }
+    public static TreeNode sortedArrayToBST(int[] nums, int s, int e) {
+        int m = (s + e) / 2;
+
+        TreeNode node = new TreeNode(nums[m]);
+        if (s == e) {
+            return node;
+        }
+
+        if (s > e) {
+            return  null;
+        }
+        node.left = sortedArrayToBST(nums,s, m-1);
+        node.right = sortedArrayToBST(nums, m+1, e);
+
+        return node;
+    }
     // 13) Height of the tree
     // Very very easy https://leetcode.com/problems/maximum-depth-of-binary-tree/
     public int maxDepth(TreeNode root) {
