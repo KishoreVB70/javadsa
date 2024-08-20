@@ -11,7 +11,7 @@ public class BinQuestions {
         root.left.right = new TreeNode(5);
         root.right.left = new TreeNode(6);
         root.right.right = new TreeNode(7);
-        System.out.println(levelOrderBottom(root));
+        System.out.println(rightSideView(root));
     }
     public static class Node {
         public int val;
@@ -33,6 +33,34 @@ public class BinQuestions {
         }
     };
 
+    // 8) Right side view
+    // Medium https://leetcode.com/problems/binary-tree-right-side-view/
+
+    public static List<Integer> rightSideView(TreeNode root) {
+        List<Integer> lt = new ArrayList<>();
+        if (root == null) {
+            return lt;
+        }
+
+        Queue<TreeNode> q = new LinkedList();
+        q.offer(root);
+        while (!q.isEmpty()) {
+            int size = q.size();
+            for (int i = 0; i < size; i++) {
+                TreeNode node = q.poll();
+                if(node.left != null){
+                    q.offer(node.left);
+                }
+                if (node.right != null) {
+                    q.offer(node.right);
+                }
+                if (i == size - 1) {
+                    lt.add(node.val);
+                }
+            }
+        }
+        return lt;
+    }
     //7 Next right pointer
     // Medium https://leetcode.com/problems/populating-next-right-pointers-in-each-node/
     public static Node connectToNext1(Node root) {
@@ -66,17 +94,21 @@ public class BinQuestions {
         helperConnectToNext2(root);
         return  root;
     }
-    public static void helperConnectToNext2(Node node) {
+    public static Node helperConnectToNext2(Node root) {
+        if (root == null){
+            return root;
+        }
         // Base condition
-        if (node.left == null) {
-            return;
+        if (root.left == null) {
+            return root;
         }
-        node.left.next = node.right;
-        if (node.next != null) {
-            node.right.next = node.next.left;
+        root.left.next = root.right;
+        if (root.next != null) {
+            root.right.next = root.next.left;
         }
-        helperConnectToNext2(node.left);
-        helperConnectToNext2(node.right);
+        helperConnectToNext2(root.left);
+        helperConnectToNext2(root.right);
+        return root;
     }
 
     // 4 -> Level order successor -> BFS
