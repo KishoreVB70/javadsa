@@ -13,6 +13,52 @@ public class BinQuestions {
         root.right.right = new TreeNode(7);
         System.out.println(levelOrderBottom(root));
     }
+    public static class Node {
+        public int val;
+        public Node left;
+        public Node right;
+        public Node next;
+
+        public Node() {}
+
+        public Node(int _val) {
+            val = _val;
+        }
+
+        public Node(int _val, Node _left, Node _right, Node _next) {
+            val = _val;
+            left = _left;
+            right = _right;
+            next = _next;
+        }
+    };
+
+    //7 Next right pointer
+    // Medium https://leetcode.com/problems/populating-next-right-pointers-in-each-node/
+    public static Node connect(Node root) {
+        if (root == null){
+            return root;
+        }
+        Queue<Node> q = new LinkedList<>();
+        q.offer(root);
+        while (!q.isEmpty()) {
+            int size = q.size();
+            for (int i = 0; i < size; i++) {
+                Node currentNode = q.poll();
+                if (currentNode.left != null) {
+                    q.offer(currentNode.left);
+                }
+                if (currentNode.right != null) {
+                    q.offer(currentNode.right);
+                }
+                if (i < size - 1) {
+                    currentNode.next = q.peek();
+                }
+            }
+
+        }
+        return  root;
+    }
 
     // 4 -> Level order successor -> BFS
     // Type 1 -> If there is nothing to the right, you want the next one to the far left
@@ -293,16 +339,6 @@ public class BinQuestions {
     }
 
 
-    static class Node {
-        int value;
-        BinSearchTree.Node left;
-        BinSearchTree.Node right;
-        int height;
-
-        Node(int value) {
-            this.value = value;
-        }
-    }
     public static class TreeNode {
         int val;
         TreeNode left;
