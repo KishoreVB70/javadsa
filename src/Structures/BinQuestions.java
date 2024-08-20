@@ -5,13 +5,14 @@ import java.util.*;
 public class BinQuestions {
     public static void main(String[] args) {
         TreeNode root = new TreeNode(1);
-        root.left = new TreeNode(2);
-        root.right = new TreeNode(3);
-        root.left.left = new TreeNode(4);
-        root.left.right = new TreeNode(5);
-        root.right.left = new TreeNode(6);
-        root.right.right = new TreeNode(7);
-        System.out.println(rightSideView(root));
+        root.left = new TreeNode(-42);
+        root.right = new TreeNode(-42);
+
+        root.left.right = new TreeNode(76);
+        root.right.left = new TreeNode(76);
+        root.left.right.right = new TreeNode(13);
+        root.right.left.right = new TreeNode(13);
+        System.out.println(diameterOfBinaryTree(root));
     }
     public static class Node {
         public int val;
@@ -32,6 +33,107 @@ public class BinQuestions {
             next = _next;
         }
     };
+    //--------------------- DFS questions -----------------------
+    // 11) Diameter of binary tree
+    // Easy https://leetcode.com/problems/diameter-of-binary-tree/
+    static public int diameterOfBinaryTree(TreeNode root) {
+        if( (root == null) || (root.left == null && root.right == null)){
+            return 0;
+        }
+
+        int a = 0;
+        int b = 0;
+
+        if (root.left != null ) {
+            a = lengthTillLeaf(root.left, 0);
+        }
+
+        if (root.right != null) {
+            b = lengthTillLeaf(root.right, 0);
+        }
+
+
+        int currentDia = a + b;
+        int diameterLeft =  diameterOfBinaryTree(root.left);
+        int diameterRight =  diameterOfBinaryTree(root.right);
+
+        return Integer.max(currentDia, Integer.max(diameterLeft, diameterRight));
+    }
+
+    static  public int lengthTillLeaf(TreeNode node, int c) {
+        // Base condition
+        if (node == null) {
+            return c;
+        }
+        int l = lengthTillLeaf(node.left, c+1);
+        int r = lengthTillLeaf(node.right, c+1);
+        return  Integer.max(l,r);
+    }
+
+
+
+
+    // -----------------BFS questions -----------
+    // 10)  Symmetric tree or not
+    // Easy but hard https://leetcode.com/problems/symmetric-tree/
+    public static boolean isSymmetric(TreeNode root) {
+            if (root.left == null && root.right == null) {
+                return true;
+            }
+
+            if (root.left == null || root.right == null) {
+                return false;
+            }
+
+            if (root.left.val != root.right.val) {
+                return false;
+            }
+            Deque<TreeNode> q1 = new ArrayDeque<>();
+            Queue<TreeNode> q2 = new LinkedList<>();
+
+            q1.offer(root.left);
+            q2.offer(root.right);
+
+            while (!q1.isEmpty()) {
+                int q1S = q1.size();
+                for (int i = 0; i < q1S; i++) {
+                    TreeNode left = q1.poll();
+                    TreeNode right = q2.poll();
+
+                    // Checking null
+                    if (
+                            (left.left == null && right.right != null) ||
+                                    (left.left != null && right.right == null) ||
+                                    (left.right == null && right.left != null) ||
+                                    (left.right != null && right.left == null)
+                    ) {
+                        return false;
+                    }
+
+                    if (left.left != null && right.right != null) {
+                        if (left.left.val != right.right.val) {
+                            return false;
+                        }else {
+                            q1.offer(left.left);
+                            q2.offer(right.right);
+                        }
+                    }
+
+
+                    if (left.right != null && right.left != null) {
+                        if (left.right.val != right.left.val) {
+                            return false;
+                        } else {
+                            q1.offer(left.right);
+                            q2.offer(right.left);
+                        }
+                    }
+
+                }
+            }
+
+            return true;
+        }
 
     // 8) Right side view
     // Medium https://leetcode.com/problems/binary-tree-right-side-view/
@@ -61,8 +163,10 @@ public class BinQuestions {
         return lt;
     }
 
+
+
     //9) Find cousin or not
-    // Easy https://leetcode.com/problems/cousins-in-binary-tree/
+    // Easy but hard https://leetcode.com/problems/cousins-in-binary-tree/
     public boolean isCousins(TreeNode root, int x, int y) {
         if (root == null) {
             return false;
