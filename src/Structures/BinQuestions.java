@@ -35,7 +35,7 @@ public class BinQuestions {
 
     //7 Next right pointer
     // Medium https://leetcode.com/problems/populating-next-right-pointers-in-each-node/
-    public static Node connect(Node root) {
+    public static Node connectToNext1(Node root) {
         if (root == null){
             return root;
         }
@@ -58,6 +58,25 @@ public class BinQuestions {
 
         }
         return  root;
+    }
+    public static Node connectToNext2(Node root) {
+        if (root == null){
+            return root;
+        }
+        helperConnectToNext2(root);
+        return  root;
+    }
+    public static void helperConnectToNext2(Node node) {
+        // Base condition
+        if (node.left == null) {
+            return;
+        }
+        node.left.next = node.right;
+        if (node.next != null) {
+            node.right.next = node.next.left;
+        }
+        helperConnectToNext2(node.left);
+        helperConnectToNext2(node.right);
     }
 
     // 4 -> Level order successor -> BFS
