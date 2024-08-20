@@ -36,6 +36,22 @@ public class BinQuestions {
         }
     };
     //--------------------- DFS questions -----------------------
+
+    // 13) Height of the tree
+    // Very very easy https://leetcode.com/problems/maximum-depth-of-binary-tree/
+    public int maxDepth(TreeNode root) {
+        return heightOfTheTree(root) - 1;
+    }
+    public int heightOfTheTree(TreeNode root) {
+        // Base condition
+        if (root == null) {
+            return 0;
+        }
+        int l = height(root.left);
+        int r = height(root.right);
+        return  Integer.max(l,r) + 1;
+    }
+
     // 11) Diameter of binary tree
     // Easy https://leetcode.com/problems/diameter-of-binary-tree/
     static public int diameter = 0;
