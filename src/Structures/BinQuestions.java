@@ -47,6 +47,46 @@ public class BinQuestions {
 
     //---------------------------- DFS questions ------------------------------
 
+    // 25) Path exists in binary Tree or not
+    public static boolean startoz;
+    public static int indexoz;
+    static boolean anyPathExists(TreeNode root, int[] arr) {
+        if (root.left == null && root.right == null) {
+            return false;
+        }
+
+        boolean a = false;
+        boolean b = false;
+
+        if (!startoz) {
+            if (root.val == arr[0]) {
+                startoz = true;
+            }
+        }
+
+        if (startoz) {
+            if (root.val == arr[indexoz]) {
+                if (indexoz == arr.length -1) {
+                    return true;
+                }
+            } else {
+                startoz = false;
+                indexoz = 0;
+            }
+        }
+
+        if (root.right != null) {
+            a = anyPathExists(root.right, arr);
+        }
+        if (root.left != null) {
+            b = anyPathExists(root.left, arr);
+        }
+
+        return a || b;
+
+    }
+
+
     // 23) Maximum path sum
     // Hard https://leetcode.com/problems/binary-tree-maximum-path-sum/description/
     static int totalSooms;
