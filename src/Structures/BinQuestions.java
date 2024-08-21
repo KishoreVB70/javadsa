@@ -4,20 +4,21 @@ import java.util.*;
 
 public class BinQuestions {
     public static void main(String[] args) {
-        TreeNode root = new TreeNode(4);
-        root.left = new TreeNode(7);
-        root.right = new TreeNode(2);
+        TreeNode root = new TreeNode(1);
+        root.left = new TreeNode(2);
+        root.right = new TreeNode(5);
 
-        root.left.right = new TreeNode(6);
-        root.left.left = new TreeNode(9);
-        root.right.left = new TreeNode(3);
-        root.right.right = new TreeNode(1);
+        root.left.right = new TreeNode(4);
+        root.left.left = new TreeNode(3);
+//        root.right.left = new TreeNode(3);
+        root.right.right = new TreeNode(6);
 //        root.left.right.right = new TreeNode(6);
 //        root.right.left.right = new TreeNode(7);
 
         int[] bot = {-10,-3,0,5,9};
 
-        System.out.println(sortedArrayToBST(bot));
+        flatten(root);
+//        System.out.println();
     }
     public static class Node {
         public int val;
@@ -40,6 +41,35 @@ public class BinQuestions {
     };
     //--------------------- DFS questions -----------------------
 
+    // 15) Flatten binary tree into linked list
+    //https://leetcode.com/problems/flatten-binary-tree-to-linked-list/
+    public static void flatten(TreeNode root) {
+        Stack<TreeNode> temp = new Stack<>();
+        flatten(root, temp);
+    }
+    public static TreeNode flatten(TreeNode node, Stack<TreeNode> stack) {
+        if (node == null) {
+            return null;
+        }
+
+        // Go check the left side
+        if (node.right != null) {
+            stack.push(node.right);
+        }
+
+        node.right = flatten(node.left, stack);
+
+        // Go do whatever with the next one in the stack -> it might be the right or the previous right or whatever
+        if (node.right == null) {
+            if (!stack.isEmpty()) {
+                node.right = flatten(stack.pop(), stack);
+            }
+        }
+
+        node.left = null;
+        return node;
+
+    }
     // 14) Convert sorted array into binary search tree
     // Very easy https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree/
     public static TreeNode sortedArrayToBST(int[] nums) {
