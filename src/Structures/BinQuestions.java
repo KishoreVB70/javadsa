@@ -5,22 +5,25 @@ import java.util.*;
 
 public class BinQuestions {
     public static void main(String[] args) {
-        TreeNode root = new TreeNode(3);
-        root.left = new TreeNode(9);
-        root.right = new TreeNode(20);
-        root.right.right = new TreeNode(7);
-        root.right.left = new TreeNode(15);
+        TreeNode root = new TreeNode(5);
+        root.left = new TreeNode(4);
+        root.left.left = new TreeNode(11);
+        root.left.left.left = new TreeNode(7);
+        root.left.left.right = new TreeNode(2);
 
-//        root.left.right = new TreeNode(4);
-//        root.left.left = new TreeNode(3);
+
+        root.right = new TreeNode(8);
+        root.right.right = new TreeNode(4);
+        root.right.left = new TreeNode(13);
+        root.right.right.right = new TreeNode(1);
+
 //        root.right.left = new TreeNode(3);
 
 //        root.left.right.right = new TreeNode(6);
 //        root.right.left.right = new TreeNode(7);
         int[] pre = {1,2};
         int[] in = {1,2};
-        String st = serialize(root);
-        deserialize(st);
+        maxPathSum(root);
     }
     public static class Node {
         public int val;
@@ -44,6 +47,34 @@ public class BinQuestions {
 
     //---------------------------- DFS questions ------------------------------
 
+    // 23) Maximum path sum
+    // Hard https://leetcode.com/problems/binary-tree-maximum-path-sum/description/
+    static int totalSooms;
+    public static int maxPathSum(TreeNode root) {
+        hMaxPathSum(root);
+        return totalSooms;
+    }
+    public static int hMaxPathSum(TreeNode root) {
+        // Base condition
+        if (root == null) {
+            return 0;
+        }
+        int left = hMaxPathSum(root.left);
+        int right = hMaxPathSum(root.right);
+        int pathSum1 = left + right + root.val;
+        int pathSum2 = left +  root.val;
+        int pathSum3 = right + root.val;
+
+        int returnPathSum = Integer.max(root.val, Integer.max(pathSum2, pathSum3));
+
+        int AMan = Integer.max(pathSum1, returnPathSum);
+
+        if (AMan > totalSooms) {
+            totalSooms = AMan;
+        }
+
+        return returnPathSum;
+    }
 
     // 22) Sum root to leaf numbers
     int sumNumbss;
@@ -67,7 +98,6 @@ public class BinQuestions {
         }
 
     }
-
 
     // 21) Path sum
     // Easy https://leetcode.com/problems/path-sum/description/
