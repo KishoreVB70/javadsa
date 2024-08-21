@@ -44,6 +44,38 @@ public class BinQuestions {
 
     //---------------------------- DFS questions ------------------------------
 
+    // 21) Path sum
+    // Easy https://leetcode.com/problems/path-sum/description/
+    public boolean hasPathSum(TreeNode root, int targetSum) {
+        if (root == null) {
+            return false;
+        }
+        return hasPathSum(root, targetSum, 0);
+    }
+    public static boolean hasPathSum(TreeNode root, int targetSum, int currentSum) {
+        currentSum += root.val;
+
+        // Base condition
+        if (root.right == null && root.left == null) {
+            if (currentSum == targetSum) {
+                return true;
+            }
+        }
+
+        boolean a = false;
+        boolean b = false;
+
+
+        if (root.left != null) {
+            a = hasPathSum(root.left, targetSum, currentSum);
+        }
+        if (root.right != null) {
+            b = hasPathSum(root.right, targetSum, currentSum);
+        }
+        return a || b;
+    }
+
+
     // 20) Serialize and deserialize binary tree
     // Hard
     // Things important
