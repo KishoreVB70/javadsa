@@ -70,6 +70,36 @@ public class BinQuestions {
         return node;
 
     }
+    public static void flattenConstantSpaceComplexity(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        if (root.left == null && root.right == null) {
+            return;
+        }
+
+        if (root.left != null && root.right != null) {
+            TreeNode emptyMan = findRightMostEmptyNode(root.left);
+            emptyMan.right = root.right;
+            root.right  = root.left;
+            root.left = null;
+        }
+
+        if (root.left != null) {
+            root.right  = root.left;
+            root.left = null;
+        }
+
+        flattenConstantSpaceComplexity(root.right);
+    }
+    public static TreeNode findRightMostEmptyNode(TreeNode node) {
+        if (node.right == null) {
+            return node;
+        }
+
+        return findRightMostEmptyNode(node.right);
+    }
+
     // 14) Convert sorted array into binary search tree
     // Very easy https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree/
     public static TreeNode sortedArrayToBST(int[] nums) {
