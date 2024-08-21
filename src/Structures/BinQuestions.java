@@ -13,9 +13,9 @@ public class BinQuestions {
 
 
         root.right = new TreeNode(8);
-        root.right.right = new TreeNode(4);
+        root.right.right = new TreeNode(1);
         root.right.left = new TreeNode(13);
-        root.right.right.right = new TreeNode(1);
+        root.right.right.right = new TreeNode(2);
 
 //        root.right.left = new TreeNode(3);
 
@@ -23,7 +23,7 @@ public class BinQuestions {
 //        root.right.left.right = new TreeNode(7);
         int[] pre = {1,2};
         int[] in = {1,2};
-        maxPathSum(root);
+        System.out.println(anyPathExists(root, pre));
     }
     public static class Node {
         public int val;
@@ -47,10 +47,34 @@ public class BinQuestions {
 
     //---------------------------- DFS questions ------------------------------
 
-    // 25) Path exists in binary Tree or not
+    // 24) Path exists in binary Tree or not
     public static boolean startoz;
     public static int indexoz;
     static boolean anyPathExists(TreeNode root, int[] arr) {
+        if (!startoz) {
+            if (root.val == arr[0]) {
+                startoz = true;
+                indexoz += 1;
+            }
+            // Check if first is the rizz
+            if (indexoz >= arr.length -1) {
+                return true;
+            }
+
+        }
+
+        if (startoz) {
+            if (root.val == arr[indexoz]) {
+                if (indexoz >= arr.length -1) {
+                    return true;
+                }
+                indexoz += 1;
+            } else {
+                startoz = false;
+                indexoz = 0;
+            }
+        }
+
         if (root.left == null && root.right == null) {
             return false;
         }
@@ -58,29 +82,15 @@ public class BinQuestions {
         boolean a = false;
         boolean b = false;
 
-        if (!startoz) {
-            if (root.val == arr[0]) {
-                startoz = true;
-            }
-        }
 
-        if (startoz) {
-            if (root.val == arr[indexoz]) {
-                if (indexoz == arr.length -1) {
-                    return true;
-                }
-            } else {
-                startoz = false;
-                indexoz = 0;
-            }
+        if (root.left != null) {
+            b = anyPathExists(root.left, arr);
         }
 
         if (root.right != null) {
             a = anyPathExists(root.right, arr);
         }
-        if (root.left != null) {
-            b = anyPathExists(root.left, arr);
-        }
+
 
         return a || b;
 
