@@ -5,21 +5,22 @@ import java.util.*;
 
 public class BinQuestions {
     public static void main(String[] args) {
-        TreeNode root = new TreeNode(1);
-        root.left = new TreeNode(2);
-        root.right = new TreeNode(5);
+        TreeNode root = new TreeNode(3);
+        root.left = new TreeNode(9);
+        root.right = new TreeNode(20);
+        root.right.right = new TreeNode(7);
+        root.right.left = new TreeNode(15);
 
-        root.left.right = new TreeNode(4);
-        root.left.left = new TreeNode(3);
+//        root.left.right = new TreeNode(4);
+//        root.left.left = new TreeNode(3);
 //        root.right.left = new TreeNode(3);
-        root.right.right = new TreeNode(6);
+
 //        root.left.right.right = new TreeNode(6);
 //        root.right.left.right = new TreeNode(7);
-
-        int[] bot = {-10,-3,0,5,9};
-
-        flatten(root);
-//        System.out.println();
+        int[] pre = {1,2};
+        int[] in = {1,2};
+        String st = serialize(root);
+        deserialize(st);
     }
     public static class Node {
         public int val;
@@ -40,7 +41,102 @@ public class BinQuestions {
             next = _next;
         }
     };
-    //--------------------- DFS questions -----------------------
+
+    //---------------------------- DFS questions ------------------------------
+
+    // 20) Serialize and deserialize binary tree
+    // Hard
+    // Things important
+    // 1) How do you differentiate one number from another -> can use dots
+    // 2) How to differentiate blank characters and the node values
+    // I'm using in order traversal
+    public static String serialize(TreeNode root) {
+        StringBuffer st = new StringBuffer();
+        serialize(root, st);
+
+        return st.toString();
+    }
+
+    public static void serialize(TreeNode node, StringBuffer st) {
+        if (node == null) {
+            st.append('l');
+            st.append(',');
+            return;
+        }
+        st.append(node.val);
+        st.append(',');
+        serialize(node.left, st);
+        serialize(node.right, st);
+    }
+
+
+    // Decodes your encoded data to tree.
+    public static TreeNode deserialize(String data) {
+        StringBuffer dataa = new StringBuffer(data);
+        return helperDeserialize(dataa);
+    }
+
+    public static TreeNode helperDeserialize(StringBuffer data) {
+        int nextSeparator = data.indexOf(",");
+        String currentValue = data.substring(0, nextSeparator);
+        if (currentValue.length() == 1) {
+            char c = currentValue.charAt(0);
+            if (c == 'l') {
+                data.delete(0, nextSeparator + 1);
+                return null;
+            }
+        }
+        int value = Integer.parseInt(currentValue);
+
+        TreeNode root = new TreeNode(value);
+        root.left = helperDeserialize(data.delete(0, nextSeparator + 1));
+        root.right = helperDeserialize(data);
+
+        return root;
+    }
+
+    // 19) Construct tree from pre order and in order
+    // Medium but hard https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/
+    // This can be solved using hash maps
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        return createTree(preorder, inorder);
+    }
+    public static TreeNode createTree(int[] preorder, int[] inorder) {
+        TreeNode rootNode = new TreeNode(preorder[0]);
+
+        if (preorder.length == 1) {
+            return rootNode;
+        }
+
+        // Right branch head
+        int startIndexOfRightSide = 0;
+        for (int i = 0; i < preorder.length; i++) {
+            if (inorder[i] == preorder[0]) {
+                startIndexOfRightSide = i+1;
+                break;
+            }
+        }
+        int finalIndexOfLeftSide = startIndexOfRightSide - 1;
+
+        if (finalIndexOfLeftSide > 0) {
+            // The copy is exclusive not inclusive, so add 1 to it
+            int[] leftTreePre = Arrays.copyOfRange(preorder, 1, finalIndexOfLeftSide + 1);
+            int[] leftTreeIn = Arrays.copyOfRange(inorder, 0, finalIndexOfLeftSide);
+
+            rootNode.left = createTree(leftTreePre, leftTreeIn);
+        }
+
+
+
+        if (startIndexOfRightSide < preorder.length) {
+            int[] rightTreePre = Arrays.copyOfRange(preorder, startIndexOfRightSide, preorder.length);
+            int[] rightTreeIn = Arrays.copyOfRange(inorder, startIndexOfRightSide, preorder.length);
+            rootNode.right = createTree(rightTreePre, rightTreeIn);
+        }
+
+
+        return rootNode;
+    }
 
     // 18) Kth smallest element in Binary search tree
     public int kthSmallest(TreeNode root, int k) {
@@ -86,8 +182,6 @@ public class BinQuestions {
         // If k is not found in the left, then go into the right
         return kthSmallest(node.right, k, target, val);
     }
-
-
 
     // 17) Lowest common ancestor
     // Medium -> EASSYY confidence booseter https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/description/
@@ -287,9 +381,6 @@ public class BinQuestions {
         invert(root.left);
         invert(root.right);
     }
-
-
-
 
 
     // -----------------BFS questions -----------
