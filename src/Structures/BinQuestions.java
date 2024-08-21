@@ -44,6 +44,31 @@ public class BinQuestions {
 
     //---------------------------- DFS questions ------------------------------
 
+
+    // 22) Sum root to leaf numbers
+    int sumNumbss;
+    public int sumNumbers(TreeNode root) {
+        sumNumbers(root, 0);
+        return sumNumbss;
+    }
+    public void sumNumbers(TreeNode root, int currentSum) {
+        currentSum *= 10;
+        currentSum += root.val;
+
+        if (root.left == null && root.right == null) {
+            sumNumbss += currentSum;
+        }
+
+        if (root.left != null) {
+            sumNumbers(root.left, currentSum);
+        }
+        if (root.right != null) {
+            sumNumbers(root.right, currentSum);
+        }
+
+    }
+
+
     // 21) Path sum
     // Easy https://leetcode.com/problems/path-sum/description/
     public boolean hasPathSum(TreeNode root, int targetSum) {
