@@ -41,6 +41,40 @@ public class BinQuestions {
     };
     //--------------------- DFS questions -----------------------
 
+    // 17) Lowest common ancestor
+    // Medium https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/description/
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null) {
+            return root;
+        }
+
+        if (root == p || root == q) {
+            // First check if it is within
+            TreeNode left = lowestCommonAncestor(root.left, p, q);
+            TreeNode right = lowestCommonAncestor(root.right, p, q);
+
+            if (left != null || right != null) {
+                return root;
+            }
+
+            // If both are null, it must be on the parent's side
+            return root;
+        }
+
+        TreeNode left = lowestCommonAncestor(root.left, p, q);
+        TreeNode right = lowestCommonAncestor(root.right, p, q);
+
+        if (left != null && right != null) {
+            return root;
+        }
+
+        if (left != null) {
+            return left;
+        }
+        return right;
+
+    }
+
     // 16) Validate binary search tree
     // Medium https://leetcode.com/problems/validate-binary-search-tree/description/
     public boolean isValidBST(TreeNode root) {
@@ -52,7 +86,6 @@ public class BinQuestions {
 
         return left && right;
     }
-
     public boolean isValidBSTRec(TreeNode root, long l, long h) {
         // Base condition
         if (root == null) {
