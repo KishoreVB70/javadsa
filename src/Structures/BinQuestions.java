@@ -41,8 +41,37 @@ public class BinQuestions {
     };
     //--------------------- DFS questions -----------------------
 
+    // 16) Validate binary search tree
+    // Medium https://leetcode.com/problems/validate-binary-search-tree/description/
+    public boolean isValidBST(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+        boolean left = isValidBSTRec(root.left, Long.MIN_VALUE, root.val);
+        boolean right = isValidBSTRec(root.right, root.val, Long.MAX_VALUE);
+
+        return left && right;
+    }
+
+    public boolean isValidBSTRec(TreeNode root, long l, long h) {
+        // Base condition
+        if (root == null) {
+            return true;
+        }
+
+        // Negative base condition
+        if (root.val <= l || root.val >= h) {
+            return false;
+        }
+
+        boolean left = isValidBSTRec(root.left, l, root.val);
+        boolean right = isValidBSTRec(root.right, root.val, h);
+
+        return left && right;
+    }
+
     // 15) Flatten binary tree into linked list
-    //https://leetcode.com/problems/flatten-binary-tree-to-linked-list/
+    // Medium https://leetcode.com/problems/flatten-binary-tree-to-linked-list/
     public static void flatten(TreeNode root) {
         Stack<TreeNode> temp = new Stack<>();
         flatten(root, temp);
