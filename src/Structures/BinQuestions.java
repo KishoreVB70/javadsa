@@ -57,13 +57,13 @@ public class BinQuestions {
                 indexoz += 1;
             }
             // Check if first is the rizz
-            if (indexoz >= arr.length -1) {
+            if (arr.length == 1) {
                 return true;
             }
 
         }
 
-        if (startoz) {
+        else if (startoz) {
             if (root.val == arr[indexoz]) {
                 if (indexoz >= arr.length -1) {
                     return true;
