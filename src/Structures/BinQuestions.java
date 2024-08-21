@@ -1,5 +1,6 @@
 package Structures;
 
+import javax.swing.tree.TreeNode;
 import java.util.*;
 
 public class BinQuestions {
@@ -41,8 +42,55 @@ public class BinQuestions {
     };
     //--------------------- DFS questions -----------------------
 
+    // 18) Kth smallest element in Binary search tree
+    public int kthSmallest(TreeNode root, int k) {
+        int ck = 0;
+        // 1 -> Find the smallest
+        while (root != null) {
+            root = root.left;
+
+            if (root == null) {
+                ck = 1;
+            }
+            if (k == 1) {
+                return root.val;
+            }
+        }
+        return ck;
+    }
+    public int kthSmallestRec(TreeNode root, int k) {
+        ArrayList<Integer> val = new ArrayList<>(1);
+        kthSmallest(root, 0, k, val );
+        return val.getFirst();
+    }
+    public int kthSmallest(TreeNode node, int k, int target, ArrayList<Integer> val) {
+        // Base condition
+        if (node == null) {
+            return k;
+        }
+
+        // Search the left side
+        k = kthSmallest(node.left, k, target, val) + 1;
+
+        // If k already found, don't go into right
+        if (k < 0) {
+            return  -10;
+        }
+
+        // If kth is the target,
+        if (k == target) {
+            val.add(node.val);
+            return -10;
+        }
+
+        // If k is not found in the left, then go into the right
+        return kthSmallest(node.right, k, target, val);
+    }
+
+
+
     // 17) Lowest common ancestor
-    // Medium https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/description/
+    // Medium -> EASSYY confidence booseter https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/description/
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
         if (root == null) {
             return root;
@@ -74,6 +122,9 @@ public class BinQuestions {
         return right;
 
     }
+
+    // 17 B -> of a binary search tree
+    // https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/description/
 
     // 16) Validate binary search tree
     // Medium https://leetcode.com/problems/validate-binary-search-tree/description/
