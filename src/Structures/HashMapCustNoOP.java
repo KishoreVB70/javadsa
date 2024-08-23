@@ -11,6 +11,14 @@ public class HashMapCustNoOP {
         pairs[hashIndex] = pair;
     }
 
+    int get(String key) {
+        int hashIndex =  Math.abs(key.hashCode() % pairs.length);
+        if (pairs[hashIndex] != null) {
+            return pairs[hashIndex].value;
+        }
+        return -1;
+    }
+
     private class Pair {
         String key;
         int value;
