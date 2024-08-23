@@ -20,6 +20,7 @@ public class HashMapCust {
         // Create linked list, if doesn't exist
         if (list == null) {
             list = new LinkedList<>();
+            pairs.set(hashIndex, list);
         }
 
         // If it is already occupied, add it into the linked list
