@@ -8,7 +8,14 @@ public class HashMapCustNoOP {
     void add(String key, int value) {
         Pair pair = new Pair(key, value);
         int hashIndex =  Math.abs(key.hashCode() % pairs.length);
-        pairs[hashIndex] = pair;
+        if (pairs[hashIndex] == null) {
+            pairs[hashIndex] = pair;
+            return;
+        }
+        // If it is already occupied
+        else {
+            // Create a linked list there
+        }
     }
 
     int get(String key) {
