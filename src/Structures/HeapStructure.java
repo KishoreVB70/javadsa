@@ -23,7 +23,7 @@ public class HeapStructure {
 
     public int remove() {
         int removed = arr[0];
-        swap(0, lastIndex);
+        swap(0, lastIndex - 1);
         lastIndex--;
 
         int currentIndex = 0;
