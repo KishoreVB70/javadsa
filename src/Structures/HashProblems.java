@@ -2,65 +2,45 @@ package Structures;
 
 public class HashProblems {
     public static void main(String[] args) {
-        String a = "Renga";
-        String b = "VRengaVindz";
-        System.out.println(karpRabin(a, b));
+        String s = "Renga";
+        String t = "VRengsRenga";
+        System.out.println(karpRabin(s, t));
     }
 
-    // Karp Rabin substring matching algorithm -> ez pz
-    static boolean karpRabin(String a, String b) {
-        int hashA = a.hashCode();
-        int aLength = a.length();
-        String sub = b.substring(0,a.length());
-        for (int i = 1; i < b.length() - aLength; i++) {
-            int hashB = sub.hashCode();
+    // Karp Rabin substring matching algorithm
 
-            // Hash is same
-            if (hashB == hashA) {
-                boolean breaker = false;
-
-                // Check string is same, character by character
-                for (int j = 0; j < aLength; j++) {
-                    if (a.charAt(j) != sub.charAt(j)) {
-                        breaker = true;
-                        break;
-                    }
-                }
-                if (!breaker) {
-                    return true;
-                }
-            }
-
-            sub = b.substring(1,aLength + 1);
+    // Custom hashing function
+    static int prime = 101;
+    static double customHashFunction(String str) {
+        double hash = 0;
+        for (int i = 0; i < str.length(); i++) {
+            hash +=  str.charAt(i) * Math.pow(prime,i);
         }
-        return false;
+        return hash;
     }
+    // Rolling hash updating
+    static double updateHash(double hash, char oldChar, char newChar, int length) {
+        double newHash = (hash - oldChar) / prime;
+        newHash += newChar * Math.pow(prime, length - 1);
+        return newHash;
+    }
+    static boolean karpRabin(String s, String t) {
+        double hashA = customHashFunction(s);
+        int aLength = s.length();
 
-    static boolean karpRabin1(String a, String b) {
-        int hashA = a.hashCode();
-        StringBuilder sub = new StringBuilder(b.substring(0,a.length()));
-        for (int i = a.length(); i < b.length(); i++) {
-            int hashB = sub.hashCode();
+        double hashB = customHashFunction(t.substring(0, aLength));
+        int subStart = 0;
 
-            // Hash is same
+        for (int i = aLength; i < t.length(); i++) {
             if (hashB == hashA) {
-                boolean breaker = false;
-
-                // Check string is same, character by character
-                for (int j = 0; j < a.length(); j++) {
-                    if (a.charAt(j) != sub.charAt(j)) {
-                        breaker = true;
-                        break;
-                    }
-                }
-                if (!breaker) {
-                    return true;
-                }
+                return true;
             }
-
-            sub.deleteCharAt(0);
-            sub.append(b.charAt(i));
+            hashB = updateHash(hashB, t.charAt(subStart), t.charAt(i), aLength );
+            subStart++;
         }
-        return false;
+        // Checking for the last index which is left out
+        return hashA == hashB;
     }
+
+
 }
