@@ -7,15 +7,15 @@ public class BinQuestions {
     public static void main(String[] args) {
         TreeNode root = new TreeNode(1);
         root.left = new TreeNode(2);
-        root.left.left = new TreeNode(11);
-        root.left.left.left = new TreeNode(7);
-        root.left.left.right = new TreeNode(2);
+        root.left.left = new TreeNode(4);
+        root.left.right = new TreeNode(5);
+//        root.left.left.right = new TreeNode(5);
 
 
-        root.right = new TreeNode(1);
-        root.right.right = new TreeNode(1);
-        root.right.left = new TreeNode(13);
-        root.right.right.right = new TreeNode(3);
+        root.right = new TreeNode(3);
+        root.right.left = new TreeNode(6);
+        root.right.right = new TreeNode(7);
+//        root.right.right.right = new TreeNode(3);
 
 //        root.right.left = new TreeNode(3);
 
@@ -23,7 +23,7 @@ public class BinQuestions {
 //        root.right.left.right = new TreeNode(7);
         int[] pre = {1,2};
         int[] in = {1,2};
-        System.out.println(anyPathExists(root, pre));
+        System.out.println(verticalTraversal(root));
     }
     public static class Node {
         public int val;
@@ -44,6 +44,35 @@ public class BinQuestions {
             next = _next;
         }
     };
+    //---------------------- Advanced tree questions ----------------------
+    // 1) Vertical ordered traversal of tree
+    // Hard
+    // https://leetcode.com/problems/vertical-order-traversal-of-a-binary-tree/description/
+
+    static List<List<Integer>> returnList = new ArrayList<>();
+    static Map<Integer, Integer> map = new HashMap<>();
+    public static List<List<Integer>> verticalTraversal(TreeNode root) {
+        verticalTraversal(root, 0);
+        return returnList;
+    }
+    public static void verticalTraversal(TreeNode node, int current) {
+        if (node == null) {
+            return;
+        }
+        // If already there is a mapping
+        if (map.containsKey(current)) {
+            returnList.get(map.get(current)).add(node.val);
+        }
+        // Mapping doesn't exist, and hence the list also doesn't exist
+        else {
+            map.put(current, returnList.size());
+            List<Integer> lt = new ArrayList<>();
+            lt.add(node.val);
+            returnList.add(lt);
+        }
+        verticalTraversal(node.left, current-1);
+        verticalTraversal(node.right, current+1);
+    }
 
     //---------------------------- DFS questions ------------------------------
 
