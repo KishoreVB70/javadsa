@@ -18,6 +18,7 @@ public class RadixSort {
                 int lastDigit = arr[i];
             }
         }
+        return arr;
     }
 
     private static int findLargestDigits(int largest) {
