@@ -8,7 +8,6 @@ public class HashProblems {
     }
 
     // Karp Rabin substring matching algorithm
-
     // Custom hashing function
     static int prime = 101;
     static double customHashFunction(String str) {
@@ -18,7 +17,7 @@ public class HashProblems {
         }
         return hash;
     }
-    // Rolling hash updating
+    // Rolling hash updating for Karp rabin
     static double updateHash(double hash, char oldChar, char newChar, int length) {
         double newHash = (hash - oldChar) / prime;
         newHash += newChar * Math.pow(prime, length - 1);
