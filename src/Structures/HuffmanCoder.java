@@ -36,10 +36,9 @@ public class HuffmanCoder {
             // Merge the new nodes
             Node newNode = new Node('\0', remove1.cost + remove2.cost);
 
-            // Lowest frequency in the right
-            newNode.right = remove1;
-            // Highest frequency in the left
-            newNode.left = remove2;
+            newNode.left = remove1;
+
+            newNode.right = remove2;
             minHeap.add(newNode);
         }
 
@@ -55,15 +54,16 @@ public class HuffmanCoder {
         StringBuilder op = new StringBuilder();
 
         int inpIndex = 0;
+
+        String key = "";
         while (inpIndex < inp.length()) {
-            String key = inp.substring(0,1);
+            key += inp.charAt(inpIndex);
             if (decoder.containsKey(key)) {
                 op.append(decoder.get(key));
-                inpIndex++;
-                key = inp.substring(inpIndex, inpIndex+1);
-            } else {
-                key += inp.charAt(++inpIndex);
+                key = "";
             }
+            inpIndex++;
+
         }
 
         return op.toString();
@@ -73,25 +73,22 @@ public class HuffmanCoder {
         StringBuilder op = new StringBuilder();
 
         for (int i = 0; i < inp.length(); i++) {
-            op.append(encoder.get(inp.charAt(0)));
+            op.append(encoder.get(inp.charAt(i)));
         }
 
         return op.toString();
     }
 
     private void initEncoderDecoder(Node node, String crypt) {
-        if (node == null) {
+        if(node == null) {
             return;
         }
-
-        if (node.data != '\0') {
-            this.encoder.put(node.left.data, crypt);
-            this.decoder.put(crypt, node.left.data);
+        if(node.left == null && node.right == null) {
+            this.encoder.put(node.data, crypt);
+            this.decoder.put(crypt, node.data);
         }
-
-        initEncoderDecoder(node.left, crypt + "0");
-        initEncoderDecoder(node.right, crypt + "1");
-
+        initEncoderDecoder(node.left, crypt+"0");
+        initEncoderDecoder(node.right, crypt+"1");
     }
 
     private class Node implements Comparable<Node> {

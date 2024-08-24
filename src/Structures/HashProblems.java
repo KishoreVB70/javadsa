@@ -1,10 +1,13 @@
 package Structures;
 
 public class HashProblems {
-    public static void main(String[] args) {
-        String s = "Renga";
-        String t = "VRengsRenga";
-        System.out.println(karpRabin(s, t));
+    public static void main(String[] args) throws Exception {
+        HuffmanCoder hc = new HuffmanCoder("ababbcad");
+        String en = hc.encode("ababbcad");
+        System.out.println(en);
+        String de = hc.decode(en);
+        System.out.println(de);
+
     }
 
     // Karp Rabin substring matching algorithm
