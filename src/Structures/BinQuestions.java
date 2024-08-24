@@ -1,6 +1,5 @@
 package Structures;
 
-import javax.swing.tree.TreeNode;
 import java.util.*;
 
 public class BinQuestions {
@@ -51,27 +50,58 @@ public class BinQuestions {
 
     static List<List<Integer>> returnList = new ArrayList<>();
     static Map<Integer, Integer> map = new HashMap<>();
+    static List<Map<Integer, Integer>> mapList = new ArrayList<>();
     public static List<List<Integer>> verticalTraversal(TreeNode root) {
-        verticalTraversal(root, 0);
+        verticalTraversal(root, 0, 0);
+        for (Map<Integer, Integer> mp: mapList) {
+            List<Integer> lt = new ArrayList<>();
+            int k = 0;
+            for (int i = 0; i < 100; i++) {
+                if (mp.containsKey(i)) {
+                    lt.add(mp.get(i));
+                    k++;
+                }
+                if (k >= mp.size()) {
+                    returnList.add(lt);
+                    break;
+                }
+            }
+        }
         return returnList;
     }
-    public static void verticalTraversal(TreeNode node, int current) {
+    public static void verticalTraversal(TreeNode node, int column, int row) {
         if (node == null) {
             return;
         }
+        verticalTraversal(node.left, column-1, row +1);
         // If already there is a mapping
-        if (map.containsKey(current)) {
-            returnList.get(map.get(current)).add(node.val);
+        if (map.containsKey(column)) {
+            // Get the appropriate map
+            int index = map.get(column);
+
+            // Get the map
+            Map<Integer, Integer> mp = mapList.get(index);
+            if(mp.containsKey(row)) {
+                if (mp.get(row) > node.val) {
+                    Integer val = mp.get(row);
+                    mp.put(row, node.val);
+                    mp.put(row+1, val);
+                } else {
+                    mp.put(row+1, node.val);
+                }
+            } else {
+                mp.put(row, node.val);
+            }
+
         }
         // Mapping doesn't exist, and hence the list also doesn't exist
         else {
-            map.put(current, returnList.size());
-            List<Integer> lt = new ArrayList<>();
-            lt.add(node.val);
-            returnList.add(lt);
+            map.put(column, mapList.size());
+            Map<Integer, Integer> mp = new HashMap<>();
+            mp.put(row, node.val);
+            mapList.add(mp);
         }
-        verticalTraversal(node.left, current-1);
-        verticalTraversal(node.right, current+1);
+        verticalTraversal(node.right, column+1, row +1);
     }
 
     //---------------------------- DFS questions ------------------------------
