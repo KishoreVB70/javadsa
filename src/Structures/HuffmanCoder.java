@@ -51,6 +51,34 @@ public class HuffmanCoder {
         initEncoderDecoder(head, "");
     }
 
+    public String decode(String inp) {
+        StringBuilder op = new StringBuilder();
+
+        int inpIndex = 0;
+        while (inpIndex < inp.length()) {
+            String key = inp.substring(0,1);
+            if (decoder.containsKey(key)) {
+                op.append(decoder.get(key));
+                inpIndex++;
+                key = inp.substring(inpIndex, inpIndex+1);
+            } else {
+                key += inp.charAt(++inpIndex);
+            }
+        }
+
+        return op.toString();
+    }
+
+    public String encode(String inp) {
+        StringBuilder op = new StringBuilder();
+
+        for (int i = 0; i < inp.length(); i++) {
+            op.append(encoder.get(inp.charAt(0)));
+        }
+
+        return op.toString();
+    }
+
     private void initEncoderDecoder(Node node, String crypt) {
         if (node == null) {
             return;
