@@ -40,6 +40,4 @@ public class HashProblems {
         // Checking for the last index which is left out
         return hashA == hashB;
     }
-
-
 }

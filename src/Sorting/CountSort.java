@@ -10,20 +10,19 @@ public class CountSort {
         }
     }
 
-    static int[] countSort(int[] arr ) {
+    public static int[] countSort(int[] arr ) {
         // 1 -> Find the largest value
         int largest = findLargest(arr);
 
         // 2 -> create array
         int[] countArr = new int[largest + 1];
 
-        // 3 -> Put down the count
+        // 3 -> Populate the count array
         for (int i = 0; i < arr.length; i++) {
             countArr[arr[i]] += 1;
         }
 
         // 4 -> Modify the original array
-
         // Outer loop to go through the count array
         int j = 0;
         for (int i = 0; i < countArr.length; i++) {

@@ -1,33 +1,30 @@
 package Sorting;
 
 public class RadixSort {
-    static int[] countSoort(int[] arr ) {
+    static int[] radixSort(int[] arr ) {
         // 1 -> Find the largest value
         int largest = findLargest(arr);
 
-        // 1 B -> get the number of digits for that number
-        int largestDigits = findLargestDigits(largest);
-
         // 2 -> Sort according to the last digit
+        // Doubt
+        for (int exp = 1; exp/largest > 0; exp *= 10) {
 
-        // Outer loop for the digit
-        for (int i = 0; i <= largestDigits; i++) {
 
-            // Inner loop for going through the array
-            for (int j = 0; j < arr.length; j++) {
-                int lastDigit = arr[i];
-            }
         }
         return arr;
     }
 
-    private static int findLargestDigits(int largest) {
-        int count = 0;
-        while (largest >=  1) {
-            largest /= 10;
-            count++;
+    static void countSort(int[] arr, int exp) {
+        int n = arr.length;
+        int[] output = new int[n];
+        int[] count = new int[10];
+
+        // Populating count array
+        for (int j : arr) {
+            count[(j / exp) % 10]++;
         }
-        return count;
+
+        // Mapping for the original digit
     }
 
     static int findLargest(int[] arr) {
