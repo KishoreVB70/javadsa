@@ -4,26 +4,23 @@ import java.util.*;
 
 public class BinQuestions {
     public static void main(String[] args) {
-        TreeNode root = new TreeNode(1);
+        TreeNode root = new TreeNode(0);
         root.left = new TreeNode(2);
-        root.left.left = new TreeNode(4);
-        root.left.right = new TreeNode(5);
-//        root.left.left.right = new TreeNode(5);
+        root.left.left = new TreeNode(3);
+        root.left.left.left = new TreeNode(9);
+        root.left.left.left.right = new TreeNode(14);
+        root.left.left.left.right.right = new TreeNode(26);
+
+        root.left.left.right = new TreeNode(4);
+        root.left.left.right.left = new TreeNode(8);
+        root.left.left.right.left.right = new TreeNode(17);
 
 
-        root.right = new TreeNode(3);
-        root.right.left = new TreeNode(6);
-        root.right.right = new TreeNode(7);
-//        root.right.right.right = new TreeNode(3);
-
-//        root.right.left = new TreeNode(3);
-
-//        root.left.right.right = new TreeNode(6);
-//        root.right.left.right = new TreeNode(7);
-        int[] pre = {1,2};
-        int[] in = {1,2};
-        System.out.println(verticalTraversal(root));
+        System.out.println(Solution.verticalTraversal(root));
     }
+
+
+
     public static class Node {
         public int val;
         public Node left;
@@ -43,65 +40,170 @@ public class BinQuestions {
             next = _next;
         }
     };
+
+        public int[] twoSum(int[] numbers, int target) {
+
+            int s = 0;
+            int e = numbers.length - 1;
+            int[] result = new int[2];
+
+            while(s < e) {
+                if (numbers[s] + numbers[e] == target) {
+                    result[0] = s;
+                    result[1] = e;
+                }
+                else if (numbers[s] + numbers[e] > target) {
+                    e--;
+                } else {
+                    s++;
+                }
+            }
+            return result;
+        }
+
     //---------------------- Advanced tree questions ----------------------
     // 1) Vertical ordered traversal of tree
     // Hard
     // https://leetcode.com/problems/vertical-order-traversal-of-a-binary-tree/description/
 
+    static int colLow = 0;
+    static int colHigh = 0;
+    static int rowHigh = 0;
     static List<List<Integer>> returnList = new ArrayList<>();
-    static Map<Integer, Integer> map = new HashMap<>();
-    static List<Map<Integer, Integer>> mapList = new ArrayList<>();
+    static Map<Integer,  Map<Integer, PriorityQueue<Integer>>> mapList = new HashMap<>();
     public static List<List<Integer>> verticalTraversal(TreeNode root) {
         verticalTraversal(root, 0, 0);
-        for (Map<Integer, Integer> mp: mapList) {
-            List<Integer> lt = new ArrayList<>();
-            int k = 0;
-            for (int i = 0; i < 100; i++) {
-                if (mp.containsKey(i)) {
-                    lt.add(mp.get(i));
-                    k++;
-                }
-                if (k >= mp.size()) {
-                    returnList.add(lt);
-                    break;
+
+        // Starts from the lowest column
+        // All columns from low till high will definitely be present
+        for (int i = colLow; i <= colHigh; i++) {
+            Map<Integer, PriorityQueue<Integer>> mp =  mapList.get(i);
+
+            // Create list
+            List<Integer> list = new ArrayList<>();
+
+            // Starts from the first row
+            for (int j = 0; j <= rowHigh ; j++) {
+                // Checking contains, because it may or may not be present
+                if (mp.containsKey(j)) {
+                    PriorityQueue<Integer> pq =  mp.get(j);
+                    for(Integer k: pq) {
+                        list.add(k);
+                    }
                 }
             }
+            returnList.add(list);
         }
+
         return returnList;
     }
     public static void verticalTraversal(TreeNode node, int column, int row) {
         if (node == null) {
             return;
         }
-        verticalTraversal(node.left, column-1, row +1);
         // If already there is a mapping
-        if (map.containsKey(column)) {
-            // Get the appropriate map
-            int index = map.get(column);
+        if (mapList.containsKey(column)) {
+            // Get the other map
+            Map<Integer, PriorityQueue<Integer>> mp = mapList.get(column);
 
-            // Get the map
-            Map<Integer, Integer> mp = mapList.get(index);
-            if(mp.containsKey(row)) {
-                if (mp.get(row) > node.val) {
-                    Integer val = mp.get(row);
-                    mp.put(row, node.val);
-                    mp.put(row+1, val);
-                } else {
-                    mp.put(row+1, node.val);
+            // Check if the row exists
+            // If so, add value
+            if (mp.containsKey(row)) {
+                PriorityQueue<Integer> pq = mp.get(row);
+                pq.offer(row);
+            }
+            // Row doesn't exist
+            else {
+                // Create priority queue
+                PriorityQueue<Integer> pq = new PriorityQueue<>();
+                if (row > rowHigh) {
+                    rowHigh = row;
                 }
-            } else {
-                mp.put(row, node.val);
+                pq.offer(node.val);
+                mp.put(row, pq);
+            }
+        }
+        // Mapping doesn't exist, create everything
+        else {
+            Map<Integer, PriorityQueue<Integer>> mp = new HashMap<>();
+            mapList.put(column, mp);
+            if (column < colLow) {
+                colLow = column;
+            } else if (column > colHigh) {
+                colHigh = column;
             }
 
+            // Add the priority queue
+            PriorityQueue<Integer> pq = new PriorityQueue<>();
+            if (row > rowHigh) {
+                rowHigh = row;
+            }
+            pq.offer(node.val);
+            mp.put(row, pq);
         }
-        // Mapping doesn't exist, and hence the list also doesn't exist
-        else {
-            map.put(column, mapList.size());
-            Map<Integer, Integer> mp = new HashMap<>();
-            mp.put(row, node.val);
-            mapList.add(mp);
-        }
+
+
+        // Recursive calls
+        verticalTraversal(node.left, column-1, row +1);
         verticalTraversal(node.right, column+1, row +1);
+    }
+
+
+    // Solution version
+    static class Solution {
+        static class ColRow{
+            int val;
+            int col;
+            int row;
+            ColRow(int val,int col,int row){
+                this.val=val;
+                this.col=col;
+                this.row=row;
+            }
+        }
+
+        static PriorityQueue<ColRow> pq;
+        public static List<List<Integer>> verticalTraversal(TreeNode root) {
+            List<List<Integer>> returnList=new ArrayList<>();
+
+            // Initializing the priority queue
+            // The lambda function specifies the priority order
+            pq=new PriorityQueue<>((a,b)->{
+                if (a.col == b.col) {
+                    if (a.row == b.row) {
+                        return a.val - b.val;
+                    } else {
+                        return a.row - b.row;
+                    }
+                } else {
+                    return a.col - b.col;
+                }
+            });
+            dfs(root,0,0);
+
+
+            while(!pq.isEmpty()){
+                List<Integer> list=new ArrayList<>();
+
+                // Get the first value
+                ColRow poll=pq.poll();
+                list.add(poll.val);
+
+                // For all the elements with the same column, add it to the same list
+                while(!pq.isEmpty() &&  pq.peek().col==poll.col){
+                    list.add(pq.poll().val);
+                }
+                returnList.add(list);
+            }
+            return returnList;
+        }
+        private static void dfs(TreeNode root,int x,int y){
+            if(root==null)
+                return;
+            pq.offer(new ColRow(root.val,x,y));
+            dfs(root.left,x-1,y+1);
+            dfs(root.right,x+1,y+1);
+        }
     }
 
     //---------------------------- DFS questions ------------------------------
