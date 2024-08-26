@@ -8,26 +8,26 @@ public class LinkedListProblems {
         int[] bot = {1,2,6,3,4,5,6};
 
 
-        ListNode head = new ListNode(1);
-        ListNode peasant1 = new ListNode(2);
-        ListNode peasant3 = new ListNode(6);
-        ListNode peasant5 = new ListNode(3);
-        ListNode peasant7 = new ListNode(4);
-        ListNode peasant9 = new ListNode(5);
-        ListNode peasant11 = new ListNode(6);
+        ListNode head = new ListNode(5);
+        ListNode peasant1 = new ListNode(6);
+//        ListNode peasant3 = new ListNode(3);
+//        ListNode peasant5 = new ListNode(3);
+//        ListNode peasant7 = new ListNode(4);
+//        ListNode peasant9 = new ListNode(5);
+//        ListNode peasant11 = new ListNode(6);
 
-//        ListNode head1 = new ListNode(1);
-//        ListNode peasant2 = new ListNode(3);
-//        ListNode peasant4 = new ListNode(4);
-//        head1.next = peasant2;
-//        peasant2.next = peasant4;
+        ListNode head1 = new ListNode(5);
+        ListNode peasant2 = new ListNode(4);
+        ListNode peasant4 = new ListNode(9);
+        head1.next = peasant2;
+        peasant2.next = peasant4;
 
         head.next = peasant1;
-        peasant1.next = peasant3;
-        peasant3.next = peasant5;
-        peasant5.next = peasant7;
-        peasant7.next = peasant9;
-        peasant9.next = peasant11;
+//        peasant1.next = peasant3;
+//        peasant3.next = peasant5;
+//        peasant5.next = peasant7;
+//        peasant7.next = peasant9;
+//        peasant9.next = peasant11;
 
         ListNode temp = head;
         while (temp != null) {
@@ -36,15 +36,15 @@ public class LinkedListProblems {
         }
 
 
-        ListNode moto = removeElements(head, 6);
-
-        System.out.println("");
-
-
-        while (moto != null) {
-            System.out.print(moto.val + "->");
-            moto = moto.next;
-        }
+//        ListNode moto = addTwoNumbers(head, head1);
+//
+//        System.out.println("");
+//
+//
+//        while (moto != null) {
+//            System.out.print(moto.val + "->");
+//            moto = moto.next;
+//        }
 
     }
 
@@ -683,6 +683,33 @@ public class LinkedListProblems {
         return head;
     }
 
+    // 17) Medium problem -> 2nd problem of leet code
+        public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+            ListNode dummyHead = new ListNode(0);
+            ListNode tail = dummyHead;
+            int carry = 0;
+
+            while (l1 != null || l2 != null || carry != 0) {
+                int digit1 = (l1 != null) ? l1.val : 0;
+                int digit2 = (l2 != null) ? l2.val : 0;
+
+                int sum = digit1 + digit2 + carry;
+                int digit = sum % 10;
+                carry = sum / 10;
+
+                ListNode newNode = new ListNode(digit);
+                tail.next = newNode;
+                tail = tail.next;
+
+                l1 = (l1 != null) ? l1.next : null;
+                l2 = (l2 != null) ? l2.next : null;
+            }
+
+            ListNode result = dummyHead.next;
+            dummyHead.next = null;
+            return result;
+        }
+    }
 
 
 
