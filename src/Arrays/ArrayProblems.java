@@ -4,16 +4,8 @@ import java.util.*;
 
 public class ArrayProblems {
     public static void main(String[] args) {
-        int[] arr = {-2,0,1,1,2};
-        List<String> sts =  new ArrayList<>();
-        sts.add("hot");
-        sts.add("dot");
-        sts.add("dog");
-        sts.add("lot");
-        sts.add("log");
-        sts.add("cog");
-
-        System.out.println(ladderLength("hit", "cog", sts));
+        int[] arr = {-3,4,3,90};
+        System.out.println(Arrays.toString(twoSum(arr, 6)));
     }
     // Square root decomposition ->  Advanced algorithm for Range problems
 
@@ -22,8 +14,6 @@ public class ArrayProblems {
     // Google Hard question
     // https://leetcode.com/problems/word-ladder/description/
     public static int ladderLength(String beginWord, String endWord, List<String> wordList) {
-
-
         // 1 -> check if the end word is in the wordList
         if (!wordList.contains(endWord)) {
             return 0;
@@ -71,7 +61,6 @@ public class ArrayProblems {
     }
 
 
-
     // Q -> find the sum of range in an array
     static int sumOfRangeSqrt(int[] arr, int s, int e) {
         // 1 -> Create the block array
@@ -95,6 +84,21 @@ public class ArrayProblems {
         return 1;
     }
 
+    // 2 sum -> Leet code problem 1
+    public static int[] twoSum(int[] nums, int target) {
+        int[] result = new int[2];
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            int sub = target - nums[i];
+            if (map.containsKey(sub)){
+                result[0] = i;
+                result[1] = map.get(sub);
+                return result;
+            }
+            map.put(nums[i], i);
+        }
+        return result;
+    }
     // 3 Sum
     //https://leetcode.com/problems/3sum/description/
     public static List<List<Integer>> threeSum(int[] nums) {
