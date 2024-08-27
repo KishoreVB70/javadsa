@@ -1,21 +1,103 @@
 package Arrays;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class ArrayProblems {
     public static void main(String[] args) {
         int[] arr = {-2,0,1,1,2};
-        List<List<Integer>> result =  threeSum(arr);
-        for(List<Integer> lt: result) {
-            for(int i: lt) {
-                System.out.print(i + ", ");
-            }
-            System.out.println();
-        }
+        List<String> sts =  new ArrayList<>();
+        sts.add("hot");
+        sts.add("dot");
+        sts.add("dog");
+        sts.add("lot");
+        sts.add("log");
+        sts.add("cog");
+
+        System.out.println(ladderLength("hit", "cog", sts));
     }
     // Square root decomposition ->  Advanced algorithm for Range problems
+
+
+    // Word ladder
+    // Google Hard question
+    // https://leetcode.com/problems/word-ladder/description/
+
+    static List<String> worddList;
+    static String enddWord;
+    public static int ladderLength(String beginWord, String endWord, List<String> wordList) {
+
+        // 1 -> check if the end word is in the wordList
+        boolean pres = false;
+        for (int i = 0; i < wordList.size(); i++) {
+            if (Objects.equals(wordList.get(i), endWord)) {
+                pres = true;
+                break;
+            }
+        }
+
+        if (!pres) {
+            return 0;
+        }
+
+        enddWord = endWord;
+        worddList = wordList;
+        HashMap<Integer, String> map = new HashMap<>();
+        Set<String> set = new HashSet<>();
+        set.add(beginWord);
+        map.put(-1, beginWord);
+        int result = recursionMan(beginWord, 0, 1, set);
+
+        if (result < Integer.MAX_VALUE) {
+            return result;
+        } else {
+            return 0;
+        }
+    }
+
+    static int recursionMan(String prevWord, int index, int currentTotal, Set<String> set) {
+        if (index >= worddList.size()) {
+            return Integer.MAX_VALUE;
+        }
+
+        String currentWord = worddList.get(index);
+
+
+
+        int result1 = Integer.MAX_VALUE;
+        int result2;
+
+        if (!set.contains(currentWord)) {
+            if (ifOnlyOneChcIsDifferent(prevWord, currentWord)) {
+                Set<String> newSet = new HashSet<>(set);
+                newSet.add(currentWord);
+
+                if (Objects.equals(currentWord, enddWord)) {
+                    return ++currentTotal;
+                }
+
+                result1 = recursionMan(currentWord, 0, currentTotal+1, newSet);
+            }
+        }
+
+        result2 = recursionMan(prevWord, index+1, currentTotal, set);
+
+        if (result1 < result2) {
+            return result1;
+        } else {
+            return result2;
+        }
+
+    }
+
+    static boolean ifOnlyOneChcIsDifferent(String st, String current) {
+        int total = st.length();
+        for (int i = 0; i < st.length(); i++) {
+            if (st.charAt(i) == current.charAt(i)) {
+                total--;
+            }
+        }
+        return total == 1;
+    }
 
     // Q -> find the sum of range in an array
     static int sumOfRangeSqrt(int[] arr, int s, int e) {
