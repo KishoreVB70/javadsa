@@ -21,83 +21,56 @@ public class ArrayProblems {
     // Word ladder
     // Google Hard question
     // https://leetcode.com/problems/word-ladder/description/
-
-    static List<String> worddList;
-    static String enddWord;
     public static int ladderLength(String beginWord, String endWord, List<String> wordList) {
 
+
         // 1 -> check if the end word is in the wordList
-        boolean pres = false;
-        for (int i = 0; i < wordList.size(); i++) {
-            if (Objects.equals(wordList.get(i), endWord)) {
-                pres = true;
-                break;
-            }
-        }
-
-        if (!pres) {
+        if (!wordList.contains(endWord)) {
             return 0;
         }
 
-        enddWord = endWord;
-        worddList = wordList;
-        HashMap<Integer, String> map = new HashMap<>();
-        Set<String> set = new HashSet<>();
-        set.add(beginWord);
-        map.put(-1, beginWord);
-        int result = recursionMan(beginWord, 0, 1, set);
-
-        if (result < Integer.MAX_VALUE) {
-            return result;
-        } else {
-            return 0;
-        }
-    }
-
-    static int recursionMan(String prevWord, int index, int currentTotal, Set<String> set) {
-        if (index >= worddList.size()) {
-            return Integer.MAX_VALUE;
-        }
-
-        String currentWord = worddList.get(index);
+        // Visited set
+        Queue<String> q = new LinkedList<>();
+        q.offer(beginWord);
+        Set<String> set = new HashSet<>(wordList);
+        set.remove(beginWord);
+        int result = 0;
 
 
+        // n loop
+        while (!q.isEmpty()) {
+            int qSize = q.size();
+            result++;
 
-        int result1 = Integer.MAX_VALUE;
-        int result2;
+            for (int k = 0; k < qSize; k++) {
+                String current = q.poll();
 
-        if (!set.contains(currentWord)) {
-            if (ifOnlyOneChcIsDifferent(prevWord, currentWord)) {
-                Set<String> newSet = new HashSet<>(set);
-                newSet.add(currentWord);
+                // m loop
+                for (int i = 0; i < current.length(); i++) {
+                    char[] chc = current.toCharArray();
 
-                if (Objects.equals(currentWord, enddWord)) {
-                    return ++currentTotal;
+                    // Constant loop
+                    for (char c = 'a'; c <= 'z'; c++) {
+                        chc[i] = c;
+                        String temp = new String(chc);
+
+                        // Base condition
+                        if (temp.equals(endWord)) return result+1;
+
+                        if (set.contains(temp)) {
+                            // Add it to queue
+                            q.offer(temp);
+                            // Remove it from list
+                            set.remove(temp);
+                        }
+                    }
                 }
-
-                result1 = recursionMan(currentWord, 0, currentTotal+1, newSet);
             }
         }
-
-        result2 = recursionMan(prevWord, index+1, currentTotal, set);
-
-        if (result1 < result2) {
-            return result1;
-        } else {
-            return result2;
-        }
-
+        return 0;
     }
 
-    static boolean ifOnlyOneChcIsDifferent(String st, String current) {
-        int total = st.length();
-        for (int i = 0; i < st.length(); i++) {
-            if (st.charAt(i) == current.charAt(i)) {
-                total--;
-            }
-        }
-        return total == 1;
-    }
+
 
     // Q -> find the sum of range in an array
     static int sumOfRangeSqrt(int[] arr, int s, int e) {
