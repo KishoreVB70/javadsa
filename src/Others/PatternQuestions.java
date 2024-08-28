@@ -2,7 +2,7 @@ package Others;
 
 public class PatternQuestions {
     public static void main(String[] args) {
-        q28(5);
+        q30(5);
     }
 
     static void q1() {
@@ -128,6 +128,28 @@ public class PatternQuestions {
             System.out.println();
         }
 
+    }
+
+    static void q30(int n) {
+        for (int i = 1; i <= n; i++) {
+            // Print gaps
+            for (int j = 0; j < n-i ; j++) {
+                System.out.print(" ");
+            }
+
+            // Print numbers
+            // Descending loop
+            for (int j = i; j >= 1 ; j--) {
+                System.out.print(j);
+            }
+
+            //Ascending loop
+            for (int j = 2; j <= i ; j++) {
+                System.out.print(j);
+            }
+            System.out.println();
+
+        }
     }
 
     static void q9(){
