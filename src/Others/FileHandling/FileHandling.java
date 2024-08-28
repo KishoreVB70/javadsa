@@ -4,7 +4,6 @@ import java.io.*;
 
 public class FileHandling {
     public static void main(String[] args) {
-
         // 1) Creating a file
         try {
             File f = new File("file.txt");
@@ -40,8 +39,5 @@ public class FileHandling {
         }catch (IOException e) {
             System.out.println(e.getMessage());
         }
-
-
-
     }
 }

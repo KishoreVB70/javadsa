@@ -2,7 +2,7 @@ package Others;
 
 public class PatternQuestions {
     public static void main(String[] args) {
-
+        q7(5);
     }
 
     static void q1() {
@@ -68,8 +68,13 @@ public class PatternQuestions {
             System.out.println();
         }
     }
-    static void q7(){
-
+    static void q7(int n){
+        for (int i = 0; i < n ; i++) {
+            for (int j = 1; j <= n-i; j++) {
+                System.out.print("*");
+            }
+            System.out.println();
+        }
     }
     static void q8(){
         for (int i = 1; i <= 5; i++) {
