@@ -1,5 +1,7 @@
 package searching;
 
+import java.util.Arrays;
+
 public class BinarySearch {
     public static void main(String[] args) {
         int[][] matrix = {
@@ -8,20 +10,23 @@ public class BinarySearch {
                 {7,8,9}
         };
 
-        int result = binarySearch2DArray(matrix, 10);
-        System.out.println(result);
+        int[] result = binarySearch2DArray(matrix, 9);
+        System.out.println(Arrays.toString(result));
     }
 
 
 // -------------------------2D matrix problems ----------------------------------------------------
 // 1) Increasing in both row and column
-    static int binarySearch2DArray(int[][] arr, int target) {
+    static int[] binarySearch2DArray(int[][] arr, int target) {
+        int[] result = new int[2];
         int row = 0;
         int col = arr[0].length - 1;
         while (row < arr.length && col >= 0) {
             int current = arr[row][col];
             if (current == target) {
-                return target;
+                result[0] = row;
+                result[1] = col;
+                return result;
             }
             else if(target > current) {
                 row++;
@@ -29,7 +34,7 @@ public class BinarySearch {
                 col--;
             }
         }
-        return -1;
+        return result;
     }
 
 // -------------------------- 1 D Array problems ---------------------------------------------------
