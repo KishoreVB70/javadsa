@@ -16,22 +16,7 @@ public class BinQuestions {
         root.left.left.right.left.right = new TreeNode(17);
 
 
-//        System.out.println(Solution.verticalTraversal(root));
-        ArrayList<Integer> arr = new ArrayList<>();
-        arr.add(1);
-        arr.add(5);
-        arr.add(3);
-        arr.add(4);
-        arr.add(2);
-        arr.add(6);
-        for(Integer i: arr) {
-            System.out.print(i + ",");
-        }
-        System.out.println();
-        swapArray(arr);
-        for(Integer i: arr) {
-            System.out.print(i + ",");
-        }
+        System.out.println(Solution.verticalTraversal(root));
 
     }
 
@@ -91,63 +76,33 @@ public class BinQuestions {
 
     //---------------------- Advanced tree questions ----------------------
 
-    // 4) Binary search tree has 2 nodes swapped
+    // 5) Binary search tree has 2 nodes swapped
+    static TreeNode prev;
+    static TreeNode first;
+    static TreeNode second;
     static TreeNode swapBST(TreeNode head) {
-        // 1) Get integer array In order traversal
-        ArrayList<Integer> arr = new ArrayList<>();
-        helperSwapBST(head, arr);
-
-        // 2) Find the misplaced elements
-        swapArray(arr);
-
-        // Swap either one
+        helperSwapBST(head);
         return head;
     }
-    static void helperSwapBST(TreeNode head, ArrayList<Integer> arr) {
-        if (head == null) {
+    static void helperSwapBST(TreeNode current) {
+        if (current == null) {
             return;
         }
 
-        helperSwapBST(head.left, arr);
-        arr.add(head.val);
-        helperSwapBST(head.left, arr);
+        helperSwapBST(current.left);
 
-
-    }
-    static void swapArray(ArrayList<Integer> arr) {
-        ArrayList<Integer> swappers = new ArrayList<>();
-        for (int i = 0; i < arr.size() - 1; i++) {
-            int first = arr.get(i);
-            int second = arr.get(i+1);
-            if (first > second) {
-                swappers.add(i);
-                swappers.add(i + 1);
+        if (prev != null && prev.val > current.val) {
+            if (first == null) {
+                first = prev;
             }
+            second = current;
         }
+        prev = current;
 
-        if (swappers.size() == 2) {
-            int oneId = swappers.get(0);
-            int twoId = swappers.get(1);
-
-            int one =  arr.get(oneId);
-            int two =  arr.get(twoId);
-
-            // Swapping
-            arr.set(oneId, two);
-            arr.set(twoId, one);
-        } else {
-            int oneId = swappers.get(0);
-            int fourId = swappers.get(3);
-
-            int one =  arr.get(oneId);
-            int four =  arr.get(fourId);
-
-            arr.set(oneId, four);
-            arr.set(fourId, one);
-        }
+        helperSwapBST(current.right);
     }
 
-    // 3) Convert binary search tree into sorted doubly linked list
+    // 4) Convert binary search tree into sorted doubly linked list
     // Medium
     // Locked problem https://leetcode.com/problems/convert-binary-search-tree-to-sorted-doubly-linked-list/
 
@@ -186,7 +141,7 @@ public class BinQuestions {
     }
 
 
-    // 3A) Convert binary tree into sorted doubly linked list
+    // 4A) Convert binary tree into sorted doubly linked list
     static Dnode binTreeIntoDLinkedList(TreeNode root) {
         // 1 -> create a min heap for sorted order of the binary tree
         PriorityQueue<Integer> heap = new PriorityQueue<>();
@@ -229,7 +184,7 @@ public class BinQuestions {
     }
 
 
-    // 2) two sum IV
+    // 3) two sum IV
     // Leet Easy
     // https://leetcode.com/problems/two-sum-iv-input-is-a-bst/description/
     public boolean findTarget(TreeNode root, int k) {
@@ -244,7 +199,6 @@ public class BinQuestions {
 
         return findTarget(root, set, k);
     }
-
     public boolean findTarget(TreeNode node, Set<Integer> set, int target) {
         // Base condition
         if (node == null) {
@@ -264,6 +218,57 @@ public class BinQuestions {
 
 
         return left || right ;
+    }
+
+
+    // 2) Word ladder
+    // Google Hard question
+    // https://leetcode.com/problems/word-ladder/description/
+    public static int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        // 1 -> check if the end word is in the wordList
+        if (!wordList.contains(endWord)) {
+            return 0;
+        }
+
+        // Visited set
+        Queue<String> q = new LinkedList<>();
+        q.offer(beginWord);
+        Set<String> set = new HashSet<>(wordList);
+        set.remove(beginWord);
+        int result = 0;
+
+
+        // n loop
+        while (!q.isEmpty()) {
+            int qSize = q.size();
+            result++;
+
+            for (int k = 0; k < qSize; k++) {
+                String current = q.poll();
+
+                // m loop
+                for (int i = 0; i < current.length(); i++) {
+                    char[] chc = current.toCharArray();
+
+                    // Constant loop
+                    for (char c = 'a'; c <= 'z'; c++) {
+                        chc[i] = c;
+                        String temp = new String(chc);
+
+                        // Base condition
+                        if (temp.equals(endWord)) return result+1;
+
+                        if (set.contains(temp)) {
+                            // Add it to queue
+                            q.offer(temp);
+                            // Remove it from list
+                            set.remove(temp);
+                        }
+                    }
+                }
+            }
+        }
+        return 0;
     }
 
 

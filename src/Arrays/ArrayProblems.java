@@ -10,58 +10,39 @@ public class ArrayProblems {
     // Square root decomposition ->  Advanced algorithm for Range problems
 
 
-    // 2 sum II
 
-
-    // Word ladder
-    // Google Hard question
-    // https://leetcode.com/problems/word-ladder/description/
-    public static int ladderLength(String beginWord, String endWord, List<String> wordList) {
-        // 1 -> check if the end word is in the wordList
-        if (!wordList.contains(endWord)) {
-            return 0;
-        }
-
-        // Visited set
-        Queue<String> q = new LinkedList<>();
-        q.offer(beginWord);
-        Set<String> set = new HashSet<>(wordList);
-        set.remove(beginWord);
-        int result = 0;
-
-
-        // n loop
-        while (!q.isEmpty()) {
-            int qSize = q.size();
-            result++;
-
-            for (int k = 0; k < qSize; k++) {
-                String current = q.poll();
-
-                // m loop
-                for (int i = 0; i < current.length(); i++) {
-                    char[] chc = current.toCharArray();
-
-                    // Constant loop
-                    for (char c = 'a'; c <= 'z'; c++) {
-                        chc[i] = c;
-                        String temp = new String(chc);
-
-                        // Base condition
-                        if (temp.equals(endWord)) return result+1;
-
-                        if (set.contains(temp)) {
-                            // Add it to queue
-                            q.offer(temp);
-                            // Remove it from list
-                            set.remove(temp);
-                        }
-                    }
-                }
+    // 2 elements in a sorted array are swapped,find and swap them back
+    static void swapArray(ArrayList<Integer> arr) {
+        ArrayList<Integer> swappers = new ArrayList<>();
+        for (int i = 0; i < arr.size() - 1; i++) {
+            if (arr.get(i) > arr.get(i+1)) {
+                swappers.add(i);
+                swappers.add(i + 1);
             }
         }
-        return 0;
+
+        if (swappers.size() == 2) {
+            int oneId = swappers.get(0);
+            int twoId = swappers.get(1);
+
+            int one =  arr.get(oneId);
+            int two =  arr.get(twoId);
+
+            // Swapping
+            arr.set(oneId, two);
+            arr.set(twoId, one);
+        } else {
+            int oneId = swappers.get(0);
+            int fourId = swappers.get(3);
+
+            int one =  arr.get(oneId);
+            int four =  arr.get(fourId);
+
+            arr.set(oneId, four);
+            arr.set(fourId, one);
+        }
     }
+
 
 
     // Q -> find the sum of range in an array
@@ -85,22 +66,6 @@ public class ArrayProblems {
 
 
         return 1;
-    }
-
-    // 2 sum -> Leet code problem 1
-    public static int[] twoSum(int[] nums, int target) {
-        int[] result = new int[2];
-        HashMap<Integer, Integer> map = new HashMap<>();
-        for (int i = 0; i < nums.length; i++) {
-            int sub = target - nums[i];
-            if (map.containsKey(sub)){
-                result[0] = i;
-                result[1] = map.get(sub);
-                return result;
-            }
-            map.put(nums[i], i);
-        }
-        return result;
     }
 
     // 3 Sum
@@ -155,6 +120,22 @@ public class ArrayProblems {
                     k--;
                 }
             }
+        }
+        return result;
+    }
+
+    // 2 sum -> Leet code problem 1
+    public static int[] twoSum(int[] nums, int target) {
+        int[] result = new int[2];
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            int sub = target - nums[i];
+            if (map.containsKey(sub)){
+                result[0] = i;
+                result[1] = map.get(sub);
+                return result;
+            }
+            map.put(nums[i], i);
         }
         return result;
     }
