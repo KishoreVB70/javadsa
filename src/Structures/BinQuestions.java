@@ -20,9 +20,6 @@ public class BinQuestions {
 
     }
 
-
-
-
     public static class Node {
         public int val;
         public Node left;
@@ -53,26 +50,6 @@ public class BinQuestions {
         Dnode() {
         }
     }
-
-        public int[] twoSum(int[] numbers, int target) {
-
-            int s = 0;
-            int e = numbers.length - 1;
-            int[] result = new int[2];
-
-            while(s < e) {
-                if (numbers[s] + numbers[e] == target) {
-                    result[0] = s;
-                    result[1] = e;
-                }
-                else if (numbers[s] + numbers[e] > target) {
-                    e--;
-                } else {
-                    s++;
-                }
-            }
-            return result;
-        }
 
     //---------------------- Advanced tree questions ----------------------
 
@@ -105,7 +82,6 @@ public class BinQuestions {
     // 4) Convert binary search tree into sorted doubly linked list
     // Medium
     // Locked problem https://leetcode.com/problems/convert-binary-search-tree-to-sorted-doubly-linked-list/
-
     static Dnode headd;
     static Dnode currentt;
     static Dnode previouss;
@@ -139,7 +115,6 @@ public class BinQuestions {
         helperBstIntoDLinkedList(root.right);
 
     }
-
 
     // 4A) Convert binary tree into sorted doubly linked list
     static Dnode binTreeIntoDLinkedList(TreeNode root) {
@@ -183,7 +158,6 @@ public class BinQuestions {
 
     }
 
-
     // 3) two sum IV
     // Leet Easy
     // https://leetcode.com/problems/two-sum-iv-input-is-a-bst/description/
@@ -219,7 +193,6 @@ public class BinQuestions {
 
         return left || right ;
     }
-
 
     // 2) Word ladder
     // Google Hard question
@@ -270,7 +243,6 @@ public class BinQuestions {
         }
         return 0;
     }
-
 
     // 1) Vertical ordered traversal of tree
     // Hard
@@ -416,7 +388,7 @@ public class BinQuestions {
         }
     }
 
-    //---------------------------- DFS questions ------------------------------
+//---------------------------------- DFS questions ----------------------------------------
 
     // 24) Path exists in binary Tree or not
     public static boolean startoz;
@@ -891,7 +863,7 @@ public class BinQuestions {
     }
 
 
-    // -----------------BFS questions -----------
+// -----------------------------------BFS questions--------------------------------------------
     // 10)  Symmetric tree or not
     // Easy but hard https://leetcode.com/problems/symmetric-tree/
     public static boolean isSymmetric(TreeNode root) {
@@ -980,8 +952,6 @@ public class BinQuestions {
         }
         return lt;
     }
-
-
 
     //9) Find cousin or not
     // Easy but hard https://leetcode.com/problems/cousins-in-binary-tree/
@@ -1365,7 +1335,6 @@ public class BinQuestions {
         }
         return  returnList;
     }
-
 
     public static class TreeNode {
         int val;
