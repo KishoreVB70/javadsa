@@ -16,8 +16,25 @@ public class BinQuestions {
         root.left.left.right.left.right = new TreeNode(17);
 
 
-        System.out.println(Solution.verticalTraversal(root));
+//        System.out.println(Solution.verticalTraversal(root));
+        ArrayList<Integer> arr = new ArrayList<>();
+        arr.add(1);
+        arr.add(5);
+        arr.add(3);
+        arr.add(4);
+        arr.add(2);
+        arr.add(6);
+        for(Integer i: arr) {
+            System.out.print(i + ",");
+        }
+        System.out.println();
+        swapArray(arr);
+        for(Integer i: arr) {
+            System.out.print(i + ",");
+        }
+
     }
+
 
 
 
@@ -74,18 +91,74 @@ public class BinQuestions {
 
     //---------------------- Advanced tree questions ----------------------
 
+    // 4) Binary search tree has 2 nodes swapped
+    static TreeNode swapBST(TreeNode head) {
+        // 1) Get integer array In order traversal
+        ArrayList<Integer> arr = new ArrayList<>();
+        helperSwapBST(head, arr);
+
+        // 2) Find the misplaced elements
+        swapArray(arr);
+
+        // Swap either one
+        return head;
+    }
+    static void helperSwapBST(TreeNode head, ArrayList<Integer> arr) {
+        if (head == null) {
+            return;
+        }
+
+        helperSwapBST(head.left, arr);
+        arr.add(head.val);
+        helperSwapBST(head.left, arr);
+
+
+    }
+    static void swapArray(ArrayList<Integer> arr) {
+        ArrayList<Integer> swappers = new ArrayList<>();
+        for (int i = 0; i < arr.size() - 1; i++) {
+            int first = arr.get(i);
+            int second = arr.get(i+1);
+            if (first > second) {
+                swappers.add(i);
+                swappers.add(i + 1);
+            }
+        }
+
+        if (swappers.size() == 2) {
+            int oneId = swappers.get(0);
+            int twoId = swappers.get(1);
+
+            int one =  arr.get(oneId);
+            int two =  arr.get(twoId);
+
+            // Swapping
+            arr.set(oneId, two);
+            arr.set(twoId, one);
+        } else {
+            int oneId = swappers.get(0);
+            int fourId = swappers.get(3);
+
+            int one =  arr.get(oneId);
+            int four =  arr.get(fourId);
+
+            arr.set(oneId, four);
+            arr.set(fourId, one);
+        }
+    }
+
     // 3) Convert binary search tree into sorted doubly linked list
     // Medium
     // Locked problem https://leetcode.com/problems/convert-binary-search-tree-to-sorted-doubly-linked-list/
 
-    static Dnode head;
-    static Dnode current;
-    static Dnode previous;
+    static Dnode headd;
+    static Dnode currentt;
+    static Dnode previouss;
     static Dnode bstIntoDLinkedList(TreeNode root) {
         //In order traversal -> while in it, create a doubly linked list as you go
         helperBstIntoDLinkedList(root);
 
-        return head;
+        return headd;
 
         // 2 -> for each element in the heap, create a Dnode
     }
@@ -96,17 +169,17 @@ public class BinQuestions {
 
         helperBstIntoDLinkedList(root.left);
 
-        current = new Dnode(root.val);
-        current.left = previous;
+        currentt = new Dnode(root.val);
+        currentt.left = previouss;
 
         // Condition for first element
-        if (previous != null) {
-            previous.right = current;
+        if (previouss != null) {
+            previouss.right = currentt;
         } else {
-            head = current;
+            headd = currentt;
         }
 
-        previous = current;
+        previouss = currentt;
 
         helperBstIntoDLinkedList(root.right);
 
