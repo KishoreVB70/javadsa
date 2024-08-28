@@ -8,14 +8,29 @@ public class BinarySearch {
                 {7,8,9}
         };
 
-        int[] nums = {7,2,5,10,8};
-        int result = splitArrayLargestSumBinarySearch(nums, 2);
+        int result = binarySearch2DArray(matrix, 10);
         System.out.println(result);
     }
 
 
 // -------------------------2D matrix problems ----------------------------------------------------
-
+// 1) Increasing in both row and column
+    static int binarySearch2DArray(int[][] arr, int target) {
+        int row = 0;
+        int col = arr[0].length - 1;
+        while (row < arr.length && col >= 0) {
+            int current = arr[row][col];
+            if (current == target) {
+                return target;
+            }
+            else if(target > current) {
+                row++;
+            } else {
+                col--;
+            }
+        }
+        return -1;
+    }
 
 // -------------------------- 1 D Array problems ---------------------------------------------------
     static int splitArrayLargestSumBinarySearch(int[] nums, int k) {
