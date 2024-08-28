@@ -40,6 +40,17 @@ public class BinQuestions {
             next = _next;
         }
     };
+    public static class Dnode{
+        Dnode left;
+        Dnode right;
+        int val;
+
+        Dnode(int val) {
+            this.val = val;
+        }
+        Dnode() {
+        }
+    }
 
         public int[] twoSum(int[] numbers, int target) {
 
@@ -62,6 +73,51 @@ public class BinQuestions {
         }
 
     //---------------------- Advanced tree questions ----------------------
+
+    // 3) Convert binary tree into sorted doubly linked list
+    // Medium
+    // Locked problem https://leetcode.com/problems/convert-binary-search-tree-to-sorted-doubly-linked-list/
+    static Dnode binTreeIntoDLinkedList(TreeNode root) {
+        // 1 -> create a min heap for sorted order of the binary tree
+        PriorityQueue<Integer> heap = new PriorityQueue<>();
+        binTreeIntoDLinkedList(root, heap);
+
+        // 2 -> for each element in the heap, create a Dnode
+        Dnode head = new Dnode();
+        Dnode previous = null;
+        Dnode current;
+
+        while (!heap.isEmpty()) {
+            // Link current to previous
+            current = new Dnode(heap.poll());
+            current.left = previous;
+
+            // Cases for head
+            if (previous != null) {
+                previous.right = current;
+            } else {
+                head = current;
+            }
+
+            previous = current;
+        }
+
+        return head;
+
+
+    }
+    static void binTreeIntoDLinkedList(TreeNode root,PriorityQueue<Integer> heap) {
+        if (root == null) {
+            return;
+        }
+
+        heap.offer(root.val);
+        binTreeIntoDLinkedList(root.left, heap);
+        binTreeIntoDLinkedList(root.right, heap);
+
+
+    }
+
 
     // 2) two sum IV
     // Leet Easy
