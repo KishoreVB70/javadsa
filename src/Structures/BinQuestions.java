@@ -62,6 +62,45 @@ public class BinQuestions {
         }
 
     //---------------------- Advanced tree questions ----------------------
+
+    // 2) two sum IV
+    // Leet Easy
+    // https://leetcode.com/problems/two-sum-iv-input-is-a-bst/description/
+    public boolean findTarget(TreeNode root, int k) {
+        // There is a possibility of only one root node
+        if (root.left == null && root.right == null) {
+            return false;
+        }
+
+        // Hash set implementation
+        Set<Integer> set = new HashSet<>();
+
+
+        return findTarget(root, set, k);
+    }
+
+    public boolean findTarget(TreeNode node, Set<Integer> set, int target) {
+        // Base condition
+        if (node == null) {
+            return false;
+        }
+
+        // In order traversal
+        boolean left = findTarget(node.left, set, target);
+
+        int sub = target - node.val;
+        if (set.contains(sub)) {
+            return true;
+        }
+        set.add(node.val);
+
+        boolean right = findTarget(node.right, set, target);
+
+
+        return left || right ;
+    }
+
+
     // 1) Vertical ordered traversal of tree
     // Hard
     // https://leetcode.com/problems/vertical-order-traversal-of-a-binary-tree/description/
