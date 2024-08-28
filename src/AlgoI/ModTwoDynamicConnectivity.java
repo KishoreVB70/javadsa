@@ -4,8 +4,13 @@ public class ModTwoDynamicConnectivity {
 
     public class QuickFind{
         private int[] ids;
-        QuickFind() {
 
+
+        public QuickFind(int n) {
+            ids = new int[n];
+            for (int i = 0; i < n; i++) {
+                ids[i] = i;
+            }
         }
 
         public boolean connected(int p, int q) {
