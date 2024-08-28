@@ -7,7 +7,7 @@ public class FileHandling {
 
         // 1) Creating a file
         try {
-            File f = new File("f.txt");
+            File f = new File("file.txt");
             boolean result = f.createNewFile();
             if(result) {
                 System.out.println("File created");
@@ -20,7 +20,7 @@ public class FileHandling {
 
         // 2) Writing to a file
         try {
-            File f = new File("f.txt");
+            File f = new File("file.txt");
             BufferedWriter bw = new BufferedWriter(new FileWriter(f));
             bw.write("Hello world, My first file in Java");
             bw.close();
@@ -30,7 +30,7 @@ public class FileHandling {
 
         // 3) Read from a file
         try {
-            File f = new File("f.txt");
+            File f = new File("file.txt");
             BufferedReader br = new BufferedReader(new FileReader(f));
             String line = br.readLine();
             while (line != null) {
