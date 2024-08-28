@@ -74,9 +74,46 @@ public class BinQuestions {
 
     //---------------------- Advanced tree questions ----------------------
 
-    // 3) Convert binary tree into sorted doubly linked list
+    // 3) Convert binary search tree into sorted doubly linked list
     // Medium
     // Locked problem https://leetcode.com/problems/convert-binary-search-tree-to-sorted-doubly-linked-list/
+
+    static Dnode head;
+    static Dnode current;
+    static Dnode previous;
+    static Dnode bstIntoDLinkedList(TreeNode root) {
+        //In order traversal -> while in it, create a doubly linked list as you go
+        helperBstIntoDLinkedList(root);
+
+        return head;
+
+        // 2 -> for each element in the heap, create a Dnode
+    }
+    static void helperBstIntoDLinkedList(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+
+        helperBstIntoDLinkedList(root.left);
+
+        current = new Dnode(root.val);
+        current.left = previous;
+
+        // Condition for first element
+        if (previous != null) {
+            previous.right = current;
+        } else {
+            head = current;
+        }
+
+        previous = current;
+
+        helperBstIntoDLinkedList(root.right);
+
+    }
+
+
+    // 3A) Convert binary tree into sorted doubly linked list
     static Dnode binTreeIntoDLinkedList(TreeNode root) {
         // 1 -> create a min heap for sorted order of the binary tree
         PriorityQueue<Integer> heap = new PriorityQueue<>();
