@@ -2,11 +2,22 @@ package searching;
 
 public class BinarySearch {
     public static void main(String[] args) {
+        int[][] matrix = {
+                {1,2,3},
+                {4,5,6},
+                {7,8,9}
+        };
+
         int[] nums = {7,2,5,10,8};
         int result = splitArrayLargestSumBinarySearch(nums, 2);
         System.out.println(result);
     }
 
+
+// -------------------------2D matrix problems ----------------------------------------------------
+
+
+// -------------------------- 1 D Array problems ---------------------------------------------------
     static int splitArrayLargestSumBinarySearch(int[] nums, int k) {
         String url = "https://leetcode.com/problems/split-array-largest-sum/submissions/1340552974/";
         // 1) Identify the largest and smallest possible value
