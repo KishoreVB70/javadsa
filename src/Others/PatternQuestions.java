@@ -70,6 +70,9 @@ public class PatternQuestions {
     }
     static void q7(int n){
         for (int i = 0; i < n ; i++) {
+            for (int j = 1; j <= (n+i)-(n); j++) {
+                System.out.print(" ");
+            }
             for (int j = 1; j <= n-i; j++) {
                 System.out.print("*");
             }
@@ -98,6 +101,7 @@ public class PatternQuestions {
             System.out.println();
         }
     }
+
     static void q9(){
 
     }
