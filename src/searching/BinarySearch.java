@@ -10,13 +10,13 @@ public class BinarySearch {
                 {7,8,9}
         };
 
-        int[] result = binarySearch2DArray(matrix, 9);
+        int[] result = binarySearchStrictMatrix(matrix, 56);
         System.out.println(Arrays.toString(result));
     }
 
 
 // -------------------------2D matrix problems ----------------------------------------------------
-// 1) Increasing in both row and column
+    // 1) Not strictly sorted Matrix -> Increasing in both row and column
     static int[] binarySearch2DArray(int[][] arr, int target) {
         int[] result = new int[2];
         int row = 0;
@@ -35,6 +35,82 @@ public class BinarySearch {
             }
         }
         return result;
+    }
+
+    // 2) Strictly sorted matrix
+    static int[] binarySearchStrictMatrix(int[][] arr, int target) {
+        int row = arr.length;
+        int col = arr[0].length - 1;
+
+        if (row == 1) {
+            return oneDBinarySearch(arr, 0, 0, col, target);
+        }
+
+        int rStart = 0;
+        int rEnd = row -1;
+        int cMid = (col)/2;
+        while (rStart != rEnd -1) {
+            int rMid = rStart + (rEnd - rStart) /2;
+
+            int val = arr[rMid][cMid];
+            if (val == target) {
+                return new int[]{rMid, cMid};
+            }
+            else if (target > val) {
+                rStart = rMid;
+            } else {
+                rEnd = rMid;
+            }
+        }
+
+        // Only two columns remaining
+        if (arr[rStart][cMid] == target) {
+            return new int[]{rStart, cMid};
+        }
+        else if (arr[rEnd][cMid] == target) {
+            return new int[]{rStart, cMid};
+        }
+
+        // Conditions
+        // 1) Quadrant A
+        if (target < arr[rStart][cMid]) {
+            return oneDBinarySearch(arr, rStart, 0, cMid-1, target);
+        }
+
+        // 2) Quadrant B
+        else if (target > arr[rStart][cMid] && target < arr[rStart][col]) {
+            return oneDBinarySearch(arr, rStart, cMid+1, col, target);
+        }
+
+        // 3) Quadrant C
+        else if (target < arr[rEnd][cMid]) {
+            return oneDBinarySearch(arr, rEnd, 0, cMid -1, target);
+        }
+
+        // 4) Quadrant D
+        // if (target > arr[rEnd][cMid])
+        else {
+            return oneDBinarySearch(arr, rEnd, cMid+1, col, target);
+        }
+    }
+
+    static int[] oneDBinarySearch(int[][] arr, int row, int cStart, int cEnd, int target) {
+        while (cStart <= cEnd) {
+            int cMid = cStart + (cStart - cEnd)/2;
+            int val = arr[row][cMid];
+            if (val == target) {
+                return new int[] {row, cMid};
+            }
+            // Target is greater -> start = mid
+            else if (target > val) {
+                cStart = cMid +1;
+            }
+            // Target is smaller -> cEnd changes
+            else {
+                cEnd = cMid -1;
+            }
+        }
+        return new int[] {-1,-1};
     }
 
 // -------------------------- 1 D Array problems ---------------------------------------------------
