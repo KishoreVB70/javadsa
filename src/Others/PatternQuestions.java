@@ -2,7 +2,7 @@ package Others;
 
 public class PatternQuestions {
     public static void main(String[] args) {
-        q30(5);
+        q31(4);
     }
 
     static void q1() {
@@ -149,6 +149,48 @@ public class PatternQuestions {
             }
             System.out.println();
 
+        }
+    }
+
+    static  void q31(int n) {
+        for (int i = 1; i <= n; i++) {
+            int cn = (n+1 - i);
+            // Descending part
+            for (int j = n; j >= cn; j--) {
+                System.out.print(j + " ");
+            }
+
+            // Middle part
+            int numOfMiddleElements =  (2 * n -1) - 2 * (n +1 - cn);
+            for (int j = 1; j <=numOfMiddleElements+1; j++) {
+                System.out.print(cn + " ");
+            }
+
+            // Ascending part
+            for (int j = cn+1; j <= n; j++) {
+                System.out.print(j + " ");
+            }
+            System.out.println();
+        }
+
+        for (int i = n; i >= 1; i--) {
+            int cn = (n+1 - i);
+            // Descending part
+            for (int j = n; j >= cn; j--) {
+                System.out.print(j + " ");
+            }
+
+            // Middle part
+            int numOfMiddleElements =  (2 * n -1) - 2 * (n +1 - cn);
+            for (int j = 1; j <=numOfMiddleElements+1; j++) {
+                System.out.print(cn + " ");
+            }
+
+            // Ascending part
+            for (int j = cn+1; j <= n; j++) {
+                System.out.print(j + " ");
+            }
+            System.out.println();
         }
     }
 
