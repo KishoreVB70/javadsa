@@ -10,6 +10,9 @@ public class ArrayProblems {
     // Square root decomposition ->  Advanced algorithm for Range problems
 
 
+    // 2 sum II
+
+
     // Word ladder
     // Google Hard question
     // https://leetcode.com/problems/word-ladder/description/
@@ -99,6 +102,7 @@ public class ArrayProblems {
         }
         return result;
     }
+
     // 3 Sum
     //https://leetcode.com/problems/3sum/description/
     public static List<List<Integer>> threeSum(int[] nums) {
