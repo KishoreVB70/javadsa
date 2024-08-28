@@ -26,6 +26,29 @@ public class ModTwoDynamicConnectivity {
     }
 
     public class QuickUnion{
+        private int[] ids;
+
+        public QuickUnion(int n) {
+            ids = new int[n];
+            for (int i = 0; i < n; i++) {
+                ids[i] = i;
+            }
+        }
+
+        private int root(int p) {
+            while (ids[p] != p) p = ids[p];
+            return p;
+        }
+
+        public void union(int p, int q) {
+            int pRoot = root(p);
+            int qRoot = root(q);
+            ids[pRoot] = qRoot;
+        }
+
+        public boolean connected(int p, int q) {
+            return root(p) == root(q);
+        }
 
     }
     public class WeightedUnion {
