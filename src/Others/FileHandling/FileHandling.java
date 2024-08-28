@@ -1,9 +1,6 @@
 package Others.FileHandling;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 public class FileHandling {
     public static void main(String[] args) {
@@ -30,6 +27,20 @@ public class FileHandling {
         }catch (IOException e) {
             System.out.println(e.getMessage());
         }
+
+        // 3) Read from a file
+        try {
+            File f = new File("f.txt");
+            BufferedReader br = new BufferedReader(new FileReader(f));
+            String line = br.readLine();
+            while (line != null) {
+                System.out.println(line);
+                line = br.readLine();
+            }
+        }catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
 
 
     }
