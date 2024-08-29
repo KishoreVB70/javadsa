@@ -4,15 +4,82 @@ import java.util.Arrays;
 
 public class BinarySearch {
     public static void main(String[] args) {
-        int[][] matrix = {
-                {1,2,3},
-                {4,5,6},
-                {7,8,9}
-        };
-
-        int[] result = binarySearchStrictMatrix(matrix, 56);
-        System.out.println(Arrays.toString(result));
+        int[] arr = {2,3,4,5,9,14,16};
+        System.out.println(floorOfNumber(arr, 1));
     }
+
+//-----------------------------Revision------------------------------------------------------------
+
+
+    // 3)Find the next greater char than the target
+    // Leet easy https://leetcode.com/problems/find-smallest-letter-greater-than-target/
+    static char nextGreatestLetter(char[] letters, char target) {
+        String url = "https://leetcode.com/problems/find-smallest-letter-greater-than-target/";
+        int s  = 0;
+        int e = letters.length - 1;
+        while (s <= e) {
+            int m =  s +(e -s) / 2;
+
+            if (letters[m] == target) {
+                // If the target is the last element in the array
+                if(m == letters.length - 1) {
+                    return letters[0];
+                }
+                // return the greatest
+                return letters[m+1];
+            }
+            else if (target > letters[m]) {
+                s = m + 1;
+            } else {
+                e = m- 1;
+            }
+        }
+
+        return letters[s];
+    }
+
+    // 2) Floor of a number
+    static int floorOfNumber(int[] arr, int target) {
+        int s = 0;
+        int e = arr.length -1;
+        while (s <= e) {
+            int m = s + (e-s)/2;
+            if (arr[m] == target) {
+                return m;
+            }
+            else if(target > arr[m]) {
+                s = m+1;
+            } else {
+                e = m-1;
+            }
+        }
+        return e;
+    }
+
+
+    // 1) Ceiling of a number
+    static int ceilingOfNumber(int[] arr, int target) {
+        int s = 0;
+        int e = arr.length -1;
+        while (s <= e) {
+            int m = s + (e-s)/2;
+            if (arr[m] == target) {
+                return m;
+            }
+            else if(target > arr[m]) {
+                s = m+1;
+            } else {
+                e = m-1;
+            }
+        }
+        if (s >= arr.length) {
+            return -1;
+        }
+
+        return s;
+    }
+
+
 
 
 // -------------------------2D matrix problems ----------------------------------------------------
@@ -668,118 +735,10 @@ public class BinarySearch {
         }
         return position;
     }
-    static char nextGreatestLetter(char[] letters, char target) {
-        String url = "https://leetcode.com/problems/find-smallest-letter-greater-than-target/";
-        int start  = 0;
-        int end = letters.length - 1;
 
-        while (start <= end) {
-            int n = (start + end) / 2;
-            if (letters[n] == target) {
-                // If the target is the last element in the array
-                if(n == letters.length - 1) {
-                    return letters[0];
-                }
-                // return the greatest
-                start = n + 1 ;
 
-            }
 
-            if (target > letters[n]) {
-                start += 1;
-            } else if (target < letters[n]){
-                end -= 1;
-            }
-        }
-        if (start > (letters.length - 1)) {
-            return letters[0];
-        }
-
-        return letters[start];
-
-    }
-    static int ceilingOfaNumber(int[] arr, int target) {
-        if (arr.length == 0 ) {
-            return -1;
-        }
-
-        int start = 0;
-        int end = arr.length - 1;
-        boolean isAsc = arr[start] < arr[end];
-
-        while (end >= start) {
-            int i = (start + end) / 2;
-
-            if (arr[i] == target) {
-                return i;
-
-            }
-
-            if (isAsc) {
-                if (target > arr[i]) {
-                    start = i + 1;
-                }
-                else {
-                    end = i - 1;
-                }
-            }
-            else {
-                if (target > arr[i]) {
-                    end = i - 1;
-                }
-                else {
-                    start = i + 1;
-                }
-            }
-        }
-
-        if (start > arr.length - 1) {
-            return  -1;
-        }
-
-        return start;
-    }
-    static int floorOfaNumber(int[] arr, int target) {
-        if (arr.length == 0 ) {
-            return -1;
-        }
-
-        int start = 0;
-        int end = arr.length - 1;
-        boolean isAsc = arr[start] < arr[end];
-
-        while (end >= start) {
-            int i = (start + end) / 2;
-
-            if (arr[i] == target) {
-                return i;
-
-            }
-
-            if (isAsc) {
-                if (target > arr[i]) {
-                    start = i + 1;
-                }
-                else {
-                    end = i - 1;
-                }
-            }
-            else {
-                if (target > arr[i]) {
-                    end = i - 1;
-                }
-                else {
-                    start = i + 1;
-                }
-            }
-        }
-
-        if (start > arr.length - 1) {
-            return  -1;
-        }
-
-        return end;
-    }
+    // Helper functions
     static int orderAgnostic(int[] arr, int target) {
         if (arr.length == 0 ) {
             return -1;

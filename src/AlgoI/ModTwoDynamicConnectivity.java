@@ -90,6 +90,50 @@ public class ModTwoDynamicConnectivity {
             return root(p) == root(q);
         }
     }
+    public class WeightedUnionPathCompression {
+        private int[] ids;
+        private int[] size;
+
+        public WeightedUnionPathCompression(int n) {
+            ids = new int[n];
+            size = new int[n];
+            for (int i = 0; i < n; i++) {
+                ids[i] = i;
+            }
+        }
+
+        private int root(int p) {
+            while (ids[p] != p) {
+                // Point the grand child to the grand parent    
+                ids[p] = ids[ids[p]];
+                p = ids[p];
+            }
+            return p;
+        }
+
+        public void union(int p, int q) {
+            int pRoot = root(p);
+            int qRoot = root(q);
+            if (pRoot == qRoot) return;
+
+
+            int pSize = size[pRoot];
+            int qSize = size[qRoot];
+
+            if (pSize > qSize) {
+                ids[qRoot] = pRoot;
+                size[pRoot] += qSize;
+            } else {
+                ids[pRoot] = qRoot;
+                size[qRoot] += pSize;
+            }
+        }
+
+        public boolean connected(int p, int q) {
+            return root(p) == root(q);
+        }
+    }
+
 
 
 }
