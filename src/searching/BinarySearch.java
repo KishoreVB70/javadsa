@@ -4,15 +4,118 @@ import java.util.Arrays;
 
 public class BinarySearch {
     public static void main(String[] args) {
-        int[] arr = {5,6,1,2,3,4};
-        System.out.println(search(arr, 3));
+        int[] arr = {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
+        int[] arr1 = {4,5,1,2,3};
+        System.out.println(searchDupe(arr, 0));
 
 //        System.out.println(Arrays.toString(searchRange(arr, 7)));
     }
 
 //-----------------------------Revision------------------------------------------------------------
 
+    public static int findPivotDuplicates(int[] arr) {
+        int s = 0;
+        int e = arr.length -1;
+
+        // No pivot
+        if (arr[s] < arr[e]) {
+            return e;
+        }
+
+        while (s <= e) {
+            int m = s + (e -s)/2;
+
+            // Success conditions
+            if (m < e &&  arr[m] > arr[m+1]) {
+                return m;
+            }
+            if (m > s && arr[m-1] > arr[m]) {
+                return m-1;
+            }
+
+            // Skip conditions
+
+            // In case of duplicates, it might be that the start, mid and end will all be the same element
+            if (arr[s] == arr[m] && arr[m] == arr[e]) {
+                // Reduce the array
+
+                // Check if either start or end is the pivot
+                if (arr[s] > arr[s+1]) {
+                    return s;
+                }
+                s++;
+
+                if (e < arr.length-1 && arr[e] > arr[e+1]) {
+                    return  e;
+                }
+                e--;
+            }
+
+
+            // If start and middle are equal, and the end is not equal
+            // then it means that the pivot can't be between start and mid
+            else if (arr[s] == arr[m]) {
+                s = m+1;
+            }
+
+            // If the middle and end are equal, then it must be in the start
+            else if (arr[m] == arr[e]) {
+                e = m-1;
+            }
+
+            else if (arr[s] > arr[m]) {
+                e = m-1;
+            }
+            // If the start is lesser than the middle element, then
+            // Pivot must definitely be on it's right
+
+            // arr[s] < arr[m]
+            else {
+                s = m+1;
+            }
+        }
+
+        return 0;
+    }
+
+
+    // 11)
+
+    // 10) How many times array is rotated
+    static int numberOfRotations(int[] nums) {
+        int pivot = findPivot(nums);
+        if (pivot == nums.length -1) {
+            return 0;
+        } else {
+            return pivot +1;
+        }
+    }
+
     // 9) Rotated sorted array with duplicates
+    public static boolean searchDupe(int[] nums, int target) {
+        // 1 -> Find the pivot index
+        int pivot = findPivotDuplicates(nums);
+
+        if(nums[pivot] == target) {
+            return true;
+        }
+
+        // No Pivot
+        if (pivot == nums.length -1) {
+            return simpleBinarySearch(nums, target) != -1;
+        }
+
+        // Left side
+        if (target >= nums[0]) {
+            return binarySearchSpecificIndex(nums, 0, pivot-1, target) != -1;
+        }
+        // Right side
+        else {
+            return binarySearchSpecificIndex(nums, pivot+1, nums.length-1, target) != -1;
+        }
+
+    }
+
 
     // 8) Search in rotated sorted array
     // Medium https://leetcode.com/problems/search-in-rotated-sorted-array/
@@ -40,6 +143,7 @@ public class BinarySearch {
         }
 
     }
+
 
 
     // 7) Find in mountain array
@@ -453,9 +557,6 @@ public class BinarySearch {
 
         return lowest;
     }
-    static int numberOfRotations(int[] nums) {
-        return (findTheRotationIndexOfRotatedSortedArray(nums)) + 1;
-    }
     static  int findMinimumValueInRotatedSortedArrayWithDuplicates(int[] nums) {
         String url = "https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/description/";
         // 1) Find the pivot
@@ -643,86 +744,50 @@ public class BinarySearch {
         }
         return 0;
     }
-    static int findInRotatedSortedArrayWithDuplicates(int[] nums, int target) {
-        String url = "https://leetcode.com/problems/search-in-rotated-sorted-array/";
-        int end = nums.length - 1;
-
-        // 1) Find the pivot
-        int pivotIndex = findTheRotationIndexOfRotatedSortedArrayWithDuplicates(nums);
-
-        // If no pivot, then run binary search for entire array
-
-        // If the pivot is at the end, then it is a normal ascending array, run binary search along the array
-        if (pivotIndex == -1) {
-            return helperOrderAgnosticBinarySearch(nums, 0, end , target, true);
-        }
-
-        // If there is a pivot
-
-        // 1)Check if the pivot is the target
-        if (nums[pivotIndex] == target) {
-            while (pivotIndex > 0) {
-                if (nums[pivotIndex -1] == nums[pivotIndex]) {
-                    pivotIndex -=1;
-                }else  {
-                    break;
-                }
-
-            }
-            return pivotIndex;
-        }
-
-        // 2) Only if the target is lesser than the peak and greater than the start, it can lie in the left half -> Apply binary search to the left half
-        if (target >= nums[0] && target <= nums[pivotIndex] ) {
-            // Check if pivot is at the start, if so, the target won't be present in the left
-            if (pivotIndex == 0) {
-                return -1;
-            }
-
-            return helperOrderAgnosticBinarySearch(nums, 0, pivotIndex -1, target, true);
-        }
-
-        // 3) Apply binary search to the right half, since that's the only thing left
-        return helperOrderAgnosticBinarySearch(nums, pivotIndex + 1, end, target, true);
-    }
-    static int findInRotatedSortedArray(int[] nums, int target) {
-        String url = "https://leetcode.com/problems/search-in-rotated-sorted-array/";
-        int end = nums.length - 1;
-
-        // 1) Find the pivot
-        int peakIndex = findTheRotationIndexOfRotatedSortedArray(nums);
-
-        // If no pivot, then run binary search for entire array
-
-        // If the peak is at the end, then it is a normal ascending array, run binary search along the array
-        if (peakIndex == -1) {
-            return helperOrderAgnosticBinarySearch(nums, 0, end , target, true);
-        }
-
-        // If there is a pivot
-
-        // 1)Check if the peak is the target
-        if (nums[peakIndex] == target) {
-            return peakIndex;
-        }
-
-        // 2) Only if the target is lesser than the peak and greater than the start, it can lie in the left half -> Apply binary search to the left half
-        if (target >= nums[0] && target <= nums[peakIndex] ) {
-            // Check if pivot is at the start, if so, the target won't be present in the left
-            if (peakIndex == 0) {
-                return -1;
-            }
-
-            return helperOrderAgnosticBinarySearch(nums, 0, peakIndex -1, target, true);
-        }
-
-        // 3) Apply binary search to the right half, since that's the only thing left
-        return helperOrderAgnosticBinarySearch(nums, peakIndex + 1, end, target, true);
-    }
 
 
 
 //--------------------------------------Helper functions---------------------------------
+    public static int findPivot(int[] arr) {
+        int s = 0;
+        int e = arr.length -1;
+
+        // No pivot
+        if (arr[s] < arr[e]) {
+            return e;
+        }
+
+        while (s <= e) {
+            int m = s + (e -s)/2;
+
+            // Success conditions
+            if (m < e &&  arr[m] > arr[m+1]) {
+                return m;
+            }
+            if (m > s && arr[m-1] > arr[m]) {
+                return m-1;
+            }
+
+            // Skip conditions
+
+            // If the first element is greater than the middle element,
+            // Then definitely the pivot must also be to it's left
+            if (arr[s] > arr[m]) {
+                e = m-1;
+            }
+            // If the start is lesser than the middle element, then
+            // Pivot must definitely be on it's right
+
+            // arr[s] < arr[m]
+            else {
+                s = m+1;
+            }
+        }
+
+        return 0;
+    }
+
+
 
     static int binarySearchSpecificIndex(int[] arr, int s, int e, int target) {
         while (s <= e) {
@@ -738,35 +803,30 @@ public class BinarySearch {
         }
         return -1;
     }
-    static int findPivot(int[] arr) {
-        int s = 0;
-        int e = arr.length -1;
-        // Case of no pivot
-        if (arr[s] < arr[e]) {
-            return e;
+
+    // Will work for the ones with duplicates also
+
+    static int simpleBinarySearch(int[] arr, int target) {
+        if (arr.length == 0 ) {
+            return -1;
         }
 
-        while (s <= e) {
-            int m = s + (e-s) /2;
+        int start = 0;
+        int end = arr.length - 1;
 
-            // Successful cases
-            if ( m < e && arr[m] > arr[m+1]) {
-                return m;
-            }
-            else if (m > s && arr[m-1] > arr[m]) {
-                return  m-1;
-            }
+        while (end >= start) {
+            int i = (start + end) /2;
 
-            // Continue cases
-            else if (arr[m] > arr[e]) {
-                s = m+1;
-            }
-            // arr[m] < arr[e]
-            else {
-                e = m-1;
+            if (arr[i] == target) {
+                return i;
+            } else if (target > arr[i]) {
+                start = i + 1;
+            }else {
+                end = i - 1;
             }
         }
-        return s;
+
+        return -1;
     }
 
     static int orderAgnostic(int[] arr, int target) {
@@ -804,28 +864,6 @@ public class BinarySearch {
         }
         return -1;
 
-    }
-    static int simpleBinarySearch(int[] arr, int target) {
-        if (arr.length == 0 ) {
-            return -1;
-        }
-
-        int start = 0;
-        int end = arr.length - 1;
-
-        while (end >= start) {
-            int i = (start + end) /2;
-
-            if (arr[i] == target) {
-                return i;
-            } else if (target > arr[i]) {
-                start = i + 1;
-            }else {
-                end = i - 1;
-            }
-        }
-
-        return -1;
     }
     static int descBinarySearch(int[] arr, int target) {
         int start = 0;
