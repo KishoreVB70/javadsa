@@ -4,17 +4,66 @@ import java.util.Arrays;
 
 public class BinarySearch {
     public static void main(String[] args) {
-        char[] arr = {'c','f','j'};
-        System.out.println(nextGreatestLetter(arr, 'j'));
+        int[] arr = {5,7,7,8,8,10};
+        System.out.println(Arrays.toString(searchRange(arr, 7)));
     }
 
 //-----------------------------Revision------------------------------------------------------------
 
-    //4)
+    //4) First and last position of an element in a duplicate array
+
+
+    static public int[] searchRange(int[] nums, int target) {
+        return new int[]{
+                firstOccurrenceOfElementInDuplicateArray(nums, target),
+                lastOccurrenceOfElementInDuplicateArray(nums,target)
+        };
+    }
+    // This can be subdivided into 2 problems
+    // A) Finding the first occurrence of an element in a duplicate array
+    static public int firstOccurrenceOfElementInDuplicateArray(int[] nums, int target) {
+        int s = 0;
+        int e = nums.length -1;
+        while (s <= e) {
+            int m = s + (e -s)/2;
+            if (nums[m] == target) {
+                e--;
+            }
+            else if(target > nums[m]) {
+                s = m+1;
+            } else {
+                e = m-1;
+            }
+        }
+        if (s < nums.length) {
+            return nums[s]== target?s:-1;
+        }
+        return -1;
+    }
+    // B) Finding the last occurrence of an element in a duplicate array
+    static public int lastOccurrenceOfElementInDuplicateArray(int[] nums, int target) {
+        int s = 0;
+        int e = nums.length -1;
+        while (s <= e) {
+            int m = s + (e -s)/2;
+            if (nums[m] == target) {
+                s++;
+            }
+            else if(target > nums[m]) {
+                s = m+1;
+            } else {
+                e = m-1;
+            }
+        }
+        if (e >= 0) {
+            return nums[e]== target?e:-1;
+        }
+        return e;
+    }
 
     // 3)Find the next greater char than the target
     // Leet easy https://leetcode.com/problems/find-smallest-letter-greater-than-target/
-    static char nextGreatestLetter(char[] letters, char target) {
+    char nextGreatestLetter(char[] letters, char target) {
         int s  = 0;
         int e = letters.length - 1;
         while (s <= e) {
@@ -52,7 +101,7 @@ public class BinarySearch {
     }
 
     // 2) Floor of a number
-    static int floorOfNumber(int[] arr, int target) {
+    int floorOfNumber(int[] arr, int target) {
         int s = 0;
         int e = arr.length -1;
         while (s <= e) {
@@ -70,7 +119,7 @@ public class BinarySearch {
     }
 
     // 1) Ceiling of a number
-    static int ceilingOfNumber(int[] arr, int target) {
+    int ceilingOfNumber(int[] arr, int target) {
         int s = 0;
         int e = arr.length -1;
         while (s <= e) {
@@ -172,7 +221,6 @@ public class BinarySearch {
             return oneDBinarySearch(arr, rEnd, cMid+1, col, target);
         }
     }
-
     static int[] oneDBinarySearch(int[][] arr, int row, int cStart, int cEnd, int target) {
         while (cStart <= cEnd) {
             int cMid = cStart + (cStart - cEnd)/2;
@@ -704,53 +752,10 @@ public class BinarySearch {
 
         return -1;
     }
-    static int[] firstAndLastPosition(int[] nums, int target) {
-        int[] position = new int[2];
-
-        position[0] = helperForFirstAndLastPositionSearch(nums, target, true);
-        position[1] = helperForFirstAndLastPositionSearch(nums, target, false);
-
-        return position;
-    }
-    static int helperForFirstAndLastPositionSearch(int[] nums, int target, boolean first) {
-        int ans = -1;
-        int start = 0;
-        int end = nums.length - 1;
-        while(start <= end) {
-            int n = (start + end) / 2;
-            if (nums[n] == target) {
-                ans = n;
-                if (first) {
-                    end = n - 1;
-                } else {
-                    start = n +1;
-                }
-            }
-            if(target > nums[n] ) {
-                start += 1;
-            } else if (target < nums[n]) {
-                end -= 1;
-            }
-        }
-        return ans;
-
-    }
-    static int[] firstAndLastPositionLinearSearch(int[] nums, int target) {
-        int[] position = {-1,-1};
-        for(int i = 0; i < nums.length;i++) {
-            if(nums[i] == target) {
-                if (position[0] == -1) {
-                    position[0] = i;
-                }
-                position[1] = i;
-            }
-        }
-        return position;
-    }
 
 
 
-    // Helper functions
+//--------------------------------------Helper functions---------------------------------
     static int orderAgnostic(int[] arr, int target) {
         if (arr.length == 0 ) {
             return -1;
