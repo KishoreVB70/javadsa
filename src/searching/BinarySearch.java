@@ -4,16 +4,141 @@ import java.util.Arrays;
 
 public class BinarySearch {
     public static void main(String[] args) {
-        int[] arr = {5,7,7,8,8,10};
-        System.out.println(Arrays.toString(searchRange(arr, 7)));
+        int[] arr = {5,6,1,2,3,4};
+        System.out.println(search(arr, 3));
+
+//        System.out.println(Arrays.toString(searchRange(arr, 7)));
     }
 
 //-----------------------------Revision------------------------------------------------------------
 
+    // 9) Rotated sorted array with duplicates
+
+    // 8) Search in rotated sorted array
+    // Medium https://leetcode.com/problems/search-in-rotated-sorted-array/
+    public static int search(int[] nums, int target) {
+        // 1 -> Find the pivot index
+        int pivot = findPivot(nums);
+
+        if(nums[pivot] == target) {
+            return pivot;
+        }
+
+        // No Pivot
+        if (pivot == nums.length -1) {
+            return simpleBinarySearch(nums, target);
+
+        }
+
+        // Left side
+        if (target >= nums[0]) {
+            return binarySearchSpecificIndex(nums, 0, pivot-1, target);
+        }
+        // Higher than pivot
+        else {
+            return binarySearchSpecificIndex(nums, pivot+1, nums.length-1, target);
+        }
+
+    }
+
+
+    // 7) Find in mountain array
+    // Hard https://leetcode.com/problems/find-in-mountain-array/submissions/
+    static public int findInMountainArray(int target, MountainArray mountainArr) {
+        // 1) Get the peak index
+        int s = 0;
+        int e = mountainArr.length() -1;
+
+        while (s < e) {
+            int m = s + (e-s)/2;
+            if (mountainArr.get(m) > mountainArr.get(m+1)) {
+                e = m;
+            }
+            else if (mountainArr.get(m) < mountainArr.get(m+1)) {
+                s = m+1;
+            }
+        }
+
+        int peak = s;
+
+
+        // 2) Asc binary search in the left side
+        s = 0;
+        e = peak;
+        while (s <= e) {
+            int m = s + (e-s)/2;
+            if (target == mountainArr.get(m)) {
+                return m;
+            } else if (target > mountainArr.get(m)) {
+                s = m+1;
+            } else {
+                e = m-1;
+            }
+        }
+        // 3) Dsc binary search in the right side
+        s = peak +1;
+        e = mountainArr.length()-1;
+        while (s <= e) {
+            int m = s + (e-s)/2;
+            if (target == mountainArr.get(m)) {
+                return m;
+            } else if (target > mountainArr.get(m)) {
+                e = m-1;
+            } else {
+                s = m+1;
+            }
+        }
+        return -1;
+    }
+
+    //6) Peak index in a mountain array
+    // Medium https://leetcode.com/problems/peak-index-in-a-mountain-array/
+    // Medium https://leetcode.com/problems/find-peak-element/
+    static public int peakIndexInMountainArray(int[] arr) {
+        int s = 0;
+        int e = arr.length -1;
+
+        while (s < e) {
+            int m = s + (e-s)/2;
+            if (arr[m] > arr[m+1]) {
+                e =m;
+            } else {
+                s = m+1;
+            }
+        }
+        // We can return either s or e, as the termination condition is when both are equal
+        return e;
+    }
+
+    //5) Position of element in sorted infinite array
+    // Using binary search without using the length of the array
+    public int positionOfEleInInfiniteArray(int[] nums, int target) {
+        int s = 0;
+        int e = 2;
+
+        while (nums[e] < target) {
+            s = e+1;
+            e *= 2;
+        }
+
+        // Once it is less than that
+        // Perform binary search
+        while (s <= e) {
+            int m = s + (e-s) /2;
+            if (nums[m] == target) {
+                return m;
+            } else if (target > nums[m]) {
+                s = m+1;
+            } else {
+                e = m-1;
+            }
+        }
+        return -1;
+    }
+
     //4) First and last position of an element in a duplicate array
-
-
-    static public int[] searchRange(int[] nums, int target) {
+    //medium https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/
+    public int[] searchRange(int[] nums, int target) {
         return new int[]{
                 firstOccurrenceOfElementInDuplicateArray(nums, target),
                 lastOccurrenceOfElementInDuplicateArray(nums,target)
@@ -21,7 +146,7 @@ public class BinarySearch {
     }
     // This can be subdivided into 2 problems
     // A) Finding the first occurrence of an element in a duplicate array
-    static public int firstOccurrenceOfElementInDuplicateArray(int[] nums, int target) {
+    public int firstOccurrenceOfElementInDuplicateArray(int[] nums, int target) {
         int s = 0;
         int e = nums.length -1;
         while (s <= e) {
@@ -41,7 +166,7 @@ public class BinarySearch {
         return -1;
     }
     // B) Finding the last occurrence of an element in a duplicate array
-    static public int lastOccurrenceOfElementInDuplicateArray(int[] nums, int target) {
+    public int lastOccurrenceOfElementInDuplicateArray(int[] nums, int target) {
         int s = 0;
         int e = nums.length -1;
         while (s <= e) {
@@ -62,7 +187,7 @@ public class BinarySearch {
     }
 
     // 3)Find the next greater char than the target
-    // Leet easy https://leetcode.com/problems/find-smallest-letter-greater-than-target/
+    // Easy https://leetcode.com/problems/find-smallest-letter-greater-than-target/
     char nextGreatestLetter(char[] letters, char target) {
         int s  = 0;
         int e = letters.length - 1;
@@ -594,168 +719,56 @@ public class BinarySearch {
         // 3) Apply binary search to the right half, since that's the only thing left
         return helperOrderAgnosticBinarySearch(nums, peakIndex + 1, end, target, true);
     }
-    interface MountainArray {
-        int[] arr = {0,10,50,2,0};
-
-        public default int get(int index) {
-          return arr[index];
-        }
-        public default int length() {
-            return arr.length;
-        }
-    }
-    static int findInMountainArrayLeetHardVersion(MountainArray mountainArr, int target) {
-        String url = "https://leetcode.com/problems/find-in-mountain-array/";
-        int start = 0;
-        int end = mountainArr.length() - 1;
-
-        // 1) Find the peak point
-        int n = 0;
-        while (start < end) {
-            n = (start + end) / 2;
-            if (mountainArr.get(n+1) > mountainArr.get(n)) {
-                start = n + 1;
-            } else {
-                end = n;
-            }
-        }
-        int peakIndex = start;
-
-        start = 0;
-        end = mountainArr.length() - 1;
-
-        // 2) Do 2 binary search, one for the left of the peak and one for the right of the peak
-        int indexInAscendingHalf = helperForMountainFinderLeetVersion(mountainArr, 0, peakIndex, target, true);
-        int indexInDescendingHalf = helperForMountainFinderLeetVersion(mountainArr, peakIndex, end, target, false);
-
-        // 3) Determine the return value
-        if (indexInDescendingHalf == Integer.MAX_VALUE &&  indexInAscendingHalf == Integer.MAX_VALUE) {
-            return  -1;
-        } else return Math.min(indexInDescendingHalf, indexInAscendingHalf);
-
-    }
-    private static int helperForMountainFinderLeetVersion(MountainArray mountainArr, int start, int end, int target, boolean isAscending) {
-        while (start <= end) {
-            int n = (start + end )/2;
-            if (mountainArr.get(n) == target) {
-                return n;
-            }
-
-            if (isAscending) {
-                if(target > mountainArr.get(n)) {
-                    start = n+1;
-                } else {
-                    end = n-1;
-                }
-            }
-
-            else {
-                if(target > mountainArr.get(n)) {
-                    end = n-1;
-                } else {
-                    start = n + 1;
-                }
-            }
-        }
-        return Integer.MAX_VALUE;
-    }
-    static int findInMountainArray(int[] nums, int target) {
-        int end = nums.length -1;
-
-        // Find the peak point
-        int peakIndex = peakIndexInMountainArray(nums);
-
-        // 2) Check if peak is what we're looking for
-        if(target == nums[peakIndex]) {
-            return peakIndex;
-        }
-
-        // 3) Do binary search for ascending
-        int indexInAscendingHalf = helperForMountainFinder(nums, 0, peakIndex, target, true);
-
-        // If gotten result, return it
-        if (indexInAscendingHalf != -1) {
-            return indexInAscendingHalf;
-        }
-
-        // 4) return the result of the reverse search
-        return helperForMountainFinder(nums, peakIndex, end, target, false);
-
-    }
-    private static int helperForMountainFinder(int[] arr, int start, int end, int target, boolean isAscending) {
-        while (start <= end) {
-            int n = (start + end )/2;
-            if (arr[n] == target) {
-                return n;
-            }
-
-            if (isAscending) {
-                if(target > arr[n]) {
-                    start = n+1;
-                } else {
-                    end = n-1;
-                }
-            }
-
-            else {
-                if(target > arr[n]) {
-                    end = n-1;
-                } else {
-                    start = n + 1;
-                }
-            }
-        }
-        return Integer.MAX_VALUE;
-    }
-    static int peakIndexInMountainArray(int[] nums) {
-        String url = "https://leetcode.com/problems/peak-index-in-a-mountain-array/description/";
-        String url2Medium = "https://leetcode.com/problems/find-peak-element/description/";
-        int start = 0;
-        int end = nums.length - 1;
-        int n = 0;
-
-        while (start < end) {
-            n = (start + end) / 2;
-            if (nums[n+1] > nums[n]) {
-                start = n + 1;
-            } else {
-                end = n;
-            }
-        }
-        return start;
-    }
-    static int positionOfElementInSortedInfiniteArray(int[] nums, int target) {
-        int start = 0;
-        int end = 1;
-
-        if (nums[end] == target) {
-            return end;
-        }
-
-        while(target > nums[end]) {
-            start = end + 1;
-            end = (end) + (end * 2);
-        }
-
-        while(start <= end) {
-            int n = (start + end) / 2;
-            if(nums[n] == target) {
-                return n;
-            }
-            else if (target > nums[n]) {
-                start = n+1;
-            }
-            else if (target < nums[n]) {
-                end = n-1;
-            }
-        }
-
-        return -1;
-    }
 
 
 
 //--------------------------------------Helper functions---------------------------------
+
+    static int binarySearchSpecificIndex(int[] arr, int s, int e, int target) {
+        while (s <= e) {
+            int m = s + (e-s)/2;
+            if (arr[m] == target) {
+                return m;
+            }
+            else if (arr[m] > target) {
+                e = m-1;
+            } else {
+                s = m+1;
+            }
+        }
+        return -1;
+    }
+    static int findPivot(int[] arr) {
+        int s = 0;
+        int e = arr.length -1;
+        // Case of no pivot
+        if (arr[s] < arr[e]) {
+            return e;
+        }
+
+        while (s <= e) {
+            int m = s + (e-s) /2;
+
+            // Successful cases
+            if ( m < e && arr[m] > arr[m+1]) {
+                return m;
+            }
+            else if (m > s && arr[m-1] > arr[m]) {
+                return  m-1;
+            }
+
+            // Continue cases
+            else if (arr[m] > arr[e]) {
+                s = m+1;
+            }
+            // arr[m] < arr[e]
+            else {
+                e = m-1;
+            }
+        }
+        return s;
+    }
+
     static int orderAgnostic(int[] arr, int target) {
         if (arr.length == 0 ) {
             return -1;
@@ -837,4 +850,22 @@ public class BinarySearch {
 
         return -1;
     }
+// ---------------------------------------------- Stuffs needed---------------------------
+static class MountainArray {
+    int[] arr;
+
+    MountainArray(int[] arr) {
+        this.arr = new int[arr.length];
+        for (int i = 0; i < arr.length; i++) {
+            this.arr[i] = arr[i];
+        }
+    }
+
+    public int get(int index) {
+        return this.arr[index];
+    }
+    public int length() {
+        return arr.length;
+    }
+}
 }
