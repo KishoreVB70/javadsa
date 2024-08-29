@@ -4,28 +4,36 @@ import java.util.Arrays;
 
 public class BinarySearch {
     public static void main(String[] args) {
-        int[] arr = {2,3,4,5,9,14,16};
-        System.out.println(floorOfNumber(arr, 1));
+        char[] arr = {'c','f','j'};
+        System.out.println(nextGreatestLetter(arr, 'j'));
     }
 
 //-----------------------------Revision------------------------------------------------------------
 
+    //4)
 
     // 3)Find the next greater char than the target
     // Leet easy https://leetcode.com/problems/find-smallest-letter-greater-than-target/
     static char nextGreatestLetter(char[] letters, char target) {
-        String url = "https://leetcode.com/problems/find-smallest-letter-greater-than-target/";
         int s  = 0;
         int e = letters.length - 1;
         while (s <= e) {
             int m =  s +(e -s) / 2;
 
             if (letters[m] == target) {
-                // If the target is the last element in the array
+
+                // Skip over the duplicates
+                while (m < letters.length -1 &&  letters[m] == letters[m+1]) {
+                    m = m+1;
+                }
+
+                // Find if the non duplicate is the last element
                 if(m == letters.length - 1) {
                     return letters[0];
                 }
-                // return the greatest
+
+
+                // If it is not the last, return the element next to it
                 return letters[m+1];
             }
             else if (target > letters[m]) {
@@ -33,6 +41,11 @@ public class BinarySearch {
             } else {
                 e = m- 1;
             }
+        }
+
+        // Final condition
+        if (s == letters.length) {
+            return letters[0];
         }
 
         return letters[s];
@@ -55,7 +68,6 @@ public class BinarySearch {
         }
         return e;
     }
-
 
     // 1) Ceiling of a number
     static int ceilingOfNumber(int[] arr, int target) {
