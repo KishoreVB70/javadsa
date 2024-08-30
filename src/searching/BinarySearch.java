@@ -4,82 +4,87 @@ import java.util.Arrays;
 
 public class BinarySearch {
     public static void main(String[] args) {
-        int[] arr = {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
-        int[] arr1 = {4,5,1,2,3};
-        System.out.println(searchDupe(arr, 0));
+        System.out.println(mySqrt(2147395599));
 
 //        System.out.println(Arrays.toString(searchRange(arr, 7)));
     }
 
-//-----------------------------Revision------------------------------------------------------------
 
-    public static int findPivotDuplicates(int[] arr) {
-        int s = 0;
-        int e = arr.length -1;
+//---------------------------- Assignments--------------------------------------------------------
 
-        // No pivot
-        if (arr[s] < arr[e]) {
-            return e;
+// --------------------------------Easy-------------------------------
+public static int mySqrt(int x) {
+    int s = 1;
+    int e = x;
+
+    while(s <= e) {
+        int m = s + (e - s) /2;
+        long multiple = m*m;
+        if (multiple == x) {
+            return m;
         }
-
-        while (s <= e) {
-            int m = s + (e -s)/2;
-
-            // Success conditions
-            if (m < e &&  arr[m] > arr[m+1]) {
-                return m;
-            }
-            if (m > s && arr[m-1] > arr[m]) {
-                return m-1;
-            }
-
-            // Skip conditions
-
-            // In case of duplicates, it might be that the start, mid and end will all be the same element
-            if (arr[s] == arr[m] && arr[m] == arr[e]) {
-                // Reduce the array
-
-                // Check if either start or end is the pivot
-                if (arr[s] > arr[s+1]) {
-                    return s;
-                }
-                s++;
-
-                if (e < arr.length-1 && arr[e] > arr[e+1]) {
-                    return  e;
-                }
-                e--;
-            }
-
-
-            // If start and middle are equal, and the end is not equal
-            // then it means that the pivot can't be between start and mid
-            else if (arr[s] == arr[m]) {
-                s = m+1;
-            }
-
-            // If the middle and end are equal, then it must be in the start
-            else if (arr[m] == arr[e]) {
-                e = m-1;
-            }
-
-            else if (arr[s] > arr[m]) {
-                e = m-1;
-            }
-            // If the start is lesser than the middle element, then
-            // Pivot must definitely be on it's right
-
-            // arr[s] < arr[m]
-            else {
-                s = m+1;
-            }
+        else if (multiple > x) {
+            e = m-1;
+        } else {
+            s = m+1;
         }
-
-        return 0;
     }
 
+    return e;
+}
 
-    // 11)
+//-----------------------------Revision------------------------------------------------------------
+
+
+
+    // 11) Split array into K sub arrays which minimizes the sum
+    // Hard https://leetcode.com/problems/split-array-largest-sum/
+    static int splitArray(int[] nums, int k) {
+        String url = "https://leetcode.com/problems/split-array-largest-sum/submissions/1340552974/";
+        // 1) Identify the largest and smallest possible value
+        int start = 0;
+        int end = 0;
+
+        // Finding the largest -> Sum of the array
+        //Finding the smallest -> largest value in the array
+        for (int i: nums) {
+            end += i;
+            start = Integer.max(start, i);
+        }
+
+        // 2) Apply binary search
+        int arrayEndIndex = nums.length - 1;
+        while (start < end) {
+            int n = (start + end) / 2;
+            int numberOfArrays = 1;
+            int i = 0;
+
+            // Run the loop for all the elements
+            while (i < arrayEndIndex) {
+                int sum = nums[i];
+                boolean breakLoop = false;
+                while (sum <= n) {
+                    if (i == arrayEndIndex) {
+                        breakLoop = true;
+                        break;
+                    }
+                    sum += nums[i+1];
+                    i++;
+                }
+                if (!breakLoop) {
+                    numberOfArrays++;
+                }
+            }
+
+            if (numberOfArrays > k) {
+                start = n+1;
+            } else{
+                end = n;
+            }
+        }
+        return start;
+    }
+
 
     // 10) How many times array is rotated
     static int numberOfRotations(int[] nums) {
@@ -92,6 +97,7 @@ public class BinarySearch {
     }
 
     // 9) Rotated sorted array with duplicates
+    // Medium https://leetcode.com/problems/search-in-rotated-sorted-array-ii/description/
     public static boolean searchDupe(int[] nums, int target) {
         // 1 -> Find the pivot index
         int pivot = findPivotDuplicates(nums);
@@ -143,8 +149,6 @@ public class BinarySearch {
         }
 
     }
-
-
 
     // 7) Find in mountain array
     // Hard https://leetcode.com/problems/find-in-mountain-array/submissions/
@@ -470,284 +474,23 @@ public class BinarySearch {
     }
 
 // -------------------------- 1 D Array problems ---------------------------------------------------
-    static int splitArrayLargestSumBinarySearch(int[] nums, int k) {
-        String url = "https://leetcode.com/problems/split-array-largest-sum/submissions/1340552974/";
-        // 1) Identify the largest and smallest possible value
-        int start = 0;
-        int end = 0;
-
-        // Finding the largest -> Sum of the array
-        //Finding the smallest -> largest value in the array
-        for (int i: nums) {
-            end += i;
-            start = Integer.max(start, i);
-        }
-
-        // 2) Apply binary search
-        int arrayEndIndex = nums.length - 1;
-        while (start < end) {
-            int n = (start + end) / 2;
-            int numberOfArrays = 1;
-            int i = 0;
-
-            // Run the loop for all the elements
-            while (i < arrayEndIndex) {
-                int sum = nums[i];
-                boolean breakLoop = false;
-                while (sum <= n) {
-                    if (i == arrayEndIndex) {
-                        breakLoop = true;
-                        break;
-                    }
-                    sum += nums[i+1];
-                    i++;
-                }
-                if (!breakLoop) {
-                    numberOfArrays++;
-                }
-            }
-
-            if (numberOfArrays > k) {
-                start = n+1;
-            } else{
-                end = n;
-            }
-        }
-        return start;
-    }
-    static int splitArrayLargestSumBruteForce(int[] nums, int k) {
-        int lowest = Integer.MAX_VALUE;
-        int end = nums.length -1;
-        int numberOfRounds = k -1;
-        // Number of arrays = k
-        int[] startIndex = new int[k];
-        // Populate the start index array
-        for (int i = 0; i <= k; k++) {
-            startIndex[i] = i;
-        }
-
-        int endIndex = k;
-        // Start rounds
-        for (int round = 0; round < endIndex ; round++) {
-
-            // Define the end condition of each round
-            while (startIndex[endIndex -1] < endIndex) {
-                // Calculate the array total for each array
-                int[] arraySum = new int[k];
-                for (int array = 0; array <= startIndex[array + 1]; k++) {
-                    arraySum[array] += nums[array];
-                }
-
-                // Find the maximum value of all array totals
-                int max = arraySum[0];
-                for (int i = 1; i < arraySum.length; i++) {
-                    max = Math.max(max, arraySum[i]);
-                }
-
-                // If it is lower than the previous, set it to it;
-                if (max < lowest) {
-                    lowest = max;
-                }
-            }
-
-            // End of round -> round++
-            endIndex--;
-            round++;
-        }
-
-        return lowest;
-    }
-    static  int findMinimumValueInRotatedSortedArrayWithDuplicates(int[] nums) {
-        String url = "https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/description/";
-        // 1) Find the pivot
-        int pivot = findTheRotationIndexOfRotatedSortedArrayWithDuplicates(nums);
-        if (nums.length == 1) {
-            return nums[0];
-        }
-
-        // If there is no pivot, then it is normal array, first element will be the smallest
-        if (pivot == -1) {
-            return nums[0];
-        }
-        // 2) Only elements that are to the right of the pivot would be smaller
-        return nums[pivot + 1];
-    }
-    static boolean findInRotatedSortedArrayWithDuplicatesReturnBoolean(int[] nums, int target) {
-        if (nums.length == 1) {
-            return nums[0] == target;
-        }
-        int end = nums.length -1;
-        // 1) Pivot
-        int pivot = findTheRotationIndexOfRotatedSortedArrayWithDuplicates(nums);
-        int value;
-
-
-        //2) If the pivot is at the end
-        if (pivot == -1) {
-            value = helperOrderAgnosticBinarySearch(nums,0, end, target, true);
-            if (value == -1) {
-                return false;
-            } else {
-                return true;
-            }
-        }
-
-        // 3) If there is a pivot, Check if pivot is the target
-        if (nums[pivot] == target) {
-            return true;
-        }
-
-        // 4) Check if value is in the left half or the right half
-
-        //Search the right half
-        if (target < nums[0] && target < nums[pivot]) {
-            value = helperOrderAgnosticBinarySearch(nums,pivot +1, end, target, true);
-        }
-        //Search left half
-        else {
-            value = helperOrderAgnosticBinarySearch(nums, 0, pivot-1, target, true);
-        }
-
-        if (value == -1) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-    static int findTheRotationIndexOfRotatedSortedArrayWithDuplicates(int[] nums) {
-        int start = 0;
-        int end = nums.length - 1;
-        int n = (start + end) /2;
-
-
-        // If start, middle and end are equal, Only the middle can be the pivot
-        if (nums[end] == nums[start] && nums[start] == nums[n]) {
-            end--;
-        }
-        // Check if there is no pivot -> normal ascending array
-        else if (nums[end] >= nums[n] && nums[n] >= nums[start]){
-            return -1;
-        }
-
-        // Ran only if there is a pivot
-        while (start < end) {
-            n = (start + end) /2;
-
-            // Checking if n or n-1 is the pivot
-            // Check if n is the pivot
-            // If the number is greater than the right, then it is automatically the pivot, no exceptions
-            if (nums[n] > nums[n + 1]) {
-                return n;
-            }
-
-            //Check if n-1 is the pivot
-            if (n > 0) {
-                if (nums[n - 1] > nums[n]) {
-                    return n-1;
-                }
-            }
-
-            // If start, middle and end are equal, Only the middle can be the pivot
-            if (nums[end] == nums[start] && nums[start] == nums[n]) {
-                end--;
-                continue;
-            }
-
-            // If n or n-1 is not the pivot
-
-            // If n is lesser than the start, then it would lie between
-            if (nums[n] < nums[start]) {
-                end = n - 1;
-            }
-            // If n is greater than the start, then it would lie after
-            else if(nums[n] >= nums[start]) {
-                start = n + 1;
-            }
-        }
-        return start;
-    }
-    private static int helperOrderAgnosticBinarySearch(int[] arr, int start, int end, int target, boolean isAscending) {
-        while (start <= end) {
-            int n = (start + end )/2;
-            if (arr[n] == target) {
-                return n;
-            }
-
-            if (isAscending) {
-                if(target > arr[n]) {
-                    start = n+1;
-                } else {
-                    end = n-1;
-                }
-            }
-
-            else {
-                if(target > arr[n]) {
-                    end = n-1;
-                } else {
-                    start = n + 1;
-                }
-            }
-        }
-        return -1;
-    }
-    static  int findMinimumValueInRotatedSortedArray(int[] nums) {
-        String url = "https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/description/";
-        // 1) Find the pivot
-        int pivot = findTheRotationIndexOfRotatedSortedArray(nums);
-
-        // If there is no pivot, then it is normal array, first element will be the smallest
-        if (pivot == -1) {
-            return nums[0];
-        }
-        // 2) Only elements that are to the right of the pivot would be smaller
-        return nums[pivot + 1];
-    }
-    static int findTheRotationIndexOfRotatedSortedArray(int[] nums) {
-        //Kind of a helper function
-        int start = 0;
-        int end = nums.length - 1;
-        int n = (start + end) /2;
-
-
-        // Check if there is no pivot -> normal ascending array, return -1
-        if (nums[end] >= nums[n] && nums[n] >= nums[start]) {
-            return -1;
-        }
-
-        // Ran only if there is a pivot
-        while (start < end) {
-            n = (start + end) /2;
-
-            // Check for the pivot in the middle number or n-1
-
-            // Check if n is the pivot
-            if (nums[n] > nums[n + 1]) {
-                return n;
-            }
-
-            //Check if n-1 is the pivot
-            if (nums[n - 1] > nums[n]) {
-                return n-1;
-            }
-
-            // If n or n-1 is not the pivot
-
-            // If n is lesser than the start, then it would lie between
-            if (nums[n] < nums[start]) {
-                end = n - 1;
-            }
-            // If n is greater than the start, then it would lie after
-            else if(nums[n] > nums[start]) {
-                start = n + 1;
-            }
-        }
-        return 0;
-    }
-
 
 
 //--------------------------------------Helper functions---------------------------------
+    static int binarySearchSpecificIndex(int[] arr, int s, int e, int target) {
+    while (s <= e) {
+        int m = s + (e-s)/2;
+        if (arr[m] == target) {
+            return m;
+        }
+        else if (arr[m] > target) {
+            e = m-1;
+        } else {
+            s = m+1;
+        }
+    }
+    return -1;
+}
     public static int findPivot(int[] arr) {
         int s = 0;
         int e = arr.length -1;
@@ -786,26 +529,70 @@ public class BinarySearch {
 
         return 0;
     }
+    public static int findPivotDuplicates(int[] arr) {
+        int s = 0;
+        int e = arr.length -1;
 
+        // No pivot
+        if (arr[s] < arr[e]) {
+            return e;
+        }
 
-
-    static int binarySearchSpecificIndex(int[] arr, int s, int e, int target) {
         while (s <= e) {
-            int m = s + (e-s)/2;
-            if (arr[m] == target) {
+            int m = s + (e -s)/2;
+
+            // Success conditions
+            if (m < e &&  arr[m] > arr[m+1]) {
                 return m;
             }
-            else if (arr[m] > target) {
+            if (m > s && arr[m-1] > arr[m]) {
+                return m-1;
+            }
+
+            // Skip conditions
+
+            // In case of duplicates, it might be that the start, mid and end will all be the same element
+            if (arr[s] == arr[m] && arr[m] == arr[e]) {
+                // Reduce the array
+
+                // Check if either start or end is the pivot
+                if (arr[s] > arr[s+1]) {
+                    return s;
+                }
+                s++;
+
+                if (e < arr.length-1 && arr[e] > arr[e+1]) {
+                    return  e;
+                }
+                e--;
+            }
+
+
+            // If start and middle are equal, and the end is not equal
+            // then it means that the pivot can't be between start and mid
+            else if (arr[s] == arr[m]) {
+                s = m+1;
+            }
+
+            // If the middle and end are equal, then it must be in the start
+            else if (arr[m] == arr[e]) {
                 e = m-1;
-            } else {
+            }
+
+            else if (arr[s] > arr[m]) {
+                e = m-1;
+            }
+            // If the start is lesser than the middle element, then
+            // Pivot must definitely be on it's right
+
+            // arr[s] < arr[m]
+            else {
                 s = m+1;
             }
         }
-        return -1;
+
+        return 0;
     }
-
-    // Will work for the ones with duplicates also
-
     static int simpleBinarySearch(int[] arr, int target) {
         if (arr.length == 0 ) {
             return -1;
