@@ -1,10 +1,13 @@
 package searching;
 
+import java.sql.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class BinarySearch {
     public static void main(String[] args) {
-        System.out.println(mySqrt(2147395599));
+        int[][] ar = {{1,3}};
+        System.out.println(searchMatrix(ar, 3));
 
 //        System.out.println(Arrays.toString(searchRange(arr, 7)));
     }
@@ -13,7 +16,7 @@ public class BinarySearch {
 //---------------------------- Assignments--------------------------------------------------------
 
 // --------------------------------Easy-------------------------------
-public static int mySqrt(int x) {
+    public static int mySqrt(int x) {
     int s = 1;
     int e = x;
 
@@ -33,6 +36,121 @@ public static int mySqrt(int x) {
     return e;
 }
 
+
+//------------------------------Medium---------------------------------------------------
+
+    // 2) Binary search in 2D strictly sorted array
+    // https://leetcode.com/problems/search-a-2d-matrix/
+    public static boolean searchMatrix(int[][] matrix, int target) {
+        int rStart = 0;
+        int rEnd = matrix.length-1;
+
+        int cEnd = matrix[0].length -1;
+        int cMid = cEnd/2;
+        ArrayList<Boolean> lt = new ArrayList<>(20);
+
+        if (rEnd == 0) {
+            return binarySearchMatrix(matrix, 0, 0, cEnd, target);
+        }
+
+        // Do this till only 2 rows remain
+        while(rStart != rEnd-1) {
+            int rMid = rStart + (rEnd - rStart)/2;
+
+            if (matrix[rMid][cMid] == target) {
+                return true;
+            } else if (matrix[rMid][cMid] < target) {
+                rStart++;
+            } else {
+                rEnd--;
+            }
+        }
+
+        // Only two rows remain
+        if (matrix[rStart][cMid] == target) {
+            return true;
+        }
+        if (matrix[rEnd][cMid] == target) {
+            return true;
+        }
+
+        // It will be in either of the four quadrants
+        if (matrix[rStart][cMid] > target) {
+            return binarySearchMatrix(matrix, rStart, 0, cMid -1, target);
+        }
+        else if (matrix[rEnd][cMid] < target) {
+            return binarySearchMatrix(matrix, rEnd, cMid +1, cEnd, target);
+        }
+        else if (matrix[rStart][cMid] < target && target < matrix[rEnd][0]) {
+            return binarySearchMatrix(matrix, rStart, cMid +1, cEnd, target);
+        } else {
+            return binarySearchMatrix(matrix, rEnd, 0, cMid-1, target);
+        }
+    }
+
+    public static boolean binarySearchMatrix(int[][] matrix, int r, int s, int e, int target) {
+        while (s <= e) {
+            int m = s + (e-s)/2;
+            if (matrix[r][m] == target) {
+                return true;
+            } else if (matrix[r][m] > target) {
+                e = m-1;
+            } else {
+                s = m+1;
+
+            }
+        }
+        return false;
+    }
+    
+    // 1) Find single non duplicate in array of double duplicates
+    // https://leetcode.com/problems/single-element-in-a-sorted-array/
+    public int singleNonDuplicate(int[] nums) {
+        int s = 0;
+        int e = nums.length -1;
+
+
+        // If start and end points to the same index, then it must be the target
+        // Due to this fact, it will never reach the last index, so one less thing to worry about
+        while (s < e) {
+            int m = s + (e -s )/2;
+            boolean odd = false;
+
+            if ( ( (s+e) / 2) % 2 != 0 ) {
+                odd = true;
+            }
+
+            // Success condition
+
+            // If it has reached the first index, it must be the target
+            if (m == 0) {
+                return nums[0];
+            }
+
+            if (nums[m] != nums[m-1] && nums[m] != nums[m+1]) {
+                return nums[m];
+            }
+
+            // Continue condition
+
+            if (odd) {
+                if (nums[m] == nums[m-1]) {
+                    s = m+1;
+                } else {
+                    e = m-1;
+                }
+            }
+            // Even
+            else {
+                if (nums[m] == nums[m-1]) {
+                    e = m-1;
+                } else {
+                    s = m+1;
+                }
+            }
+        }
+        return nums[s];
+    }
 //-----------------------------Revision------------------------------------------------------------
 
 
