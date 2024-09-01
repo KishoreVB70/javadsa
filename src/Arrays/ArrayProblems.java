@@ -4,8 +4,36 @@ import java.util.*;
 
 public class ArrayProblems {
     public static void main(String[] args) {
-        int[] arr = {-3,4,3,90};
-        System.out.println(Arrays.toString(twoSum(arr, 6)));
+        int[] arr = {1,2,3,4,5,6,7};
+        rotate(arr, 3);;
+        System.out.println(Arrays.toString(arr));
+    }
+
+    // Rotate array
+    //https://leetcode.com/problems/rotate-array/
+    public static void rotate(int[] nums, int k) {
+        int lt = nums.length;
+        int rem;
+        if (k > lt) {
+            rem = k % lt;
+        } else {
+            rem = k;
+        }
+        int startIndex = lt - rem;
+        if (startIndex == 0) {
+            return;
+        }
+
+        int j = 0;
+        int l = startIndex-1;
+        for (int i = startIndex; i < lt; i++) {
+            int temp = nums[j];
+            nums[j] = nums[i];
+            nums[i] = nums[l];
+            nums[l] = temp;
+            j++;
+            l--;
+        }
     }
     // Square root decomposition ->  Advanced algorithm for Range problems
 
