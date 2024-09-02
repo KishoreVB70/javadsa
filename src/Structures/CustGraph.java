@@ -3,17 +3,24 @@ package Structures;
 import java.util.ArrayList;
 
 public class CustGraph {
-    ArrayList<ArrayList<Integer>> list;
+    private ArrayList<ArrayList<Integer>> graphs;
+
     CustGraph(int n) {
-        list = new ArrayList<>(n+1);
+        graphs = new ArrayList<>(n+1);
+
+        // Populating
+        for (int i = 0; i < n+1; i++) {
+            graphs.add(new ArrayList<>());
+        }
     }
 
     public void connect(int p, int q) {
-        list.get(p).add(q);
-        list.get(q).add(p);
+        graphs.get(p).add(q);
+        graphs.get(q).add(p);
     }
 
     public Object[] getEdges(int p) {
-        return list.get(p).toArray();
+        return graphs.get(p).toArray();
     }
+
 }
