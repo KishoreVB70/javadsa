@@ -1,5 +1,6 @@
 package Structures;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class GraphProblems {
@@ -9,63 +10,97 @@ public class GraphProblems {
         graph.connect(5,2);
         graph.connect(5,3);
         graph.connect(3,4);
-        depthFirstSearch(graph);
+
+        ArrayList<ArrayList<Integer>> list = new ArrayList<>();
+        int[][] array =  {
+                {1 ,0, 0, 0 ,0},
+                {0, 1, 0, 0 ,0},
+                {0 ,0 ,1 ,0 ,1},
+                {0 ,0, 0, 1 ,0},
+                {0, 0, 1, 0 ,1}
+        };
+
+        // Iterate through each row of the 2D int array
+        for (int i = 0; i < array.length; i++) {
+            ArrayList<Integer> rowList = new ArrayList<>();
+
+            // Iterate through each element in the row
+            for (int j = 0; j < array[i].length; j++) {
+                rowList.add(array[i][j]);
+            }
+            list.add(rowList);
+        }
+
+        // Add the row ArrayList to the main ArrayList
+
+        System.out.println(numProvinces( list, 5));
+
+
     }
 
-    public static void breathFirstSearch(CustGraph graph) {
-        Set<Integer> visited = new HashSet<>(graph.size());
+    // 1) Number of provinces
+    // Medium
+    // https://leetcode.com/problems/number-of-provinces/
+
+    static int numProvinces(ArrayList<ArrayList<Integer>> adj, int V) {
+        int provinces = 0;
+        boolean[] visited = new boolean[V];
+
+        for (int i = 0; i < V; i++) {
+            if (!visited[i]) {
+                visited[i] = true;
+                provinces++;
+                dfsOfGraph(i, visited, adj);
+            }
+        }
+        return provinces;
+    }
+
+
+    // Depth First Search
+    public static void dfsOfGraph(int node, boolean[] visited, ArrayList<ArrayList<Integer>> adj) {
+        int size = adj.getFirst().size();
+        for(int i = 0; i < size; i++) {
+            if (adj.get(node).get(i) == 1 && !visited[i]) {
+                visited[i] = true;
+                dfsOfGraph(i, visited, adj);
+            }
+        }
+    }
+
+
+    // Breath First Search
+    public static ArrayList<Integer> bfsOfGraph(int V, ArrayList<ArrayList<Integer>> adj) {
+        ArrayList<Integer> result = new ArrayList<>(adj.size());
+        boolean[] visited = new boolean[V];
         Queue<Integer> queue = new LinkedList<>();
-        for (int i = 1; i < graph.size(); i++) {
-            visitNodeBFS(i, visited, queue, graph);
+        queue.offer(0);
+        visited[0] = true;
 
-            while (!queue.isEmpty()) {
-                int queueSize = queue.size();
 
-                for (int j = 0; j < queueSize ; j++) {
-                    int res = queue.poll();
-                    visitNodeBFS(res, visited, queue, graph);
+        while(!queue.isEmpty()) {
+            int node = queue.poll();
+
+            // Add it to the result
+            result.add(node);
+
+            // Add its children to the queue
+            for(int n: adj.get(node)) {
+                if (!visited[n]) {
+                    visited[node] = true;
+                    queue.offer(n);
                 }
             }
         }
+
+        return result;
     }
 
-    public static void visitNodeBFS(int node, Set<Integer> visited, Queue<Integer> queue, CustGraph graph) {
-        if (visited.contains(node)) {
-            return;
-        }
-        visited.add(node);
-
-        System.out.println(node);
 
 
-        for(int n: graph.getEdges(node)) {
-            queue.add(n);
-        }
-    }
 
-     public static void depthFirstSearch(CustGraph graph) {
-        boolean[] visited = new boolean[graph.size()];
 
-        // Outer loop for different connected components
-        for (int i = 1; i < graph.size(); i++) {
-            if (!visited[i]) {
-                visitNodeDFS(i, graph, visited);
-            }
-        }
-    }
 
-    public static void visitNodeDFS(int node, CustGraph graph, boolean[] visited) {
-        visited[node] = true;
-
-        System.out.println(node);
-
-        for(int n: graph.getEdges(node)) {
-            // Base condition -> Don't visit
-            if (!visited[n]) {
-                visitNodeDFS(n, graph, visited);
-            }
-        }
-    }
 
 
 
