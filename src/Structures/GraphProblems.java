@@ -5,29 +5,31 @@ import java.util.*;
 public class GraphProblems {
     public static void main(String[] args) {
         CustGraph graph = new CustGraph(5);
-        graph.connect(1,3);
-        graph.connect(3,5);
-        breathFirstSearch(graph);
+        graph.connect(1,5);
+        graph.connect(5,2);
+        graph.connect(5,3);
+        graph.connect(3,4);
+        depthFirstSearch(graph);
     }
 
     public static void breathFirstSearch(CustGraph graph) {
         Set<Integer> visited = new HashSet<>(graph.size());
         Queue<Integer> queue = new LinkedList<>();
         for (int i = 1; i < graph.size(); i++) {
-            visitNode(i, visited, queue, graph);
+            visitNodeBFS(i, visited, queue, graph);
 
             while (!queue.isEmpty()) {
                 int queueSize = queue.size();
 
                 for (int j = 0; j < queueSize ; j++) {
                     int res = queue.poll();
-                    visitNode(res, visited, queue, graph);
+                    visitNodeBFS(res, visited, queue, graph);
                 }
             }
         }
     }
 
-    public static void visitNode(int node, Set<Integer> visited, Queue<Integer> queue, CustGraph graph) {
+    public static void visitNodeBFS(int node, Set<Integer> visited, Queue<Integer> queue, CustGraph graph) {
         if (visited.contains(node)) {
             return;
         }
@@ -38,6 +40,29 @@ public class GraphProblems {
 
         for(int n: graph.getEdges(node)) {
             queue.add(n);
+        }
+    }
+
+     public static void depthFirstSearch(CustGraph graph) {
+        boolean[] visited = new boolean[graph.size()];
+
+
+        for (int i = 1; i < graph.size(); i++) {
+            visitNodeDFS(i, graph, visited);
+        }
+    }
+
+    public static void visitNodeDFS(int node, CustGraph graph, boolean[] visited) {
+        if (visited[node]) {
+            return;
+        }
+
+        visited[node] = true;
+
+        System.out.println(node);
+
+        for(int n: graph.getEdges(node)) {
+            visitNodeDFS(n, graph, visited);
         }
     }
 
