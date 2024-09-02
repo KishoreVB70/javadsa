@@ -46,23 +46,24 @@ public class GraphProblems {
      public static void depthFirstSearch(CustGraph graph) {
         boolean[] visited = new boolean[graph.size()];
 
-
+        // Outer loop for different connected components
         for (int i = 1; i < graph.size(); i++) {
-            visitNodeDFS(i, graph, visited);
+            if (!visited[i]) {
+                visitNodeDFS(i, graph, visited);
+            }
         }
     }
 
     public static void visitNodeDFS(int node, CustGraph graph, boolean[] visited) {
-        if (visited[node]) {
-            return;
-        }
-
         visited[node] = true;
 
         System.out.println(node);
 
         for(int n: graph.getEdges(node)) {
-            visitNodeDFS(n, graph, visited);
+            // Base condition -> Don't visit
+            if (!visited[n]) {
+                visitNodeDFS(n, graph, visited);
+            }
         }
     }
 
