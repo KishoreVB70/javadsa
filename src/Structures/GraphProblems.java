@@ -38,6 +38,78 @@ public class GraphProblems {
 
     }
 
+    // 2) Number of islands
+    // Medium https://leetcode.com/problems/number-of-islands/
+    public int numIslands(char[][] grid) {
+        boolean[][] visited = new boolean[grid.length] [grid[0].length];
+        int islands = 0;
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                if (grid[i][j] == '1' && !visited[i][j]) {
+                    visited[i][j] = true;
+                    islands++;
+                    visitIslands(i, j, grid, visited);
+                }
+            }
+        }
+
+        return islands;
+    }
+
+    public void visitIslands(int i, int j, char[][] grid, boolean[][] visited) {
+        char su = '1';
+        // 8 Directions
+
+        // Up
+        if (i - 1 >= 0  && grid[i-1][j] == su && !visited[i-1][j]) {
+            visited[i-1][j] = true;
+            visitIslands(i-1, j, grid, visited);
+        }
+
+        // Down
+        if (i +1 < grid.length &&  grid[i+1][j] == su && !visited[i+1][j]) {
+            visited[i+1][j] = true;
+            visitIslands(i+1, j, grid, visited);
+        }
+
+        // Right
+        if (j +1 < grid[0].length &&  grid[i][j+1] == su && !visited[i][j+1]) {
+            visited[i][j+1] = true;
+            visitIslands(i, j+1, grid, visited);
+        }
+
+        // Left
+        if (j - 1 >= 0 &&  grid[i][j-1] == su && !visited[i][j-1]) {
+            visited[i][j-1] = true;
+            visitIslands(i, j-1, grid, visited);
+        }
+
+        // Left up
+        if (j - 1 >= 0 && i -1 >= 0 &&  grid[i-1][j-1] == su && !visited[i-1][j-1]) {
+            visited[i-1][j-1] = true;
+            visitIslands(i-1, j-1, grid, visited);
+        }
+
+        // Left down
+        if (j - 1 >= 0 && i + 1 <= grid.length &&  grid[i+1][j-1] == su && !visited[i+1][j-1]) {
+            visited[i+1][j-1] = true;
+            visitIslands(i+1, j-1, grid, visited);
+        }
+
+        // Right Up
+        if (j + 1 < grid[0].length && i + 1 < grid.length &&  grid[i+1][j+1] == su && !visited[i+1][j+1]) {
+            visited[i+1][j+1] = true;
+            visitIslands(i+1, j+1, grid, visited);
+        }
+
+        // Right Down
+        if (j + 1 < grid[0].length && i - 1 >= 0 &&  grid[i-1][j+1] == su && !visited[i-1][j+1]) {
+            visited[i-1][j+1] = true;
+            visitIslands(i-1, j+1, grid, visited);
+        }
+    }
+
+
     // 1) Number of provinces
     // Medium
     // https://leetcode.com/problems/number-of-provinces/
