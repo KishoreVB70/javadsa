@@ -12,10 +12,9 @@ public class GraphProblems {
 
         ArrayList<ArrayList<Integer>> list = new ArrayList<>();
         int[][] array =  {
-                {2,2},
-                {1,1},
-                {0,0},
-                {2,0}
+                {0,0,0},
+                {0,1,0},
+                {1,1,1}
         };
 
         // Iterate through each row of the 2D int array
@@ -32,13 +31,18 @@ public class GraphProblems {
         // Add the row ArrayList to the main ArrayList
 
 //        System.out.println(numProvinces( list, 5));
-
-        System.out.println(orangesRotting(array));
+        int[][] result = updateMatrix(array);
+        for (int i = 0; i < result.length; i++) {
+            for (int j = 0; j < result[0].length; j++) {
+                System.out.print(result[i][j]);
+            }
+            System.out.println();
+        }
 
     }
 
     // Concept -> Finding cycle in graph
-    public boolean isCycle(ArrayList<ArrayList<Integer>> adj) {
+    public boolean isCycleBFS(ArrayList<ArrayList<Integer>> adj) {
         Queue<Pair> q = new LinkedList<>();
         boolean[] visited = new boolean[adj.size()];
         visited[0] = true;
@@ -58,6 +62,76 @@ public class GraphProblems {
             }
         }
         return false;
+    }
+
+    // 5) 0 1 Matrix
+    public static int[][] updateMatrix(int[][] mat) {
+        int[][] result = new int[mat.length][mat[0].length];
+
+        for(int i = 0; i < mat.length; i++) {
+            for(int j = 0; j < mat[0].length; j++) {
+                if(mat[i][j] != 0 && result[i][j] == 0) {
+                    // BFS
+                    int level = 0;
+                    Queue<Pair> q = new LinkedList<>();
+                    q.offer(new Pair(i, j));
+                    while(!q.isEmpty()) {
+                        if (result[i][j] != 0) {
+                            break;
+                        }
+
+                        level++;
+                        int size = q.size();
+                        for(int k = 0; k < size; k++) {
+                            Pair pair = q.poll();
+                            int r = pair.r;
+                            int c = pair.c;
+
+
+                            if (r -1 >= 0 ) {
+                                if (mat[r-1][c] != 0) {
+                                    q.offer(new Pair(r-1, c));
+                                } else {
+                                    result[i][j] = level;
+                                    break;
+                                }
+                            }
+
+                            if (r + 1 < mat.length ) {
+                                if ( mat[r+1][c] != 0) {
+                                    q.offer(new Pair(r+1, c));
+                                }
+                                else {
+                                    result[i][j] = level;
+                                    break;
+                                }
+                            }
+
+                            if (c + 1 < mat[0].length) {
+                                if (mat[r][c+1] != 0) {
+                                    q.offer(new Pair(r, c+1));
+                                }
+                                else {
+                                    result[i][j] = level;
+                                    break;
+                                }
+                            }
+
+                            if (c -1 >= 0) {
+                                if (mat[r][c-1] != 0) {
+                                    q.offer(new Pair(r, c-1));
+                                }
+                                else {
+                                    result[i][j] = level;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return result;
     }
 
     // 4) Rotten oranges
