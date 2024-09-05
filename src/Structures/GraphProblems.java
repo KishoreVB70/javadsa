@@ -88,8 +88,9 @@ public class GraphProblems {
                             int c = pair.c;
 
 
+                            // Up
                             if (r -1 >= 0 ) {
-                                if (mat[r-1][c] != 0) {
+                                if (result[r-1][c] != 0) {
                                     q.offer(new Pair(r-1, c));
                                 } else {
                                     result[i][j] = level;
@@ -97,6 +98,7 @@ public class GraphProblems {
                                 }
                             }
 
+                            // Down
                             if (r + 1 < mat.length ) {
                                 if ( mat[r+1][c] != 0) {
                                     q.offer(new Pair(r+1, c));
@@ -107,6 +109,7 @@ public class GraphProblems {
                                 }
                             }
 
+                            // Right
                             if (c + 1 < mat[0].length) {
                                 if (mat[r][c+1] != 0) {
                                     q.offer(new Pair(r, c+1));
@@ -117,6 +120,7 @@ public class GraphProblems {
                                 }
                             }
 
+                            // Left
                             if (c -1 >= 0) {
                                 if (mat[r][c-1] != 0) {
                                     q.offer(new Pair(r, c-1));
