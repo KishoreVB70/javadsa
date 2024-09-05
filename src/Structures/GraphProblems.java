@@ -1,6 +1,5 @@
 package Structures;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class GraphProblems {
@@ -13,11 +12,10 @@ public class GraphProblems {
 
         ArrayList<ArrayList<Integer>> list = new ArrayList<>();
         int[][] array =  {
-                {1 ,0, 0, 0 ,0},
-                {0, 1, 0, 0 ,0},
-                {0 ,0 ,1 ,0 ,1},
-                {0 ,0, 0, 1 ,0},
-                {0, 0, 1, 0 ,1}
+                {2,2},
+                {1,1},
+                {0,0},
+                {2,0}
         };
 
         // Iterate through each row of the 2D int array
@@ -33,87 +31,148 @@ public class GraphProblems {
 
         // Add the row ArrayList to the main ArrayList
 
-        System.out.println(numProvinces( list, 5));
+//        System.out.println(numProvinces( list, 5));
+
+        System.out.println(orangesRotting(array));
+
+    }
+
+    // Concept -> Finding cycle in graph
+
+    // 4) Rotten oranges
+    // Medium https://leetcode.com/problems/rotting-oranges/description/
+    static class Pair {
+        int r;
+        int c;
+
+        Pair(int r, int c) {
+            this.r = r;
+            this.c = c;
+        }
+    }
+    public static int orangesRotting(int[][] grid) {
+        int steps = 0;
+        Queue<Pair> q = new LinkedList<>();
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                if (grid[i][j] == 2) {
+                    q.offer(new Pair(i, j));
+                }
+            }
+        }
+
+        boolean second = false;
+
+        while(!q.isEmpty()) {
+            if (second) steps++;
+            second = true;
+
+            int size = q.size();
+            for(int i = 0; i < size; i++) {
+                Pair pair = q.poll();
+                int r = pair.r;
+                int c = pair.c;
 
 
+                // Up
+                if (r - 1 >= 0 && grid[r-1][c] == 1) {
+                    grid[r-1][c] = 2;
+                    q.offer(new Pair(r-1,c));
+                }
+                // Down
+
+                if (r + 1 < grid.length && grid[r+1][c] == 1) {
+                    grid[r+1][c] = 2;
+                    q.offer(new Pair(r+1,c));
+                }
+
+
+                // Right
+                if (c + 1 < grid[0].length && grid[r][c+1] == 1) {
+                    grid[r][c+1] = 2;
+                    q.offer(new Pair(r,c+1));
+                }
+
+                // Left
+                if (c - 1 >= 0 && grid[r][c-1] == 1) {
+                    grid[r][c-1] = 2;
+                    q.offer(new Pair(r,c-1));
+                }
+            }
+        }
+
+        // Looking for rotten oranges
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                if (grid[i][j] == 1) {
+                    return -1;
+                }
+            }
+        }
+
+        return steps;
+    }
+
+    // 3) Flood fill
+    // Easy https://leetcode.com/problems/flood-fill/
+    public int[][] floodFill(int[][] image, int sr, int sc, int color) {
+        helperFloodFill(image, sr, sc, color, image[sr][sc]);
+        return image;
+    }
+    public void helperFloodFill(int[][] image, int i, int j, int color, int tar) {
+        if (i < 0 || j < 0 || i >= image.length || j >= image[0].length || image[i][j] != tar || image[i][j] == color) {
+            return;
+        }
+
+        image[i][j] = color;
+
+        // Up
+        helperFloodFill(image, i+1, j, color, tar);
+        helperFloodFill(image, i-1, j, color, tar);
+        helperFloodFill(image, i, j+1, color, tar);
+        helperFloodFill(image, i, j-1, color, tar);
     }
 
     // 2) Number of islands
     // Medium https://leetcode.com/problems/number-of-islands/
     public int numIslands(char[][] grid) {
-        boolean[][] visited = new boolean[grid.length] [grid[0].length];
         int islands = 0;
-        for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j < grid[0].length; j++) {
-                if (grid[i][j] == '1' && !visited[i][j]) {
-                    visited[i][j] = true;
+
+        for(int i = 0; i < grid.length; i++) {
+            for(int j = 0; j < grid[0].length; j++) {
+                if (grid[i][j] == '1') {
                     islands++;
-                    visitIslands(i, j, grid, visited);
+                    visitIslands(grid, i, j);
                 }
             }
         }
 
         return islands;
     }
+    private void visitIslands(char[][] grid, int i, int j) {
+        if (i < 0 || j < 0 || j >= grid[0].length || i >= grid.length || grid[i][j] == '0') {
+            return;
+        }
 
-    public void visitIslands(int i, int j, char[][] grid, boolean[][] visited) {
-        char su = '1';
-        // 8 Directions
+        grid[i][j] = '0';
 
         // Up
-        if (i - 1 >= 0  && grid[i-1][j] == su && !visited[i-1][j]) {
-            visited[i-1][j] = true;
-            visitIslands(i-1, j, grid, visited);
-        }
+        visitIslands(grid, i-1, j);
 
         // Down
-        if (i +1 < grid.length &&  grid[i+1][j] == su && !visited[i+1][j]) {
-            visited[i+1][j] = true;
-            visitIslands(i+1, j, grid, visited);
-        }
+        visitIslands(grid, i+1, j);
 
         // Right
-        if (j +1 < grid[0].length &&  grid[i][j+1] == su && !visited[i][j+1]) {
-            visited[i][j+1] = true;
-            visitIslands(i, j+1, grid, visited);
-        }
+        visitIslands(grid, i, j+1);
 
         // Left
-        if (j - 1 >= 0 &&  grid[i][j-1] == su && !visited[i][j-1]) {
-            visited[i][j-1] = true;
-            visitIslands(i, j-1, grid, visited);
-        }
-
-        // Left up
-        if (j - 1 >= 0 && i -1 >= 0 &&  grid[i-1][j-1] == su && !visited[i-1][j-1]) {
-            visited[i-1][j-1] = true;
-            visitIslands(i-1, j-1, grid, visited);
-        }
-
-        // Left down
-        if (j - 1 >= 0 && i + 1 <= grid.length &&  grid[i+1][j-1] == su && !visited[i+1][j-1]) {
-            visited[i+1][j-1] = true;
-            visitIslands(i+1, j-1, grid, visited);
-        }
-
-        // Right Up
-        if (j + 1 < grid[0].length && i + 1 < grid.length &&  grid[i+1][j+1] == su && !visited[i+1][j+1]) {
-            visited[i+1][j+1] = true;
-            visitIslands(i+1, j+1, grid, visited);
-        }
-
-        // Right Down
-        if (j + 1 < grid[0].length && i - 1 >= 0 &&  grid[i-1][j+1] == su && !visited[i-1][j+1]) {
-            visited[i-1][j+1] = true;
-            visitIslands(i-1, j+1, grid, visited);
-        }
+        visitIslands(grid, i, j-1);
     }
 
 
     // 1) Number of provinces
     // Medium
     // https://leetcode.com/problems/number-of-provinces/
-
     static int numProvinces(ArrayList<ArrayList<Integer>> adj, int V) {
         int provinces = 0;
         boolean[] visited = new boolean[V];
@@ -139,7 +198,6 @@ public class GraphProblems {
             }
         }
     }
-
 
     // Breath First Search
     public static ArrayList<Integer> bfsOfGraph(int V, ArrayList<ArrayList<Integer>> adj) {
