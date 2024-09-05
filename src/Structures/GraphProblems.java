@@ -38,6 +38,27 @@ public class GraphProblems {
     }
 
     // Concept -> Finding cycle in graph
+    public boolean isCycle(ArrayList<ArrayList<Integer>> adj) {
+        Queue<Pair> q = new LinkedList<>();
+        boolean[] visited = new boolean[adj.size()];
+        visited[0] = true;
+        q.offer(new Pair(0,-1));
+        while (!q.isEmpty()) {
+            Pair pair = q.poll();
+            ArrayList<Integer> lt =  adj.get( pair.r);
+            for (int i: lt) {
+                if (i != pair.c && visited[i]) {
+                    return true;
+                }
+                // Not yet visited and not
+                else if ( i != pair.c) {
+                    q.offer(new Pair(i, pair.r));
+                    visited[i] = true;
+                }
+            }
+        }
+        return false;
+    }
 
     // 4) Rotten oranges
     // Medium https://leetcode.com/problems/rotting-oranges/description/
