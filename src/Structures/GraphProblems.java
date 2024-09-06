@@ -4,10 +4,58 @@ import java.util.*;
 
 public class GraphProblems {
     public static void main(String[] args) {
+        int[][] arr = { {1,0}};
+        int[] res = findOrder(2, arr);
+        for(int i: res) {
+            System.out.println(i);
+        }
+    }
+    // 10)
+    public static int[] findOrder(int numCourses, int[][] prerequisites) {
+        // Create inDeg
+        int[] deg = new int[numCourses];
+        for(int i = 0; i < prerequisites.length; i++) {
+            deg[prerequisites[i][0]]++;
+        }
+
+        Queue<Integer> q = new LinkedList<>();
+
+        for(int i = 0; i < deg.length; i++) {
+            if (deg[i] == 0) {
+                q.offer(i);
+            }
+        }
+
+        int[] result = new int[numCourses];
+        int index = -1;
+        while(!q.isEmpty()) {
+            int node = q.poll();
+            result[++index] = node;
+            for(int i = 0; i < prerequisites.length; i++) {
+                if (prerequisites[i][1] == node) {
+                    deg[prerequisites[i][0]]--;
+                    if (deg[prerequisites[i][0]] <= 0) {
+                        q.offer(prerequisites[i][0]);
+                    }
+                }
+            }
+        }
+
+        if (index == numCourses-1) {
+            return result;
+        }
+        return new int[0];
 
     }
 
-    // 8)
+    // 8) Find eventual safe states
+    // Medium https://leetcode.com/problems/find-eventual-safe-states/
+    public List<Integer> eventualSafeNodes(int[][] graph) {
+        List<Integer> result = new ArrayList<>();
+        return result;
+    }
+
+    // Concept => Bipartite graph => Even number of nodes in a cycle
 
     // 7) Number of enclaves -> Same as O to X
     // Medium https://leetcode.com/problems/number-of-enclaves/
