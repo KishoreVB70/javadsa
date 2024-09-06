@@ -4,39 +4,115 @@ import java.util.*;
 
 public class GraphProblems {
     public static void main(String[] args) {
-        CustGraph graph = new CustGraph(5);
-        graph.connect(1,5);
-        graph.connect(5,2);
-        graph.connect(5,3);
-        graph.connect(3,4);
-
-        String input = "[\"O\",\"X\",\"O\",\"O\",\"O\",\"X\"],[\"O\",\"O\",\"X\",\"X\",\"X\",\"O\"],[\"X\",\"X\",\"X\",\"X\",\"X\",\"O\"],[\"O\",\"O\",\"O\",\"O\",\"X\",\"X\"],[\"X\",\"X\",\"O\",\"O\",\"X\",\"O\"],[\"O\",\"O\",\"X\",\"X\",\"X\",\"X\"]";
-        String replacedString = input.replace("\"", "'")
-                .replace("[", "{")
-                .replace("]", "}");
-        System.out.println(replacedString);
-        char[][] array =  {
-                {'O','X','O','O','O','X'},
-                {'O','O','X','X','X','O'},
-                {'X','X','X','X','X','O'},
-                {'O','O','O','O','X','X'},
-                {'X','X','O','O','X','O'},
-                {'O','O','X','X','X','X'}
-        };
-
-
-        // Add the row ArrayList to the main ArrayList
-
-//        System.out.println(numProvinces( list, 5));
-        solve(array);
-        for (int i = 0; i < array.length; i++) {
-            for (int j = 0; j < array[0].length; j++) {
-                System.out.print(array[i][j]);
-            }
-            System.out.println();
-        }
 
     }
+
+    // 8)
+
+    // 7) Number of enclaves -> Same as O to X
+    // Medium https://leetcode.com/problems/number-of-enclaves/
+    public int numEnclaves(int[][] grid) {
+        int result = 0;
+        boolean[][] visited = new boolean[grid.length][grid[0].length];
+
+        // Top and bottom corner
+        for(int i = 0; i < grid.length; i++) {
+            int size = grid[0].length -1;
+            if (grid[i][0] == 1 && !visited[i][0]) {
+                dfsEnclave(i, 0, grid, visited);
+            }
+            if (grid[i][size] == 1 && !visited[i][size]) {
+                dfsEnclave(i, size, grid, visited);
+            }
+        }
+
+
+
+        // Left and Right corner
+        for(int j = 0; j < grid[0].length; j++) {
+            int size = grid.length - 1;
+            if (grid[0][j] == 1 & !visited[0][j] ){
+                dfsEnclave(0, j, grid, visited);
+            }
+
+            if (grid[size][j] == 1 && !visited[size][j] ) {
+                dfsEnclave(size, j, grid, visited);
+            }
+        }
+
+        for(int i = 0; i < grid.length; i++) {
+            for(int j = 0; j < grid[0].length; j++) {
+                if (grid[i][j] == 1 && !visited[i][j]) {
+                    result++;
+                }
+            }
+        }
+        return result;
+    }
+    public void dfsEnclave(int i, int j, int[][] board, boolean[][] visited) {
+        if (i < 0 || j < 0 || i >= board.length || j >= board[0].length || board[i][j] == 0 || visited[i][j]) {
+            return;
+        }
+
+        visited[i][j] = true;
+
+        dfsEnclave(i-1, j, board, visited);
+        dfsEnclave(i, j-1, board, visited);
+        dfsEnclave(i+1, j, board, visited);
+        dfsEnclave(i, j+1, board, visited);
+    }
+
+    // 6) Convert O into X
+    // Medium https://leetcode.com/problems/surrounded-regions/
+    public  void solve(char[][] board) {
+        boolean[][] visited = new boolean[board.length][board[0].length];
+
+        // Top and bottom corner
+        for(int i = 0; i < board.length; i++) {
+            int size = board[0].length -1;
+            if (board[i][0] == 'O' && !visited[i][0]) {
+                dfsXO(i, 0, board, visited);
+            }
+            if (board[i][size] == 'O' && !visited[i][size]) {
+                dfsXO(i, size, board, visited);
+            }
+        }
+
+
+
+        // Left and Right corner
+        for(int j = 0; j < board[0].length; j++) {
+            int size = board.length - 1;
+            if (board[0][j] == 'O' & !visited[0][j] ){
+                dfsXO(0, j, board, visited);
+            }
+
+            if (board[size][j] == 'O' && !visited[size][j] ) {
+                dfsXO(size, j, board, visited);
+            }
+        }
+
+        for(int i = 0; i < board.length; i++) {
+            for(int j = 0; j < board[0].length; j++) {
+                if (board[i][j] == 'O' && !visited[i][j]) {
+                    board[i][j] = 'X';
+                }
+            }
+        }
+    }
+    public void dfsXO(int i, int j, char[][] board, boolean[][] visited) {
+        if (i < 0 || j < 0 || i >= board.length || j >= board[0].length || board[i][j] == 'X' || visited[i][j]) {
+            return;
+        }
+
+        visited[i][j] = true;
+
+        dfsXO(i-1, j, board, visited);
+        dfsXO(i, j-1, board, visited);
+        dfsXO(i+1, j, board, visited);
+        dfsXO(i, j+1, board, visited);
+    }
+
 
     // Concept -> Finding cycle in graph
     public boolean isCycleBFS(ArrayList<ArrayList<Integer>> adj) {
@@ -59,60 +135,6 @@ public class GraphProblems {
             }
         }
         return false;
-    }
-
-    // 6) Convert O into X
-    public static void solve(char[][] board) {
-        boolean[][] global = new boolean[board.length][board[0].length];
-        for(int i = 0; i < board.length; i++) {
-            for(int j = 0; j < board[0].length; j++) {
-                if (board[i][j] == 'O' && !global[i][j]) {
-                    boolean[][] visited = new boolean[board.length][board[0].length];
-                    int val = dfs(i, j, board, visited, global);
-                    if (val == -1) {
-                        board[i][j] = 'X';
-                    }
-                }
-            }
-        }
-    }
-
-    public static int dfs(int i, int j, char[][] board, boolean[][] visited, boolean[][] globe) {
-        if (i >= board.length || j >= board[0].length || i<0 || j<0 || globe[i][j]) {
-            return 1;
-        }
-        if (board[i][j] == 'X' || visited[i][j]) {
-            return -1;
-        }
-
-
-        visited[i][j] = true;
-         int res = dfs(i-1, j, board, visited, globe);
-        if (res == 1) {
-            globe[i][j] = true;
-            return 1;
-        }
-
-        res = dfs(i+1, j, board, visited, globe);
-        if (res == 1) {
-            globe[i][j] = true;
-            return 1;
-        }
-
-        res = dfs(i, j-1, board, visited, globe);
-        if (res == 1) {
-            globe[i][j]  = true;
-            return 1;
-        }
-
-        res = dfs(i, j+1, board, visited, globe);
-        if (res == 1) {
-            globe[i][j] = true;
-            return 1;
-        }
-
-        board[i][j] = 'X';
-        return -1;
     }
 
     // 5) 0 1 Matrix
