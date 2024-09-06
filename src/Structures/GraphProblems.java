@@ -10,31 +10,28 @@ public class GraphProblems {
         graph.connect(5,3);
         graph.connect(3,4);
 
-        ArrayList<ArrayList<Integer>> list = new ArrayList<>();
-        int[][] array =  {
-                {0,0,0},
-                {0,1,0},
-                {1,1,1}
+        String input = "[\"O\",\"X\",\"O\",\"O\",\"O\",\"X\"],[\"O\",\"O\",\"X\",\"X\",\"X\",\"O\"],[\"X\",\"X\",\"X\",\"X\",\"X\",\"O\"],[\"O\",\"O\",\"O\",\"O\",\"X\",\"X\"],[\"X\",\"X\",\"O\",\"O\",\"X\",\"O\"],[\"O\",\"O\",\"X\",\"X\",\"X\",\"X\"]";
+        String replacedString = input.replace("\"", "'")
+                .replace("[", "{")
+                .replace("]", "}");
+        System.out.println(replacedString);
+        char[][] array =  {
+                {'O','X','O','O','O','X'},
+                {'O','O','X','X','X','O'},
+                {'X','X','X','X','X','O'},
+                {'O','O','O','O','X','X'},
+                {'X','X','O','O','X','O'},
+                {'O','O','X','X','X','X'}
         };
 
-        // Iterate through each row of the 2D int array
-        for (int i = 0; i < array.length; i++) {
-            ArrayList<Integer> rowList = new ArrayList<>();
-
-            // Iterate through each element in the row
-            for (int j = 0; j < array[i].length; j++) {
-                rowList.add(array[i][j]);
-            }
-            list.add(rowList);
-        }
 
         // Add the row ArrayList to the main ArrayList
 
 //        System.out.println(numProvinces( list, 5));
-        int[][] result = updateMatrix(array);
-        for (int i = 0; i < result.length; i++) {
-            for (int j = 0; j < result[0].length; j++) {
-                System.out.print(result[i][j]);
+        solve(array);
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 0; j < array[0].length; j++) {
+                System.out.print(array[i][j]);
             }
             System.out.println();
         }
@@ -64,78 +61,114 @@ public class GraphProblems {
         return false;
     }
 
-    // 5) 0 1 Matrix
-    public static int[][] updateMatrix(int[][] mat) {
-        int[][] result = new int[mat.length][mat[0].length];
-
-        for(int i = 0; i < mat.length; i++) {
-            for(int j = 0; j < mat[0].length; j++) {
-                if(mat[i][j] != 0 && result[i][j] == 0) {
-                    // BFS
-                    int level = 0;
-                    Queue<Pair> q = new LinkedList<>();
-                    q.offer(new Pair(i, j));
-                    while(!q.isEmpty()) {
-                        if (result[i][j] != 0) {
-                            break;
-                        }
-
-                        level++;
-                        int size = q.size();
-                        for(int k = 0; k < size; k++) {
-                            Pair pair = q.poll();
-                            int r = pair.r;
-                            int c = pair.c;
-
-
-                            // Up
-                            if (r -1 >= 0 ) {
-                                if (result[r-1][c] != 0) {
-                                    q.offer(new Pair(r-1, c));
-                                } else {
-                                    result[i][j] = level;
-                                    break;
-                                }
-                            }
-
-                            // Down
-                            if (r + 1 < mat.length ) {
-                                if ( mat[r+1][c] != 0) {
-                                    q.offer(new Pair(r+1, c));
-                                }
-                                else {
-                                    result[i][j] = level;
-                                    break;
-                                }
-                            }
-
-                            // Right
-                            if (c + 1 < mat[0].length) {
-                                if (mat[r][c+1] != 0) {
-                                    q.offer(new Pair(r, c+1));
-                                }
-                                else {
-                                    result[i][j] = level;
-                                    break;
-                                }
-                            }
-
-                            // Left
-                            if (c -1 >= 0) {
-                                if (mat[r][c-1] != 0) {
-                                    q.offer(new Pair(r, c-1));
-                                }
-                                else {
-                                    result[i][j] = level;
-                                    break;
-                                }
-                            }
-                        }
+    // 6) Convert O into X
+    public static void solve(char[][] board) {
+        boolean[][] global = new boolean[board.length][board[0].length];
+        for(int i = 0; i < board.length; i++) {
+            for(int j = 0; j < board[0].length; j++) {
+                if (board[i][j] == 'O' && !global[i][j]) {
+                    boolean[][] visited = new boolean[board.length][board[0].length];
+                    int val = dfs(i, j, board, visited, global);
+                    if (val == -1) {
+                        board[i][j] = 'X';
                     }
                 }
             }
         }
-        return result;
+    }
+
+    public static int dfs(int i, int j, char[][] board, boolean[][] visited, boolean[][] globe) {
+        if (i >= board.length || j >= board[0].length || i<0 || j<0 || globe[i][j]) {
+            return 1;
+        }
+        if (board[i][j] == 'X' || visited[i][j]) {
+            return -1;
+        }
+
+
+        visited[i][j] = true;
+         int res = dfs(i-1, j, board, visited, globe);
+        if (res == 1) {
+            globe[i][j] = true;
+            return 1;
+        }
+
+        res = dfs(i+1, j, board, visited, globe);
+        if (res == 1) {
+            globe[i][j] = true;
+            return 1;
+        }
+
+        res = dfs(i, j-1, board, visited, globe);
+        if (res == 1) {
+            globe[i][j]  = true;
+            return 1;
+        }
+
+        res = dfs(i, j+1, board, visited, globe);
+        if (res == 1) {
+            globe[i][j] = true;
+            return 1;
+        }
+
+        board[i][j] = 'X';
+        return -1;
+    }
+
+    // 5) 0 1 Matrix
+    // Medium https://leetcode.com/problems/01-matrix/
+    public int[][] updateMatrix(int[][] mat) {
+        Queue<Pair> q = new LinkedList<>();
+        boolean[][] visited = new boolean[mat.length][mat[0].length];
+
+        for(int i = 0; i < mat.length; i++) {
+            for(int j = 0; j < mat[0].length; j++) {
+                if (mat[i][j] == 0) {
+                    q.offer(new Pair(i, j));
+                    visited[i][j] = true;
+                }
+            }
+        }
+
+
+        int level = -1;
+
+        while(!q.isEmpty()) {
+            level++;
+            int size = q.size();
+            for(int i = 0; i < size; i++) {
+                Pair pair = q.poll();
+                int r = pair.r;
+                int c = pair.c;
+                mat[r][c] = level;
+
+
+                // Up
+                if (r -1 >= 0 && !visited[r-1][c]) {
+                    visited[r-1][c] = true;
+                    q.offer(new Pair(r-1, c));
+                }
+
+                // Down
+                if (r+ 1 < mat.length && !visited[r+1][c]) {
+                    visited[r+1][c] = true;
+                    q.offer(new Pair(r+1, c));
+                }
+
+                // Right
+                if (c+ 1 < mat[0].length && !visited[r][c+1]) {
+                    visited[r][c+1] = true;
+                    q.offer(new Pair(r, c+1));
+                }
+
+                // Left
+                if (c - 1 >=0 && !visited[r][c-1]) {
+                    visited[r][c-1] = true;
+                    q.offer(new Pair(r, c-1));
+                }
+            }
+        }
+        return mat;
     }
 
     // 4) Rotten oranges
