@@ -23,6 +23,7 @@ public class GraphProblems {
 
     // Concept
     // Shortest distance from source node to all nodes in DAG-> Topo sort
+    // Very important => Assumption that the top of the stack would be the source node (Only if the source points to all the elements, distance can be calculated)
     public static int[] shortestDistanceDAG(ArrayList<ArrayList<Pair>> adj, int s) {
         // 1) Create topo sort stack
         Stack<Integer> stack = new Stack<>();
@@ -36,14 +37,12 @@ public class GraphProblems {
         // 2) Create the distance Array
         int[] dist = new int[adj.size()];
         Arrays.fill(dist, Integer.MAX_VALUE);
+        dist[s] = 0;
 
         // 3) Take out node from stack and look at it's adjacency
         while (!stack.isEmpty()) {
             int node = stack.pop();
 
-            if (node == s) {
-                dist[node] = 0;
-            }
             int nodeDist= dist[node];
 
             if (nodeDist == Integer.MAX_VALUE) {
@@ -62,7 +61,6 @@ public class GraphProblems {
 
 
     }
-
     public static void shortestDFS(int i, ArrayList<ArrayList<Pair>> adj, boolean[] visited, Stack<Integer> stack) {
         if(visited[i]) {
             return;
@@ -78,6 +76,29 @@ public class GraphProblems {
         stack.push(i);
     }
 
+    // Shortest distance from source node to all nodes in undirected graph
+    public static int[] shortestDistanceUnDirected(ArrayList<ArrayList<Pair>> adj, int s) {
+        Queue<Pair> q = new LinkedList<>();
+        q.offer(new Pair(s, 0));
+        int[] dist = new int[adj.size()];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+
+        while (!q.isEmpty()) {
+            Pair pair = q.poll();
+
+            int node = pair.r;
+            int d = pair.c;
+
+            for(Pair p: adj.get(node)) {
+                if(d + p.c <  dist[p.r] ) {
+                    q.offer(new Pair(p.r, d + p.c));
+                    dist[p.r] = d + p.c;
+                }
+            }
+        }
+
+        return dist;
+    }
 
     // 11) Cheapest flight within K stops -> TLE error
     // Similar problem https://leetcode.com/problems/network-delay-time/
