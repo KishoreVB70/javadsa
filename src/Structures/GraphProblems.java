@@ -4,10 +4,14 @@ import java.util.*;
 
 public class GraphProblems {
     public static void main(String[] args) {
-        int[][] arr = {
-                {1,0,99}
-        };
-        System.out.println(findCheapestPrice(4, arr, 1, 0, 1));
+        List<String> lt = new ArrayList<>();
+        lt.add("hot");
+        lt.add("dot");
+        lt.add("doh");
+        lt.add("lot");
+        lt.add("log");
+        lt.add("cog");
+        System.out.println(ladderLength("hit", "cog", lt));
     }
 
     static class Pair {
@@ -20,6 +24,42 @@ public class GraphProblems {
         }
     }
 
+
+    // 11) Word ladder
+    public static  int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        Set<String> set = new HashSet<>(wordList);
+        Queue<String> q = new LinkedList<>();
+
+        q.offer(beginWord);
+
+        set.remove(beginWord);
+
+        int dis = 1;
+
+        while(!q.isEmpty()) {
+            dis++;
+            int size = q.size();
+
+            for(int k = 0; k < size; k++) {
+                char[] p = q.poll().toCharArray();
+                for(int i = 0; i < p.length; i++) {
+                    char[] c = Arrays.copyOf(p, p.length);
+                    for(int j = 0; j < 26; j++) {
+                        c[i] = (char) ((char) j + 'a');
+                        String st = new String(c);
+                        if (set.contains(st)) {
+                            if(st.equals(endWord)) {
+                                return dis;
+                            }
+                            q.offer(st);
+                            set.remove(st);
+                        }
+                    }
+                }
+            }
+        }
+        return 0;
+    }
 
     // Concept
     // Shortest distance from source node to all nodes in DAG-> Topo sort
@@ -101,6 +141,7 @@ public class GraphProblems {
     }
 
     // 11) Cheapest flight within K stops -> TLE error
+    // Can be solved only by dijkstra's since it is a DCG
     // Similar problem https://leetcode.com/problems/network-delay-time/
     public static int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
         int sol = Integer.MAX_VALUE;
