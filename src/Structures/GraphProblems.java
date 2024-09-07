@@ -11,7 +11,13 @@ public class GraphProblems {
         lt.add("lot");
         lt.add("log");
         lt.add("cog");
-        System.out.println(ladderLength("hit", "cog", lt));
+        List<List<String>> result = findLadders("hit", "cog", lt);
+        for(List<String> ltt: result) {
+            for(String st: ltt) {
+                System.out.print(st);
+            }
+            System.out.println();
+        }
     }
 
     static class Pair {
@@ -24,6 +30,50 @@ public class GraphProblems {
         }
     }
 
+
+    // 12) Word Ladder II
+    public static List<List<String>> findLadders(String beginWord, String endWord, List<String> wordList) {
+        List<List<String>> result = new ArrayList<>();
+        Queue<List<String>> q = new LinkedList<>();
+        Set<String> set = new HashSet<>(wordList);
+
+        // 1) Create queue
+        List<String> first = new ArrayList<>();
+        first.add(beginWord);
+        q.offer(first);
+
+        boolean over = false;
+        while(!q.isEmpty()) {
+            int size = q.size();
+            if(over) break;
+            for(int i = 0; i < size; i++) {
+                List<String> clist = q.poll();
+                char[] p = clist.getLast().toCharArray();
+
+                for(int j = 0; j < p.length; j++) {
+                    char[] c = Arrays.copyOf(p, p.length);
+
+                    for(int k = 0; k < 26; k++) {
+                        c[j] = (char) ((char) k  + 'a');
+                        String st = new String(c);
+
+                        if (set.contains(st) && !clist.contains(st)) {
+                            List<String> nlist = new ArrayList<>(clist);
+                            nlist.add(st);
+                            q.offer(nlist);
+
+                            if(st.equals(endWord)) {
+                                over = true;
+                                result.add(nlist);
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+        return result;
+    }
 
     // 11) Word ladder
     public static  int ladderLength(String beginWord, String endWord, List<String> wordList) {
@@ -45,7 +95,7 @@ public class GraphProblems {
                 for(int i = 0; i < p.length; i++) {
                     char[] c = Arrays.copyOf(p, p.length);
                     for(int j = 0; j < 26; j++) {
-                        c[i] = (char) ((char) j + 'a');
+                        c[i] = (char) ((char) j  + 'a');
                         String st = new String(c);
                         if (set.contains(st)) {
                             if(st.equals(endWord)) {
