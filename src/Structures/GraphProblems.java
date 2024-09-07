@@ -4,13 +4,70 @@ import java.util.*;
 
 public class GraphProblems {
     public static void main(String[] args) {
-        int[][] arr = { {1,0}};
-        int[] res = findOrder(2, arr);
-        for(int i: res) {
-            System.out.println(i);
-        }
+        int[][] arr = {
+                {1,0,99}
+        };
+        System.out.println(findCheapestPrice(4, arr, 1, 0, 1));
     }
-    // 10)
+
+    // 11) Cheapest flight within K stops
+    public static int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+        int sol = Integer.MAX_VALUE;
+
+        for(int i = 0; i < flights.length; i++) {
+            if (flights[i][0] == src) {
+                boolean[] visited = new boolean[flights.length];
+                int res = dfs(i, flights, visited, 0, 0, k, dst);
+                if ( res > -1){
+                    sol = Integer.min(sol, res);
+                }
+            }
+        }
+
+        if (sol == Integer.MAX_VALUE) {
+            return-1;
+        }
+        return sol;
+
+    }
+
+    public static int dfs(int i, int[][] flights, boolean[] visited, int price, int steps, int n, int dst) {
+        if(visited[flights[i][0]]) {
+            return -1;
+        }
+
+        if(flights[i][1] == dst) {
+            return price+flights[i][2];
+        }
+
+        if (++steps > n) {
+            return -1;
+        }
+
+        visited[flights[i][0]] = true;
+
+        int resulter = Integer.MAX_VALUE;
+        for(int r = 0; r<flights.length; r++) {
+            if (flights[r][0] == flights[i][1]) {
+                int result = dfs(r, flights, visited, price+flights[i][2], steps, n, dst);
+                if (result > 0) {
+                    resulter = Integer.min(resulter, result);
+                }
+            }
+        }
+
+
+        // Back tracking
+        visited[flights[i][0]] = false;
+
+        if (resulter == Integer.MAX_VALUE) {
+            return -1;
+        }
+        return resulter;
+    }
+
+    // 10) Course Schedule II -> Literally the same as course schedule
+    // Medium https://leetcode.com/problems/course-schedule-ii/
     public static int[] findOrder(int numCourses, int[][] prerequisites) {
         // Create inDeg
         int[] deg = new int[numCourses];
@@ -45,6 +102,41 @@ public class GraphProblems {
             return result;
         }
         return new int[0];
+
+    }
+
+    // 9) Course Schedule
+    // Medium https://leetcode.com/problems/course-schedule/
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        // Create inDeg
+        int[] deg = new int[numCourses];
+        for (int[] prerequisite : prerequisites) {
+            deg[prerequisite[0]]++;
+        }
+
+        Queue<Integer> q = new LinkedList<>();
+
+        for(int i = 0; i < deg.length; i++) {
+            if (deg[i] == 0) {
+                q.offer(i);
+            }
+        }
+
+        int index = 0;
+        while(!q.isEmpty()) {
+            int node = q.poll();
+            index ++;
+            for(int i = 0; i < prerequisites.length; i++) {
+                if (prerequisites[i][1] == node) {
+                    deg[prerequisites[i][0]]--;
+                    if (deg[prerequisites[i][0]] <= 0) {
+                        q.offer(prerequisites[i][0]);
+                    }
+                }
+            }
+        }
+
+        return index == numCourses;
 
     }
 
