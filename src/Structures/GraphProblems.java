@@ -10,14 +10,84 @@ public class GraphProblems {
         System.out.println(findCheapestPrice(4, arr, 1, 0, 1));
     }
 
-    // 11) Cheapest flight within K stops
+    static class Pair {
+        int r;
+        int c;
+
+        Pair(int r, int c) {
+            this.r = r;
+            this.c = c;
+        }
+    }
+
+
+    // Concept
+    // Shortest distance from source node to all nodes in DAG-> Topo sort
+    public static int[] shortestDistanceDAG(ArrayList<ArrayList<Pair>> adj, int s) {
+        // 1) Create topo sort stack
+        Stack<Integer> stack = new Stack<>();
+        boolean[] visited = new boolean[adj.size()];
+        for(int i = 0; i < adj.size(); i++) {
+            if(!visited[i]) {
+                shortestDFS(i, adj, visited, stack);
+            }
+        }
+
+        // 2) Create the distance Array
+        int[] dist = new int[adj.size()];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+
+        // 3) Take out node from stack and look at it's adjacency
+        while (!stack.isEmpty()) {
+            int node = stack.pop();
+
+            if (node == s) {
+                dist[node] = 0;
+            }
+            int nodeDist= dist[node];
+
+            if (nodeDist == Integer.MAX_VALUE) {
+                nodeDist = 0;
+            }
+
+            // If the distance is lower, change the distance, if not, don't change
+            for(Pair p: adj.get(node)) {
+                if (dist[p.c] < nodeDist + p.r) {
+                    dist[p.c] = nodeDist + p.r;
+                }
+            }
+        }
+
+        return dist;
+
+
+    }
+
+    public static void shortestDFS(int i, ArrayList<ArrayList<Pair>> adj, boolean[] visited, Stack<Integer> stack) {
+        if(visited[i]) {
+            return;
+        }
+
+        visited[i] = true;
+
+        for(Pair p: adj.get(i)) {
+            shortestDFS(p.c, adj, visited, stack);
+        }
+
+        // When exiting, add it to the stack
+        stack.push(i);
+    }
+
+
+    // 11) Cheapest flight within K stops -> TLE error
+    // Similar problem https://leetcode.com/problems/network-delay-time/
     public static int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
         int sol = Integer.MAX_VALUE;
 
         for(int i = 0; i < flights.length; i++) {
             if (flights[i][0] == src) {
-                boolean[] visited = new boolean[flights.length];
-                int res = dfs(i, flights, visited, 0, 0, k, dst);
+                boolean[] visited = new boolean[n+flights.length];
+                int res = cheapDFS(i, flights, visited, 0, 0, k, dst);
                 if ( res > -1){
                     sol = Integer.min(sol, res);
                 }
@@ -30,8 +100,7 @@ public class GraphProblems {
         return sol;
 
     }
-
-    public static int dfs(int i, int[][] flights, boolean[] visited, int price, int steps, int n, int dst) {
+    public static int cheapDFS(int i, int[][] flights, boolean[] visited, int price, int steps, int n, int dst) {
         if(visited[flights[i][0]]) {
             return -1;
         }
@@ -49,7 +118,7 @@ public class GraphProblems {
         int resulter = Integer.MAX_VALUE;
         for(int r = 0; r<flights.length; r++) {
             if (flights[r][0] == flights[i][1]) {
-                int result = dfs(r, flights, visited, price+flights[i][2], steps, n, dst);
+                int result = cheapDFS(r, flights, visited, price+flights[i][2], steps, n, dst);
                 if (result > 0) {
                     resulter = Integer.min(resulter, result);
                 }
@@ -65,6 +134,7 @@ public class GraphProblems {
         }
         return resulter;
     }
+
 
     // 10) Course Schedule II -> Literally the same as course schedule
     // Medium https://leetcode.com/problems/course-schedule-ii/
@@ -335,15 +405,6 @@ public class GraphProblems {
 
     // 4) Rotten oranges
     // Medium https://leetcode.com/problems/rotting-oranges/description/
-    static class Pair {
-        int r;
-        int c;
-
-        Pair(int r, int c) {
-            this.r = r;
-            this.c = c;
-        }
-    }
     public static int orangesRotting(int[][] grid) {
         int steps = 0;
         Queue<Pair> q = new LinkedList<>();
