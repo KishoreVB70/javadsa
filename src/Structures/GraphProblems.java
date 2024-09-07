@@ -31,7 +31,7 @@ public class GraphProblems {
         }
     }
 
-    // GFG problem
+    // GFG problem Shortest path from node 1 to n in an undirected graph
     public List<Integer> returnShortestPathUnDirected(int n, int m, int edges[][]) {
         //  Priority Queue
         PriorityQueue<List<Pair>> q = new PriorityQueue<List<Pair>>((f, s) -> f.getLast().r - s.getLast().r);
@@ -83,6 +83,7 @@ public class GraphProblems {
         }
         return result;
     }
+
     // Concept Dijkstra's algorithm
     public static int[] dijkstra(List<List<Pair>> adj, int src) {
         // Priority queue
@@ -739,7 +740,7 @@ public class GraphProblems {
     }
 
 
-    // Depth First Search
+    // Concept -> Depth First Search
     public static void dfsOfGraph(int node, boolean[] visited, ArrayList<ArrayList<Integer>> adj) {
         int size = adj.getFirst().size();
         for(int i = 0; i < size; i++) {
@@ -750,7 +751,7 @@ public class GraphProblems {
         }
     }
 
-    // Breath First Search
+    // Concept -> Breath First Search
     public static ArrayList<Integer> bfsOfGraph(int V, ArrayList<ArrayList<Integer>> adj) {
         ArrayList<Integer> result = new ArrayList<>(adj.size());
         boolean[] visited = new boolean[V];
@@ -776,13 +777,5 @@ public class GraphProblems {
 
         return result;
     }
-
-
-
-
-
-
-
-
 
 }
