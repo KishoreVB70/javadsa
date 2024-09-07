@@ -31,13 +31,69 @@ public class GraphProblems {
         }
     }
 
+    // GFG problem
+    public List<Integer> returnShortestPathUnDirected(int n, int m, int edges[][]) {
+        //  Priority Queue
+        PriorityQueue<List<Pair>> q = new PriorityQueue<List<Pair>>((f, s) -> f.getLast().r - s.getLast().r);
+        List<Pair> lt = new ArrayList<>();
+        lt.add(new Pair(1,0));
+        q.offer(lt);
+
+        // Distance array
+        int[] dist = new int[m+1];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        dist[1] = 0;
+
+        List<Integer> result = new ArrayList<>();
+
+        while(!q.isEmpty()) {
+            // Get hte list from the queue
+            List<Pair> cList = q.poll();
+            Pair pair = cList.getLast();
+            int cNode = pair.r;
+            int cDist = pair.c;
+
+            // Traverse through the adjacency list
+            for (int[] edge : edges) {
+
+                if (edge[0] == cNode) {
+                    int nNode = edge[1];
+                    int nDist = edge[2];
+
+                    if (dist[nNode] > cDist + nDist) {
+                        dist[nNode] = cDist + nDist;
+                        List<Pair> nList = new ArrayList<>(cList);
+                        nList.add(new Pair(nNode, cDist + nDist));
+
+                        // If it is the target node
+                        if (nNode == n) {
+                            List<Integer> rList = new ArrayList<>(n);
+                            for (Pair p : nList) {
+                                rList.add(p.r);
+                            }
+                            result = rList;
+                        }
+                        // Only offer if it is not the target node
+                        else {
+                            q.offer(nList);
+                        }
+                    }
+                }
+            }
+        }
+        return result;
+    }
     // Concept Dijkstra's algorithm
     public static int[] dijkstra(List<List<Pair>> adj, int src) {
+        // Priority queue
         PriorityQueue<Pair> q = new PriorityQueue<Pair>((x,y) -> x.r - y.r);
-        int[] dist = new int[adj.size()];
-
         q.offer(new Pair(src, 0));
+
+        // Distance array
+        int[] dist = new int[adj.size()];
+        Arrays.fill(dist, Integer.MAX_VALUE);
         dist[src] = 0;
+
 
         while (!q.isEmpty()) {
             Pair pair = q.poll();
