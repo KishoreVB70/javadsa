@@ -34,18 +34,22 @@ public class GraphProblems {
     // 12) Word Ladder II
     public static List<List<String>> findLadders(String beginWord, String endWord, List<String> wordList) {
         List<List<String>> result = new ArrayList<>();
-        Queue<List<String>> q = new LinkedList<>();
+        Queue<List<String>> q = new LinkedList();
         Set<String> set = new HashSet<>(wordList);
+        Set<String> visited = new HashSet<>();
 
         // 1) Create queue
         List<String> first = new ArrayList<>();
         first.add(beginWord);
         q.offer(first);
+        visited.add(beginWord);
 
         boolean over = false;
         while(!q.isEmpty()) {
             int size = q.size();
             if(over) break;
+            Set<String> tvisit = new HashSet<>();
+
             for(int i = 0; i < size; i++) {
                 List<String> clist = q.poll();
                 char[] p = clist.getLast().toCharArray();
@@ -57,10 +61,11 @@ public class GraphProblems {
                         c[j] = (char) ((char) k  + 'a');
                         String st = new String(c);
 
-                        if (set.contains(st) && !clist.contains(st)) {
+                        if (set.contains(st) && !visited.contains(st)) {
                             List<String> nlist = new ArrayList<>(clist);
                             nlist.add(st);
                             q.offer(nlist);
+                            tvisit.add(st);
 
                             if(st.equals(endWord)) {
                                 over = true;
@@ -70,6 +75,7 @@ public class GraphProblems {
                     }
                 }
             }
+            visited.addAll(tvisit);
 
         }
         return result;
