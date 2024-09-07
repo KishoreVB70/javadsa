@@ -1,5 +1,6 @@
 package Structures;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class GraphProblems {
@@ -30,6 +31,27 @@ public class GraphProblems {
         }
     }
 
+    // Concept Dijkstra's algorithm
+    public static int[] dijkstra(List<List<Pair>> adj, int src) {
+        PriorityQueue<Pair> q = new PriorityQueue<Pair>((x,y) -> x.r - y.r);
+        int[] dist = new int[adj.size()];
+
+        q.offer(new Pair(src, 0));
+        dist[src] = 0;
+
+        while (!q.isEmpty()) {
+            Pair pair = q.poll();
+            for(Pair p: adj.get(pair.c)) {
+                if (dist[p.c] > pair.r + p.r) {
+                    q.offer(new Pair(pair.r,  + p.r));
+                    dist[p.c] = pair.r + p.r;
+                }
+            }
+        }
+
+        return dist;
+
+    }
 
     // 12) Word Ladder II
     public static List<List<String>> findLadders(String beginWord, String endWord, List<String> wordList) {
