@@ -44,7 +44,70 @@ public class GraphProblems {
         }
     }
 
+    // 16) Number of ways to arrive at the destination
+    // Medium
+    public int countPaths(int n, int[][] roads) {
+        // 1) Distance array
+        int[] dist = new int[n];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        // Always starts from 0
+        dist[0] = 0;
+
+
+        // 2) Priority Queue
+        PriorityQueue<Fpair> q = new PriorityQueue<Fpair>((f,s) -> f.d - s.d);
+        q.offer(new Fpair(0, 0));
+
+        // Operation
+        int result = 0;
+
+        while(!q.isEmpty()) {
+            Fpair pair = q.poll();
+            int cr = pair.r;
+            int cd = pair.d;
+
+            for(int i = 0; i < roads.length; i++) {
+                if(! (roads[i][0] == cr || roads[i][1] == cr)) {
+                    continue;
+                }
+
+                int nr = roads[i][1];
+                if(roads[i][1] == cr) {
+                    nr = roads[i][0];
+                }
+
+                int nd = cd + roads[i][2];
+
+                // If it is the result node
+                if(nr == n-1) {
+                    // 1) It is some value, but bigger
+                    if(dist[nr] > nd) {
+                        dist[nr] = nd;
+                        // Reset whatever previous result
+                        result = 1;
+                    }
+                    // 2) It is the same
+                    else if(dist[nr] == nd) {
+                        result++;
+                    }
+                    // 3) New distance is bigger
+                    // Ignore it
+                }
+
+                // If it's a normal node, it must be smaller than the current node distance and also            the target node total distance
+                else if(nd <= dist[nr] && nd <= dist[n-1]) {
+                    if(dist[nr] > nd) {
+                        dist[nr] = nd;
+                    }
+                    q.offer(new Fpair(nr, nd));
+                }
+            }
+        }
+        return result;
+    }
+
     // 15) Cheapest flight with K stops
+    // https://leetcode.com/problems/cheapest-flights-within-k-stops/
     public static int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
         // 2) Distance array
         int[] dist = new int[n];
@@ -95,8 +158,6 @@ public class GraphProblems {
 
         return dist[dst] == Integer.MAX_VALUE?-1:dist[dst];
     }
-
-
 
     // 14) Minimum effort Path
     // https://leetcode.com/problems/path-with-minimum-effort/
@@ -149,8 +210,8 @@ public class GraphProblems {
         return dist[rn-1][cn-1];
     }
 
-
     // 13) Shortest distance in a binary matrix
+    // https://leetcode.com/problems/path-with-minimum-effort/
     public static int shortestPathBinaryMatrix(int[][] grid) {
         // Edge case
         if(grid[0][0] == 1) {
@@ -514,7 +575,6 @@ public class GraphProblems {
         return resulter;
     }
 
-
     // 10) Course Schedule II -> Literally the same as course schedule
     // Medium https://leetcode.com/problems/course-schedule-ii/
     public static int[] findOrder(int numCourses, int[][] prerequisites) {
@@ -701,7 +761,6 @@ public class GraphProblems {
         dfsXO(i+1, j, board, visited);
         dfsXO(i, j+1, board, visited);
     }
-
 
     // Concept -> Finding cycle in graph
     public boolean isCycleBFS(ArrayList<ArrayList<Integer>> adj) {
@@ -903,7 +962,6 @@ public class GraphProblems {
         visitIslands(grid, i, j-1);
     }
 
-
     // 1) Number of provinces
     // Medium
     // https://leetcode.com/problems/number-of-provinces/
@@ -920,7 +978,6 @@ public class GraphProblems {
         }
         return provinces;
     }
-
 
     // Concept -> Depth First Search
     public static void dfsOfGraph(int node, boolean[] visited, ArrayList<ArrayList<Integer>> adj) {
