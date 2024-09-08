@@ -55,6 +55,8 @@ public class GraphProblems {
         // 1) Distance array
         int[] dist = new int[n];
         Arrays.fill(dist, Integer.MAX_VALUE);
+
+        // 2) Relaxation
         for(int j = 0; j < n-1; j++) {
             for(int i = 0; i < n; i++) {
                 int cr = edges[i][0];
@@ -72,7 +74,21 @@ public class GraphProblems {
                 }
             }
         }
-        return dist;
+
+        // 3) Negative cycle check
+        boolean neg = false;
+        for(int i = 0; i < n; i++) {
+            int cr = edges[i][0];
+            int nr = edges[i][1];
+            int cd = dist[cr];
+            int nd = edges[i][2] + cd;
+            if(dist[nr] > nd) {
+               neg = true;
+               break;
+            }
+        }
+        int[] nega = {-1};
+        return !neg?dist:nega;
     }
 
     // 16) Number of ways to arrive at the destination
