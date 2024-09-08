@@ -34,52 +34,58 @@ public class GraphProblems {
     // GFG problem Shortest path from node 1 to n in an undirected graph
     public List<Integer> returnShortestPathUnDirected(int n, int m, int edges[][]) {
         //  Priority Queue
-        PriorityQueue<List<Pair>> q = new PriorityQueue<List<Pair>>((f, s) -> f.getLast().r - s.getLast().r);
-        List<Pair> lt = new ArrayList<>();
-        lt.add(new Pair(1,0));
-        q.offer(lt);
+        PriorityQueue<Pair> q = new PriorityQueue<Pair>((f, s) -> f.r - s.r);
+        q.offer(new Pair(1,0));
 
         // Distance array
         int[] dist = new int[m+1];
         Arrays.fill(dist, Integer.MAX_VALUE);
         dist[1] = 0;
 
+        // Memoization array
+        int[] parent = new int[m+1];
+        for(int i = 0; i < parent.length; i++) {
+            parent[i] = i;
+        }
+        parent[1] = 0;
+
         List<Integer> result = new ArrayList<>();
 
         while(!q.isEmpty()) {
-            // Get hte list from the queue
-            List<Pair> cList = q.poll();
-            Pair pair = cList.getLast();
+            // Get the list from the queue
+            Pair pair = q.poll();
             int cNode = pair.r;
             int cDist = pair.c;
 
             // Traverse through the adjacency list
             for (int[] edge : edges) {
-
                 if (edge[0] == cNode) {
                     int nNode = edge[1];
                     int nDist = edge[2];
 
                     if (dist[nNode] > cDist + nDist) {
                         dist[nNode] = cDist + nDist;
-                        List<Pair> nList = new ArrayList<>(cList);
-                        nList.add(new Pair(nNode, cDist + nDist));
+                        parent[nNode] = cNode;
 
                         // If it is the target node
                         if (nNode == n) {
                             List<Integer> rList = new ArrayList<>(n);
-                            for (Pair p : nList) {
-                                rList.add(p.r);
+                            int i = n;
+                            while (i >= 1){
+                                result.addFirst(parent[i]);
+                                i = parent[i];
                             }
-                            result = rList;
                         }
                         // Only offer if it is not the target node
                         else {
-                            q.offer(nList);
+                            q.offer(new Pair(nNode, cDist + nDist));
                         }
                     }
                 }
             }
+        }
+        if(result.isEmpty()) {
+            result.add(-1);
         }
         return result;
     }
