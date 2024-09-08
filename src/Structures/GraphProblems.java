@@ -35,6 +35,77 @@ public class GraphProblems {
 
     }
 
+    class Dpair{
+        int d;
+        int r;
+        int c;
+        int t;
+
+        Dpair( int r, int c, int d, int t) {
+            this.d = d;
+            this.r = r;
+            this.c = c;
+            this.t = t;
+        }
+    }
+
+    public int minimumEffortPath(int[][] heights) {
+        // 1) Min heap
+        PriorityQueue<Dpair> q = new PriorityQueue<Dpair>((f,s) -> f.t - s.t);
+        q.offer(new Dpair(0,0,0,0));
+
+        int rn = heights.length;
+        int cn = heights[0].length;
+        int result = rn*cn;
+
+        // 2) Distance matrix
+        int[][] dist = new int[rn][cn];
+        int val = rn * cn;
+        for(int i = 0; i < rn; i++) {
+            for(int j = 0; j < cn; j++) {
+                dist[i][j] = val;
+            }
+        }
+
+        q.offer(new Dpair(0,0,0,0));
+
+        // 3) Queue
+        while(!q.isEmpty()) {
+            Dpair pair = q.poll();
+            int cr = pair.r;
+            int cc = pair.c;
+            int cd = pair.c;
+            int ct = pair.t;
+
+
+            // Only four directions
+            int[] rArr = {-1, 0, 1, 0};
+            int[] cArr = {0, 1, 0, -1};
+
+            for(int i = 0; i < 4; i++) {
+                int nr = cr + rArr[i];
+                int nc = cc + cArr[i];
+
+                if (nr >= 0 && nr < rn && nc >= 0 && nc< cn
+                        && dist[nr][nc] > cd + Math.abs(heights[cr][cc] - heights[nr][nc])) {
+                    int nd = cd + (heights[cr][cc] - heights[nr][nc]);
+
+                    dist[nr][nc] = nd;
+                    int nt = Integer.max(ct, heights[cr][cc] - heights[nr][nc]);
+                    if ( nr == rn-1 && nc == cn-1) {
+                        if (nt < result) {
+                            result = nt;
+                        }
+                    } else {
+                        q.offer(new Dpair(nr, nc,nd, nt ));
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+
 
 
     // 13) Shortest distance in a binary matrix
@@ -43,18 +114,19 @@ public class GraphProblems {
         if(grid[0][0] == 1) {
             return -1;
         }
+        int n = grid.length;
         // 1) Priority Queue
         PriorityQueue<Tpair> q = new PriorityQueue<Tpair>((f,s) -> f.d - s.d);
         q.offer(new Tpair(0, 0, 0));
 
         // 2) Distance matrix
-        int[][] dist = new int[grid.length][grid.length];
-        for(int i = 0; i< grid.length; i++) {
-            for(int j = 0; j< grid.length; j++) {
-                dist[i][j] = Integer.MAX_VALUE;
+        int[][] dist = new int[n][n];
+        for(int i = 0; i< n; i++) {
+            for(int j = 0; j< n; j++) {
+                dist[i][j] = n*n;
             }
         }
-        dist[0][0] = 0;
+        dist[0][0] = 1;
 
         // Work
         while(!q.isEmpty()) {
@@ -65,24 +137,22 @@ public class GraphProblems {
 
             for(int i = cr-1; i<= cr+1; i++) {
                 for(int j = cc-1; j <= cc+1; j++) {
-                    if (i >= 0 && j >= 0 && i < grid.length && j <grid.length &&
+                    if (i >= 0 && j >= 0 && i < n && j <n &&
                             grid[i][j] == 0 && dist[i][j] > cDist + 1) {
 
                         dist[i][j] = cDist + 1;
 
-                        if( !(i == grid.length -1 && j == grid.length -1) ) {
+                        if( !(i == n -1 && j == n -1) ) {
                             q.offer(new Tpair(cDist +1, i, j));
                         }
                     }
                 }
             }
         }
-        if (dist[grid.length-1][grid.length -1] != Integer.MAX_VALUE) {
-            return dist[grid.length -1][grid.length -1];
+        if (dist[n-1][n -1] != n*n) {
+            return dist[n -1][n -1];
         }
         return -1;
-
-
     }
 
     // GFG problem Shortest path from node 1 to n in an undirected graph
