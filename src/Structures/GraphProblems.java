@@ -5,20 +5,11 @@ import java.util.*;
 
 public class GraphProblems {
     public static void main(String[] args) {
-        List<String> lt = new ArrayList<>();
-        lt.add("hot");
-        lt.add("dot");
-        lt.add("doh");
-        lt.add("lot");
-        lt.add("log");
-        lt.add("cog");
-        List<List<String>> result = findLadders("hit", "cog", lt);
-        for(List<String> ltt: result) {
-            for(String st: ltt) {
-                System.out.print(st);
-            }
-            System.out.println();
-        }
+        int[][] grid = {
+                {0,1},
+                {1,0}
+        };
+        System.out.println(shortestPathBinaryMatrix(grid));
     }
 
     static class Pair {
@@ -29,6 +20,69 @@ public class GraphProblems {
             this.r = r;
             this.c = c;
         }
+    }
+
+    static class Tpair {
+        int r;
+        int c;
+        int d;
+
+        Tpair(int d, int r, int c) {
+            this.r = r;
+            this.c = c;
+            this.d = d;
+        }
+
+    }
+
+
+
+    // 13) Shortest distance in a binary matrix
+    public static int shortestPathBinaryMatrix(int[][] grid) {
+        // Edge case
+        if(grid[0][0] == 1) {
+            return -1;
+        }
+        // 1) Priority Queue
+        PriorityQueue<Tpair> q = new PriorityQueue<Tpair>((f,s) -> f.d - s.d);
+        q.offer(new Tpair(0, 0, 0));
+
+        // 2) Distance matrix
+        int[][] dist = new int[grid.length][grid.length];
+        for(int i = 0; i< grid.length; i++) {
+            for(int j = 0; j< grid.length; j++) {
+                dist[i][j] = Integer.MAX_VALUE;
+            }
+        }
+        dist[0][0] = 0;
+
+        // Work
+        while(!q.isEmpty()) {
+            Tpair pair = q.poll();
+            int cDist = pair.d;
+            int cr = pair.r;
+            int cc = pair.c;
+
+            for(int i = cr-1; i<= cr+1; i++) {
+                for(int j = cc-1; j <= cc+1; j++) {
+                    if (i >= 0 && j >= 0 && i < grid.length && j <grid.length &&
+                            grid[i][j] == 0 && dist[i][j] > cDist + 1) {
+
+                        dist[i][j] = cDist + 1;
+
+                        if( !(i == grid.length -1 && j == grid.length -1) ) {
+                            q.offer(new Tpair(cDist +1, i, j));
+                        }
+                    }
+                }
+            }
+        }
+        if (dist[grid.length-1][grid.length -1] != Integer.MAX_VALUE) {
+            return dist[grid.length -1][grid.length -1];
+        }
+        return -1;
+
+
     }
 
     // GFG problem Shortest path from node 1 to n in an undirected graph
@@ -47,9 +101,9 @@ public class GraphProblems {
         for(int i = 0; i < parent.length; i++) {
             parent[i] = i;
         }
-        parent[1] = 0;
 
         List<Integer> result = new ArrayList<>();
+        Stack<Integer> resStack = new Stack<>();
 
         while(!q.isEmpty()) {
             // Get the list from the queue
@@ -69,12 +123,15 @@ public class GraphProblems {
 
                         // If it is the target node
                         if (nNode == n) {
-                            List<Integer> rList = new ArrayList<>(n);
+                            Stack<Integer> res = new Stack<>();
                             int i = n;
-                            while (i >= 1){
-                                result.addFirst(parent[i]);
+                            // Only for 1, parent would be 1
+                            do {
+                                res.push(parent[i]);
                                 i = parent[i];
                             }
+                            while (parent[i] != i);
+                            resStack = res;
                         }
                         // Only offer if it is not the target node
                         else {
@@ -84,6 +141,11 @@ public class GraphProblems {
                 }
             }
         }
+
+        while (!resStack.isEmpty()) {
+            result.add(resStack.pop());
+        }
+
         if(result.isEmpty()) {
             result.add(-1);
         }
