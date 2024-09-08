@@ -10,7 +10,6 @@ public class GraphProblems {
         };
         System.out.println(findCheapestPrice(4, grid, 0, 3, 1));
     }
-
     static class Pair {
         int r;
         int c;
@@ -20,7 +19,6 @@ public class GraphProblems {
             this.c = c;
         }
     }
-
     static class Tpair {
         int r;
         int c;
@@ -33,7 +31,6 @@ public class GraphProblems {
         }
 
     }
-
     static class Fpair{
         int r;
         int d;
@@ -53,8 +50,33 @@ public class GraphProblems {
         }
     }
 
+    // Concept -> Bell Man Ford algorithm
+    public int[] bellmanFord(int[][] edges, int n) {
+        // 1) Distance array
+        int[] dist = new int[n];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        for(int j = 0; j < n-1; j++) {
+            for(int i = 0; i < n; i++) {
+                int cr = edges[i][0];
+                int nr = edges[i][1];
+                int cd = dist[cr];
+
+                // If it has not been assigned - continue
+                if(cd == Integer.MAX_VALUE) {
+                    continue;
+                }
+
+                int nd = edges[i][2] + cd;
+                if(dist[nr] > nd) {
+                    dist[nr] = nd;
+                }
+            }
+        }
+        return dist;
+    }
+
     // 16) Number of ways to arrive at the destination
-    // Medium
+    // Medium https://leetcode.com/problems/number-of-ways-to-arrive-at-destination/
     public int countPaths(int n, int[][] roads) {
         // 1) Distance array
         long[] dist = new long[n];
