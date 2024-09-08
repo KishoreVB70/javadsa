@@ -43,28 +43,39 @@ public class GraphProblems {
             this.d = d;
         }
     }
+    static class Cpair {
+        int r;
+        long d;
+
+        Cpair(int r, long d) {
+            this.r =r;
+            this.d = d;
+        }
+    }
 
     // 16) Number of ways to arrive at the destination
     // Medium
     public int countPaths(int n, int[][] roads) {
         // 1) Distance array
-        int[] dist = new int[n];
-        Arrays.fill(dist, Integer.MAX_VALUE);
+        long[] dist = new long[n];
+        Arrays.fill(dist, Long.MAX_VALUE);
         // Always starts from 0
         dist[0] = 0;
 
 
         // 2) Priority Queue
-        PriorityQueue<Fpair> q = new PriorityQueue<Fpair>((f,s) -> f.d - s.d);
-        q.offer(new Fpair(0, 0));
+        PriorityQueue<Cpair> q = new PriorityQueue<Cpair>((f,s) -> Long.compare(f.d, s.d));
+        q.offer(new Cpair(0, 0));
 
-        // Operation
-        int result = 0;
+        // Memoization array
+        long[] memo = new long[n];
+        memo[0] = 1;
+        final int mod = (int) (1e9 + 7);
 
         while(!q.isEmpty()) {
-            Fpair pair = q.poll();
+            Cpair pair = q.poll();
             int cr = pair.r;
-            int cd = pair.d;
+            long cd = pair.d;
 
             for(int i = 0; i < roads.length; i++) {
                 if(! (roads[i][0] == cr || roads[i][1] == cr)) {
@@ -76,34 +87,39 @@ public class GraphProblems {
                     nr = roads[i][0];
                 }
 
-                int nd = cd + roads[i][2];
+                long nd = cd + roads[i][2];
 
                 // If it is the result node
                 if(nr == n-1) {
                     // 1) It is some value, but bigger
                     if(dist[nr] > nd) {
                         dist[nr] = nd;
-                        // Reset whatever previous result
-                        result = 1;
+                        memo[nr] = memo[cr];
                     }
                     // 2) It is the same
                     else if(dist[nr] == nd) {
-                        result++;
+                        memo[nr]= (memo[nr] + memo[cr]) % mod;
                     }
                     // 3) New distance is bigger
                     // Ignore it
                 }
 
                 // If it's a normal node, it must be smaller than the current node distance and also            the target node total distance
-                else if(nd <= dist[nr] && nd <= dist[n-1]) {
-                    if(dist[nr] > nd) {
+                else if(nd < dist[n-1]) {
+                    if (nd < dist[nr]) {
                         dist[nr] = nd;
+                        q.offer(new Cpair(nr, nd));
+                        memo[nr] = memo[cr];
+                    } else if (nd == dist[nr]) {
+                        memo[nr] = (memo[nr] + memo[cr] ) % mod;
                     }
-                    q.offer(new Fpair(nr, nd));
+
                 }
             }
         }
-        return result;
+
+        // Computing the result
+        return (int) ((memo[n-1] % mod));
     }
 
     // 15) Cheapest flight with K stops
