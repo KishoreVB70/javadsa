@@ -6,9 +6,9 @@ import java.util.*;
 public class GraphProblems {
     public static void main(String[] args) {
         int[][] grid = {
-                {1,10,6,7,9,10,4,9}
+                {0,1,1},{0,2,5},{1,2,1},{2,3,1}
         };
-//        System.out.println(minimumEffortPath(grid));
+        System.out.println(findCheapestPrice(4, grid, 0, 3, 1));
     }
 
     static class Pair {
@@ -34,6 +34,72 @@ public class GraphProblems {
 
     }
 
+    static class Fpair{
+        int r;
+        int d;
+
+        Fpair(int r, int d) {
+            this.r =r;
+            this.d = d;
+        }
+    }
+
+    // 15) Cheapest flight with K stops
+    public static int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+        // 2) Distance array
+        int[] dist = new int[n];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        dist[src] = 0;
+
+
+        // 1) Min heap
+        Queue<Fpair> q = new LinkedList<Fpair>();
+        for(int j = 0; j < flights.length; j++) {
+            if( flights[j][0] == src && (dist[flights[j][1]] > flights[j][2] ) ) {
+                dist[flights[j][1]] = flights[j][2];
+                q.offer(new Fpair(flights[j][1], flights[j][2]));
+            }
+        }
+
+
+        // 3) Operation
+        int steps = -1;
+        while(!q.isEmpty()) {
+            if(++steps == k) {
+                break;
+            }
+            int size = q.size();
+            for(int i = 0; i < size; i++) {
+                Fpair pair = q.poll();
+                int cr = pair.r;
+                int cd = pair.d;
+
+                // Find the next thing
+                for(int j = 0; j < flights.length; j++) {
+                    if( !(flights[j][0] == cr)) {
+                        continue;
+                    }
+                    int nr = flights[j][1];
+                    int nd = cd + flights[j][2];
+
+                    if (dist[nr] > nd) {
+                        dist[nr] = nd;
+                        if(!(nr == dst)) {
+                            q.offer(new Fpair(nr, nd));
+                        }
+                    }
+                }
+
+            }
+        }
+
+        return dist[dst] == Integer.MAX_VALUE?-1:dist[dst];
+    }
+
+
+
+    // 14) Minimum effort Path
+    // https://leetcode.com/problems/path-with-minimum-effort/
     public int minimumEffortPath(int[][] heights) {
         // 1) Min heap
         PriorityQueue<Tpair> q = new PriorityQueue<Tpair>((f,s) -> f.d - s.d);
@@ -82,7 +148,6 @@ public class GraphProblems {
 
         return dist[rn-1][cn-1];
     }
-
 
 
     // 13) Shortest distance in a binary matrix
@@ -226,6 +291,7 @@ public class GraphProblems {
     }
 
     // 12) Word Ladder II
+    // https://leetcode.com/problems/word-ladder/
     public static List<List<String>> findLadders(String beginWord, String endWord, List<String> wordList) {
         List<List<String>> result = new ArrayList<>();
         Queue<List<String>> q = new LinkedList();
@@ -276,6 +342,7 @@ public class GraphProblems {
     }
 
     // 11) Word ladder
+    // https://leetcode.com/problems/word-ladder-ii/
     public static  int ladderLength(String beginWord, String endWord, List<String> wordList) {
         Set<String> set = new HashSet<>(wordList);
         Queue<String> q = new LinkedList<>();
@@ -393,7 +460,7 @@ public class GraphProblems {
     // 11) Cheapest flight within K stops -> TLE error
     // Can be solved only by dijkstra's since it is a DCG
     // Similar problem https://leetcode.com/problems/network-delay-time/
-    public static int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+    public static int findCheapestPrice0(int n, int[][] flights, int src, int dst, int k) {
         int sol = Integer.MAX_VALUE;
 
         for(int i = 0; i < flights.length; i++) {
