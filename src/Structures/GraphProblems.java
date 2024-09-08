@@ -6,10 +6,9 @@ import java.util.*;
 public class GraphProblems {
     public static void main(String[] args) {
         int[][] grid = {
-                {0,1},
-                {1,0}
+                {1,10,6,7,9,10,4,9}
         };
-        System.out.println(shortestPathBinaryMatrix(grid));
+//        System.out.println(minimumEffortPath(grid));
     }
 
     static class Pair {
@@ -27,55 +26,38 @@ public class GraphProblems {
         int c;
         int d;
 
-        Tpair(int d, int r, int c) {
+        Tpair(int r, int c, int d) {
             this.r = r;
             this.c = c;
             this.d = d;
         }
 
-    }
-
-    class Dpair{
-        int d;
-        int r;
-        int c;
-        int t;
-
-        Dpair( int r, int c, int d, int t) {
-            this.d = d;
-            this.r = r;
-            this.c = c;
-            this.t = t;
-        }
     }
 
     public int minimumEffortPath(int[][] heights) {
         // 1) Min heap
-        PriorityQueue<Dpair> q = new PriorityQueue<Dpair>((f,s) -> f.t - s.t);
-        q.offer(new Dpair(0,0,0,0));
+        PriorityQueue<Tpair> q = new PriorityQueue<Tpair>((f,s) -> f.d - s.d);
+        q.offer(new Tpair(0,0,0));
 
         int rn = heights.length;
         int cn = heights[0].length;
-        int result = rn*cn;
 
         // 2) Distance matrix
         int[][] dist = new int[rn][cn];
-        int val = rn * cn;
+        int val = Integer.MAX_VALUE;
         for(int i = 0; i < rn; i++) {
             for(int j = 0; j < cn; j++) {
                 dist[i][j] = val;
             }
         }
-
-        q.offer(new Dpair(0,0,0,0));
+        dist[0][0] = 0;
 
         // 3) Queue
         while(!q.isEmpty()) {
-            Dpair pair = q.poll();
+            Tpair pair = q.poll();
             int cr = pair.r;
             int cc = pair.c;
-            int cd = pair.c;
-            int ct = pair.t;
+            int cd = pair.d;
 
 
             // Only four directions
@@ -86,24 +68,19 @@ public class GraphProblems {
                 int nr = cr + rArr[i];
                 int nc = cc + cArr[i];
 
-                if (nr >= 0 && nr < rn && nc >= 0 && nc< cn
-                        && dist[nr][nc] > cd + Math.abs(heights[cr][cc] - heights[nr][nc])) {
-                    int nd = cd + (heights[cr][cc] - heights[nr][nc]);
-
-                    dist[nr][nc] = nd;
-                    int nt = Integer.max(ct, heights[cr][cc] - heights[nr][nc]);
-                    if ( nr == rn-1 && nc == cn-1) {
-                        if (nt < result) {
-                            result = nt;
+                if (nr >= 0 && nr < rn && nc >= 0 && nc < cn) {
+                    int nd = Math.max(Math.abs(heights[cr][cc] - heights[nr][nc]), cd);
+                    if (dist[nr][nc] > nd) {
+                        dist[nr][nc] = nd;
+                        if ( !(nr == rn-1 && nc == cn-1)) {
+                            q.offer(new Tpair(nr, nc,nd));
                         }
-                    } else {
-                        q.offer(new Dpair(nr, nc,nd, nt ));
                     }
                 }
             }
         }
 
-        return result;
+        return dist[rn-1][cn-1];
     }
 
 
