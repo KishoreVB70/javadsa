@@ -50,6 +50,67 @@ public class GraphProblems {
         }
     }
 
+    // 17) Smallest number of neighbors threshold
+    // Medium https://leetcode.com/problems/find-the-city-with-the-smallest-number-of-neighbors-at-a-threshold-distance/
+    public int findTheCity(int n, int[][] edges, int distanceThreshold) {
+        // 1) Matrix
+        int[][] cost = new int[n][n];
+        // Bi directional edges
+        for(int i =0; i< edges.length; i++) {
+            cost[edges[i][0]][edges[i][1]] = edges[i][2];
+            cost[edges[i][1]][edges[i][0]] = edges[i][2];
+        }
+
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < n; j++) {
+                if(cost[i][j] > 0 || i == j) {
+                    continue;
+                }
+                cost[i][j] = Integer.MAX_VALUE;
+            }
+        }
+
+        // 2) Iteration
+        for(int k = 0; k < n; k++) {
+            for(int i = 0; i < n; i++) {
+                if(cost[i][k] == Integer.MAX_VALUE) {
+                    continue;
+                }
+                for(int j = 0; j < n; j++) {
+                    if(i == j || cost[k][j] == Integer.MAX_VALUE || i ==k || j == k) {
+                        continue;
+                    }
+
+                    if(cost[i][j] > cost[i][k] + cost[k][j]) {
+                        cost[i][j] = cost[i][k] + cost[k][j];
+                    }
+                }
+            }
+        }
+
+        // 3) Distance threshold
+        int[] dist = new int[n];
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < n; j++) {
+                if(cost[i][j] > distanceThreshold) {
+                    dist[i]++;
+                }
+            }
+        }
+
+        // 4) Finding the most
+        int largest = dist[0];
+        int result = 0;
+        for(int i = 0; i < n; i++) {
+            if(dist[i] >= largest) {
+                largest = dist[i];
+                result = i;
+            }
+        }
+
+        return result;
+    }
+
     // Concept -> Floyd Warshall algorithm
     public int[][] floydWarshall(int[][] edges, int n) {
         // 1) Create the matrix
@@ -67,7 +128,6 @@ public class GraphProblems {
             mat[edges[i][0]][edges[i][1]] = edges[i][2];
         }
 
-
         // 2) Iteratively make the matrix great
         for (int k = 0; k < n; k++) {
             for(int i = 0; i < n; i++) {
@@ -76,7 +136,7 @@ public class GraphProblems {
                     continue;
                 }
                 for(int j = 0; j < n; j++) {
-                    if(i == k || j == k || i == j || mat[k][j] == Integer.MAX_VALUE) {
+                    if(i == k || j == k || mat[k][j] == Integer.MAX_VALUE) {
                         continue;
                     }
                     // Go via
@@ -96,6 +156,7 @@ public class GraphProblems {
 
         return mat;
     }
+
     // Concept -> Bell Man Ford algorithm
     public int[] bellmanFord(int[][] edges, int n, int s) {
         // 1) Distance array
