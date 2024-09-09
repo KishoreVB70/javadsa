@@ -87,6 +87,13 @@ public class GraphProblems {
             }
         }
 
+        // 3) Negative cycle
+        for(int i = 0; i < n; i++) {
+            if(mat[i][i] < 0) {
+                return new int[][]{ {-1} };
+            }
+        }
+
         return mat;
     }
     // Concept -> Bell Man Ford algorithm
