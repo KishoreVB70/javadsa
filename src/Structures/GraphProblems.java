@@ -49,6 +49,70 @@ public class GraphProblems {
             this.d = d;
         }
     }
+    static class Ppair{
+        int n;
+        int p;
+        int w;
+
+        Ppair(int n, int p, int w) {
+            this.n = n;
+            this.p = p;
+            this.w = w;
+        }
+    }
+
+    // Concept
+    public ArrayList<Pair> primsAlgo(int[][] edges, int n) {
+        // 1) Priority queue
+        PriorityQueue<Ppair> q = new PriorityQueue<Ppair>((f,s) -> f.w - s.w);
+        q.offer(new Ppair(0,-1,0));
+
+        // 2) Visited
+        boolean[] visited = new boolean[n];
+
+        // 3) Results config
+        int sum = 0;
+        ArrayList<Pair> result = new ArrayList<>();
+
+        // Operation
+        while (!q.isEmpty()) {
+            Ppair pair = q.poll();
+            if(visited[pair.n]) {
+                continue;
+            }
+
+            // Visited is marked only after the node has been removed from the priority queue
+            visited[pair.n] = true;
+            sum+= pair.w;
+
+            // Don't add it to the result if it is the first node
+            if(pair.p > -1) {
+                result.add(new Pair(pair.p, pair.n));
+            }
+
+            // Adding adjacent nodes
+            for (int i = 0; i < edges.length; i++) {
+                if(edges[i][0] == n || edges[i][1] == n  ) {
+
+                    int nn = edges[i][0];
+
+                    if(edges[i][0] == n) {
+                        nn = edges[i][1];
+                    }
+
+                    // Add only if not visited
+                    if(!visited[nn]) {
+                        q.offer(new Ppair(nn, n, edges[i][2]));
+                    }
+                }
+            }
+
+        }
+        return result;
+
+
+
+    }
 
     // 17) Smallest number of neighbors threshold
     // Medium https://leetcode.com/problems/find-the-city-with-the-smallest-number-of-neighbors-at-a-threshold-distance/
