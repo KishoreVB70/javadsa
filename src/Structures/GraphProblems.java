@@ -61,6 +61,44 @@ public class GraphProblems {
         }
     }
 
+    //18) Number of additional connections required in the network
+    // Medium https://leetcode.com/problems/number-of-operations-to-make-network-connected/
+    public int makeConnected(int n, int[][] connections) {
+        // Base condition
+        // Less edges to refactor
+        if(connections.length < n -1) {
+            return -1;
+        }
+
+        // Modified Kruskals algo for no edge weights
+        // 1) Queue
+        DisjointSet dj = new DisjointSet(n);
+
+        // 2) Operation
+        for(int i  = 0; i < connections.length; i++) {
+            int cn = connections[i][0];
+            int nn = connections[i][1];
+
+            int cr = dj.findRoot(cn);
+            int nr = dj.findRoot(nn);
+
+            if(cr == nr) {
+                continue;
+            }
+
+            dj.union(cn, nn);
+        }
+
+        int result = -1;
+        for(int i = 0; i < n; i++) {
+            if(dj.findRoot(i) == i) {
+                result++;
+            }
+        }
+
+        return result;
+    }
+
     // Concept -> Kruskal's Algorithm
     public static List<Pair> kruskalAlgo(int[][] edges, int n) {
         // 1) Dis joint set
