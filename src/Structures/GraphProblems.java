@@ -5,10 +5,6 @@ import java.util.*;
 
 public class GraphProblems {
     public static void main(String[] args) {
-        DisjointSet dj = new DisjointSet(10);
-        dj.union(1,2);
-        dj.union(2,3);
-        System.out.println(dj.find(1,3));
     }
     static class Pair {
         int r;
@@ -61,6 +57,67 @@ public class GraphProblems {
         }
     }
 
+    // 19) Accounts merge
+    // Medium https://leetcode.com/problems/accounts-merge/
+    public static List<List<String>> accountsMerge(List<List<String>> accounts) {
+        // 1) Hash map
+        HashMap<String, Integer> map = new HashMap<>();
+
+        // 2) Disjoint set
+        DisjointSet dj = new DisjointSet(accounts.size());
+
+
+        // 3) Hash map filling
+        for(int i = 0; i < accounts.size(); i++) {
+            for(int j = 1; j < accounts.get(i).size(); j++) {
+                String st = accounts.get(i).get(j);
+
+                if(map.containsKey(st)) {
+                    int root = dj.findRoot(map.get(st));
+                    dj.union(root, i);
+                    continue;
+                }
+                // Not in the map
+                map.put(st, i);
+
+            }
+        }
+
+        // 4) Hash array creation
+        HashMap<Integer, List<String>> hlist = new HashMap<>();
+
+        for (String key : map.keySet()) {
+            String st = key;
+            int i = map.get(key);
+
+            int root = dj.findRoot(i);
+
+            List<String> ltt;
+            if(hlist.containsKey(root)) {
+                ltt = hlist.get(root);
+            } else {
+                ltt = new ArrayList<>();
+            }
+
+            ltt.add(st);
+            hlist.put(root, ltt);
+        }
+
+        // 5) Sorting the array
+        for(List<String> lt : hlist.values() ) {
+            Collections.sort(lt);
+        }
+
+        // 6) Creating the return list
+        List<List<String>> result = new ArrayList<>();
+        for(Integer i: hlist.keySet()) {
+            List<String> lt = hlist.get(i);
+            lt.addFirst(accounts.get(i).getFirst());
+            result.add(lt);
+        }
+
+        return result;
+    }
     //18) Number of additional connections required in the network
     // Medium https://leetcode.com/problems/number-of-operations-to-make-network-connected/
     public int makeConnected(int n, int[][] connections) {
@@ -134,7 +191,7 @@ public class GraphProblems {
 
     // Concept -> Disjoint set
     static class DisjointSet{
-        List<Integer> parent;;
+        List<Integer> parent;
         List<Integer> rank = new ArrayList<>();
         DisjointSet(int n) {
             parent = new ArrayList<>(n+1);
@@ -187,7 +244,6 @@ public class GraphProblems {
             return root;
         }
     }
-
 
     // Concept -> Prim's algorithm
     public ArrayList<Pair> primsAlgo(int[][] edges, int n) {
