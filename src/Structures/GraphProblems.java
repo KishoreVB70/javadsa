@@ -50,11 +50,51 @@ public class GraphProblems {
         }
     }
 
+    // Concept -> Floyd Warshall algorithm
+    public int[][] floydWarshall(int[][] edges, int n) {
+        // 1) Create the matrix
+        int[][] mat = new int[n][n];
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < n; j++) {
+                if(i == j) {
+                    edges[i][j] = 0;
+                }
+                edges[i][j] = Integer.MAX_VALUE;
+            }
+        }
+
+        for (int i = 0; i < edges.length; i++) {
+            mat[edges[i][0]][edges[i][1]] = edges[i][2];
+        }
+
+
+        // 2) Iteratively make the matrix great
+        for (int k = 0; k < n; k++) {
+            for(int i = 0; i < n; i++) {
+                // Row check
+                if(mat[i][k] == Integer.MAX_VALUE) {
+                    continue;
+                }
+                for(int j = 0; j < n; j++) {
+                    if(i == k || j == k || i == j || mat[k][j] == Integer.MAX_VALUE) {
+                        continue;
+                    }
+                    // Go via
+                    if(mat[i][j] > mat[i][k] + mat[k][j]) {
+                        mat[i][j] = mat[i][k] + mat[k][j];
+                    }
+                }
+            }
+        }
+
+        return mat;
+    }
     // Concept -> Bell Man Ford algorithm
-    public int[] bellmanFord(int[][] edges, int n) {
+    public int[] bellmanFord(int[][] edges, int n, int s) {
         // 1) Distance array
         int[] dist = new int[n];
         Arrays.fill(dist, Integer.MAX_VALUE);
+        dist[s] = 0;
 
         // 2) Relaxation
         for(int j = 0; j < n-1; j++) {
@@ -76,19 +116,16 @@ public class GraphProblems {
         }
 
         // 3) Negative cycle check
-        boolean neg = false;
         for(int i = 0; i < n; i++) {
             int cr = edges[i][0];
             int nr = edges[i][1];
             int cd = dist[cr];
             int nd = edges[i][2] + cd;
             if(dist[nr] > nd) {
-               neg = true;
-               break;
+                return new int[]{-1};
             }
         }
-        int[] nega = {-1};
-        return !neg?dist:nega;
+        return dist;
     }
 
     // 16) Number of ways to arrive at the destination
