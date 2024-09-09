@@ -61,7 +61,65 @@ public class GraphProblems {
         }
     }
 
-    // Concept
+    // Concept -> Disjoint set
+    static class DisjointSet{
+        List<Integer> parent;;
+        List<Integer> rank = new ArrayList<>();
+        DisjointSet(int n) {
+            parent = new ArrayList<>(n);
+            rank = new ArrayList<>(n);
+            for (int i = 0; i < n; i++) {
+                parent.add(i);
+                rank.add(0);
+            }
+        }
+
+        public void union(int u, int v) {
+            // 1) Find out the root of each nodes
+            u = findRoot(u);
+            v = findRoot(v);
+
+            // Already joint
+            if(u == v) {
+                return;
+            }
+
+            // 2) Rank both the parent
+            int uRank = rank.get(u);
+            int vRank = rank.get(v);
+
+
+            // 3) Union operation
+            if(uRank > vRank) {
+                parent.set(v, u);
+            }
+            else if(uRank < vRank) {
+                parent.set(u, v);
+            }
+            // Equal
+            else {
+                parent.set(v, u);
+                rank.set(u, uRank +1);
+            }
+        }
+
+        public boolean find(int u, int v) {
+            return findRoot(u) == findRoot(v);
+        }
+
+        private int findRoot(int u) {
+            if(u == parent.get(u)) {
+                return u;
+            }
+
+            int root = findRoot(parent.get(u));
+            parent.set(u, root);
+            return root;
+        }
+    }
+
+
+    // Concept -> Prim's algorithm
     public ArrayList<Pair> primsAlgo(int[][] edges, int n) {
         // 1) Priority queue
         PriorityQueue<Ppair> q = new PriorityQueue<Ppair>((f,s) -> f.w - s.w);
@@ -77,9 +135,8 @@ public class GraphProblems {
         // Operation
         while (!q.isEmpty()) {
             Ppair pair = q.poll();
-            if(visited[pair.n]) {
-                continue;
-            }
+            if(visited[pair.n]) continue;
+            int cn = pair.n;
 
             // Visited is marked only after the node has been removed from the priority queue
             visited[pair.n] = true;
@@ -92,26 +149,20 @@ public class GraphProblems {
 
             // Adding adjacent nodes
             for (int i = 0; i < edges.length; i++) {
-                if(edges[i][0] == n || edges[i][1] == n  ) {
-
+                if(edges[i][0] == cn || edges[i][1] == cn  ) {
                     int nn = edges[i][0];
-
-                    if(edges[i][0] == n) {
+                    if(edges[i][0] == cn) {
                         nn = edges[i][1];
                     }
 
                     // Add only if not visited
-                    if(!visited[nn]) {
-                        q.offer(new Ppair(nn, n, edges[i][2]));
-                    }
+                    if(visited[nn]) continue;
+                    q.offer(new Ppair(nn, cn, edges[i][2]));
                 }
             }
 
         }
         return result;
-
-
-
     }
 
     // 17) Smallest number of neighbors threshold
