@@ -5,10 +5,10 @@ import java.util.*;
 
 public class GraphProblems {
     public static void main(String[] args) {
-        int[][] grid = {
-                {0,1,1},{0,2,5},{1,2,1},{2,3,1}
-        };
-        System.out.println(findCheapestPrice(4, grid, 0, 3, 1));
+        DisjointSet dj = new DisjointSet(10);
+        dj.union(1,2);
+        dj.union(2,3);
+        System.out.println(dj.find(1,3));
     }
     static class Pair {
         int r;
@@ -61,14 +61,47 @@ public class GraphProblems {
         }
     }
 
+    // Concept -> Kruskal's Algorithm
+    public static List<Pair> kruskalAlgo(int[][] edges, int n) {
+        // 1) Dis joint set
+        DisjointSet dj = new DisjointSet(n);
+
+        // 2) Heap
+        PriorityQueue<Ppair> q = new PriorityQueue<Ppair>((f,s) -> f.w - s.w);
+        for (int i = 0; i < n; i++) {
+            q.offer(new Ppair(edges[i][0], edges[i][1], edges[i][2]));
+        }
+
+        // 3) Minimum spanning Tree
+        List<Pair> result = new ArrayList<>();
+
+        // 3) Operation
+        while (!q.isEmpty()) {
+            Ppair pair = q.poll();
+            int cn = dj.findRoot(pair.n);
+            int nn = dj.findRoot(pair.p);
+
+            // Already connected
+
+            if(cn == nn) {
+                continue;
+            }
+
+            dj.union(cn, nn);
+            result.add( new Pair(pair.n, pair.p));
+        }
+
+        return result;
+    }
+
     // Concept -> Disjoint set
     static class DisjointSet{
         List<Integer> parent;;
         List<Integer> rank = new ArrayList<>();
         DisjointSet(int n) {
-            parent = new ArrayList<>(n);
-            rank = new ArrayList<>(n);
-            for (int i = 0; i < n; i++) {
+            parent = new ArrayList<>(n+1);
+            rank = new ArrayList<>(n+1);
+            for (int i = 0; i < n+1; i++) {
                 parent.add(i);
                 rank.add(0);
             }
@@ -87,7 +120,6 @@ public class GraphProblems {
             // 2) Rank both the parent
             int uRank = rank.get(u);
             int vRank = rank.get(v);
-
 
             // 3) Union operation
             if(uRank > vRank) {
