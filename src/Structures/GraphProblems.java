@@ -5,6 +5,9 @@ import java.util.*;
 
 public class GraphProblems {
     public static void main(String[] args) {
+        int[][] grid = {{1,0},{0,1}};
+        System.out.println(largestIsland(grid));
+
     }
     static class Pair {
         int r;
@@ -55,6 +58,136 @@ public class GraphProblems {
             this.p = p;
             this.w = w;
         }
+    }
+
+    // 20) Largest island
+    static class DisjointSet2D {
+        int[][] rank;
+        List<List<Pair>> parent;
+        DisjointSet2D(int n) {
+            // Rank would be 0 initially
+            rank = new int[n][n];
+            parent = new ArrayList<>();
+
+            // Parent of itself
+            for(int i = 0; i < n; i++) {
+                List<Pair> lt = new ArrayList<>();
+                for(int j = 0; j < n; j++) {
+                    lt.add(new Pair(i, j));
+                }
+                parent.add(lt);
+            }
+        }
+
+        public Pair root(int r, int c) {
+            Pair par = parent.get(r).get(c);
+            if(par.r == r && par.c == c) {
+                return par;
+            }
+
+            par = root(par.r, par.c);
+            parent.get(r).set(c, par);
+            return par;
+        }
+
+        public void union(int r1, int r2, int c1, int c2) {
+            Pair oneRoot = root(r1, c1);
+            Pair twoRoot = root(r2, c2);
+
+            // Same root
+            if(oneRoot.r == twoRoot.r && twoRoot.c == oneRoot.c) {
+                return;
+            }
+
+            if(rank[oneRoot.r][oneRoot.c] < rank[twoRoot.r][twoRoot.c]) {
+                // 1) change parent
+                parent.get(oneRoot.r).set(oneRoot.c, twoRoot);
+                // 2 Change rank
+                rank[twoRoot.r][twoRoot.c] += rank[oneRoot.r][oneRoot.c];
+
+            } else {
+                // 1) change parent
+                parent.get(twoRoot.r).set(twoRoot.c, oneRoot);
+                // 2 Change rank
+                rank[oneRoot.r][oneRoot.c] += rank[twoRoot.r][twoRoot.c];
+            }
+
+
+        }
+    }
+    public static int largestIsland(int[][] grid) {
+        // 1) Disjoint set
+        int n = grid.length;
+        DisjointSet2D dj = new DisjointSet2D(n);
+
+        Queue<Pair> q = new LinkedList<>();
+
+        // 1) Union of 1's
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < n; j++) {
+                if(grid[i][j] == 1) {
+                    Pair root = dj.root(i, j);
+                    if(root.r == i && root.c == j) {
+                        dj.rank[i][j] = 1;
+                        q.offer(root);
+                    }
+
+                    int pr = 0;
+                    int pc = 0;
+                    while(!q.isEmpty()) {
+                        Pair pair = q.poll();
+                        int r = pair.r;
+                        int c = pair.c;
+
+                        if(r < 0 || r >= n || c < 0 || c >= n || grid[r][c] == 0 ) {
+                            continue;
+                        }
+
+                        // This is the first in the BFS
+                        if(pr == 0 && pc  == 0) {
+                            pr = r;
+                            pc = c;
+                        } else {
+                            dj.rank[r][c] = 1;
+                            dj.union(pr, pc, r, c);
+                        }
+
+                        int[] row = {1,0,-1,0};
+                        int[] col = {0,1,0,-1};
+                        for(int k = 0; k < 4; k++) {
+                            q.offer(new Pair(r+ row[k], c+ col[k]));
+                        }
+                    }
+                }
+            }
+        }
+
+        // 2) Checking 0's
+        int largest = 0;
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < n; j++) {
+                if(grid[i][j] == 0) {
+                    // Check the four sides
+                    int[] row = {1,0,-1,0};
+                    int[] col = {0,1,0,-1};
+                    Set<Pair> set = new HashSet<>();
+                    for(int k = 0; k < 4; k++) {
+                        if(i+ row[k] < 0 || i+ row[k] >= n || j+ col[k] < 0 || j+ col[k] >= n || grid[i+ row[k]][j+col[k]] == 0) {
+                            continue;
+                        }
+                        set.add(dj.root(i+row[k], j+col[k]));
+                    }
+
+                    int rk = 1;
+                    for(Pair p: set) {
+                        rk += dj.rank[p.r][p.c];
+                    }
+                    largest = Integer.max(largest, rk);
+                }
+            }
+        }
+
+        return largest==0?dj.rank[0][0]:largest;
     }
 
     // 19) Accounts merge
