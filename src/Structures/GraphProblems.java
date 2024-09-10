@@ -86,15 +86,15 @@ public class GraphProblems {
 
         for(int j = 0; j < connections.size(); j++) {
             int returnVal = Integer.MAX_VALUE;
-            int secondVal = 20;
+            int f = connections.get(j).getFirst();
+            int s = connections.get(j).get(1);
 
-            if(connections.get(j).get(0) == i && connections.get(j).get(1) != p) {
-                secondVal = connections.get(j).get(1);
-                returnVal = bridgeDfs(connections.get(j).get(1), i, n+1, visited, connections, result, time, low);
+            if(f == i && s != p) {
+                returnVal = bridgeDfs(s, i, n+1, visited, connections, result, time, low);
             }
-            else if (connections.get(j).get(1) == i && connections.get(j).get(0) != p) {
-                secondVal = connections.get(j).get(0);
-                returnVal = bridgeDfs(connections.get(j).get(0), i, n+1, visited, connections, result, time, low);
+            else if (s == i && f != p) {
+                returnVal = bridgeDfs(f, i, n+1, visited, connections, result, time, low);
+                s = f;
             }
 
             if(returnVal == Integer.MAX_VALUE) {
@@ -104,7 +104,7 @@ public class GraphProblems {
             if(returnVal > time[i]) {
                 List<Integer> lt = new ArrayList<>();
                 lt.add(i);
-                lt.add(secondVal);
+                lt.add(s);
                 result.add(lt);
             }
 
