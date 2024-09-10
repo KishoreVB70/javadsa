@@ -59,6 +59,63 @@ public class GraphProblems {
         }
     }
 
+    // Concept -> Articulation point -> Modified Tarjan's algorithm
+    public List<Integer> articulationPoints(List<List<Integer>> adj) {
+        int n = adj.size();
+        boolean[] art = new boolean[n];
+        boolean[] visited = new boolean[n];
+        int[] time = new int[n];
+        int[] low = new int[n];
+
+        articulationDfs(0, -1, 0, visited, art, adj, time, low);
+
+        List<Integer> result = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            if(art[i]) {
+                result.add(i);
+            }
+        }
+
+        if(result.size() < 0) {
+            result.add(-1);
+        }
+        return result;
+
+
+
+
+
+    }
+    public int articulationDfs(int i, int p, int n, boolean[] visited, boolean[] art, List<List<Integer>> adj, int[] time, int[] low) {
+        // Base condition
+        if(visited[i]) {
+            return time[i];
+        }
+
+        visited[i] = true;
+
+        int children = 0;
+        for(Integer node: adj.get(i)) {
+            if(node == p) {
+                continue;
+            }
+
+            int lowVal = articulationDfs(node, i, n+1, visited, art, adj, time, low);
+            low[i] = Integer.min(lowVal, low[i]);
+
+            if(low[node] >= time[i]) {
+                art[i] = true;
+            }
+        }
+
+        if(p == -1 && children > 1) {
+            art[i] = true;
+        }
+
+        return low[i];
+    }
+
+
     // 21) Critical connections in a network
     // Hard
     public List<List<Integer>> criticalConnections(int n, List<List<Integer>> connections) {
@@ -73,7 +130,6 @@ public class GraphProblems {
         return result;
 
     }
-
     public int bridgeDfs(int i, int p, int n, boolean[] visited, List<List<Integer>> connections, List<List<Integer>> result, int[] time, int[] low) {
         // Base condition
         if(visited[i]) {
