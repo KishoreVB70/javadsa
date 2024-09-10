@@ -60,6 +60,79 @@ public class GraphProblems {
         }
     }
 
+    // Concept -> Kosaraju's algorithm -> Strongly connected components
+    public static List<List<Integer>> kosraraju(int[][] adj) {
+        //  Visited array
+        int n = adj.length;
+        boolean[] visited = new boolean[n];
+
+        // Stack
+        Stack<Integer> st = new Stack<>();
+
+        List<List<Integer>> transpose = new ArrayList<>();
+
+        // 1) Initial BFS
+        for(int i = 0; i < adj.length; i++) {
+            transpose.add(new ArrayList<>());
+            for(int j = 0; j < adj[i].length; j++) {
+                if(!visited[adj[i][j]] ) {
+                    kojaDFS1(visited, j, adj, st);
+                }
+            }
+        }
+
+        // 2) Reversal of nodes
+        for(int i = 0; i < adj.length; i++) {
+            visited[i] = false;
+            for(int j = 0; j < adj[i].length; j++) {
+                transpose.get(j).add(i);
+            }
+        }
+
+        // 3) Second DFS
+        List<List<Integer>> result = new ArrayList<>();
+
+        while (!st.isEmpty()) {
+            int i = st.pop();
+            if(!visited[i]) {
+                List<Integer> lt = new ArrayList<>();
+                kojaDFS2(visited, i, adj, lt);
+                result.add(lt);
+            }
+        }
+
+        return result;
+    }
+    public static void kojaDFS2(boolean[] visited, int i, int[][] adj, List<Integer> lt) {
+        // Base condition
+        if(visited[i]) {
+            return;
+        }
+        visited[i] = true;
+        lt.add(i);
+
+        for(int j = 0; j < adj[i].length; j++) {
+            if(!visited[adj[i][j]]) {
+                kojaDFS2(visited, j, adj, lt);
+            }
+        }
+    }
+    public static void kojaDFS1(boolean[] visited, int i, int[][] adj, Stack<Integer> st) {
+        // Base condition
+        if(visited[i]) {
+            return;
+        }
+        visited[i] = true;
+
+        for(int j = 0; j < adj[i].length; j++) {
+            if(!visited[adj[i][j]]) {
+                kojaDFS1(visited, j, adj, st);
+            }
+        }
+        st.push(i);
+    }
+
+
     // 20) Largest island
     static class DisjointSet2D {
         int[][] rank;
