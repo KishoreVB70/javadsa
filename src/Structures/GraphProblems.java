@@ -1,6 +1,5 @@
 package Structures;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class GraphProblems {
@@ -60,6 +59,65 @@ public class GraphProblems {
         }
     }
 
+    // 21) Critical connections in a network
+    // Hard
+    public List<List<Integer>> criticalConnections(int n, List<List<Integer>> connections) {
+        // Arrays
+        int[] time = new int[n];
+        int[] low = new int[n];
+        boolean[] visited = new boolean[n];
+        List<List<Integer>> result = new ArrayList<>();
+
+        // Start with 0 since it is the first node
+        bridgeDfs(0, -1, 0, visited, connections, result, time, low);
+        return result;
+
+    }
+
+    public int bridgeDfs(int i, int p, int n, boolean[] visited, List<List<Integer>> connections, List<List<Integer>> result, int[] time, int[] low) {
+        // Base condition
+        if(visited[i]) {
+            return low[i];
+        }
+        visited[i] = true;
+
+        time[i] = n;
+        low[i] = n;
+
+        for(int j = 0; j < connections.size(); j++) {
+            int returnVal = Integer.MAX_VALUE;
+            int secondVal = 20;
+
+            if(connections.get(j).get(0) == i && connections.get(j).get(1) != p) {
+                secondVal = connections.get(j).get(1);
+                returnVal = bridgeDfs(connections.get(j).get(1), i, n+1, visited, connections, result, time, low);
+            }
+            else if (connections.get(j).get(1) == i && connections.get(j).get(0) != p) {
+                secondVal = connections.get(j).get(0);
+                returnVal = bridgeDfs(connections.get(j).get(0), i, n+1, visited, connections, result, time, low);
+            }
+
+            if(returnVal == Integer.MAX_VALUE) {
+                continue;
+            }
+
+            if(returnVal > time[i]) {
+                List<Integer> lt = new ArrayList<>();
+                lt.add(i);
+                lt.add(secondVal);
+                result.add(lt);
+            }
+
+            if(returnVal < low[i]) {
+                low[i] = returnVal;
+            }
+        }
+
+        return low[i];
+    }
+
+    // Concept -> Tarjan's algorithm -> Bridges in graph
+
     // Concept -> Kosaraju's algorithm -> Strongly connected components
     public static List<List<Integer>> kosraraju(int[][] adj) {
         //  Visited array
@@ -68,7 +126,6 @@ public class GraphProblems {
 
         // Stack
         Stack<Integer> st = new Stack<>();
-
         List<List<Integer>> transpose = new ArrayList<>();
 
         // 1) Initial BFS
@@ -76,7 +133,7 @@ public class GraphProblems {
             transpose.add(new ArrayList<>());
             for(int j = 0; j < adj[i].length; j++) {
                 if(!visited[adj[i][j]] ) {
-                    kojaDFS1(visited, j, adj, st);
+                    kosaDFS1(visited, j, adj, st);
                 }
             }
         }
@@ -91,19 +148,31 @@ public class GraphProblems {
 
         // 3) Second DFS
         List<List<Integer>> result = new ArrayList<>();
-
         while (!st.isEmpty()) {
             int i = st.pop();
             if(!visited[i]) {
                 List<Integer> lt = new ArrayList<>();
-                kojaDFS2(visited, i, adj, lt);
+                kosaDFS2(visited, i, adj, lt);
                 result.add(lt);
             }
         }
-
         return result;
     }
-    public static void kojaDFS2(boolean[] visited, int i, int[][] adj, List<Integer> lt) {
+    public static void kosaDFS1(boolean[] visited, int i, int[][] adj, Stack<Integer> st) {
+        // Base condition
+        if(visited[i]) {
+            return;
+        }
+        visited[i] = true;
+
+        for(int j = 0; j < adj[i].length; j++) {
+            if(!visited[adj[i][j]]) {
+                kosaDFS1(visited, j, adj, st);
+            }
+        }
+        st.push(i);
+    }
+    public static void kosaDFS2(boolean[] visited, int i, int[][] adj, List<Integer> lt) {
         // Base condition
         if(visited[i]) {
             return;
@@ -113,27 +182,13 @@ public class GraphProblems {
 
         for(int j = 0; j < adj[i].length; j++) {
             if(!visited[adj[i][j]]) {
-                kojaDFS2(visited, j, adj, lt);
+                kosaDFS2(visited, j, adj, lt);
             }
         }
     }
-    public static void kojaDFS1(boolean[] visited, int i, int[][] adj, Stack<Integer> st) {
-        // Base condition
-        if(visited[i]) {
-            return;
-        }
-        visited[i] = true;
-
-        for(int j = 0; j < adj[i].length; j++) {
-            if(!visited[adj[i][j]]) {
-                kojaDFS1(visited, j, adj, st);
-            }
-        }
-        st.push(i);
-    }
-
 
     // 20) Largest island
+    // Hard https://leetcode.com/problems/making-a-large-island/
     static class DisjointSet2D {
         int[][] rank;
         List<List<Pair>> parent;
@@ -329,6 +384,7 @@ public class GraphProblems {
 
         return result;
     }
+
     //18) Number of additional connections required in the network
     // Medium https://leetcode.com/problems/number-of-operations-to-make-network-connected/
     public int makeConnected(int n, int[][] connections) {
