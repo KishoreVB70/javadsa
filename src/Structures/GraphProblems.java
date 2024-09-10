@@ -5,7 +5,7 @@ import java.util.*;
 
 public class GraphProblems {
     public static void main(String[] args) {
-        int[][] grid = {{1,0},{0,1}};
+        int[][] grid = {{1,1},{1,1}};
         System.out.println(largestIsland(grid));
 
     }
@@ -90,7 +90,7 @@ public class GraphProblems {
             return par;
         }
 
-        public void union(int r1, int r2, int c1, int c2) {
+        public void union(int r1, int c1,  int r2,  int c2) {
             Pair oneRoot = root(r1, c1);
             Pair twoRoot = root(r2, c2);
 
@@ -122,6 +122,9 @@ public class GraphProblems {
 
         Queue<Pair> q = new LinkedList<>();
 
+        // Visited array
+        boolean[][] visited = new boolean[n][n];
+
         // 1) Union of 1's
         for(int i = 0; i < n; i++) {
             for(int j = 0; j < n; j++) {
@@ -132,25 +135,27 @@ public class GraphProblems {
                         q.offer(root);
                     }
 
-                    int pr = 0;
-                    int pc = 0;
+                    int pr = -1;
+                    int pc = -1;
                     while(!q.isEmpty()) {
                         Pair pair = q.poll();
                         int r = pair.r;
                         int c = pair.c;
 
-                        if(r < 0 || r >= n || c < 0 || c >= n || grid[r][c] == 0 ) {
+                        if(r < 0 || r >= n || c < 0 || c >= n || grid[r][c] == 0 || visited[r][c]) {
                             continue;
                         }
 
                         // This is the first in the BFS
-                        if(pr == 0 && pc  == 0) {
+                        if(pr == -1 && pc  == -1) {
                             pr = r;
                             pc = c;
                         } else {
                             dj.rank[r][c] = 1;
                             dj.union(pr, pc, r, c);
                         }
+                        visited[r][c] = true;
+
 
                         int[] row = {1,0,-1,0};
                         int[] col = {0,1,0,-1};
