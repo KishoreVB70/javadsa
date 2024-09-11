@@ -4,8 +4,8 @@ import java.util.*;
 
 public class GraphProblems {
     public static void main(String[] args) {
-        int[][] grid = {{1,1},{1,1}};
-        System.out.println(largestIsland(grid));
+        int[][] grid = {{0,0},{0,2},{1,1},{2,0},{2,2}};
+        System.out.println(removeStones(grid));
 
     }
     static class Pair {
@@ -116,7 +116,7 @@ public class GraphProblems {
     }
 
 
-    // 21) Critical connections in a network
+    // 22) Critical connections in a network
     // Hard
     public List<List<Integer>> criticalConnections(int n, List<List<Integer>> connections) {
         // Arrays
@@ -239,6 +239,141 @@ public class GraphProblems {
         for(int j = 0; j < adj[i].length; j++) {
             if(!visited[adj[i][j]]) {
                 kosaDFS2(visited, j, adj, lt);
+            }
+        }
+    }
+
+    // 21) Most stones removed
+    static class DisjointSet2Dn {
+        int[][] rank;
+        List<List<Pair>> parent;
+        DisjointSet2Dn(int r, int c) {
+            // Rank would be 0 initially
+            rank = new int[r][c];
+            parent = new ArrayList<>();
+
+            // Parent of itself
+            for(int i = 0; i < r; i++) {
+                List<Pair> lt = new ArrayList<>();
+                for(int j = 0; j < c; j++) {
+                    rank[i][j] = 1;
+                    lt.add(new Pair(i, j));
+                }
+                parent.add(lt);
+            }
+        }
+
+        public Pair root(int r, int c) {
+            Pair par = parent.get(r).get(c);
+            if(par.r == r && par.c == c) {
+                return par;
+            }
+
+            par = root(par.r, par.c);
+            parent.get(r).set(c, par);
+            return par;
+        }
+
+        public void union(int r1, int c1,  int r2,  int c2) {
+            Pair oneRoot = root(r1, c1);
+            Pair twoRoot = root(r2, c2);
+
+            // Same root
+            if(oneRoot.r == twoRoot.r && twoRoot.c == oneRoot.c) {
+                return;
+            }
+
+            if(rank[oneRoot.r][oneRoot.c] < rank[twoRoot.r][twoRoot.c]) {
+                // 1) change parent
+                parent.get(oneRoot.r).set(oneRoot.c, twoRoot);
+                // 2 Change rank
+                rank[twoRoot.r][twoRoot.c] += rank[oneRoot.r][oneRoot.c];
+
+            } else {
+                // 1) change parent
+                parent.get(twoRoot.r).set(twoRoot.c, oneRoot);
+                // 2 Change rank
+                rank[oneRoot.r][oneRoot.c] += rank[twoRoot.r][twoRoot.c];
+            }
+
+
+        }
+    }
+    public static int removeStones(int[][] stones) {
+        int r = 0;
+        int c = 0;
+        for(int i = 0; i < stones.length; i++) {
+            r = Integer.max(stones[i][0], r);
+            c = Integer.max(stones[i][1],c );
+        }
+
+        DisjointSet2Dn dj = new DisjointSet2Dn(r+1, c+1);
+        boolean[][] st = new boolean[r+1][c+1];
+        boolean[][] visited = new boolean[r+1][c+1];
+
+        // fill in st
+        for(int i = 0; i < stones.length; i++) {
+            st[stones[i][0]][stones[i][1]] = true;
+        }
+
+
+        for(int i = 0; i < st.length; i++) {
+            for(int j = 0; j < st[0].length; j++) {
+                if(st[i][j] && !visited[i][j]) {
+                    stoneDfs(i, j, new Pair(i,j), false,visited, st, dj);
+                }
+            }
+
+        }
+
+        int removed = 0;
+        for(int i = 0; i < st.length; i++) {
+            for(int j = 0; j < st[0].length; j++){
+                Pair pair = dj.root(i, j);
+
+                if(st[i][j] && pair.r == i && pair.c == j) {
+                    removed+= dj.rank[i][j];
+                    removed--;
+                }
+            }
+        }
+
+        return removed;
+
+    }
+    public static void stoneDfs(int i, int j, Pair parent, boolean isrow, boolean[][] visited, boolean[][] st, DisjointSet2Dn dj) {
+        if(i < 0 || j< 0 || i >= st.length || j>= st[0].length ||visited[i][j]) {
+            return;
+        }
+
+        visited[i][j] = true;
+
+
+        // If it is a stone, then go on in 4 directions
+        if(st[i][j]) {
+            dj.union(i, j, parent.r, parent.c);
+            parent = new Pair(i, j);
+
+            int[] row = {1, 0, -1, 0};
+            int[] col = {0, -1, 0, 1};
+
+            for(int k = 0; k< 4; k++) {
+                isrow = true;
+                if(row[k]  == 0) {
+                    isrow = false;
+                }
+                stoneDfs(i+row[k], j+col[k], parent, isrow, visited, st, dj);
+            }
+        }
+        else {
+            // If not a stone, then go on in the same direction it came from
+            if(isrow) {
+                stoneDfs(i+1, j, parent, isrow, visited, st, dj);
+                stoneDfs(i-1, j, parent, isrow, visited, st, dj);
+            }
+            else if(!isrow) {
+                stoneDfs(i, j+1, parent, isrow, visited, st, dj);
+                stoneDfs(i, j-1, parent, isrow, visited, st, dj);
             }
         }
     }
