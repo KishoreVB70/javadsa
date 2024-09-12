@@ -4,7 +4,7 @@ import java.util.*;
 
 public class GraphProblems {
     public static void main(String[] args) {
-        int[][] grid = {{0,0},{0,2},{1,1},{2,0},{2,2}};
+        int[][] grid = {{0,1},{1,2},{1,3},{3,3},{2,3},{0,2}};
         System.out.println(removeStones(grid));
 
     }
@@ -288,94 +288,56 @@ public class GraphProblems {
                 parent.get(oneRoot.r).set(oneRoot.c, twoRoot);
                 // 2 Change rank
                 rank[twoRoot.r][twoRoot.c] += rank[oneRoot.r][oneRoot.c];
+                rank[oneRoot.r][oneRoot.c] = 0;
 
             } else {
                 // 1) change parent
                 parent.get(twoRoot.r).set(twoRoot.c, oneRoot);
                 // 2 Change rank
                 rank[oneRoot.r][oneRoot.c] += rank[twoRoot.r][twoRoot.c];
+                rank[twoRoot.r][twoRoot.c] = 0;
             }
 
 
         }
     }
     public static int removeStones(int[][] stones) {
-        int r = 0;
-        int c = 0;
-        for(int i = 0; i < stones.length; i++) {
-            r = Integer.max(stones[i][0], r);
-            c = Integer.max(stones[i][1],c );
+        int rn = 0;
+        int cn = 0;
+        for(int i = 0; i< stones.length; i++) {
+            rn = Integer.max(rn, stones[i][0]);
+            cn = Integer.max(cn, stones[i][1]);
         }
 
-        DisjointSet2Dn dj = new DisjointSet2Dn(r+1, c+1);
-        boolean[][] st = new boolean[r+1][c+1];
-        boolean[][] visited = new boolean[r+1][c+1];
+        rn++;
+        cn++;
 
-        // fill in st
-        for(int i = 0; i < stones.length; i++) {
-            st[stones[i][0]][stones[i][1]] = true;
-        }
+        // Row and column
+        DisjointSet2Dn dj = new DisjointSet2Dn(rn, cn);
 
+        for(int i = 0; i< stones.length; i++) {
+            int r = stones[i][0];
+            int c = stones[i][1];
+            for(int j = 0; j < stones.length; j++) {
+                int rr = stones[j][0];
+                int cc = stones[j][1];
 
-        for(int i = 0; i < st.length; i++) {
-            for(int j = 0; j < st[0].length; j++) {
-                if(st[i][j] && !visited[i][j]) {
-                    stoneDfs(i, j, new Pair(i,j), false,visited, st, dj);
+                if(rr == r || cc == c) {
+                    dj.union(r,c,rr,cc);
                 }
             }
-
         }
 
         int removed = 0;
-        for(int i = 0; i < st.length; i++) {
-            for(int j = 0; j < st[0].length; j++){
-                Pair pair = dj.root(i, j);
-
-                if(st[i][j] && pair.r == i && pair.c == j) {
-                    removed+= dj.rank[i][j];
-                    removed--;
+        for(int i = 0; i< rn; i++) {
+            for(int j = 0; j< cn; j++) {
+                if(dj.rank[i][j] > 1) {
+                    removed += dj.rank[i][j] -1;
                 }
             }
         }
 
         return removed;
-
-    }
-    public static void stoneDfs(int i, int j, Pair parent, boolean isrow, boolean[][] visited, boolean[][] st, DisjointSet2Dn dj) {
-        if(i < 0 || j< 0 || i >= st.length || j>= st[0].length ||visited[i][j]) {
-            return;
-        }
-
-        visited[i][j] = true;
-
-
-        // If it is a stone, then go on in 4 directions
-        if(st[i][j]) {
-            dj.union(i, j, parent.r, parent.c);
-            parent = new Pair(i, j);
-
-            int[] row = {1, 0, -1, 0};
-            int[] col = {0, -1, 0, 1};
-
-            for(int k = 0; k< 4; k++) {
-                isrow = true;
-                if(row[k]  == 0) {
-                    isrow = false;
-                }
-                stoneDfs(i+row[k], j+col[k], parent, isrow, visited, st, dj);
-            }
-        }
-        else {
-            // If not a stone, then go on in the same direction it came from
-            if(isrow) {
-                stoneDfs(i+1, j, parent, isrow, visited, st, dj);
-                stoneDfs(i-1, j, parent, isrow, visited, st, dj);
-            }
-            else if(!isrow) {
-                stoneDfs(i, j+1, parent, isrow, visited, st, dj);
-                stoneDfs(i, j-1, parent, isrow, visited, st, dj);
-            }
-        }
     }
 
     // 20) Largest island
