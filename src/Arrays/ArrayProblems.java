@@ -19,7 +19,9 @@ public class ArrayProblems {
         for(int i = 0; i < arr.length; i++) {
             sum+= arr[i];
             members++;
-            map.put(sum, i);
+            if(!map.containsKey(sum)) {
+                map.put(sum, i);
+            }
             if(sum == k) {
                 result = Math.max(result, members);
             }
