@@ -12,25 +12,20 @@ public class ArrayProblems {
     // Striver problems
     // 1) Find the longest sub array with the given sum - Positives edition
     public static int longestSubArrayWithSum(int[] arr, int k) {
+        HashMap<Integer, Integer> map = new HashMap<>();
         int result = 0;
         int sum = 0;
         int members = 0;
         for(int i = 0; i < arr.length; i++) {
-            for(int j = i; j < arr.length; j++ ) {
-                sum+=arr[j];
-                members++;
-                if(sum == k) {
-                    if(members > result) {
-                        result = members;
-                    }
-                    break;
-                }
-                if(sum > k) {
-                    break;
-                }
+            sum+= arr[i];
+            members++;
+            map.put(sum, i);
+            if(sum == k) {
+                result = Math.max(result, members);
             }
-            members = 0;
-            sum = 0;
+            if(map.containsKey(sum-k)) {
+                result = Math.max(result, Math.abs( map.get(sum-k) - i));
+            }
         }
         return result;
     }
