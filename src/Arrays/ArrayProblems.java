@@ -10,6 +10,36 @@ public class ArrayProblems {
 
 
     // Striver problems
+    // 3)
+    // 2) Sort 0,1,2 -> Dutch flag algorithm
+    // Medium https://leetcode.com/problems/sort-colors/
+    public void sortColors(int[] nums) {
+        int n = nums.length;
+        int low = 0;
+        int mid = 0;
+        int high = n-1;
+
+        while(mid <= high) {
+            int v = nums[mid];
+            if(v == 0) {
+                swap(low, mid, nums);
+                low++;
+                mid++;
+            }
+            else if(v == 1) {
+                mid++;
+            }
+            else {
+                swap(mid, high, nums);
+                high--;
+            }
+        }
+    }
+    public void swap(int i, int j, int []n) {
+        int t = n[i];
+        n[i] = n[j];
+        n[j] = t;
+    }
     // 1) Find the longest sub array with the given sum - Positives edition
     public static int longestSubArrayWithSumNegatives(int[] arr, int k) {
         HashMap<Integer, Integer> map = new HashMap<>();
