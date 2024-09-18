@@ -5,13 +5,13 @@ import java.util.*;
 public class ArrayProblems {
     public static void main(String[] args) {
         int[] arr = {1,2,3, 1, 1, 1, 1, 4, 2,3};
-        System.out.println(longestSubArrayWithSum(arr,3));
+        System.out.println(longestSubArrayWithSumPositives(arr,3));
     }
 
 
     // Striver problems
     // 1) Find the longest sub array with the given sum - Positives edition
-    public static int longestSubArrayWithSum(int[] arr, int k) {
+    public static int longestSubArrayWithSumNegatives(int[] arr, int k) {
         HashMap<Integer, Integer> map = new HashMap<>();
         int result = 0;
         int sum = 0;
@@ -31,6 +31,41 @@ public class ArrayProblems {
         }
         return result;
     }
+
+    // 1 B) 2 pointer approach with only positives
+    public static int longestSubArrayWithSumPositives(int[] arr, int k) {
+        int result = 0;
+        int sum = 0;
+        int members = 0;
+        int i = 0;
+        int j = 0;
+        for(; i < arr.length; i++) {
+            sum+= arr[i];
+            members++;
+
+            if(sum == k) {
+                result = Math.max(result, members);
+            }
+            while (sum > k && members > result && j < i) {
+                sum = sum - arr[j];
+                members--;
+                j++;
+                if(sum < k) {
+                    break;
+                }
+                if(members <= result) {
+                    break;
+                }
+                if(sum == k) {
+                    result = Math.max(result, members);
+                    break;
+                }
+            }
+        }
+
+        return result;
+    }
+
 
 
 
