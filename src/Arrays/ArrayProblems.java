@@ -4,10 +4,46 @@ import java.util.*;
 
 public class ArrayProblems {
     public static void main(String[] args) {
-        int[] arr = {1,2,3,4,5,6,7};
-        rotate(arr, 3);;
-        System.out.println(Arrays.toString(arr));
+        int[] arr = {1,2,3, 1, 1, 1, 1, 4, 2,3};
+        System.out.println(longestSubArrayWithSum(arr,3));
     }
+
+
+    // Striver problems
+    // 1) Find the longest sub array with the given sum - Positives edition
+    public static int longestSubArrayWithSum(int[] arr, int k) {
+        int result = 0;
+        int sum = 0;
+        int members = 0;
+        for(int i = 0; i < arr.length; i++) {
+            for(int j = i; j < arr.length; j++ ) {
+                sum+=arr[j];
+                members++;
+                if(sum == k) {
+                    if(members > result) {
+                        result = members;
+                    }
+                    break;
+                }
+                if(sum > k) {
+                    break;
+                }
+            }
+            members = 0;
+            sum = 0;
+        }
+        return result;
+    }
+
+
+
+
+
+
+
+
+
+    // ----------------------------------------------
 
     // Rotate array
     //https://leetcode.com/problems/rotate-array/
