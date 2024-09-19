@@ -10,7 +10,36 @@ public class ArrayProblems {
     // Striver Medium problems
 
 
+    // 8) Set Matrix 0
+    // Medium https://leetcode.com/problems/set-matrix-zeroes/
+    public void setZeroes(int[][] matrix) {
+        ArrayList<ArrayList<Integer>> arr = new ArrayList<>();
+        for(int i = 0; i < matrix.length; i++) {
+            for(int j = 0 ; j < matrix[0].length; j++) {
+                if(matrix[i][j] == 0) {
+                    ArrayList<Integer> lt = new ArrayList<>();
+                    lt.add(i);
+                    lt.add(j);
+                    arr.add(lt);
+                }
+            }
+        }
 
+        for(ArrayList<Integer> lt: arr) {
+            int r = lt.get(0);
+            int c = lt.get(1);
+
+            // Change all the row and column
+            for(int i = 0; i < matrix.length; i++) {
+                matrix[i][c] = 0;
+            }
+            for(int i = 0; i < matrix[0].length; i++) {
+                matrix[r][i] = 0;
+            }
+
+
+        }
+    }
 
     // 7) Next permutation
     // Medium https://leetcode.com/problems/next-permutation/
