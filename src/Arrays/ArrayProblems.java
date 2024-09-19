@@ -9,7 +9,46 @@ public class ArrayProblems {
 
     // Striver Medium problems
 
-    // 9) Rotate image
+    // 10) Printing matrix in spiral order
+    // https://leetcode.com/problems/spiral-matrix/description/
+    public List<Integer> spiralOrder(int[][] matrix) {
+        int iHigh = matrix.length-1;
+        int jHigh = matrix[0].length-1;
+        int iLow = 0;
+        int jLow = 0;
+        List<Integer> result = new ArrayList<>();
+
+        while(iLow <= iHigh && jLow <= jHigh) {
+            for(int i = jLow; i <= jHigh; i++) {
+                result.add(matrix[iLow][i]);
+            }
+            iLow++;
+
+            for(int i = iLow; i <= iHigh; i++) {
+                result.add(matrix[i][jHigh]);
+            }
+            jHigh--;
+
+            if(iLow <= iHigh) {
+                for(int i = jHigh; i >= jLow; i--) {
+                    result.add(matrix[iHigh][i]);
+                }
+                iHigh--;
+            }
+
+            if(jLow <= jHigh) {
+                for(int i = iHigh; i >= iLow; i--) {
+                    result.add(matrix[i][jLow]);
+                }
+                jLow++;
+            }
+
+        }
+        return result;
+    }
+
+    // 9) Rotate matrix
+    // https://leetcode.com/problems/rotate-image/
     public void rotate(int[][] matrix) {
         int n = matrix.length;
         // 1) Transpose
