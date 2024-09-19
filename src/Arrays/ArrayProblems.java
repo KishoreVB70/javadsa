@@ -9,6 +9,31 @@ public class ArrayProblems {
 
     // Striver Medium problems
 
+    // 9) Rotate image
+    public void rotate(int[][] matrix) {
+        int n = matrix.length;
+        // 1) Transpose
+        for(int i = 0; i < n; i++) {
+            for(int j = i; j < n; j++) {
+                int temp = matrix[i][j];
+                matrix[i][j] =  matrix[j][i];
+                matrix[j][i] = temp;
+            }
+        }
+
+        // 2) Reverse
+        for(int i = 0; i < n; i++) {
+            int s = 0;
+            int e = n-1;
+            while(s < e) {
+                int temp = matrix[i][s];
+                matrix[i][s] = matrix[i][e];
+                matrix[i][e] = temp;
+                s++;
+                e--;
+            }
+        }
+    }
 
     // 8) Set Matrix 0
     // Medium https://leetcode.com/problems/set-matrix-zeroes/
