@@ -10,6 +10,22 @@ public class ArrayProblems {
     // Striver Medium problems
 
 
+    // 4) Maximum sub array -> Kadane's algo
+    // Medium https://leetcode.com/problems/maximum-subarray/
+    public int maxSubArray(int[] nums) {
+        int max = Integer.MIN_VALUE;
+        int sum = 0;
+
+        for(int i = 0; i < nums.length; i++) {
+            sum += nums[i];
+            max = Math.max(sum, max);
+            if(sum < 0) {
+                sum = 0;
+            }
+        }
+        return max;
+    }
+
 
     // 3) Majority element in array -> Moore's voting algo
     // Easy https://leetcode.com/problems/majority-element/description/
