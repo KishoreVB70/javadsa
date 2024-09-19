@@ -8,9 +8,38 @@ public class ArrayProblems {
 
 
     // Striver Medium problems
+    //11) Number of sub arrays that equal the sum
+    // Medium https://leetcode.com/problems/subarray-sum-equals-k/
+    public int subarraySum(int[] nums, int k) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+
+        int total = 0;
+        int sum = 0;
+        for(int i = 0; i < nums.length; i++) {
+            sum += nums[i];
+            if(sum == k) {
+                total++;
+            }
+
+            if(map.containsKey(sum - k)) {
+                total += map.get(sum-k);
+            }
+
+            if(map.containsKey(sum)) {
+                int val = map.get(sum);
+                map.put(sum, val+1);
+            }
+            else {
+                map.put(sum, 1);
+            }
+
+
+        }
+        return total;
+    }
 
     // 10) Printing matrix in spiral order
-    // https://leetcode.com/problems/spiral-matrix/description/
+    // Medium https://leetcode.com/problems/spiral-matrix/description/
     public List<Integer> spiralOrder(int[][] matrix) {
         int iHigh = matrix.length-1;
         int jHigh = matrix[0].length-1;
@@ -48,7 +77,7 @@ public class ArrayProblems {
     }
 
     // 9) Rotate matrix
-    // https://leetcode.com/problems/rotate-image/
+    // Medium https://leetcode.com/problems/rotate-image/
     public void rotate(int[][] matrix) {
         int n = matrix.length;
         // 1) Transpose
@@ -216,7 +245,6 @@ public class ArrayProblems {
         }
         return max;
     }
-
 
     // 3) Majority element in array -> Moore's voting algo
     // Easy https://leetcode.com/problems/majority-element/description/
