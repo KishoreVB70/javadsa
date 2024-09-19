@@ -10,6 +10,24 @@ public class ArrayProblems {
     // Striver Medium problems
 
 
+
+
+    // 5) Sum of sub array minimums
+    // Medium https://leetcode.com/problems/sum-of-subarray-minimums/
+    public int sumSubarrayMins(int[] arr) {
+        int min = Integer.MAX_VALUE;
+        long sum = 0;
+        for(int i = 0; i < arr.length; i++) {
+            min = Integer.MAX_VALUE;
+            for(int j = i; j < arr.length; j++ ) {
+                min = Math.min(min, arr[j]);
+                sum += min;
+            }
+        }
+        long mod = (long)(1e9 + 7);
+        return (int) ((long)sum % mod );
+    }
+
     // 4) Maximum sub array -> Kadane's algo
     // Medium https://leetcode.com/problems/maximum-subarray/
     public int maxSubArray(int[] nums) {
