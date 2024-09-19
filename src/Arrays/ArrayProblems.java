@@ -12,8 +12,54 @@ public class ArrayProblems {
 
 
 
+    // 7) Next permutation
+    // Medium https://leetcode.com/problems/next-permutation/
+    public void nextPermutation(int[] nums) {
+        int i = nums.length -1;
+        int target = -1;
+        while(i > 0) {
+            if(nums[i -1] < nums[i]) {
+                target = i-1;
+                break;
+            }
+            i--;
+        }
+
+        if(target == -1) {
+            reverse(0, nums.length-1, nums);
+            return;
+        }
+
+        int lowestV = Integer.MAX_VALUE;
+        int lowest = -1;
+
+        for(int j = target; j < nums.length; j++) {
+            if(nums[j] > nums[target] && nums[j] <= lowestV) {
+                lowest = j;
+                lowestV = nums[j];
+            }
+        }
+
+
+        int t = nums[target];
+        nums[target] = nums[lowest];
+        nums[lowest] = t;
+        reverse(target+1, nums.length-1, nums);
+
+
+    }
+    public void reverse(int s, int e, int[] nums) {
+        while (s < e) {
+            int t = nums[s];
+            nums[s] = nums[e];
+            nums[e] = t;
+            s++;
+            e--;
+        }
+    }
+
     // 6) Re arrange positives and negatives
-    // https://leetcode.com/problems/rearrange-array-elements-by-sign/
+    // Medium https://leetcode.com/problems/rearrange-array-elements-by-sign/
     public static int[] rearrangeArray(int[] nums) {
         int i = 0;
         int pos = 2;
