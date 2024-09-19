@@ -4,13 +4,33 @@ import java.util.*;
 
 public class ArrayProblems {
     public static void main(String[] args) {
-        int[] arr = {1,2,3, 1, 1, 1, 1, 4, 2,3};
-        System.out.println(longestSubArrayWithSumPositives(arr,3));
     }
 
 
-    // Striver problems
-    // 3)
+    // Striver Medium problems
+
+
+
+    // 3) Majority element in array -> Moore's voting algo
+    // Easy https://leetcode.com/problems/majority-element/description/
+    public int majorityElement(int[] nums) {
+        int num = 0;
+        int count = 0;
+        for (int i : nums) {
+            if (count == 0) {
+                num = i;
+                count++;
+            } else {
+                if (i == num) {
+                    count++;
+                } else {
+                    count--;
+                }
+            }
+        }
+        return num;
+    }
+
     // 2) Sort 0,1,2 -> Dutch flag algorithm
     // Medium https://leetcode.com/problems/sort-colors/
     public void sortColors(int[] nums) {
@@ -35,7 +55,7 @@ public class ArrayProblems {
             }
         }
     }
-    public void swap(int i, int j, int []n) {
+    public static void swap(int i, int j, int[] n) {
         int t = n[i];
         n[i] = n[j];
         n[j] = t;
