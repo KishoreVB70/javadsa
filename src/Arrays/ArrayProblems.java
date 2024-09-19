@@ -12,6 +12,40 @@ public class ArrayProblems {
 
 
 
+    // 6) Re arrange positives and negatives
+    // https://leetcode.com/problems/rearrange-array-elements-by-sign/
+    public static int[] rearrangeArray(int[] nums) {
+        int i = 0;
+        int pos = 2;
+        int neg = 1;
+        int n = nums.length;
+
+        while(i < n) {
+            // Even -> must be positive
+            boolean swaper = false;
+            if(i % 2 == 0) {
+                if(nums[i] < 0) {
+                    swap(i, neg, nums);
+                    swaper = true;
+                    neg += 2;
+                }
+            }
+            // Odd -> must be negative
+            else {
+                if(nums[i] > 0) {
+                    swap(i, pos, nums);
+                    swaper = true;
+                    pos += 2;
+                }
+            }
+            if(!swaper) {
+                i++;
+            }
+        }
+
+        return nums;
+    }
+
     // 5) Sum of sub array minimums
     // Medium https://leetcode.com/problems/sum-of-subarray-minimums/
     public int sumSubarrayMins(int[] arr) {
