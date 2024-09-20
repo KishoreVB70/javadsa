@@ -8,6 +8,16 @@ public class ArrayProblems {
 
 
     // Striver Medium problems
+    //12) Can jump
+    // Medium https://leetcode.com/problems/jump-game/description/
+    public boolean canJump(int[] nums) {
+        int reachable = 0;
+        for(int i = 0; i < nums.length; i ++) {
+            if(i > reachable) return false;
+            reachable = Math.max(reachable, i + nums[i]);
+        }
+        return true;
+    }
     //11) Number of sub arrays that equal the sum
     // Medium https://leetcode.com/problems/subarray-sum-equals-k/
     public int subarraySum(int[] nums, int k) {
