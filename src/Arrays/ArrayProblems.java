@@ -8,6 +8,18 @@ public class ArrayProblems {
 
 
     // Striver Medium problems
+    // 13) H Index
+    // Medium https://leetcode.com/problems/h-index/
+    public int hIndex(int[] citations) {
+        int h = citations.length; int maxi=0;
+        Arrays.sort(citations);
+        for (int i=0; i<citations.length; i++){
+            if (citations[i]>= h-i){
+                maxi = Math.max(maxi,h-i);
+
+            }
+        } return maxi;
+    }
     //12) Can jump
     // Medium https://leetcode.com/problems/jump-game/description/
     public boolean canJump(int[] nums) {
