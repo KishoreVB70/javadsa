@@ -4,13 +4,7 @@ import java.util.*;
 
 public class ArrayProblems {
     public static void main(String[] args) {
-        List<List<Integer>> result = generate(6);
-        for (int i = 0; i < result.size(); i++) {
-            for(int j = 0; j < result.get(i).size(); j++) {
-                System.out.print(result.get(i).get(j) + " ");
-            }
-            System.out.println();
-        }
+        System.out.println(printOnePascal(6,6));
     }
 
 
@@ -44,6 +38,16 @@ public class ArrayProblems {
             end.add(result);
         }
         return end;
+    }
+
+    // 15 C) Print one value in pascal triangle
+    public static int printOnePascal(int r, int c) {
+        int s = 1;
+        for (int i = 1; i < c; i++) {
+            s = s * ((r)-i);
+            s = s/i;
+        }
+        return s;
     }
 
     // 14) Product except self
