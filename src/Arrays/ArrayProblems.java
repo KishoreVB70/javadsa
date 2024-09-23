@@ -4,11 +4,61 @@ import java.util.*;
 
 public class ArrayProblems {
     public static void main(String[] args) {
-        System.out.println(printOnePascal(6,6));
+        System.out.println(majorityElement2(new int[]{1,2}));
     }
 
 
     // Striver Medium problems
+
+    public static List<Integer> majorityElement2(int[] nums) {
+        List<Integer> s = new ArrayList<>();
+        int count1 = 0;
+        int count2 = 0;
+
+        int e1 = Integer.MAX_VALUE;
+        int e2 = Integer.MAX_VALUE;
+
+        for(int i = 0; i < nums.length; i++) {
+            if(count1 == 0 && nums[i] != e2) {
+                count1 = 1;
+                e1 = nums[i];
+            }
+            else if(count2 == 0 && nums[i] != e1) {
+                e2 = nums[i];
+                count2 = 1;
+            }
+            else if(nums[i] == e1) {
+                count1++;
+            }
+            else if(nums[i] == e2) {
+                count2++;
+            }
+            else {
+                count1--;
+                count2--;
+            }
+        }
+
+        count1 = 0;
+        count2 = 0;
+        for(int i: nums) {
+            if(i == e1) {
+                count1++;
+            }
+            if(i == e2) {
+                count2++;
+            }
+        }
+
+        if(count1 > nums.length/3) {
+            s.add(e1);
+        }
+        if(count2 > nums.length/3) {
+            s.add(e2);
+        }
+        Collections.sort(s);
+        return s;
+    }
 
     // 15) Pascal's triangle -> print a row
     public static int[] pascalRow(int n) {
