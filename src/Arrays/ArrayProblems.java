@@ -4,9 +4,12 @@ import java.util.*;
 
 public class ArrayProblems {
     public static void main(String[] args) {
-        int[] result = pascalRow(6);
-        for (int i = 0; i < result.length; i++) {
-            System.out.print(result[i] + " ");
+        List<List<Integer>> result = generate(6);
+        for (int i = 0; i < result.size(); i++) {
+            for(int j = 0; j < result.get(i).size(); j++) {
+                System.out.print(result.get(i).get(j) + " ");
+            }
+            System.out.println();
         }
     }
 
@@ -24,6 +27,23 @@ public class ArrayProblems {
             result[i] = prev;
         }
         return result;
+    }
+
+    // 15 B) Print everything
+    public static List<List<Integer>> generate(int numRows) {
+        List<List<Integer>> end = new ArrayList<>();
+        for(int n = 1; n <= numRows; n++) {
+            List<Integer> result = new ArrayList<>(n);
+            int prev = 1;
+            result.add(1);
+            for(int i = 1; i < n; i++) {
+                int s = prev * (n-i);
+                prev = s / i;
+                result.add(prev);
+            }
+            end.add(result);
+        }
+        return end;
     }
 
     // 14) Product except self
