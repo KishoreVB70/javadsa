@@ -4,10 +4,27 @@ import java.util.*;
 
 public class ArrayProblems {
     public static void main(String[] args) {
+        int[] result = pascalRow(6);
+        for (int i = 0; i < result.length; i++) {
+            System.out.print(result[i] + " ");
+        }
     }
 
 
     // Striver Medium problems
+
+    // 15) Pascal's triangle -> print a row
+    public static int[] pascalRow(int n) {
+        int[] result = new int[n];
+        int prev = 1;
+        result[0] = 1;
+        for(int i = 1; i < n; i++) {
+            int s = prev * (n-i);
+            prev = s / i;
+            result[i] = prev;
+        }
+        return result;
+    }
 
     // 14) Product except self
     // Medium https://leetcode.com/problems/product-of-array-except-self
