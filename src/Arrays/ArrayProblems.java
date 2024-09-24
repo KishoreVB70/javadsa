@@ -4,8 +4,7 @@ import java.util.*;
 
 public class ArrayProblems {
     public static void main(String[] args) {
-        List<List<Integer>> res = fourSum(new int[]{1000000000,1000000000,1000000000,1000000000}, -294967296);
-        System.out.println(res.toString());
+
     }
 
 
@@ -13,6 +12,35 @@ public class ArrayProblems {
 
     // Striver Medium problems
 
+    // Merge intervals
+    public int[][] merge(int[][] intervals) {
+        Arrays.sort(intervals, (a, b) -> a[0] - b[0]);
+        List<List<Integer>> result = new ArrayList<>();
+        int i = 0;
+        while(i < intervals.length) {
+            int s = intervals[i][0];
+            int l = intervals[i][1];
+            while(i < intervals.length-1 && l >= intervals[i+1][0]) {
+                i++;
+                l = Math.max(l, intervals[i][1]);
+            }
+            List<Integer> lt = new ArrayList<>();
+            lt.add(s);
+            lt.add(intervals[i][1]);
+            result.add(lt);
+            i++;
+        }
+
+        int[][] returnArr = new int[result.size()][2];
+
+        for(int k = 0; k < result.size(); k++) {
+            for(int j = 0; j < 2; j++) {
+                returnArr[k][j] = result.get(k).get(j);
+            }
+        }
+
+        return returnArr;
+    }
     // Sub array with given XOR -> not leet
     public int XORSubarray(int[] nums, int tar) {
         int xor = 0;
