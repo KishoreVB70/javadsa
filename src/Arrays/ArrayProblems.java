@@ -13,6 +13,27 @@ public class ArrayProblems {
 
     // Striver Medium problems
 
+    // Sub array with given XOR -> not leet
+    public int XORSubarray(int[] nums, int tar) {
+        int xor = 0;
+        int count = 0;
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for(int i = 0; i < nums.length; i++) {
+            xor = xor ^ nums[i];
+            if(xor == tar) {
+                count++;
+            } else if(map.containsKey(xor ^ tar)) {
+                count += map.get(xor ^ tar);
+            }
+            if(map.containsKey(xor)) {
+                map.put(xor, map.get(xor) +1);
+            } else {
+                map.put(xor, 1);
+            }
+        }
+        return count;
+    }
+
     // Largest sub array with 0 sum
     // Geek problem
     public int largestSubArrayZeroSum(int[] nums) {
