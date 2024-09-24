@@ -4,13 +4,108 @@ import java.util.*;
 
 public class ArrayProblems {
     public static void main(String[] args) {
-
+        int[] nums1 = {1,3,2,3,1};
+        System.out.println(reversePairs(nums1));
     }
 
 
 
 
     // Striver Medium problems
+
+    // Hard ->
+    static int count = 0;
+    public static int reversePairs(int[] nums) {
+        mergeSort(nums);
+        return count;
+    }
+
+    public static int[] mergeSort(int[] nums) {
+        // Base condition
+        if(nums.length == 1) {
+            return nums;
+        }
+
+        int m = nums.length/2;
+        int n = nums.length;
+
+        int[] a = mergeSort(Arrays.copyOfRange(nums, 0, m));
+        int[] b = mergeSort(Arrays.copyOfRange(nums, m, n));
+
+
+        // Merging the arrays
+        int i = 0;
+        int j = 0;
+        // 1) Compute the count
+        while (i < a.length && j < b.length) {
+            if(a[i] > (long)2 * b[j]) {
+                count += (a.length) - i;
+                j++;
+            }
+            else {
+                i++;
+            }
+        }
+
+        // 2) Merging loop
+        int k = 0;
+        i = 0;
+        j = 0;
+        int[] c = new int[nums.length];
+        while(i < a.length && j < b.length) {
+            if(a[i] < b[j]) {
+                c[k] = a[i];
+                i++;
+            }
+            else {
+                c[k] = b[j];
+                j++;
+            }
+            k++;
+        }
+        while(j < b.length) {
+            c[k] = b[j];
+            j++;
+            k++;
+        }
+        while(i < a.length) {
+            c[k] = a[i];
+            i++;
+            k++;
+        }
+        return c;
+    }
+
+    // merge two sorted array without extra space
+    public static void merge(int[] nums1, int m, int[] nums2, int n) {
+        int i = m-1;
+        int j = n-1;
+        int s = n+m-1;
+
+        while(i >= 0 && j >= 0) {
+            if(nums1[i] > nums2[j]) {
+                swaptwoArr(nums1, nums1, s, i);
+                i--;
+            }
+            else {
+                swaptwoArr(nums1, nums2, s, j);
+                j--;
+            }
+            s--;
+        }
+
+        if(i < 0 && j >= 0) {
+            for(int k = 0; k <= s; k++) {
+                nums1[k] = nums2[k];
+            }
+        }
+    }
+
+    public static void swaptwoArr(int[] n1, int[] n2, int o, int t) {
+        int temp = n1[o];
+        n1[o] = n2[t];
+        n2[t] = temp;
+    }
 
     // Merge intervals
     public int[][] merge(int[][] intervals) {
