@@ -4,14 +4,33 @@ import java.util.*;
 
 public class ArrayProblems {
     public static void main(String[] args) {
-        int[] nums1 = {1,3,2,3,1};
-        System.out.println(reversePairs(nums1));
+        int[] nums1 = {3,-1,4};
+        System.out.println(maxProduct(nums1));
     }
 
 
 
 
     // Striver Medium problems
+    public static int maxProduct(int[] nums) {
+        int prefix = 1;
+        int suffix = 1;
+        int maxProd = Integer.MIN_VALUE;
+        int n = nums.length -1;
+
+        for(int i = 0; i < nums.length; i++) {
+            prefix *= nums[i];
+            suffix *= nums[n- i];
+
+            maxProd = Math.max(Math.max(prefix, maxProd), suffix);
+
+            if(prefix == 0) prefix = 1;
+            if(suffix == 0) suffix = 1;
+        }
+
+        return maxProd;
+    }
+
     public int removeElement(int[] nums, int val) {
         int index = 0;
         for (int i = 0; i < nums.length; i++) {
