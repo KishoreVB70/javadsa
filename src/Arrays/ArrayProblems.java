@@ -4,14 +4,117 @@ import java.util.*;
 
 public class ArrayProblems {
     public static void main(String[] args) {
-        int[] nums1 = {3,-1,4};
-        System.out.println(maxProduct(nums1));
+        int[] nums1 = {1,2,3,4,5,6,7,8,9,10};
+        System.out.println(shipWithinDays(nums1, 5));
+    }
+
+
+    public static int shipWithinDays(int[] weights, int days) {
+        int s = 1;
+        int e = 0;
+        for(int i: weights) {
+            e += i;
+        }
+
+        while(s <= e) {
+            int m = s +(e-s)/2;
+            if(possibleShip(weights, days, m)) e = m-1;
+            else s = m+1;
+        }
+        return s;
+    }
+
+    public static boolean possibleShip(int[] weights, int days, int m) {
+        int sum = 0;
+        int c = 1;
+        for(int i: weights) {
+            sum += i;
+            if(sum > m) {
+                c += sum/m;
+                sum = sum%m;
+            }
+        }
+        return c <= days;
+    }
+
+    public static int minDays(int[] bloomDay, int m, int k) {
+        if(m*k > bloomDay.length || bloomDay.length < 1) {
+            return -1;
+        }
+
+        TreeSet<Integer> sort = new TreeSet<>();
+        for(int i: bloomDay) {
+            sort.add(i);
+        }
+        Integer[] nums = sort.toArray(new Integer[0]);
+        int s = 0;
+        int e = nums.length-1;
+
+        while(s < e) {
+            int mid = s + (e-s)/2;
+            if(isPossible(bloomDay, m, k, nums[mid])) {
+                e = mid;
+            } else {
+                s = mid+1;
+            }
+        }
+        return s>= nums.length?-1:nums[s];
+    }
+
+    public static boolean isPossible(int[] bloomDay, int m, int k, int mid) {
+        int count = 0;
+        int sc = 0;
+        for(int i: bloomDay) {
+            if(i <= mid) {
+                sc++;
+            }
+            if(i > mid ) {
+                sc = 0;
+            }
+            if(sc == k) {
+                count++;
+                sc = 0;
+            }
+        }
+        return count >= m;
+    }
+
+    public static int minEatingSpeed(int[] piles, int h) {
+        // 1) Find the largest
+        int e = Integer.MIN_VALUE;
+        for(int i = 0; i< piles.length; i++) {
+            e = Math.max(e, piles[i]);
+        }
+
+        int s = 0;
+        int pot = -1;
+        while(s <= e) {
+            int m = s + (e-s)/2;
+            int c = getCount(m, piles, h);
+
+            if(c > h) {
+                s = m+1;
+            } else {
+                pot = m;
+                e = m-1;
+            }
+        }
+        return pot;
+    }
+
+    public static int getCount(int v, int[] piles, int h) {
+        int count = 0;
+        for(int i: piles) {
+            double d = (double) i /v;
+            count += Math.ceilDiv(i,v);
+        }
+        return count;
     }
 
 
 
-
     // Striver Medium problems
+    // Medium https://leetcode.com/problems/maximum-product-subarray/
     public static int maxProduct(int[] nums) {
         int prefix = 1;
         int suffix = 1;
