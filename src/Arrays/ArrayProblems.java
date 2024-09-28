@@ -8,6 +8,53 @@ public class ArrayProblems {
         System.out.println(maxDistance(nums1, 3));
     }
 
+
+    // Book allocation non leet
+    public static int bookAllocation(int[] books, int m) {
+        if(m > books.length) {
+            return -1;
+        }
+        int s = books[0];
+        int e = 0;
+        for(int i: books) {
+            s = Math.max(i, s);
+            e += i;
+        }
+
+        int a = -1;
+
+        while(s <= e) {
+            int mid = s +(e-s)/2;
+            if(possibleBook(books, m, mid)) {
+                a = mid;
+                e = mid -1;
+            }
+            // Not possible -> try for a larger number
+            else {
+                s = mid +1;
+            }
+        }
+        return a;
+    }
+    public static boolean possibleBook(int[] books, int m, int mid) {
+        int c = 1;
+        int sum = 0;
+        for(int i: books) {
+            if(sum + i > mid) {
+                c++;
+                sum = i;
+            } else {
+                sum += i;
+            }
+            if(c > m) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
     public static int maxDistance(int[] position, int m) {
         // 1) Sort
         Arrays.sort(position);
