@@ -4,8 +4,45 @@ import java.util.*;
 
 public class ArrayProblems {
     public static void main(String[] args) {
-        int[] nums1 = {1,2};
-        System.out.println(findKthPositive(nums1, 1));
+        int[] nums1 = {1,2,3,4,7};
+        System.out.println(maxDistance(nums1, 3));
+    }
+
+    public static int maxDistance(int[] position, int m) {
+        // 1) Sort
+        Arrays.sort(position);
+
+        // 2) Find the top end
+        int e = position[position.length-1] - position[0];
+        int s = 1;
+        int a = 1;
+
+        while (s <= e) {
+            int mid = s + (e-s)/2;
+            if(possibleMagnet(position, m, mid)) {
+                a = mid;
+                s = mid+1;
+            }
+            // Not possible -> reduce the space
+            else {
+                e = mid -1;
+            }
+        }
+        return a;
+    }
+    public static boolean possibleMagnet(int[] position, int m, int mid) {
+        int gap = 0;
+        int c = 0;
+        for(int i: position) {
+            if(i-gap >= mid || gap == 0) {
+                gap = i;
+                c++;
+            }
+            if(c >= m) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static int findKthPositive(int[] arr, int k) {
