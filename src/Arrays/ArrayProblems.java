@@ -4,10 +4,30 @@ import java.util.*;
 
 public class ArrayProblems {
     public static void main(String[] args) {
-        int[] nums1 = {1,2,3,4,5,6,7,8,9,10};
-        System.out.println(shipWithinDays(nums1, 5));
+        int[] nums1 = {1,2};
+        System.out.println(findKthPositive(nums1, 1));
     }
 
+    public static int findKthPositive(int[] arr, int k) {
+        int s = 0;
+        int e = arr.length-1;
+        while(s <= e) {
+            int m = s+ (e-s)/2;
+            if(arr[m] - m <= k) {
+                s = m+1;
+            } else {
+                e = m-1;
+            }
+        }
+        if(s >= arr.length) {
+            int tillNowMissing = arr[arr.length-1] - arr.length;
+            return arr[arr.length-1] + (k - tillNowMissing);
+        } else {
+            int tillNowMissing = arr[s] - (s+1);
+            // we want position k
+            return arr[s] - (tillNowMissing + 1 - k);
+        }
+    }
 
     public static int shipWithinDays(int[] weights, int days) {
         int s = 1;
