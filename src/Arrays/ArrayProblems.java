@@ -4,8 +4,25 @@ import java.util.*;
 
 public class ArrayProblems {
     public static void main(String[] args) {
-        int[] nums1 = {1,2,3,4,7};
-        System.out.println(maxDistance(nums1, 3));
+        int[][] nums1 = {{}};
+        System.out.println(searchMatrix(nums1, 3));
+    }
+
+    public static boolean searchMatrix(int[][] matrix, int target) {
+        int r = 0;
+        int c = matrix.length-1;
+
+        while(r >= 0 && c >= 0 && r < matrix.length && c < matrix[0].length) {
+            if(matrix[r][c] == target) {
+                return true;
+            }
+            else if(matrix[r][c] > target) {
+                c--;
+            } else {
+                r++;
+            }
+        }
+        return false;
     }
 
 
