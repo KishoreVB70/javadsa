@@ -4,8 +4,80 @@ import java.util.*;
 
 public class ArrayProblems {
     public static void main(String[] args) {
-        int[][] nums1 = {{}};
-        System.out.println(searchMatrix(nums1, 3));
+        int[][] nums1 = {{10,50,40,30,20},{1,500,2,3,4}};
+        int[] ans = findPeakGrid(nums1);
+        System.out.println(ans[0] + " " + ans[1]);
+    }
+
+    public static int[] findPeakGrid(int[][] mat) {
+        int s = 0;
+        int e = mat[0].length-1;
+
+        while(s <= e) {
+            int c = s + (e-s)/2;
+            int r = 0;
+            int largestVal = mat[r][c];
+            // 1) Find the largest
+            for(int i = 1; i< mat.length; i++) {
+                if (mat[i][c] > largestVal) {
+                    largestVal = mat[i][c];
+                    r = i;
+                }
+            }
+
+            // For only one column
+            if(mat[0].length == 1) {
+                return new int[] {r, 0};
+            }
+
+            // 2) If both side is good
+            if(c > 0 && c < mat[0].length-1) {
+                if (mat[r][c] > mat[r][c-1] && mat[r][c] > mat[r][c+1]) {
+                    return new int[] {r, c};
+                }
+                if(mat[r][c] < mat[r][c-1]) {
+                    e = c-1;
+                } else {
+                    s = c+1;
+                }
+            }
+
+            // If the left is missing
+            else if(c == 0) {
+                if(mat[r][c] > mat[r][c+1]) {
+                    return new int[] {r, c};
+                }
+                else {
+                    s = c+1;
+                }
+            }
+
+            // Right is missing
+            else {
+                if(mat[r][c] > mat[r][c-1]) {
+                    return new int[] {r, c};
+                }
+                else {
+                    e = c-1;
+                }
+            }
+        }
+        return new int[]{-22,-22};
+
+    }
+
+    public static boolean isMax(int[][] mat, int r, int c) {
+        if(r < mat.length-1) {
+            if(mat[r][c] < mat[r+1][c]) {
+                return false;
+            }
+        }
+        if(c > 0) {
+            if(mat[r][c] < mat[r][c-1]) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public static boolean searchMatrix(int[][] matrix, int target) {
