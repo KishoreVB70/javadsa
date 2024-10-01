@@ -1,4 +1,6 @@
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.PriorityQueue;
 
 public class StringProblems {
     public static void main(String[] args) {
@@ -6,9 +8,47 @@ public class StringProblems {
         System.out.println(largestOddNumber(s));
     }
 
+    // Striver Medium problems
+
+    // 1) Sort characters by frequency
+    // Medium https://leetcode.com/problems/sort-characters-by-frequency/
+    public String frequencySort(String s) {
+        StringBuilder ans = new StringBuilder();
+        HashMap<Character, Integer> map = new HashMap<>();
+
+        // 1) Create a frequency list
+        for(char i: s.toCharArray()) {
+            if(map.containsKey(i)) {
+                map.put(i, map.get(i)+1);
+            } else {
+                map.put(i, 1);
+            }
+        }
+
+        // 2) Convert it into a heap
+        PriorityQueue<Character> pq = new PriorityQueue<>((a, b) -> map.get(b) - map.get(a));
+
+        pq.addAll(map.keySet());
+
+        // 3) Remove from pq and add it into the string builder
+        while(!pq.isEmpty()) {
+            char c = pq.poll();
+            int count = map.get(c);
+            while(count > 0) {
+                ans.append(c);
+                count--;
+            }
+        }
+
+        return ans.toString();
+    }
     // Striver easy problems
 
+    // 6)
+
+
     // 5) Isomorphic string
+    // Easy https://leetcode.com/problems/isomorphic-strings/
     public boolean isIsomorphic(String s, String t) {
         int[] map1 = new int[200];
         int[] map2 = new int[200];
