@@ -1,5 +1,6 @@
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.PriorityQueue;
 
 public class StringProblems {
@@ -9,6 +10,52 @@ public class StringProblems {
     }
 
     // Striver Medium problems
+
+    // 3) Roman to Integer, Integer to Roman
+    // Roman to Integer
+    // easy https://leetcode.com/problems/roman-to-integer/
+    public int romanToInt(String s) {
+        int sum = 0;
+        Map<Character, Integer> map = new HashMap<>();
+        map.put('I', 1);
+        map.put('V', 5);
+        map.put('X', 10);
+        map.put('L', 50);
+        map.put('C', 100);
+        map.put('D', 500);
+        map.put('M', 1000);
+
+        for(int i = 0; i < s.length() - 1; i++) {
+            if(map.get(s.charAt(i)) < map.get(s.charAt(i+1)) ) {
+                sum -= map.get(s.charAt(i));
+            }
+            else sum += map.get(s.charAt(i));
+        }
+        return sum+ map.get(s.charAt(s.length()-1));
+    }
+
+    // It to roman
+    public String intToRoman1(int num) {
+        StringBuilder result = new StringBuilder();
+        int[] it = {1000,900,500,400,100,90,50,40,10,9, 5, 4,1};
+        String[] st = {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I" };
+
+        for(int i = 0; i < it.length; i++) {
+            while(num >= it[i]) {
+                result.append(st[i]);
+                num -= it[i];
+            }
+        }
+        return result.toString();
+    }
+    // In constant time
+    public static String intToRoman2(int num) {
+        String M[] = {"", "M", "MM", "MMM"};
+        String C[] = {"", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM"};
+        String X[] = {"", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"};
+        String I[] = {"", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"};
+        return M[num/1000] + C[(num%1000)/100] + X[(num%100)/10] + I[num%10];
+    }
 
     // 2) Max depth of parenthesis
     // Easy Very easy https://leetcode.com/problems/maximum-nesting-depth-of-the-parentheses/
