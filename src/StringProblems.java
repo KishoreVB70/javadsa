@@ -5,11 +5,59 @@ import java.util.PriorityQueue;
 
 public class StringProblems {
     public static void main(String[] args) {
-        String s = "52";
-        System.out.println(largestOddNumber(s));
+        String s = "20000000000000000000";
+        System.out.println(myAtoi(s));
     }
 
     // Striver Medium problems
+
+    public static int myAtoi(String s) {
+        if(s.isEmpty()) return 0;
+
+        boolean positive = true;
+        int i = 0;
+
+        // 1) Removing white space
+        while(s.charAt(i) == ' ') i++;
+
+        // 2) Looking for the sign
+        if(s.charAt(i) == '-' || s.charAt(i) == '+') {
+            if(s.charAt(i) == '-') positive = false;
+            i++;
+        }
+
+        // 3) Removing zero
+        while(s.charAt(i) == '0') i++;
+
+        int start = i;
+
+        // 4) Counting the numbers
+        while( i < s.length() && (s.charAt(i) >= '0' && s.charAt(i) <= '9') ) {
+            i++;
+        }
+        
+        // 5) Only digit string
+        if(start == i) return 0;
+        else s = s.substring(start, i);
+
+        // 6) Check if the limit is over the long value
+        if(s.length() >= 11) {
+            if (positive) return Integer.MAX_VALUE;
+            return Integer.MIN_VALUE;
+        }
+
+        // 7) Limit is inside the long value
+        long num = Long.parseLong(s);
+
+        // 8) Rounding
+        if(num >= Integer.MAX_VALUE) {
+            num = Integer.MAX_VALUE;
+        }
+        // 9) Negative
+        if(!positive) num *= -1;
+
+        return (int)num;
+    }
 
     // 3) Roman to Integer, Integer to Roman
     // Roman to Integer
