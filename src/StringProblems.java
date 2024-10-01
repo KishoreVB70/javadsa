@@ -10,6 +10,20 @@ public class StringProblems {
 
     // Striver Medium problems
 
+    // 2) Max depth of parenthesis
+    // Easy Very easy https://leetcode.com/problems/maximum-nesting-depth-of-the-parentheses/
+    public int maxDepth(String s) {
+        int max = 0;
+        int open = 0;
+        for(char i: s.toCharArray()) {
+            if (i == '(') open++;
+            else if(i == ')') open--;
+            max = Integer.max(max, open);
+        }
+
+        return max;
+    }
+
     // 1) Sort characters by frequency
     // Medium https://leetcode.com/problems/sort-characters-by-frequency/
     public String frequencySort(String s) {
