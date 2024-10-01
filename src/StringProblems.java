@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class StringProblems {
     public static void main(String[] args) {
         String s = "52";
@@ -5,6 +7,23 @@ public class StringProblems {
     }
 
     // Striver easy problems
+
+    // 4) Longest common prefix
+    public String longestCommonPrefix(String[] strs) {
+        Arrays.sort(strs);
+        String a = strs[0];
+        String b = strs[strs.length -1];
+
+        int i = 0;
+        for(; i< a.length(); i++) {
+            if(a.charAt(i) != b.charAt(i)) {
+                break;
+            }
+        }
+
+        return i == 0 ? "": a.substring(0, i);
+    }
+
     // 3) Easy Largest odd number
     public static String largestOddNumber(String num) {
         StringBuilder ans = new StringBuilder();
