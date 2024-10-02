@@ -5,11 +5,40 @@ import java.util.PriorityQueue;
 
 public class StringProblems {
     public static void main(String[] args) {
-        String s = "20000000000000000000";
-        System.out.println(myAtoi(s));
+        String s = "ccc";
+        System.out.println(longestPalindrome(s));
     }
 
     // Striver Medium problems
+
+    public static String longestPalindrome(String s) {
+        if(s.isEmpty()) return "";
+        String longest = "";
+
+        for(int i = 0; i < s.length() - 1 ; i++) {
+            for(int j = 1; j< s.length(); j++) {
+                if(longest.length() > j-i) {
+                    continue;
+                }
+                if(isPali(s, i, j)) {
+                    longest = s.substring(i, j+1);
+                }
+            }
+        }
+        return longest.isEmpty()?s.substring(0,1):longest;
+    }
+
+    public static boolean isPali(String st, int s, int e) {
+        while(s < e) {
+            if(st.charAt(s) != st.charAt(e)) {
+                return false;
+            }
+            s++;
+            e--;
+
+        }
+        return true;
+    }
 
     public static int myAtoi(String s) {
         if(s.isEmpty()) return 0;
