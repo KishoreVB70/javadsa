@@ -9,7 +9,7 @@ public class StringProblems {
         System.out.println(beautySum(s));
     }
 
-    // Striver Medium problems
+    // --------------------Striver Medium problems---------------------------------
 
     // 6) Number of beautiful sub sequences
     // https://leetcode.com/problems/sum-of-beauty-of-all-substrings/
@@ -216,7 +216,7 @@ public class StringProblems {
     }
 
 
-    // Striver easy problems
+    //------------------------Striver easy problems----------------------------------
 
     // 7) Valid anagram
     public boolean isAnagram(String s, String t) {
