@@ -210,7 +210,13 @@ public class StringProblems {
     }
     // Striver easy problems
 
-    // 6)
+    // 6) Rotate string
+    // Easy https://leetcode.com/problems/rotate-string/
+    public boolean rotateString(String s, String goal) {
+        if(s.length() != goal.length()) return false;
+        s += s;
+        return s.contains(goal);
+    }
 
 
     // 5) Isomorphic string
@@ -306,6 +312,7 @@ public class StringProblems {
         }
         return ans.toString();
     }
+
     // 1) Remove outer parenthesis
     // Easy https://leetcode.com/problems/remove-outermost-parentheses/
     public String removeOuterParentheses(String s) {
