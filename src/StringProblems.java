@@ -11,6 +11,8 @@ public class StringProblems {
 
     // Striver Medium problems
 
+    // 6) Number of beautiful sub sequences
+    // https://leetcode.com/problems/sum-of-beauty-of-all-substrings/
     public static int beautySum(String s) {
         int total = 0;
         for(int i = 0; i < s.length() -1; i++) {
@@ -32,7 +34,6 @@ public class StringProblems {
 
         return total;
     }
-
     public static int findSmallest(int[] map) {
         int smallest = 500;
         for(int i: map) {
@@ -41,6 +42,8 @@ public class StringProblems {
         return smallest;
     }
 
+    // 5) Longest palindrome -> Have not mastered DP
+    // Medium https://leetcode.com/problems/longest-palindromic-substring/
     public static String longestPalindrome(String s) {
         if (s.length() <= 1) {
             return s;
@@ -68,6 +71,8 @@ public class StringProblems {
         return s.substring(start, end + 1);
     }
 
+    // 4) Atoi algo
+    // Medium https://leetcode.com/problems/string-to-integer-atoi/
     public static int myAtoi(String s) {
         if(s.isEmpty()) return 0;
 
@@ -117,7 +122,7 @@ public class StringProblems {
     }
 
     // 3) Roman to Integer, Integer to Roman
-    // Roman to Integer
+    // A)Roman to Integer
     // easy https://leetcode.com/problems/roman-to-integer/
     public int romanToInt(String s) {
         int sum = 0;
@@ -139,7 +144,8 @@ public class StringProblems {
         return sum+ map.get(s.charAt(s.length()-1));
     }
 
-    // It to roman
+    // B) It to roman
+    // Medium https://leetcode.com/problems/integer-to-roman/
     public String intToRoman1(int num) {
         StringBuilder result = new StringBuilder();
         int[] it = {1000,900,500,400,100,90,50,40,10,9, 5, 4,1};
@@ -169,7 +175,7 @@ public class StringProblems {
         int open = 0;
         for(char i: s.toCharArray()) {
             if (i == '(') open++;
-            else if(i == ')') open--;
+            else open--;
             max = Integer.max(max, open);
         }
 
@@ -208,6 +214,8 @@ public class StringProblems {
 
         return ans.toString();
     }
+
+
     // Striver easy problems
 
     // 7) Valid anagram
@@ -240,7 +248,6 @@ public class StringProblems {
         s += s;
         return s.contains(goal);
     }
-
 
     // 5) Isomorphic string
     // Easy https://leetcode.com/problems/isomorphic-strings/
