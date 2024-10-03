@@ -7,7 +7,7 @@ import java.util.List;
 public class MathematicProblems {
     public static void main(String[] args) {
 
-        System.out.println(ithBitSet(2,1));
+        System.out.println(ithBitSetLeft(4,1));
     }
 
     //-----------------Striver Bit manipulation series-------------------
@@ -15,12 +15,20 @@ public class MathematicProblems {
     // 3) -------------------Small bit manipulation problems -----------------------------------
 
     // 2) Find if the ith bit is set or not
-
-    public static boolean ithBitSet(int a, int i) {
+    // a) Using right shift
+    public static boolean ithBitSetRight(int a, int i) {
         int screen = 1;
         a = a >> i;
         a = a & screen;
         return a == 1;
+    }
+
+    // b) Using left shift
+    public static boolean ithBitSetLeft(int a, int i) {
+        int screen = 1;
+        screen = screen << i;
+        a = a & screen;
+        return a >= 1;
     }
     // 1) Swap 2 numbers without a temporary variable
     public static int[] directSwap(int a, int b) {
