@@ -210,6 +210,29 @@ public class StringProblems {
     }
     // Striver easy problems
 
+    // 7) Valid anagram
+    public boolean isAnagram(String s, String t) {
+        int[] map = new int[27];
+
+        for(char i: s.toCharArray()) {
+            int index = i - 'a';
+            map[index] += 1;
+        }
+
+        for(char i: t.toCharArray()) {
+            int index = i - 'a';
+            if(map[index] == 0) return false;
+            map[index] -= 1;
+        }
+
+        for(int i: map) {
+            if(i > 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     // 6) Rotate string
     // Easy https://leetcode.com/problems/rotate-string/
     public boolean rotateString(String s, String goal) {
@@ -253,19 +276,25 @@ public class StringProblems {
     }
 
     // 3) Easy Largest odd number
-    public static String largestOddNumber(String num) {
-        StringBuilder ans = new StringBuilder();
-        StringBuilder temp = new StringBuilder();
-        for(char c: num.toCharArray()) {
-            int v = (int)(c - '0');
-            temp.append(c);
-            // If it is an odd number
-            if( v % 2 != 0) {
-                ans = new StringBuilder(temp);
+    public String largestOddNumber(String num) {
+        int n = num.length();
+
+        if((int) num.charAt(n-1) % 2 == 1) return num;
+
+        // Binary search
+        int s = 0;
+        int e = n-2;
+        int a = -1;
+        while(s <= e) {
+            int m = s +(e-s)/2;
+            if((int) num.charAt(m) % 2 == 1) {
+                a = m;
+                s = m+1;
             }
+            else e = m-1;
         }
 
-        return ans.toString();
+        return a == -1?"":num.substring(0, a+1);
     }
 
     // 2) Reverse all individual words in a string
