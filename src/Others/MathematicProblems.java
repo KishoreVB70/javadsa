@@ -1,25 +1,32 @@
 package Others;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MathematicProblems {
     public static void main(String[] args) {
 
-        System.out.println(getBase10("1101"));
+        System.out.println(Arrays.toString(directSwap(1, 2)));
     }
 
     //-----------------Striver Bit manipulation series-------------------
+
+    // 3) -------------------Small bit manipulation problems -----------------------------------
+    // 1) Swap 2 numbers without a temporary variable
+    public static int[] directSwap(int a, int b) {
+        a = a ^ b;
+        b = a^b;
+        a = a^b;
+        return new int[]{a,b};
+    }
 
     // 2) Base 2 into base 10
     public static int getBase10(String s) {
         int total = 0;
         for(int i = s.length()-1; i>= 0; i--) {
             int power = s.length()-1 - i;
-            int chc = 0;
-            if (s.charAt(i) == '1') chc = 1;
-            int val = chc * (int)Math.pow(2, power);
-            total += val;
+            if (s.charAt(i) == '1') total += (int)Math.pow(2, power);
         }
         return total;
     }
