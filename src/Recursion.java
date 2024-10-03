@@ -4,15 +4,35 @@ import java.util.List;
 
 public class Recursion {
     public static void main(String[] args) {
-        System.out.println(myPow(2.0, 10));
+        System.out.println(myPow(2.0, -2147483648));
     }
 
     public static double myPow(double x, int n) {
-        double ans = 2;
-        for(int i = 1; i < n; i++) {
-            ans *= x;
+        // Edge cases
+        if(n == 0) return 1;
+        else if(x == 0) return 0;
+        else if(x == 1) return 1;
+
+        // Positive conversion
+        long l = n;
+        if(n < 0) {
+            l = -1 * (long)n;
         }
-        return ans;
+
+        double ans = myPowRec(x, l);
+
+        return n > 0?ans:1/ans;
+    }
+
+    public static double myPowRec(double x, long n) {
+        if(n == 1) {
+            return x;
+        }
+
+        if (n % 2 == 0) {
+            return myPowRec(x*x, n/2);
+        }
+        else return x * myPowRec(x, n-1);
     }
 
     class Striver {
