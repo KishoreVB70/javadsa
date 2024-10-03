@@ -262,6 +262,35 @@ public class StringProblems {
         return ans.toString();
     }
 
+    // 2) Reverse all individual words in a string
+    // Medium
+    // 1) Remove outer parenthesis
+    // Easy https://leetcode.com/problems/remove-outermost-parentheses/
+    public String removeOuterParentheses(String s) {
+        int o = 0;
+        int c = 0;
+        String removed = "";
+        StringBuilder a = new StringBuilder();
+        for(char i: s.toCharArray()) {
+            // Dont take the starting bracket
+            if(o == c) {
+                if(i == '(') o++;
+                else c++;
+                continue;
+            }
+
+            if(i == '(') {
+                o++;
+            }
+            else c++;
+
+            if (o != c) {
+                a.append(i);
+            }
+        }
+        return a.toString();
+    }
+
     static boolean findPalindrome(String s) {
         int start = 0;
         int end = s.length() - 1;
