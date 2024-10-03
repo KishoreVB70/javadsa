@@ -263,7 +263,49 @@ public class StringProblems {
     }
 
     // 2) Reverse all individual words in a string
-    // Medium
+    // Medium https://leetcode.com/problems/reverse-words-in-a-string/
+    public String reverseWords(String s) {
+        char[] c = s.toCharArray();
+        StringBuilder ans = new StringBuilder();
+        int st = -1;
+        for(int i = c.length -1; i >= 0; i--) {
+            // Not an empty character
+            if(c[i] != ' ') {
+                if(st == -1) {
+                    st = i;
+                }
+            }
+            // Empty character
+            else {
+                // If start already exists, have to break up
+                if( st != -1 ) {
+                    int j = i+1;
+                    if(!ans.isEmpty()) j = i;
+
+                    for (; j <= st; j++) {
+                        ans.append(c[j]);
+                    }
+
+                    st = -1;
+                }
+            }
+
+            // Case for the last character
+            if(i == 0 && st != -1) {
+                if(!ans.isEmpty()) {
+                    ans.append(' ');
+                }
+
+                for (int j = i; j <= st; j++) {
+                    ans.append(c[j]);
+                }
+
+                st = -1;
+            }
+
+        }
+        return ans.toString();
+    }
     // 1) Remove outer parenthesis
     // Easy https://leetcode.com/problems/remove-outermost-parentheses/
     public String removeOuterParentheses(String s) {
