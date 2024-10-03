@@ -7,7 +7,7 @@ import java.util.List;
 public class MathematicProblems {
     public static void main(String[] args) {
 
-        System.out.println(setBit(1,1));
+        System.out.println(clearBit(3,1));
     }
 
     //-----------------Striver Bit manipulation series-------------------
@@ -19,6 +19,14 @@ public class MathematicProblems {
     public static int setBit(int a, int i) {
         int screen = 1 << i;
         return a | screen;
+    }
+
+    // b) Clearing a bit
+    public static int clearBit(int a, int i) {
+        int screen = 1 << i;
+        screen = ~screen;
+        return a & screen;
+
     }
 
     // 2) Find if the ith bit is set or not
