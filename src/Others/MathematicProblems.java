@@ -7,13 +7,22 @@ import java.util.List;
 public class MathematicProblems {
     public static void main(String[] args) {
 
-        System.out.println(isPowerOfTwo(1));
+        System.out.println(numberOfSetBits(3));
     }
 
     //-----------------Striver Bit manipulation series-------------------
 
     // 3) -------------------Small bit manipulation problems -----------------------------------
 
+    // 7) Count the number of set bits
+    public static  int numberOfSetBits(int a) {
+        int count = 0;
+        for (int i = 0; i< 30; i++) {
+            int screen = 1 << i;
+            if ((a & screen) > 0) count++;
+        }
+        return count;
+    }
     // 6) Find if number is power of 2
     public static boolean isPowerOfTwo(int a) {
         if (a == 1) return false;
