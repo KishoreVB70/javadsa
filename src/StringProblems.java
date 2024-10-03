@@ -5,39 +5,67 @@ import java.util.PriorityQueue;
 
 public class StringProblems {
     public static void main(String[] args) {
-        String s = "ccc";
-        System.out.println(longestPalindrome(s));
+        String s = "aabcb";
+        System.out.println(beautySum(s));
     }
 
     // Striver Medium problems
 
-    public static String longestPalindrome(String s) {
-        if(s.isEmpty()) return "";
-        String longest = "";
+    public static int beautySum(String s) {
+        int total = 0;
+        for(int i = 0; i < s.length() -1; i++) {
+            int[] map = new int[26];
+            map[(int)s.charAt(i) - 'a'] = 1;
+            int largest = 1;
 
-        for(int i = 0; i < s.length() - 1 ; i++) {
-            for(int j = 1; j< s.length(); j++) {
-                if(longest.length() > j-i) {
-                    continue;
-                }
-                if(isPali(s, i, j)) {
-                    longest = s.substring(i, j+1);
+            for(int j = i+1; j < s.length(); j++) {
+                int index = (int)s.charAt(j) - 'a';
+                map[index]++;
+                largest = Integer.max(largest, map[index]);
+
+                if(j - i > 1) {
+                    int smallest = findSmallest(map);
+                    total += largest - smallest;
                 }
             }
         }
-        return longest.isEmpty()?s.substring(0,1):longest;
+
+        return total;
     }
 
-    public static boolean isPali(String st, int s, int e) {
-        while(s < e) {
-            if(st.charAt(s) != st.charAt(e)) {
-                return false;
-            }
-            s++;
-            e--;
-
+    public static int findSmallest(int[] map) {
+        int smallest = 500;
+        for(int i: map) {
+            if(i > 0) smallest = Integer.min(smallest, i);
         }
-        return true;
+        return smallest;
+    }
+
+    public static String longestPalindrome(String s) {
+        if (s.length() <= 1) {
+            return s;
+        }
+
+        int maxLen = 1;
+        int start = 0;
+        int end = 0;
+        boolean[][] dp = new boolean[s.length()][s.length()];
+
+        for (int i = 0; i < s.length(); i++) {
+            dp[i][i] = true;
+            for (int j = i; j < s.length(); j++) {
+                if (s.charAt(i) == s.charAt(j) && (j - i <= 2 || dp[i+1][j - 1])) {
+                    dp[i][j] = true;
+                    if (j - i + 1 > maxLen) {
+                        maxLen = j - i + 1;
+                        start = i;
+                        end = j;
+                    }
+                }
+            }
+        }
+
+        return s.substring(start, end + 1);
     }
 
     public static int myAtoi(String s) {
