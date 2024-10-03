@@ -7,12 +7,18 @@ import java.util.List;
 public class MathematicProblems {
     public static void main(String[] args) {
 
-        System.out.println(flipBit(6,1));
+        System.out.println(removeRightMostBit(5));
     }
 
     //-----------------Striver Bit manipulation series-------------------
 
     // 3) -------------------Small bit manipulation problems -----------------------------------
+
+    // 5) Removing the last set bit (Right most)
+    public static int removeRightMostBit(int a) {
+        return a & a-1;
+    }
+
 
     // 4) Flip the ith bit
     public static int flipBit(int a, int i) {
