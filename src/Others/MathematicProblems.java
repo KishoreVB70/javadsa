@@ -7,13 +7,18 @@ import java.util.List;
 public class MathematicProblems {
     public static void main(String[] args) {
 
-        System.out.println(removeRightMostBit(5));
+        System.out.println(isPowerOfTwo(1));
     }
 
     //-----------------Striver Bit manipulation series-------------------
 
     // 3) -------------------Small bit manipulation problems -----------------------------------
 
+    // 6) Find if number is power of 2
+    public static boolean isPowerOfTwo(int a) {
+        if (a == 1) return false;
+        return (a & (a-1)) == 0;
+    }
     // 5) Removing the last set bit (Right most)
     public static int removeRightMostBit(int a) {
         return a & a-1;
