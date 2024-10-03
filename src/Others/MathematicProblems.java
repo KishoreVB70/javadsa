@@ -7,12 +7,19 @@ import java.util.List;
 public class MathematicProblems {
     public static void main(String[] args) {
 
-        System.out.println(ithBitSetLeft(4,1));
+        System.out.println(setBit(1,1));
     }
 
     //-----------------Striver Bit manipulation series-------------------
 
     // 3) -------------------Small bit manipulation problems -----------------------------------
+
+    // 3) Setting and clearing a bit
+    // a) Setting a bit
+    public static int setBit(int a, int i) {
+        int screen = 1 << i;
+        return a | screen;
+    }
 
     // 2) Find if the ith bit is set or not
     // a) Using right shift
