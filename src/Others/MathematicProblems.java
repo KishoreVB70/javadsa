@@ -7,12 +7,21 @@ import java.util.List;
 public class MathematicProblems {
     public static void main(String[] args) {
 
-        System.out.println(Arrays.toString(directSwap(1, 2)));
+        System.out.println(ithBitSet(2,1));
     }
 
     //-----------------Striver Bit manipulation series-------------------
 
     // 3) -------------------Small bit manipulation problems -----------------------------------
+
+    // 2) Find if the ith bit is set or not
+
+    public static boolean ithBitSet(int a, int i) {
+        int screen = 1;
+        a = a >> i;
+        a = a & screen;
+        return a == 1;
+    }
     // 1) Swap 2 numbers without a temporary variable
     public static int[] directSwap(int a, int b) {
         a = a ^ b;
