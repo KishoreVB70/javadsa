@@ -7,12 +7,18 @@ import java.util.List;
 public class MathematicProblems {
     public static void main(String[] args) {
 
-        System.out.println(clearBit(3,1));
+        System.out.println(flipBit(6,1));
     }
 
     //-----------------Striver Bit manipulation series-------------------
 
     // 3) -------------------Small bit manipulation problems -----------------------------------
+
+    // 4) Flip the ith bit
+    public static int flipBit(int a, int i) {
+        return a ^ (1 << i);
+    }
+
 
     // 3) Setting and clearing a bit
     // a) Setting a bit
@@ -20,7 +26,6 @@ public class MathematicProblems {
         int screen = 1 << i;
         return a | screen;
     }
-
     // b) Clearing a bit
     public static int clearBit(int a, int i) {
         int screen = 1 << i;
