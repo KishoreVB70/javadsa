@@ -7,12 +7,28 @@ import java.util.List;
 public class MathematicProblems {
     public static void main(String[] args) {
 
-        System.out.println(numberOfSetBitsSub(4));
+        System.out.println(numberOfFlipsConvert(4,5));
     }
 
     //-----------------Striver Bit manipulation series-------------------
 
     // 3) -------------------Small bit manipulation problems -----------------------------------
+
+    // 8) Number of flips to convert one number to another
+    public static int numberOfFlipsConvert(int a, int b) {
+        // 1) find the number of digits that are not the same
+        a = a ^ b;
+
+        // 2) Counting the number of set bits
+        int count = 0;
+        while (a > 0) {
+            count++;
+            a = a & a-1;
+        }
+        return count;
+
+    }
+
 
     // 7) Count the number of set bits
 
