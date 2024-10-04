@@ -7,12 +7,27 @@ import java.util.List;
 public class MathematicProblems {
     public static void main(String[] args) {
 
-        System.out.println(numberOfFlipsConvert(4,5));
+        System.out.println(powerSet(new int[]{1,2,3}));
     }
 
     //-----------------Striver Bit manipulation series-------------------
 
     // 3) -------------------Small bit manipulation problems -----------------------------------
+
+    // 9) Power set -> All sub sequence
+    public static List<List<Integer>> powerSet(int[] arr) {
+        int ub = 1 <<arr.length;
+        List<List<Integer>> res = new ArrayList<>();
+        for(int i = 0; i < ub; i++) {
+            List<Integer> inter = new ArrayList<>();
+            for (int j = 0; j < arr.length; j++){
+                if((i & 1 << j) > 0 ) inter.add(arr[j]);
+            }
+            res.add(inter);
+        }
+        return res;
+
+    }
 
     // 8) Number of flips to convert one number to another
     public static int numberOfFlipsConvert(int a, int b) {
