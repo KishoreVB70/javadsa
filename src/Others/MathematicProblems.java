@@ -12,6 +12,27 @@ public class MathematicProblems {
 
     //-----------------Striver Bit manipulation series-------------------
 
+    // Single number III
+    public int[] singleNumber(int[] nums) {
+
+        int xor = 0;
+        for(int i: nums) {
+            xor = xor ^ i;
+        }
+
+        // Finding the first bit difference
+        int sigBit = xor & (-xor);
+
+        int xor1 = 0;
+        xor = 0;
+        for(int i: nums) {
+            if (  (i & sigBit) > 0  ) xor = xor ^ i;
+            else xor1 = xor1 ^ i;
+        }
+
+        return new int[]{xor, xor1};
+    }
+
     // 3) -------------------Small bit manipulation problems -----------------------------------
 
     // 9) Power set -> All sub sequence
