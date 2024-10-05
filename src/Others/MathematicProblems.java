@@ -6,7 +6,6 @@ import java.util.List;
 
 public class MathematicProblems {
     public static void main(String[] args) {
-
         System.out.println(divide(7,-3));
     }
 
