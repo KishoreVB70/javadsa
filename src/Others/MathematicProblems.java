@@ -7,7 +7,40 @@ import java.util.List;
 public class MathematicProblems {
     public static void main(String[] args) {
 
-        System.out.println(xorOfnNaturalNum(4));
+        System.out.println(divide(7,-3));
+    }
+
+    public static int divide(int dividend, int divisor) {
+        // Edge cases
+        if(dividend == divisor) return 1;
+
+        // Get the final sign of the operation
+        boolean pos = false;
+        if( (dividend > 0 && divisor > 0) || (dividend < 0 && divisor < 0)) pos = true;
+
+        // Change both to positive
+        long a = Math.abs(dividend);
+        long b = Math.abs(divisor);
+
+
+        // If the divisor is 1
+        if(divisor == 1) {
+            if(!pos) return -dividend;
+            // Positive
+            if(dividend == Integer.MIN_VALUE) return Integer.MAX_VALUE;
+            return dividend;
+        }
+
+        int count = 0;
+        while(a >= b) {
+            int pow = 0;
+            while ( (b << (pow+1) ) <= a)  {
+                pow++;
+            }
+            count += 1 << pow;
+            a -= b << pow ;
+        }
+        return pos?count:-count;
     }
 
     //-----------------Striver Bit manipulation series-------------------
