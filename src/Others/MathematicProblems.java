@@ -7,11 +7,18 @@ import java.util.List;
 public class MathematicProblems {
     public static void main(String[] args) {
 
-        System.out.println(powerSet(new int[]{1,2,3}));
+        System.out.println(xorOfnNaturalNum(4));
     }
 
     //-----------------Striver Bit manipulation series-------------------
 
+    // XOR of 1 to n natural numbers
+    public static int xorOfnNaturalNum(int n) {
+        if(n % 4 == 1) return 1;
+        if(n % 4 == 2) return n+1;
+        if(n % 4 == 3) return 0;
+        return n;
+    }
     // Single number III
     public int[] singleNumber(int[] nums) {
 
