@@ -3,6 +3,17 @@ package Arrays;
 public class SlidingTwoPointer {
     // Striver medium problems
 
+    // Removing duplicates II
+    // Medium https://leetcode.com/problems/remove-duplicates-from-sorted-array-ii/
+    public int removeDuplicates(int[] nums) {
+        int i = 0;
+        for (int n : nums)
+            if (i < 2 || n > nums[i - 2])
+                nums[i++] = n;
+        return i;
+    }
+
+
     // 3rd leet problem - Longest sub string with non repeating characters
     // Medium https://leetcode.com/problems/longest-substring-without-repeating-characters
     public int lengthOfLongestSubstring(String s) {
