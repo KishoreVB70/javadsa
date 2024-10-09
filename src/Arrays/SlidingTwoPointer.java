@@ -6,28 +6,21 @@ import java.util.List;
 
 public class SlidingTwoPointer {
     public static void main(String[] args) {
+        int[] arr = {1,1,1,0,0,0,1,1,1,1,0};
+        System.out.println(longestOnes(arr, 2));
     }
     // Striver medium problems
 
     // Maximum consecutive ones III
-    public int longestOnes(int[] nums, int k) {
+    public static int longestOnes(int[] nums, int k) {
         int zero = 0;
         int max = 0;
-        int start = 0;
+        int l = 0;
         for(int i =0; i< nums.length; i++) {
-            if(nums[i] == 0) {
-                zero++;
-                if(zero > k) {
-                    // Move on till you skip the first zero
-                    while(nums[start] != 0) start++;
-                    // Now you have reached the first zero
-                    start++;
-                    zero--;
-                }
-            }
-            max = Math.max(max, (i +1) - start);
+            if(nums[i] == 0) zero++;
+            if(zero > k && nums[l++] == 0) zero--;
+            if(zero <= k) max = Math.max(max, (i +1) - l);
         }
-
         return max;
 
     }
