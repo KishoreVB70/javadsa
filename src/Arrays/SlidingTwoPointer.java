@@ -5,10 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 
 public class SlidingTwoPointer {
+
     public static void main(String[] args) {
-        int[] arr = {1,1,1,0,0,0,1,1,1,1,0};
-        System.out.println(longestOnes(arr, 2));
+        int[] arr = {5, 5, 5, 5};
+//        System.out.println(largestTimeFromDigits(arr));
     }
+
+
     // Striver medium problems
 
     // Maximum consecutive ones III

@@ -11,6 +11,49 @@ public class StringProblems {
 
     // --------------------Striver Medium problems---------------------------------
 
+    // 7) Zoho string permutation problem
+    static String validPermutationResult = "";
+    public static String largestTimeFromDigits(int[] arr) {
+        findValidPermutations(arr, new StringBuilder(), new boolean[arr.length]);
+        if(validPermutationResult.isEmpty()) return "";
+
+        String p1 = validPermutationResult.substring(0,2) + ":";
+        return p1 + validPermutationResult.substring(2);
+    }
+
+    private static void findValidPermutations(int[] A, StringBuilder sb, boolean[] used){
+
+        if(sb.length() == A.length){
+            if(isValid(sb.toString())) {
+                if(validPermutationResult.isEmpty() || isMax(sb.toString(), validPermutationResult)) {
+                    validPermutationResult = sb.toString();
+                }
+            }
+            return;
+        }
+
+        for(int i = 0; i < A.length; i++){
+            if(used[i]) continue;
+            if(i > 0 && A[i] == A[i-1] && !used[i - 1]) continue;
+            used[i] = true;
+            sb.append(A[i]);
+            findValidPermutations(A, sb, used);
+            sb.deleteCharAt(sb.length() - 1);
+            used[i] = false;
+        }
+    }
+
+
+    public static boolean isValid(String str) {
+        int third = Integer.parseInt(str.substring(2,3));
+        int s1 = Integer.parseInt( str);
+
+        return s1 <= 2359 && third < 6;
+    }
+    public static boolean isMax(String str, String source) {
+        return (Integer.parseInt(str) > Integer.parseInt(source));
+    }
+
     // 6) Number of beautiful sub sequences
     // https://leetcode.com/problems/sum-of-beauty-of-all-substrings/
     public static int beautySum(String s) {
