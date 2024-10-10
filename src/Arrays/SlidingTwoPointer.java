@@ -8,12 +8,40 @@ import java.util.Map;
 public class SlidingTwoPointer {
 
     public static void main(String[] args) {
-        int[] arr = {1,0,1,0,1};
-        System.out.println(longestSubstringKDistinct("aaabbccd", 2));
+        int[] arr = {1,2,1,2,3};
+        System.out.println(subarraysWithKDistinct(arr, 2));
     }
 
 
     // Striver hard problems
+
+    // 2)
+
+    public static int subarraysWithKDistinct(int[] nums, int k) {
+        int two = helperSubArrKDist(nums, k-1);
+        int one = helperSubArrKDist(nums, k);
+        return one -two;
+    }
+
+    public static int helperSubArrKDist(int[] nums, int k) {
+        Map<Integer, Integer> map = new HashMap<>();
+        int r = 0;
+        int l = 0;
+        int total = 0;
+        while(r < nums.length) {
+            map.put(nums[r], map.getOrDefault(nums[r], 0)+1);
+
+            while(map.size() > k && l <= r) {
+                map.put(nums[l], map.get(nums[l])-1);
+                if(map.get(nums[l]) == 0) map.remove(nums[l]);
+                l++;
+            }
+            total += r-l+1;
+            r++;
+        }
+        return total;
+    }
+
     // 1) Leet premium -> longest sub string with k distinct characters
     // Medium premium https://leetcode.com/problems/longest-substring-with-at-most-k-distinct-characters/description/
     public static int longestSubstringKDistinct(String s, int k) {
