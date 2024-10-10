@@ -9,17 +9,51 @@ public class SlidingTwoPointer {
 
     public static void main(String[] args) {
         int[] arr = {1,0,1,0,1};
-//        System.out.println(numSubarraysWithSum(arr, 2));
+//        System.out.println(numberOfSubstrings("aaacb"));
     }
 
 
     // Striver medium problems
 
+    // 8) Number of sub strings with 3 characters
+    // Medium https://leetcode.com/problems/number-of-substrings-containing-all-three-characters/
+    public int numberOfSubstrings(String s) {
+        int n = s.length();
+        int[] sums = new int[3];
+        int l = 0;
+        int r = 0;
+        long total = 0;
 
+        while(r < s.length()) {
+            sums[s.charAt(r) - 'a']++;
+
+            // Find if all 3 are above
+            boolean isZero = false;
+            for(int i: sums) {
+                if(i == 0) isZero = true;
+            }
+
+            while(!isZero) {
+                sums[s.charAt(l) -'a']--;
+                l++;
+                for(int i: sums) {
+                    if(i == 0) isZero = true;
+                }
+            }
+
+            total += r-l+1;
+            r++;
+        }
+
+        long totalSub = (long)n * (n+1) /2;
+        return (int)(totalSub - total);
+    }
+
+    // 7) Number of sub arrays with k odd numbers
+    // Medium https://leetcode.com/problems/count-number-of-nice-subarrays/
     public int numberOfSubarrays(int[] nums, int k) {
         return helperNumberOfSubarrays(nums, k) - helperNumberOfSubarrays(nums, k-1);
     }
-
     public int helperNumberOfSubarrays(int[] nums, int k) {
         if(k < 0) return 0;
         int l = 0;
@@ -39,6 +73,8 @@ public class SlidingTwoPointer {
         return total;
     }
 
+    // 6) Number of sub arrays with goal sum
+    // Medium https://leetcode.com/problems/binary-subarrays-with-sum/
     public static int numSubarraysWithSum(int[] nums, int goal) {
         int one = helperNumSubarraysWithSum(nums, goal-1);
         int two = helperNumSubarraysWithSum(nums, goal);
@@ -65,6 +101,7 @@ public class SlidingTwoPointer {
     }
 
 
+    // 5) Replace k characters
     public static int characterReplacement(String s, int k) {
         int[] count = new int[26];
         int max = 0;
@@ -94,6 +131,7 @@ public class SlidingTwoPointer {
         return max;
     }
 
+    // 4) Total number of fruits in 2 baskets
     public static int totalFruit(int[] fruits) {
         int t1 = -1;
         int t1c = 0;
@@ -139,7 +177,7 @@ public class SlidingTwoPointer {
         return max;
     }
 
-    // Maximum consecutive ones III
+    // 3) Maximum consecutive ones III
     public static int longestOnes(int[] nums, int k) {
         int zero = 0;
         int max = 0;
@@ -153,7 +191,7 @@ public class SlidingTwoPointer {
 
     }
 
-    // Removing duplicates II
+    // 2) Removing duplicates II
     // Medium https://leetcode.com/problems/remove-duplicates-from-sorted-array-ii/
     public int removeDuplicates(int[] nums) {
         int i = 0;
@@ -164,7 +202,7 @@ public class SlidingTwoPointer {
     }
 
 
-    // 3rd leet problem - Longest sub string with non repeating characters
+    // 1) 3rd leet problem - Longest sub string with non repeating characters
     // Medium https://leetcode.com/problems/longest-substring-without-repeating-characters
     public int lengthOfLongestSubstring(String s) {
         if(s.isEmpty()) return 0;
