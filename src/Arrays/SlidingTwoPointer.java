@@ -17,36 +17,46 @@ public class SlidingTwoPointer {
 
     // 3)
     public static String minWindow(String s, String t) {
-        int[] pres = new int[52];
-        int total = 0;
-        int l = 0;
-        int r = 0;
+            int[] pres = new int[58];
+            int[] source = new int[58];
 
-        boolean[] part = new boolean[52];
-        for(int i =0 ; i< t.length(); i++) {
-            part[t.charAt(i) - 'A'] = true;
+            int l = 0;
+            int r = 0;
+            int smallest = Integer.MAX_VALUE;
+            String smallestS = "";
+
+            for(int i =0 ; i< t.length(); i++) source[t.charAt(i) - 'A']++;
+
+            while(r < s.length()) {
+                char c = s.charAt(r);
+
+                // It must be 0 and be part of string t
+                pres[c - 'A']++;
+
+                // Check if it has reached the end goal
+                if(isEqual(source, pres)) {
+                    while (l <= r) {
+                        int ind = s.charAt(l) - 'A';
+                        if(source[ind] != 0 && pres[ind] == source[ind]) break;
+                        --pres[s.charAt(l) - 'A'];
+                        l++;
+                    }
+                    if (r - l + 1 < smallest) {
+                        smallest = r - l + 1;
+                        smallestS = s.substring(l, r + 1);
+                    }
+                }
+                r++;
+            }
+            return smallestS;
         }
 
-        while(r < s.length()) {
-            char c = s.charAt(r);
-
-            // It must be 0 and be part of string t
-            if(pres[c - 'A']++ == 0 && part[c-'A']) total++;
-
-            if(total >= t.length()) break;
-
-            r++;
+        public static boolean isEqual(int[] source, int[] pres) {
+            for(int i = 0; i< source.length; i++) {
+                if(source[i] > 0 && (pres[i] < source[i]) ) return false;
+            }
+            return true;
         }
-        if(r > s.length()) return "";
-
-        while (l <= s.length()) {
-            char c = s.charAt(l);
-            if(--pres[c-'A'] == 0 && part[c-'A']) break;
-            l++;
-        }
-
-        return s.substring(l,r+1);
-    }
 
     // 2)
 
