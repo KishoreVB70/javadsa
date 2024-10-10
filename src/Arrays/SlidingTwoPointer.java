@@ -9,9 +9,33 @@ public class SlidingTwoPointer {
 
     public static void main(String[] args) {
         int[] arr = {1,0,1,0,1};
-//        System.out.println(numberOfSubstrings("aaacb"));
+        System.out.println(longestSubstringKDistinct("aaabbccd", 2));
     }
 
+
+    // Striver hard problems
+    // 1) Leet premium -> longest sub string with k distinct characters
+    // Medium premium https://leetcode.com/problems/longest-substring-with-at-most-k-distinct-characters/description/
+    public static int longestSubstringKDistinct(String s, int k) {
+        int max = 0;
+        int l = 0;
+        int r = 0;
+        Map<Character, Integer> map = new HashMap<>();
+        while(r < s.length()) {
+            char c = s.charAt(r);
+            map.put(c, map.getOrDefault(c,0)+1);
+            if(map.size() > k) {
+                c = s.charAt(l);
+                map.put(c, map.get(c)-1);
+                if(map.get(c) == 0) map.remove(c);
+                l++;
+            }
+
+            if(map.size() == k) max = Math.max(max, r-l+1);
+            r++;
+        }
+        return max;
+    }
 
     // Striver medium problems
 
