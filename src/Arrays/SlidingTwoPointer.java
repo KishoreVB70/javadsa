@@ -15,6 +15,30 @@ public class SlidingTwoPointer {
 
     // Striver medium problems
 
+    public static int numSubarraysWithSum(int[] nums, int goal) {
+        int one = helperNumSubarraysWithSum(nums, goal-1);
+        int two = helperNumSubarraysWithSum(nums, goal);
+        return two - one;
+    }
+    public static int helperNumSubarraysWithSum(int[] nums, int goal) {
+        if(goal < 0) return 0;
+        int sum = 0;
+        int l = 0;
+        int r = 0;
+        int total = 0;
+
+        for (; r < nums.length; r++) {
+            sum += nums[r];
+
+            while (sum > goal) {
+                sum -= nums[l];
+                l++;
+            }
+
+            total += r-l+1;
+        }
+        return total;
+    }
 
 
     public static int characterReplacement(String s, int k) {
