@@ -9,54 +9,51 @@ public class SlidingTwoPointer {
 
     public static void main(String[] args) {
         int[] arr = {1,2,1,2,3};
-        System.out.println(minWindow("ADOBECODEBANC", "ABC"));
+//        System.out.println(minWindow("ADOBECODEBANC", "ABC"));
     }
 
 
     // Striver hard problems
 
     // 3)
-    public static String minWindow(String s, String t) {
-            int[] pres = new int[58];
-            int[] source = new int[58];
+    public String minWindow(String s, String t) {
+        int[] pres = new int[58];
+        int[] source = new int[58];
 
-            int l = 0;
-            int r = 0;
-            int smallest = Integer.MAX_VALUE;
-            String smallestS = "";
+        int l = 0;
+        int r = 0;
+        int total = 0;
+        int smallest = Integer.MAX_VALUE;
+        String smallestS = "";
 
-            for(int i =0 ; i< t.length(); i++) source[t.charAt(i) - 'A']++;
+        for(int i =0 ; i< t.length(); i++) source[t.charAt(i) - 'A']++;
 
-            while(r < s.length()) {
-                char c = s.charAt(r);
+        while(r < s.length()) {
+            char c = s.charAt(r);
 
-                // It must be 0 and be part of string t
-                pres[c - 'A']++;
+            // If it is present in the source and is lesser in the pres
+            if(source[c - 'A'] > 0 && pres[c - 'A'] < source[c-'A']) total++;
+            pres[c - 'A']++;
 
-                // Check if it has reached the end goal
-                if(isEqual(source, pres)) {
-                    while (l <= r) {
-                        int ind = s.charAt(l) - 'A';
-                        if(source[ind] != 0 && pres[ind] == source[ind]) break;
-                        --pres[s.charAt(l) - 'A'];
-                        l++;
-                    }
-                    if (r - l + 1 < smallest) {
-                        smallest = r - l + 1;
-                        smallestS = s.substring(l, r + 1);
-                    }
+            // Check if it has reached the end goal
+
+            if(total == t.length()) {
+                while (l <= r) {
+                    int ind = s.charAt(l) - 'A';
+                    if(source[ind] != 0 && pres[ind] == source[ind])break;
+                    --pres[s.charAt(l) - 'A'];
+                    l++;
                 }
-                r++;
+                if (r - l + 1 < smallest) {
+                    smallest = r - l + 1;
+                    smallestS = s.substring(l, r + 1);
+                }
             }
-            return smallestS;
+            r++;
         }
+        return smallestS;
+    }
 
-        public static boolean isEqual(int[] source, int[] pres) {
-            for(int i = 0; i< source.length; i++) {
-                if(source[i] > 0 && (pres[i] < source[i]) ) return false;
-            }
-            return true;
-        }
 
     // 2)
 
