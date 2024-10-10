@@ -15,6 +15,30 @@ public class SlidingTwoPointer {
 
     // Striver medium problems
 
+
+    public int numberOfSubarrays(int[] nums, int k) {
+        return helperNumberOfSubarrays(nums, k) - helperNumberOfSubarrays(nums, k-1);
+    }
+
+    public int helperNumberOfSubarrays(int[] nums, int k) {
+        if(k < 0) return 0;
+        int l = 0;
+        int r = 0;
+        int total = 0;
+        int sum = 0;
+
+        while(r < nums.length) {
+            if( (nums[r] & 1) == 1) sum++;
+            while(sum > k) {
+                if( (nums[l] & 1) == 1) sum--;
+                l++;
+            }
+            total += r-l+1;
+            r++;
+        }
+        return total;
+    }
+
     public static int numSubarraysWithSum(int[] nums, int goal) {
         int one = helperNumSubarraysWithSum(nums, goal-1);
         int two = helperNumSubarraysWithSum(nums, goal);
