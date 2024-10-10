@@ -3,16 +3,48 @@ package Arrays;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SlidingTwoPointer {
 
     public static void main(String[] args) {
-        int[] arr = {0,0,1,1};
-        System.out.println(totalFruit(arr));
+        int[] arr = {1,0,1,0,1};
+//        System.out.println(numSubarraysWithSum(arr, 2));
     }
 
 
     // Striver medium problems
+
+
+
+    public static int characterReplacement(String s, int k) {
+        int[] count = new int[26];
+        int max = 0;
+        int l = 0;
+        int r = 0;
+        int largest = 0;
+
+        while(r < s.length()) {
+            count[s.charAt(r) - 'A']++;
+            largest = Math.max(largest, count[s.charAt(r) - 'A']);
+            int len = r-l+1;
+            int bad =  r-l+1 - largest;
+
+            while(bad > k) {
+                len--;
+                count[s.charAt(l) - 'A']--;
+//                for(int i: count) largest = Math.max(largest, i);
+                bad = len - largest;
+                l++;
+            }
+
+            max = Math.max(max, len);
+            r++;
+        }
+
+
+        return max;
+    }
 
     public static int totalFruit(int[] fruits) {
         int t1 = -1;
