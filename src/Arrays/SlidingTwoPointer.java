@@ -9,11 +9,44 @@ public class SlidingTwoPointer {
 
     public static void main(String[] args) {
         int[] arr = {1,2,1,2,3};
-        System.out.println(subarraysWithKDistinct(arr, 2));
+        System.out.println(minWindow("ADOBECODEBANC", "ABC"));
     }
 
 
     // Striver hard problems
+
+    // 3)
+    public static String minWindow(String s, String t) {
+        int[] pres = new int[52];
+        int total = 0;
+        int l = 0;
+        int r = 0;
+
+        boolean[] part = new boolean[52];
+        for(int i =0 ; i< t.length(); i++) {
+            part[t.charAt(i) - 'A'] = true;
+        }
+
+        while(r < s.length()) {
+            char c = s.charAt(r);
+
+            // It must be 0 and be part of string t
+            if(pres[c - 'A']++ == 0 && part[c-'A']) total++;
+
+            if(total >= t.length()) break;
+
+            r++;
+        }
+        if(r > s.length()) return "";
+
+        while (l <= s.length()) {
+            char c = s.charAt(l);
+            if(--pres[c-'A'] == 0 && part[c-'A']) break;
+            l++;
+        }
+
+        return s.substring(l,r+1);
+    }
 
     // 2)
 
