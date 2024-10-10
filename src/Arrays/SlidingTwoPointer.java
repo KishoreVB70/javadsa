@@ -7,12 +7,57 @@ import java.util.List;
 public class SlidingTwoPointer {
 
     public static void main(String[] args) {
-        int[] arr = {5, 5, 5, 5};
-//        System.out.println(largestTimeFromDigits(arr));
+        int[] arr = {0,0,1,1};
+        System.out.println(totalFruit(arr));
     }
 
 
     // Striver medium problems
+
+    public static int totalFruit(int[] fruits) {
+        int t1 = -1;
+        int t1c = 0;
+        int t1i = -1;
+        int t2i = -1;
+        int t2 = -1;
+        int t2c = 0;
+        int max = 0;
+        for(int i = 0; i< fruits.length; i++) {
+            // Not set already
+            if( (t1 == -1 || t2 == -1) && fruits[i] != t1) {
+                if(t1 == -1) {
+                    t1 = fruits[i];
+                    t1c = 1;
+                    t1i = i;
+                }
+                else {
+                    t2 = fruits[i];
+                    t2c = 1;
+                    t2i = i;
+                }
+            }
+            // Both already set
+
+            // Matches with either
+            else if (fruits[i] == t1) t1c++;
+            else if(fruits[i] == t2) t2c++;
+                // Doesn't match
+            else {
+                if(t1i < t2i) {
+                    t1i = i;
+                    t1c = 1;
+                    t1 = fruits[i];
+                } else {
+                    t2i = i;
+                    t2c = 1;
+                    t2 = fruits[i];
+                }
+            }
+            max = Math.max(max, t1c+t2c);
+        }
+
+        return max;
+    }
 
     // Maximum consecutive ones III
     public static int longestOnes(int[] nums, int k) {
