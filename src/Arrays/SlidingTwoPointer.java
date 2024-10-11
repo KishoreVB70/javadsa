@@ -12,6 +12,17 @@ public class SlidingTwoPointer {
 //        System.out.println(minWindow("ADOBECODEBANC", "ABC"));
     }
 
+    public int maxProfit(int[] prices) {
+        int max = 0;
+        int start = prices[0];
+        int len = prices.length;
+        for(int i = 1;i<len; i++){
+            if(start < prices[i]) max += prices[i] - start;
+            start = prices[i];
+        }
+        return max;
+    }
+
 
     // Striver hard problems
 
@@ -29,17 +40,17 @@ public class SlidingTwoPointer {
         for(int i =0 ; i< t.length(); i++) source[t.charAt(i) - 'A']++;
 
         while(r < s.length()) {
-            char c = s.charAt(r);
+            int ind = s.charAt(r) - 'A';
 
             // If it is present in the source and is lesser in the pres
-            if(source[c - 'A'] > 0 && pres[c - 'A'] < source[c-'A']) total++;
-            pres[c - 'A']++;
+            if(source[ind] > 0 && pres[ind] < source[ind]) total++;
+            pres[ind]++;
 
             // Check if it has reached the end goal
 
             if(total == t.length()) {
                 while (l <= r) {
-                    int ind = s.charAt(l) - 'A';
+                    ind = s.charAt(l) - 'A';
                     if(source[ind] != 0 && pres[ind] == source[ind])break;
                     --pres[s.charAt(l) - 'A'];
                     l++;
